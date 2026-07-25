@@ -1,0 +1,2053 @@
+<html lang="tr" class=" wcddqer idc0_350"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Arbsys · Arabuluculuk Tutanak Editörü</title>
+    <meta name="description" content="Arabuluculuk tutanaklarını hazırlayın; tek tıkla DOCX, PDF ve UYAP UDF formatlarında dışa aktarın.">
+    <meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
+    <meta name="theme-color" content="#232764">
+
+    <!-- Favicon. Ana ikon base64 gomulu: boylece .htm diske kaydedilip
+         cevrimdisi acildiginda da ikon gorunur (dosya yolu bagimliligi yok).
+         favicon.ico ise tarayicilarin otomatik /favicon.ico istegi icin. -->
+    <link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACXklEQVR42mNgQALK6inqQDwbiB8A8R8g/k8l/BeIHwPxAiDWY0AHQEEQLgPiH1S0FBf+DcTNQMyE7ACQ5f/oYDkybkMO9h90tvw/NIoNGaBxTlCDo0vlf7/AJqzY2r6UXEcsZIAmOIKK1bXT/ufmz/j/9Nnb/+jg379//48cvfrf3LqIVAc8YiA1tRub5/8/eermf2zg7Lk7/1U0SIsGBnKCTscg6/+ly/exOiIyposksxjITUTO7tX/f/z4heGAlasO0ccBIDxj1jYMB3z8+PW/tn4WfRwASg/fvv3AcERR6Rz6OACEly4/gOGAEydv0M8BgSEt4GyIni2d3aro4wAQfvDgJUYoTJqyiX4OmD5zK4YDHj56RVSZQBUH+Pg3YEQDsWUCQQeoALGqZipBg+7ceYbhgFWrD5PvACPTPLABH4D5GlTgnDp9639oRDtOg/omrMcsEz4RLhOwOgDk43Pn72AY+B3oEG+/Bpy1JbZoKCZQJmB1QHbutP+4wLbtp3EadvHSPZLLBKwOmDl7O04HPAKmblyGtbavxFpVO7tXkeaA9s7VOB1w8eI9nIbZOpT9//sXMxomT91MmgNALZyvX39gdUBD01K8QXr+/F2soaaikUpaLkhJnwROxchBCSr3cRkEw82ty7E6PDahl/RywMgs739h8az/VbUL/7t71RJVKJlaFoJDCR2HRXbgdMDfAWgRwzssDNAey0A54CnIAQsH0AHLQA7Qg3aX6B78QGwJ6x01D4ADJiP3DZlAfTUq94jx+XwyELNg6yUbQtPEIxp0z5+C4hwe7FAAANvz5mba3rjZAAAAAElFTkSuQmCC">
+    <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    
+    <style>
+        /* ====
+           1. PDF / BASKI (PRINT) FORMATLAMALARI
+           ==== */
+        @page { size: A4; margin: 0 !important; }
+        .fixed-print-header, .fixed-print-footer, .print-space-head, .print-space-foot { display: none; }
+
+        @media print {
+            html, body { display: block !important; height: auto !important; min-height: 100vh !important; background: #fff !important; padding: 0 !important; margin: 0 !important; }
+            .a4-page { display: block !important; height: auto !important; box-shadow: none !important; margin: 0 !important; padding: 0 !important; page-break-inside: auto !important; }
+            .toolbar, #floatPanel, #floatDeletePanel, .lbl-dd-btn, #lblDropdown, .hf-sticky-container, .modal-overlay { display: none !important; }
+            /* Fare imlecinin uzerinde durdugu satirin altinda beliren mavi
+               "hover" cizgisi PDF/baski ciktisinda GORUNMEMELI. Hem CSS
+               seviyesinde ::after'i iptal ediyoruz hem de saveAsPdf()
+               fonksiyonu print oncesi row-hovered class'ini DOM'dan
+               tamamen kaldiriyor (asagida bkz). */
+            tr.row-hovered > td::after { content: none !important; display: none !important; }
+            .fixed-print-header { display: block !important; position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; height: 3.5cm !important; padding: 0.6cm 1.25cm 0 1.75cm !important; box-sizing: border-box !important; background: #fff !important; z-index: 999; }
+            .fixed-print-footer { display: flex !important; position: fixed !important; bottom: 0 !important; left: 0 !important; right: 0 !important; height: 2.0cm !important; padding: 0 1.25cm 0.5cm 1.75cm !important; box-sizing: border-box !important; background: #fff !important; flex-direction: column !important; justify-content: space-between !important; z-index: 999; }
+            body.no-print-hf .fixed-print-header, body.no-print-hf .fixed-print-footer, body.no-print-hf .print-space-head, body.no-print-hf .print-space-foot { display: none !important; }
+            body.no-print-hf .print-content-wrapper { padding-top: 1.25cm !important; padding-bottom: 1.25cm !important; }
+            .main-container { width: 18cm !important; margin-left: auto; margin-right: auto; border-collapse: collapse; table-layout: fixed; page-break-inside: auto !important; }
+            .print-space-head { display: table-header-group !important; }
+            .print-space-foot { display: table-footer-group !important; }
+            tr, td, p, div { page-break-inside: auto !important; break-inside: auto !important; }
+            .sig-grid { page-break-inside: avoid !important; break-inside: avoid !important; }
+            .print-content-wrapper { padding: 0 1.25cm 0 1.75cm !important; box-sizing: border-box !important; }
+            .label-cell, .colon-cell, .content-cell { color: #000 !important; margin: 0 !important; padding-top: 2px !important; padding-bottom: 2px !important; }
+            .sig-title { text-decoration: underline !important; font-weight: bold !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+        }
+
+        /* ====
+           2. SAYFA GENELİ VE A4 FORMATLAMALARI
+           ==== */
+        body { font-family: Arial, sans-serif; background-color: #f0f2f5; display: flex; flex-direction: column; align-items: center; padding: 80px 20px 20px 20px; margin: 0; }
+        .a4-page { width: 210mm; max-width: 100%; min-height: 297mm; padding: 0; background: white; box-shadow: 0 0 15px rgba(0,0,0,0.1); box-sizing: border-box; position: relative; margin-bottom: 20px; font-size: 10pt; line-height: 1.2; z-index: 1; }
+        .print-content-wrapper { padding: 3.5cm 1.25cm 2cm 1.75cm; box-sizing: border-box; }
+        .logo-container-print { margin-top: 0; margin-left: auto; margin-right: auto; width: 8cm; height: 2cm; display: flex; align-items: center; justify-content: center; }
+        .logo-container-print img { width: 100%; height: 100%; object-fit: contain; }
+        .header-line-print { width: 100%; border-top: 1px solid #808080; margin-top: 0.4cm; margin-bottom: 0.5cm; }
+        .footer-line-print { width: 100%; border-top: 1px solid #808080; margin-bottom: 0.5cm; }
+        .footer-text-print { width: 100%; text-align: center; font-family: 'Palatino Linotype', Georgia, serif; font-size: 9pt; line-height: 1.5; color: #000; }
+
+        /* ====
+           3. İÇERİK STİLLERİ VE TABLO TASARIMI
+           ==== */
+        .doc-header { text-align: center; font-weight: bold; font-size: 10pt; font-family:Arial,sans-serif; line-height: 1.5; margin: 0; padding: 3px; }
+        .doc-header * { text-align: center; }
+        .main-container { width:100%; border-collapse:collapse; table-layout:fixed; }
+        td { padding: 1.5px 0 1.5px 0.2cm; vertical-align:top; font-size:10pt; line-height:1.3; position:relative; box-sizing:border-box; word-wrap: break-word; }
+        .label-cell { text-align:left; text-align-last:left; font-weight:bold; color:#3c40c6; text-transform:uppercase; padding-left:0.15cm; }
+        .colon-cell { font-weight:bold; text-align:left; padding-left:0; padding-right:0; color:#000; }
+        .content-cell { text-align:justify; text-align-last:left; text-justify:inter-word; padding-left:0.15cm; }
+        .full-row td { text-align:justify; text-align-last:left; text-justify:inter-word; }
+        .empty-row td { height: 10px; line-height: 10px; padding: 0 !important; }
+        /* Ortak icerik siniflari (inline stiller yerine merkezi) */
+        .fr-content { width:100%; text-align:justify; text-align-last:left; }
+        .madde-marker { display:inline-block; width:1.25cm; text-align:left; }
+        .title-cell { padding:0; border:none; }
+        .title-inner { width:100%; border-collapse:collapse; table-layout:fixed; }
+        .title-blank-row td { height:1.5em; line-height:1.5em; font-size:10pt; padding:0; }
+        .title-text-row td { text-align:center; font-weight:bold; font-size:10pt; font-family:Arial,sans-serif; line-height:1.5; padding-bottom:0px; }
+        .sig-grid { display:flex; justify-content:space-between; text-align:center; padding:15px 0.15cm; width:100%; box-sizing:border-box; page-break-inside: avoid; break-inside: avoid; }
+        .sig-box { flex:1; font-size:10pt; line-height:1.3; min-width:120px; padding:0 5px; font-weight: normal; font-style: normal; text-decoration: none; }
+        .sig-box *:not(.sig-title) { font-weight: normal; font-style: normal; text-decoration: none !important; }
+        .sig-box b, .sig-box strong { font-weight: bold !important; }
+        .sig-box i, .sig-box em { font-style: italic !important; }
+        .sig-title { font-weight:bold !important; text-decoration:underline !important; display:block; margin-bottom:5px; }
+
+        /* ====
+           4. EDİTÖR ARAÇLARI (BROWSER UI, TOOLBAR)
+           ==== */
+        .toolbar { background: white; padding: 10px 20px; border-bottom: 1px solid #ddd; box-shadow: 0 4px 15px rgba(0,0,0,0.08); position: fixed; top: 0; left: 0; right: 0; width: 100%; z-index: 1005; display: flex; justify-content: center; align-items: center; box-sizing: border-box; }
+        .toolbar-brand { position:absolute; left:18px; top:50%; transform:translateY(-50%); width:116px; height:30px; display:flex; align-items:center; }
+        .toolbar-brand img { display:block; width:100%; height:100%; object-fit:contain; }
+        .toolbar-inner { display: flex; justify-content: flex-start; align-items: center; width: 210mm; max-width: 100%; flex-wrap: nowrap; gap: 6px; }
+        .toolbar-left { display: flex; align-items: center; gap: 2px; flex-shrink: 0; }
+        .toolbar-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; margin-left: auto}
+        .toolbar-sep { width:1px; height:26px; background:#ddd; margin:0 6px; flex-shrink:0; align-self:center; }
+        .tb-btn { background: white; border: 1px solid #ddd; width: 35px; height: 35px; cursor: pointer; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: 0.15s; position: relative; color: #444; font-size: 13px; font-weight: bold; flex-shrink: 0; }
+        .tb-btn:hover { background:#3c40c6; color:#fff; border-color:#3c40c6; }
+        .tb-btn[data-title]:not([data-title=""])::after { content: attr(data-title); position:absolute; top:42px; background:#333; color:#fff; padding:4px 8px; font-size:10px; border-radius:6px; white-space:nowrap; opacity:0; pointer-events:none; z-index:9999; transition:opacity 0.15s; }
+        .tb-btn[data-title]:not([data-title=""]):hover::after { opacity:1; }
+        .tb-btn .material-icons { font-size:20px; }
+        .tb-dropdown { position: relative; display: flex; align-items: center; }
+        .tb-dropdown-content { display: none; position: absolute; background: white; border: 1px solid #ddd; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); z-index: 1001; top: 44px; left: -4px; padding: 4px; flex-direction: column; gap: 4px; }
+        .tb-dropdown.open .tb-dropdown-content { display: flex; }
+        .tb-btn-wide { width: auto; padding: 0 12px; height: 35px; border-radius: 17px; font-size: 12px; font-weight: bold; letter-spacing: 0.2px; gap: 5px; white-space: nowrap; flex-shrink: 0; }
+        .tb-btn-wide .status-dot { display: none; width: 8px; height: 8px; background-color: #2ecc71; border-radius: 50%; margin-left: 6px; box-shadow: 0 0 8px #2ecc71; }
+        .tb-btn-wide.hf-active .status-dot { display: inline-block; }
+        .save-main-btn { background-color: #3c40c6; color: #fff; border-color: #3c40c6; }
+        .save-main-btn:hover { background-color: #2c2f96; color:#fff; border-color: #2c2f96; box-shadow: 0 4px 10px rgba(60,64,198,0.3); }
+
+        /* ==== TUTARLI ACCENT BUTON SISTEMI ====
+           Normal: beyaz zemin + accent renkli yazi/kenar.
+           Hover : accent zemin + beyaz yazi ve ikon. */
+        .tb-btn.accent-orange  { color:#e67e22; border-color:#e67e22; }
+        .tb-btn.accent-orange:hover  { background:#e67e22; color:#fff; border-color:#e67e22; }
+        .tb-btn.accent-red     { color:#e53935; border-color:#e53935; }
+        .tb-btn.accent-red:hover     { background:#e53935; color:#fff; border-color:#e53935; }
+        .tb-btn.accent-bluedoc { color:#2b579a; border-color:#2b579a; }
+        .tb-btn.accent-bluedoc:hover { background:#2b579a; color:#fff; border-color:#2b579a; }
+        .tb-btn.accent-purple  { color:#8e44ad; border-color:#8e44ad; }
+        .tb-btn.accent-purple:hover  { background:#8e44ad; color:#fff; border-color:#8e44ad; }
+        .tb-btn.accent-teal    { color:#0d9488; border-color:#0d9488; }
+        .tb-btn.accent-teal:hover    { background:#0d9488; color:#fff; border-color:#0d9488; }
+        .tb-btn.accent-indigo  { color:#3c40c6; border-color:#3c40c6; }
+        .tb-btn.accent-indigo:hover  { background:#3c40c6; color:#fff; border-color:#3c40c6; }
+
+        .hf-sticky-container { position: sticky; top: 60px; z-index: 999; width: 210mm; max-width: 100%; pointer-events: none; }
+        .hf-panel { background: white; width: 100%; box-shadow: 0 10px 25px rgba(0,0,0,0.15); border-radius: 12px; padding: 15px; box-sizing: border-box; display: none; flex-direction: column; gap: 15px; border: 1px solid #ccc; pointer-events: auto; margin-bottom: 20px; }
+        .hf-panel.open { display: flex; }
+        .hf-row { display: flex; gap: 20px; background: #efefef; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0; transition: all 0.3s; opacity: 0.5; }
+        .hf-row.active { opacity: 1; background: #f8f9fa; }
+        .hf-ctrl-col { width: 180px; display: flex; flex-direction: column; gap: 8px; flex-shrink: 0; justify-content: center; }
+        .hf-content-col { flex: 1; display: flex; gap: 10px; align-items: center; }
+        .hf-label { font-weight: bold; font-size: 12px; display: flex; align-items: center; gap: 6px; cursor: pointer; user-select: none; }
+        .hf-label input { cursor: pointer; width: 16px; height: 16px; }
+        .hf-clear-btn { align-self: flex-start; background: #fff; border: 1px solid #e53935; color: #e53935; font-size: 10px; font-weight: bold; padding: 4px 8px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; gap: 3px; transition: 0.15s; }
+        .hf-clear-btn:hover { background: #e53935; color: #fff; }
+        .hf-row .drop-zone, .hf-row .hf-textarea { pointer-events: none; }
+        .hf-row.active .drop-zone, .hf-row.active .hf-textarea { pointer-events: auto; }
+        .drop-zone { width: 100%; border: 2px dashed #cbd5e1; border-radius: 6px; padding: 10px; text-align: center; background: white; cursor: pointer; font-size: 11px; color: #64748b; transition: 0.2s; box-sizing: border-box; }
+        .drop-zone:hover { border-color: #3c40c6; color: #3c40c6; }
+        .drop-zone img { max-width: 100%; max-height: 45px; object-fit: contain; margin-top: 5px; display: none; }
+        .hf-textarea-wrap { display: flex; flex-direction: column; gap: 6px; width: 100%; }
+        .hf-textarea { width: 100%; height: 28px; border: 1px solid #cbd5e1; border-radius: 4px; padding: 4px 8px; font-size: 11px; resize: none; font-family: 'Palatino Linotype', Georgia, serif; outline: none; box-sizing: border-box; }
+        .hf-textarea:focus { border-color: #3c40c6; }
+
+        /* ====
+           5. YÜZEN MENÜLER VE SATIR İŞLEMLERİ
+           ==== */
+        tr.row-hovered > td::after { content:''; position:absolute; bottom:0; left:0; right:0; height:1px; background:#3c40c6; pointer-events:none; }
+        tr.row-delete-preview > td { background: rgba(229,57,53,0.09) !important; }
+        tr.row-delete-preview > td::after { display:none !important; }
+
+        #floatPanel { position: fixed; z-index: 1001; pointer-events: none; display: flex; align-items: center; justify-content: center; width: 38px; opacity: 0; visibility: hidden; transition: opacity 0.05s, visibility 0.05s; }
+        #floatPanel.visible { opacity: 1; visibility: visible; pointer-events: auto; }
+        #floatPlus { width: 100%; height: 100%; max-height: 600px; background: #f8f9fa; color: #444; border: 1px solid #e0e0e0; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.05); font-size: 22px; font-weight: 300; transition: all 0.15s; user-select: none; }
+        #floatPlus:hover { background: #3c40c6; color: white; border-color: #3c40c6; box-shadow: 0 2px 8px rgba(60,64,198,0.35); }
+
+        #floatMenu { position: absolute; background: white; border: 1px solid #ddd; border-radius: 16px; padding: 6px; box-shadow: 0 4px 18px rgba(0,0,0,0.14); display: flex; gap: 5px; right: 42px; opacity: 0; pointer-events: none; z-index: -1; transition: opacity 0.1s, transform 0.1s; }
+        #floatMenu.open { opacity: 1; pointer-events: auto; z-index: 1000; }
+        .menu-open-down { top: 50%; bottom: auto; flex-direction: column-reverse; transform: translateY(-15px) translateX(8px); }
+        .menu-open-up { bottom: 50%; top: auto; flex-direction: column; transform: translateY(15px) translateX(8px); }
+        #floatMenu.open.menu-open-down, #floatMenu.open.menu-open-up { transform: translateY(0) translateX(0); }
+
+        #floatDeletePanel { position: fixed; z-index: 1001; pointer-events: none; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 4px; width: 38px; opacity: 0; visibility: hidden; transition: opacity 0.05s, visibility 0.05s; }
+        #floatDeletePanel.visible { opacity: 1; visibility: visible; pointer-events: auto; }
+        #floatDeletePanel .drag-btn { width: 100%; flex: 0 0 30px; border-radius: 8px; border: 1px solid #e0e0e0; background: #f8f9fa; cursor: grab; color: #666; box-shadow: 0 2px 8px rgba(0,0,0,0.05); touch-action: none; }
+        #floatDeletePanel .drag-btn:hover { background:#3c40c6; color:#fff; border-color:#3c40c6; box-shadow: 0 2px 8px rgba(60,64,198,0.35); }
+        #floatDeletePanel .drag-btn:active, #floatDeletePanel .drag-btn.dragging { cursor: grabbing; background:#3c40c6; color:#fff; border-color:#3c40c6; }
+        #floatDeletePanel .delete-btn { width: 100%; flex: 1 1 auto; min-height: 34px; max-height: 600px; border-radius: 8px; border: 1px solid #e0e0e0; background: #f8f9fa; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #444; transition: 0.15s; position: relative; font-size: 11px; font-weight: 600; gap: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        #floatDeletePanel .delete-btn:hover { background:#e53935; color:white; border-color:#e53935; box-shadow: 0 2px 8px rgba(229,57,53,0.35); }
+        tr.row-dragging > td { background: rgba(60,64,198,0.10) !important; box-shadow: inset 0 0 0 9999px rgba(60,64,198,0.04); }
+        tr.row-dragging > td::after { display:none !important; }
+
+        .menu-btn { min-width: 32px; height: 32px; border-radius: 12px; border: 1px solid #e0e0e0; background: #f8f9fa; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #444; transition: 0.15s; padding: 0 6px; position: relative; font-size: 11px; font-weight: 600; gap: 4px; }
+        .menu-btn .material-icons { font-size: 18px; }
+        .menu-btn:hover { background:#3c40c6; color:white; border-color:#3c40c6; }
+        .menu-btn[data-tip]:hover::after { content: attr(data-tip); position: absolute; right: 40px; top: 50%; transform: translateY(-50%); background: #333; color: white; padding: 4px 8px; font-size: 10px; border-radius: 5px; white-space: nowrap; pointer-events: none; z-index: 9999; left: auto; bottom: auto; }
+        #floatDeletePanel .menu-btn[data-tip]:hover::after { left: 40px; right: auto; }
+
+        [contenteditable="true"]:focus { outline:none; background-color:#f8f9fa; }
+        
+        .word-tab { display: inline-block; width: 1.25cm; height: 1em; vertical-align: baseline; user-select: all; }
+        
+        .lbl-dd-btn { display: none; cursor: pointer; background: none; border: none; color: #3c40c6; font-size: 13px; padding: 0 2px; line-height: 1; vertical-align: middle; opacity: 0.55; transition: opacity 0.15s; user-select: none; }
+        .label-cell:hover .lbl-dd-btn { display: inline-block; }
+        .lbl-dd-btn:hover { opacity: 1; }
+
+        #lblDropdown { position: fixed; background: white; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 4px 18px rgba(0,0,0,0.15); z-index: 1002; display: none; min-width: 210px; overflow: hidden; }
+        #lblDropdown.open { display: block; }
+        #lblDropdown .lbl-search-wrap { padding: 6px 8px; border-bottom: 1px solid #eee; background: #fafafa; position: sticky; top: 0; z-index: 1; }
+        #lblDropdown .lbl-search { width: 100%; box-sizing: border-box; border: 1px solid #ddd; border-radius: 14px; padding: 5px 10px; font-size: 11px; outline: none; color: #333; background: white; }
+        #lblDropdown .lbl-search:focus { border-color: #3c40c6; }
+        #lblDropdown .lbl-opts-list { max-height: 220px; overflow-y: auto; }
+        #lblDropdown .lbl-opt { padding: 7px 14px; cursor: pointer; font-size: 11px; color: #333; white-space: nowrap; }
+        #lblDropdown .lbl-opt:hover { background: #f0f2ff; color: #3c40c6; }
+        #lblDropdown .lbl-no-result { padding: 8px 14px; font-size: 11px; color: #aaa; font-style: italic; }
+
+        #docTable [contenteditable] > br:only-child, #docTable [contenteditable] > span > br:only-child { display: none; }
+
+        /* ====
+           6. SAVE MODAL
+           ==== */
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 2000; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s; backdrop-filter: blur(2px); }
+        .modal-overlay.open { display: flex; opacity: 1; }
+        .modal-content { background: white; border-radius: 12px; padding: 25px; width: 480px; max-width: 90%; box-shadow: 0 10px 40px rgba(0,0,0,0.25); transform: scale(0.95); transition: transform 0.2s; }
+        .modal-overlay.open .modal-content { transform: scale(1); }
+        .modal-header { font-size: 18px; font-weight: bold; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; color: #2c3e50; border-bottom: 1px solid #eee; padding-bottom: 15px; }
+        .modal-header .close-btn { background: none; border: none; font-size: 26px; cursor: pointer; color: #888; line-height: 1; padding: 0; transition: 0.2s;}
+        .modal-header .close-btn:hover { color: #e53935; }
+        .modal-body { display: flex; flex-direction: column; gap: 20px; }
+        .modal-input-group { display: flex; flex-direction: column; gap: 8px; }
+        .modal-input-group label { font-size: 12px; font-weight: bold; color: #666; }
+        .modal-input-row { display: flex; gap: 10px; align-items: center; }
+        .modal-input-row .tb-input { border: 1px solid #ccc; border-radius: 8px; padding: 10px 15px; font-size: 14px; width: 100%; outline: none; transition: 0.2s; }
+        .modal-input-row .tb-input:focus { border-color: #3c40c6; box-shadow: 0 0 0 3px rgba(60,64,198,0.1); }
+        .save-buttons-row { display: flex; gap: 8px; justify-content: space-between; margin-top: 5px; flex-wrap: wrap; }
+        .save-buttons-row button { flex: 1 1 0; min-width: 88px; display: flex; justify-content: center; height: 40px; font-size: 13px; border-radius: 10px; }
+        .arbsys-save-btn { color:#272365; border-color:#272365; min-width:150px !important; }
+        .arbsys-save-btn:hover { background:#272365; color:#fff; border-color:#272365; }
+        .arbsys-save-btn img { width:18px; height:18px; object-fit:contain; }
+        .checkbox-group { margin-top: 5px; font-size: 13px; display: flex; align-items: center; gap: 8px; color: #444; background: #f8f9fa; padding: 12px; border-radius: 8px; border: 1px solid #e9ecef; cursor: pointer; }
+        .checkbox-group input { width: 16px; height: 16px; cursor: pointer; }
+        .checkbox-group label { cursor: pointer; user-select: none; font-weight: bold; }
+        .save-modal-links { display:flex; justify-content:space-between; align-items:center; margin-top:-8px; }
+        .save-text-link { appearance:none; border:0; background:none; padding:2px 0; color:#8a8a8a; font-size:10px; cursor:pointer; text-decoration:none; }
+        .save-text-link:hover { color:#272365; text-decoration:underline; }
+        .settings-table { border:1px solid #e5e7eb; border-radius:10px; overflow:hidden; }
+        .settings-head, .settings-row, .settings-add-row { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr) 30px; gap:8px; align-items:center; }
+        .settings-head { padding:9px 10px; background:#f5f6fb; color:#272365; font-size:11px; font-weight:bold; }
+        .settings-list { max-height:280px; overflow-y:auto; }
+        .settings-row { padding:8px 10px; border-top:1px solid #eee; font-size:11px; color:#444; }
+        .settings-row span { overflow-wrap:anywhere; }
+        .settings-delete { width:26px; height:26px; border:0; border-radius:50%; background:transparent; color:#b0b0b0; cursor:pointer; }
+        .settings-delete:hover { color:#e53935; background:#fff0f0; }
+        .settings-delete:disabled { visibility:hidden; }
+        .settings-add-wrap { border-top:1px solid #eee; padding:10px; background:#fafafa; }
+        .settings-add-row { display:none; }
+        .settings-add-row.open { display:grid; }
+        .settings-add-row input { min-width:0; border:1px solid #ccc; border-radius:7px; padding:8px; font-size:11px; }
+        .settings-plus { width:32px; height:32px; margin:10px auto 0; border:1px solid #272365; border-radius:50%; background:#fff; color:#272365; font-size:20px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+        .settings-plus:hover { background:#272365; color:#fff; }
+        .settings-add-confirm { width:30px; height:30px; border:0; border-radius:50%; background:#272365; color:#fff; cursor:pointer; }
+        .settings-hint { font-size:11px; line-height:1.45; color:#777; margin-top:-6px; }
+
+        /* ====
+           7. İÇE / DIŞA AKTAR MODAL
+           ==== */
+        .io-section { display:flex; flex-direction:column; gap:6px; }
+        .io-section-title { font-size:14px; font-weight:bold; color:#2c3e50; display:flex; align-items:center; gap:6px; }
+        .io-section-title .material-icons { font-size:18px; color:#3c40c6; }
+        .io-hint { font-size:11px; color:#777; line-height:1.4; }
+        .io-divider { height:1px; background:#eee; margin:6px 0; }
+        .io-mode-row { display:flex; gap:10px; flex-wrap:wrap; margin:8px 0 4px; }
+        .io-radio { flex:1; min-width:175px; display:flex; align-items:center; gap:6px; font-size:12px; background:#f8f9fa; border:1px solid #e9ecef; border-radius:8px; padding:8px 10px; cursor:pointer; font-weight:bold; color:#444; }
+        .io-radio span { color:#999; font-weight:normal; }
+        .io-radio input { width:15px; height:15px; cursor:pointer; }
+        .io-drop { display:flex; align-items:center; justify-content:center; gap:8px; border:2px dashed #cbd5e1; border-radius:8px; padding:14px; font-size:12px; color:#64748b; cursor:pointer; transition:0.2s; margin-top:4px; }
+        .io-drop:hover { border-color:#0d9488; color:#0d9488; }
+        .io-status { font-size:11px; color:#3c40c6; font-weight:bold; min-height:14px; margin-top:2px; }
+        .io-mod-toolbar { display:flex; justify-content:space-between; align-items:center; font-size:11px; font-weight:bold; color:#555; margin:10px 0 6px; }
+        .io-mini-btn { background:#fff; border:1px solid #ccc; border-radius:8px; font-size:10px; padding:3px 8px; cursor:pointer; margin-left:4px; color:#444; transition:0.15s; }
+        .io-mini-btn:hover { background:#3c40c6; color:#fff; border-color:#3c40c6; }
+        #ioApplyBtn { transition: filter 0.15s, box-shadow 0.15s; }
+        #ioApplyBtn:hover { filter: brightness(0.93); box-shadow: 0 4px 12px rgba(0,0,0,0.18); }
+        .io-mod-list { max-height:220px; overflow-y:auto; border:1px solid #e9ecef; border-radius:8px; padding:4px; background:#fafbfc; }
+        .io-mod-item { display:flex; align-items:center; gap:8px; padding:6px 8px; border-radius:6px; font-size:12px; cursor:pointer; color:#333; }
+        .io-mod-item:hover { background:#f0f2ff; }
+        .io-mod-item input { width:15px; height:15px; cursor:pointer; flex-shrink:0; }
+        .io-mod-label { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+        .io-mod-muted { color:#aaa; font-style:italic; }
+
+    </style>
+</head>
+<body class="vsc-initialized" data-new-gr-c-s-check-loaded="8.937.0" data-gr-ext-installed="" data-gr-ext-disabled="forever" style="">
+
+    <div class="toolbar">
+        <a class="toolbar-brand" href="#" onclick="event.preventDefault()" aria-label="Arbsys">
+            <img src="arbsys-logo.svg" alt="Arbsys">
+        </a>
+        <div class="toolbar-inner">
+            <div class="toolbar-left">
+                <button class="tb-btn" onclick="document.execCommand('bold')" data-title="Kalın (Ctrl+B)"><span class="material-icons">format_bold</span></button>
+                <button class="tb-btn" onclick="applySigTitle()" data-title="İmza Başlığı (Ctrl+U)"><span class="material-icons">format_underlined</span></button>
+                <button class="tb-btn" onclick="document.execCommand('italic')" data-title="İtalik (Ctrl+I)"><span class="material-icons">format_italic</span></button>
+                
+                <button class="tb-btn" onclick="document.execCommand('hiliteColor',false,'#fff9c4')" data-title="Vurgula"><span class="material-icons">border_color</span></button>
+                <button class="tb-btn" onclick="document.execCommand('hiliteColor',false,'transparent')" data-title="Vurgu Sil"><span class="material-icons">format_color_reset</span></button>
+                
+                <div class="tb-dropdown" id="alignDropdownContainer">
+                    <button class="tb-btn" onclick="toggleAlignMenu(event)" data-title="Hizalama"><span class="material-icons" id="currentAlignIcon">format_align_left</span></button>
+                    <div class="tb-dropdown-content">
+                        <button class="tb-btn" onclick="setContentAlign('left')" data-title="Sola Yasla"><span class="material-icons">format_align_left</span></button>
+                        <button class="tb-btn" onclick="setContentAlign('center')" data-title="Ortala"><span class="material-icons">format_align_center</span></button>
+                        <button class="tb-btn" onclick="setContentAlign('right')" data-title="Sağa Yasla"><span class="material-icons">format_align_right</span></button>
+                        <button class="tb-btn" onclick="setContentAlign('justify')" data-title="İki Yana Yasla"><span class="material-icons">format_align_justify</span></button>
+                    </div>
+                </div>
+                <button class="tb-btn" onclick="insertTabSpace()" data-title="Satır Başı (Tab)"><span class="material-icons">keyboard_tab</span></button>
+                <button class="tb-btn accent-red" onclick="clearFormatting()" data-title="Format Temizle"><span class="material-icons">format_clear</span></button>
+            </div>
+
+            <div class="toolbar-sep"></div>
+
+            <div class="toolbar-right">
+                <button id="hfPanelBtn" class="tb-btn tb-btn-wide accent-purple" onclick="toggleHFPanel()" data-title="Üst/Alt Bilgi Ayarları">
+                    <span class="material-icons" style="font-size:16px;">view_day</span>Üst / Alt Bilgi
+                    <span class="status-dot"></span>
+                </button>
+                <button class="tb-btn tb-btn-wide accent-teal" onclick="openIOModal()" data-title="Şablon Yükle">
+                    <span class="material-icons" style="font-size:18px;">upload_file</span> Şablon Yükle
+                </button>
+                <button class="tb-btn tb-btn-wide save-main-btn" onclick="openSaveModal()">
+                    <span class="material-icons" style="font-size:18px;">save</span> KAYDET
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="hf-sticky-container">
+        <div class="hf-panel" id="hfPanel">
+            <div class="hf-row" id="headerRow">
+                <div class="hf-ctrl-col">
+                    <label class="hf-label">
+                    <input type="checkbox" id="headerCheck" onchange="toggleHFData('header')" value="on"> Üst Bilgi (Logo) Ekle
+                    </label>
+                    <button class="hf-clear-btn" onclick="clearHFData('header')">
+                    <span class="material-icons" style="font-size:12px;">delete_forever</span>Logoyu Kaldır
+                    </button>
+                </div>
+                <div class="hf-content-col">
+                    <div class="drop-zone" id="dropZone" onclick="document.getElementById('logoInput').click()">
+                    <span id="dropZoneText" style="display: inline-block;">Logonuzu buraya sürükleyin veya tıklayıp seçin</span>
+                    <img id="previewLogo" src="" alt="Logo Önizleme" style="display: none;" title="">
+                    <input type="file" id="logoInput" accept="image/png, image/jpeg" style="display:none" onchange="handleLogoSelect(this)" value="">
+                    </div>
+                </div>
+            </div>
+            <div class="hf-row" id="footerRow">
+                <div class="hf-ctrl-col">
+                    <label class="hf-label">
+                    <input type="checkbox" id="footerCheck" onchange="toggleHFData('footer')" value="on"> Alt Bilgi (Metin) Ekle
+                    </label>
+                    <button class="hf-clear-btn" onclick="clearHFData('footer')">
+                    <span class="material-icons" style="font-size:12px;">delete_forever</span>Metni Temizle
+                    </button>
+                </div>
+                <div class="hf-content-col">
+                    <div class="hf-textarea-wrap">
+                    <input type="text" class="hf-textarea" id="footerText1" oninput="updateFooterText()" value="Mahalle Mh. 888/8 Sk. No:8 Apartman Apt. Z Blok K:8 D:8 İlçe / ŞEHİR">
+                    <input type="text" class="hf-textarea" id="footerText2" oninput="updateFooterText()" value="Tel: 0232 555 6789 – 0555 555 6789    web: www.arbsys.com.tr">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="fixed-print-header">
+        <div class="logo-container-print" id="logoPrintBox" style="display: none;"></div>
+        <div class="header-line-print" id="headerLinePrint" style="display: none;"></div>
+    </div>
+
+    <div class="fixed-print-footer">
+        <div class="footer-line-print" id="footerLinePrint" style="display: none;"></div>
+        <div class="footer-text-print" id="footerPrintBox"></div>
+    </div>
+
+    <div class="a4-page" id="pageContent">
+        <div class="print-content-wrapper">
+            <table class="main-container" id="docTable">
+                <colgroup>
+                    <col style="width: 26%;">
+                    <col style="width: 1%;">
+                    <col style="width: 73%;">
+                </colgroup>
+
+                <thead class="print-space-head">
+                    <tr><td colspan="3" style="padding:0; border:none;"><div style="height: 3.5cm;"></div></td></tr>
+                </thead>
+
+                <tbody><tr class="title-wrapper-row"><td class="title-cell" colspan="3"><table class="title-table title-inner"><tbody><tr class="title-blank-row"><td>&nbsp;</td></tr><tr class="title-text-row"><td>ARABULUCULUK İLK TOPLANTI TUTANAĞI</td></tr><tr class="title-text-row"><td>(Görüşme Yapıldıktan Sonra Erteleme)</td></tr><tr class="title-blank-row"><td>&nbsp;</td></tr><tr class="title-blank-row"><td>&nbsp;</td></tr></tbody></table></td></tr><tr class="single-row"><td class="label-cell"><span>ARB. BÜROSU</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell">İzmir Arabuluculuk Bürosu</td></tr><tr class="single-row"><td class="label-cell"><span>BAŞVURU DOSYA NO</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell">2026/12345</td></tr><tr class="single-row"><td class="label-cell"><span>ARB. DOSYA NO</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell">2026/4567</td></tr><tr class="empty-row"><td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td></tr><tr class="single-row"><td class="label-cell"><span>TARAFLAR</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell"><br></td><td class="content-cell"><br></td></tr><tr class="single-row"><td class="label-cell"><span>BAŞVURUCU</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell"><b>Zehir Civata Tic. ve San. A.Ş. (Mersis No: 08888052800016)</b><br>(Çiğli V.D. 88880528) A.O.S.B. 10088 Sk. No:88 Çiğli / İZMİR - 0232 555 45 65&nbsp;</td></tr><tr class="empty-row"><td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td></tr><tr class="single-row"><td class="label-cell"><span>YETKİLİSİ</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell"><b>Ziya Zemberek (T.C. Kimlik No: 371788886)</b><div>A.O.S.B. 10002 Sk. No:12 Çiğli / İZMİR - ziya@zehircivata.com</div></td></tr><tr class="empty-row"><td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td></tr><tr class="single-row"><td class="label-cell"><span>DİĞER TARAF</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell"><b>Abdullah Ablak (T.C. Kimlik No: 10128888)</b><br><div>Mahalleler Mh. Caddeler Cd. Siteler Sitesi No:22A D:2 Konak / İZMİR</div></td></tr><tr class="empty-row"><td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td></tr><tr class="single-row"><td class="label-cell"><span>VEKİLİ</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell"><b>Av Saul Goodman (T.C. Kimlik No: 123456789123)</b><br><div>0555 545 45 45 - saulgoodman@goodmanhukuk.com</div></td></tr><tr class="empty-row"><td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td></tr><tr class="single-row"><td class="label-cell"><span>UYUŞMAZLIK TÜRÜ</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell">İşçi – işveren uyuşmazlığı (İşçilik alacakları ve tazminatları hk.)</td></tr><tr class="empty-row"><td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td></tr><tr class="single-row"><td class="label-cell"><span>TOPLANTI YERİ</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell">AOSB Toplantı Salonu Çiğli / İZMİR</td></tr><tr class="empty-row"><td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td></tr><tr class="single-row"><td class="label-cell"><span>BAŞVURU TARİHİ</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell">10.01.2026</td></tr><tr class="single-row"><td class="label-cell"><span>GÖREVİ KABUL TARİHİ</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell">11.01.2026</td></tr><tr class="single-row"><td class="label-cell"><span>İLK TOPLANTI TARİHİ</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell">20.01.2026</td></tr><tr class="single-row"><td class="label-cell"><span>TOPLANTI BAŞL. SAATİ</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell">11:00</td></tr><tr class="single-row"><td class="label-cell"><span>TOPLANTI BİTİŞ SAATİ</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell">11:45</td></tr><tr class="empty-row"><td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td></tr><tr class="single-row row-hovered"><td class="label-cell"><span>UYUŞMAZLIK KONUSU <br> (Talep Konusu)</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell"><div>Taraflar arasındaki iş sözleşmesinin geçerli bir sebeple sona erip 
+ermediği ve işçinin işe iade talebi bulunup bulunmadığı, işçinin, iş 
+yerinde çalışmış olduğu süreye ilişkin olarak eksik ödenen veya hiç 
+ödenmeyen ücret alacağı, kıdem tazminatı alacağı, ihbar tazminatı 
+alacağı, fazla çalışma ücreti alacağı, fazla sürelerle çalışma ücreti 
+alacağı, prim – ikramiye alacağı, performans primi alacağı, yıllık izin 
+ücreti alacağı, hafta tatili ücreti alacağı, ulusal bayram ve genel 
+tatil ücreti alacağı, vardiya tazminatı alacağı, sosyal yardım alacağı, 
+yakacak yardımı alacağı, yol yardımı alacağı, yemek yardımı alacağı,&nbsp;erzak yardımı alacağı, eğitim yardımı alacağı, asgari geçim indirimi 
+alacağı, sendikal tazminat alacağı, iş kazası, meslek hastalığı ve 
+mobbing sebebiyle veya sair hususlarla ilgili olarak maddi ve manevi 
+tazminat alacağı olup olmadığı, varsa ne şekilde ve ne zaman ödeneceği 
+hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td></tr><tr class="single-row"><td class="label-cell"><span>SONUÇ</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell"><div>Taraflarca uyuşmazlık konusu müzakere edildikten sonra, yeniden değerlendirilmek üzere, <b>XX.XX.20XX ……. günü saat XX.XX’da</b> <b>ikinci</b> bir toplantı yapılması kararlaştırılmıştır. İşbu tutanak,&nbsp;<b>üç (3)</b> nüsha olarak hazırlanmış taraflarla birlikte imza altına alınarak birer nüshası taraflara teslim edilmiştir. <b>20.01.2026</b>&nbsp;&nbsp;<b>&nbsp;&nbsp;</b></div></td></tr><tr class="empty-row"><td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td></tr><tr class="single-row"><td colspan="3"><div class="sig-grid"><div class="sig-box"><span class="sig-title">TARAF</span><div><b>Zehir Civata Tic. ve San A.Ş.</b></div><div><b><br></b></div><div><span class="sig-title"><b>YETKİLİSİ</b></span></div><div><b>Ziya Zemberek</b></div></div><div class="sig-box"><span class="sig-title">ARABULUCU</span><div><b>Arb. Av.Erinç Soyer</b></div><div>(ADB Sicil No: 00127)</div></div><div class="sig-box"><span class="sig-title">TARAF</span><div><b>Abdullah Ablak</b></div><div><b><br></b></div><div><b><br></b></div><div><b><br></b></div><div><b><span class="sig-title">VEKİLİ</span></b></div><div><b>Av. Saul Goodman</b></div><div><b><br></b></div><div><b><br></b></div><div><b><br></b></div></div></div></td></tr></tbody>
+
+                <tfoot class="print-space-foot">
+                    <tr><td colspan="3" style="padding:0; border:none;"><div style="height: 2.0cm;"></div></td></tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+    <div id="saveModal" class="modal-overlay" onclick="closeSaveModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()" style="width:560px;">
+            <div class="modal-header">
+                Belgeyi Kaydet
+                <button class="close-btn" onclick="closeSaveModal(event)">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-input-group">
+                    <label>Kayıt Dosya Adı</label>
+                    <div class="modal-input-row">
+                        <input type="text" id="fileNameInput" class="tb-input" value="Toplantı Tutanağı - Erteleme1">
+                        <button class="tb-btn" onclick="incrementVersion()" data-title="Versiyon +1" style="font-size:14px;font-weight:bold;flex-shrink:0;">+1</button>
+                    </div>
+                </div>
+                
+                <div class="save-buttons-row">
+                    <button class="tb-btn tb-btn-wide arbsys-save-btn" onclick="executeSave('arbsys')">
+                        <img src="Arbsys_Logo_SVG.svg" alt=""> Arbsys Şablon
+                    </button>
+                    <button class="tb-btn tb-btn-wide accent-red" onclick="executeSave('pdf')">
+                        <span class="material-icons" style="font-size:16px;">picture_as_pdf</span> PDF
+                    </button>
+                    <button class="tb-btn tb-btn-wide accent-bluedoc" onclick="executeSave('docx')">
+                        <span class="material-icons" style="font-size:16px;">description</span> DOCX
+                    </button>
+                    <button class="tb-btn tb-btn-wide accent-purple" onclick="executeSave('udfjson')">
+                        <span class="material-icons" style="font-size:16px;">gavel</span> UDF
+                    </button>
+                </div>
+                
+                <div class="checkbox-group" onclick="document.getElementById('ignoreHFCheck').click()">
+                    <input type="checkbox" id="ignoreHFCheck" onclick="event.stopPropagation()" value="on">
+                    <label for="ignoreHFCheck" onclick="event.preventDefault()">Üst / alt bilgi olmadan kaydet</label>
+                </div>
+                <div class="save-modal-links">
+                    <button class="save-text-link" onclick="executeSave('htm')" title="">-versiyon-</button>
+                    <button class="save-text-link" onclick="openSettingsModal()">Ayarlar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ioModal" class="modal-overlay" onclick="closeIOModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()" style="width:540px;">
+            <div class="modal-header">
+                Şablon Yükle
+                <button class="close-btn" onclick="closeIOModal(event)">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="io-section">
+                    <div class="io-section-title"><span class="material-icons">upload_file</span> Arbsys Şablonu Seç</div>
+
+                    <div class="io-mode-row">
+                        <label class="io-radio"><input type="radio" name="ioMode" value="replace" onchange="ioRenderMode()" checked="checked"> Değiştir <span>(mevcut içeriğin yerine)</span></label>
+                        <label class="io-radio"><input type="radio" name="ioMode" value="add" onchange="ioRenderMode()"> Ekle <span>(modül seçip sona ekle)</span></label>
+                    </div>
+
+                    <label class="io-drop" for="ioFileInput">
+                        <span class="material-icons" style="font-size:22px;">folder_open</span>
+                        <span>.arbsys şablonu seçmek için tıklayın</span>
+                        <input type="file" id="ioFileInput" accept=".arbsys,.htm,.html" style="display:none;" onchange="ioHandleFile(this)" value="">
+                    </label>
+                    <div id="ioImportStatus" class="io-status"></div>
+
+                    <div id="ioModuleArea" style="display: none;">
+                        <div class="io-mod-toolbar">
+                            <span>Eklenecek modüller</span>
+                            <span>
+                                <button class="io-mini-btn" onclick="ioToggleAll(true)">Tümünü Seç</button>
+                                <button class="io-mini-btn" onclick="ioToggleAll(false)">Temizle</button>
+                            </span>
+                        </div>
+                        <div id="ioModuleList" class="io-mod-list"></div>
+                    </div>
+
+                    <button id="ioApplyBtn" class="tb-btn" onclick="ioApply()" style="color: rgb(255, 255, 255); border: medium; margin-top: 14px; width: 100%; justify-content: center; height: 42px; border-radius: 10px; font-size: 13px; font-weight: bold; background: rgb(230, 126, 34); display: none;">İçeriği Değiştir</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="settingsModal" class="modal-overlay" onclick="closeSettingsModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()" style="width:660px;">
+            <div class="modal-header">
+                Başlık Dropdown Ayarları
+                <button class="close-btn" onclick="closeSettingsModal(event)">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="settings-hint">Soldaki metin seçim listesinde görünür; sağdaki metin belgeye yazılır. Eklediğiniz seçenekler, <b>-versiyon-</b> bağlantısıyla kaydettiğiniz editörün içinde kalır.</div>
+                <div class="settings-table">
+                    <div class="settings-head"><span>Listede Görünen İsim</span><span>Sayfaya Yazılacak Metin</span><span></span></div>
+                    <div id="settingsList" class="settings-list"></div>
+                    <div class="settings-add-wrap">
+                        <div id="settingsAddRow" class="settings-add-row">
+                            <input id="newPresetLabel" type="text" placeholder="Örn. Toplantı Başlama Saati">
+                            <input id="newPresetValue" type="text" placeholder="Örn. TOPLANTI BAŞL. SAATİ">
+                            <button class="settings-add-confirm" onclick="addCustomLabelPreset()" title="Ekle">✓</button>
+                        </div>
+                        <button id="settingsPlusBtn" class="settings-plus" onclick="toggleSettingsAddRow()" title="Yeni seçenek ekle">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script id="customLabelPresetsData" type="application/json">[]</script>
+
+    <div id="lblDropdown" style="top: 657px; left: 684.617px;" class="">
+        <div class="lbl-search-wrap">
+            <input type="text" class="lbl-search" placeholder="Ara..." autocomplete="off" value="">
+        </div>
+        <div class="lbl-opts-list"><div class="lbl-opt" data-value="ARB. BÜROSU">Arb. Bürosu</div><div class="lbl-opt" data-value="BAŞVURU DOSYA NO">Başvuru Dosya No</div><div class="lbl-opt" data-value="ARB. DOSYA NO">Arb. Dosya No</div><div class="lbl-opt" data-value="TARAFLAR">Taraflar</div><div class="lbl-opt" data-value="BAŞVURUCU">Başvurucu</div><div class="lbl-opt" data-value="YETKİLİSİ">Yetkilisi</div><div class="lbl-opt" data-value="DİĞER TARAF">Diğer Taraf</div><div class="lbl-opt" data-value="VEKİLİ">Vekili</div><div class="lbl-opt" data-value="ÇALIŞANI">Çalışanı</div><div class="lbl-opt" data-value="KANUNİ TEMSİLCİ">Kanuni Temsilci</div><div class="lbl-opt" data-value="KOMİSYON ÜYESİ">Komisyon Üyesi</div><div class="lbl-opt" data-value="UZMAN KİŞİ">Uzman Kişi</div><div class="lbl-opt" data-value="UYUŞMAZLIK TÜRÜ">Uyuşmazlık Türü</div><div class="lbl-opt" data-value="TOPLANTI YERİ">Toplantı Yeri</div><div class="lbl-opt" data-value="BAŞVURU TARİHİ">Başvuru Tarihi</div><div class="lbl-opt" data-value="GÖREVİ KABUL TARİHİ">Görevi Kabul Tarihi</div><div class="lbl-opt" data-value="İLK TOPLANTI TARİHİ">İlk Toplantı Tarihi</div><div class="lbl-opt" data-value="SON TOPLANTI TARİHİ">Son Toplantı Tarihi</div><div class="lbl-opt" data-value="TOPLANTI BAŞL. SAATİ">Toplantı Başlangıç Saati</div><div class="lbl-opt" data-value="TOPLANTI BİTİŞ SAATİ">Toplantı Bitiş Saati</div><div class="lbl-opt" data-value="UYUŞMAZLIK KONUSU &lt;br&gt; (Talep Konusu)">Uyuşmazlık Konusu (Talep Konusu)</div><div class="lbl-opt" data-value="ÇÖZÜM ÖNERİSİNDE &lt;br&gt; BULUNMA">Çözüm Önerisinde Bulunma</div><div class="lbl-opt" data-value="OTURUM SAYISI">Oturum Sayısı</div><div class="lbl-opt" data-value="OTURUM SÜRESİ">Oturum Süresi</div><div class="lbl-opt" data-value="VARILAN ANLAŞMA">Varılan Anlaşma</div><div class="lbl-opt" data-value="SONUÇ">Sonuç</div></div>
+      </div>
+    
+
+    <div id="floatPanel" style="height: 211px; top: 435.617px; left: 585.3px;" class="visible">
+        <button id="floatPlus" title="Ekle">+</button>
+        <div id="floatMenu" class="menu-open-down">
+            <button class="menu-btn" data-tip="Başlık Ekle (Ctrl+8)" data-action="title"><span class="material-icons">title</span></button>
+            <button class="menu-btn" data-tip="Tekli İmza Tablosu (Ctrl+7)" data-action="sig1"><span class="material-icons">person</span></button>
+            <button class="menu-btn" data-tip="2'li İmza Tablosu (Ctrl+6)" data-action="sig2"><span class="material-icons">people</span></button>
+            <button class="menu-btn" data-tip="3'lü İmza Tablosu (Ctrl+5)" data-action="sig3"><span class="material-icons">groups</span></button>
+            <button class="menu-btn" data-tip="Madde Ekle (Ctrl+4)" data-action="madde"><span class="material-icons">list</span></button>
+            <button class="menu-btn" data-tip="Tam Metin (Ctrl+3)" data-action="full"><span class="material-icons">segment</span></button>
+            <button class="menu-btn" data-tip="Boş Satır (Ctrl+2)" data-action="empty"><span class="material-icons">space_bar</span></button>
+            <button class="menu-btn" data-tip="Satır Ekle (Ctrl+1)" data-action="single"><span class="material-icons">short_text</span></button>
+        </div>
+    </div>
+
+    <div id="floatDeletePanel" style="height: 211px; top: 435.617px; left: 1315.6px;" class="visible">
+        <button class="menu-btn drag-btn" data-tip="Sürükleyerek taşı" data-action="drag"><span class="material-icons">drag_handle</span></button>
+        <button class="menu-btn delete-btn" data-tip="Sil (Delete)" data-action="delete"><span class="material-icons">delete</span></button>
+    </div>
+
+    <script>
+        let floatActiveRow = null;
+        let uploadedLogoBase64 = "";
+
+        function openSaveModal() { document.getElementById('saveModal').classList.add('open'); }
+        function closeSaveModal(e) { if(e) e.preventDefault(); document.getElementById('saveModal').classList.remove('open'); }
+        function openSettingsModal() {
+            document.getElementById('saveModal').classList.remove('open');
+            renderSettingsList();
+            document.getElementById('settingsModal').classList.add('open');
+        }
+        function closeSettingsModal(e) {
+            if(e) e.preventDefault();
+            document.getElementById('settingsModal').classList.remove('open');
+            var addRow = document.getElementById('settingsAddRow');
+            var plusBtn = document.getElementById('settingsPlusBtn');
+            if (addRow) addRow.classList.remove('open');
+            if (plusBtn) plusBtn.style.display = '';
+        }
+
+        // ====
+        //  DUZENLENEBILIRLIK (contenteditable) YONETIMI
+        //  Statik HTML ve sablonlar 'contenteditable' icermez; bu ozellik
+        //  asagidaki secicilere gore CALISMA ZAMANINDA eklenir. Boylece
+        //  kaynak HTML/.arbsys ciktisi temiz kalir. Sayfa yuklendiginde,
+        //  addBlock/ice aktar sonrasi applyEditable() cagrilir; kaydetmeden
+        //  once stripEditable() ile gecici olarak temizlenir.
+        // ====
+        const EDITABLE_SELECTORS = [
+            '#docTable .title-text-row td',
+            '#docTable .label-cell span',
+            '#docTable .single-row .colon-cell',
+            '#docTable .content-cell',
+            '#docTable .fr-content',
+            '#docTable .sig-box'
+        ];
+        function applyEditable() {
+            document.querySelectorAll(EDITABLE_SELECTORS.join(',')).forEach(function(el) {
+                el.setAttribute('contenteditable', 'true');
+            });
+        }
+        function stripEditable() {
+            document.querySelectorAll('#docTable [contenteditable]').forEach(function(el) {
+                el.removeAttribute('contenteditable');
+            });
+        }
+
+        // ============================================================
+        //  İÇE / DIŞA AKTAR  (.arbsys)
+        //  - Dışa aktar: #docTable > tbody icerigini (baslik + satirlar)
+        //    ayri bir .arbsys dosyasina yazar. Ust/alt bilgi DAHIL DEGIL.
+        //  - Ice aktar: "Degistir" tum govdeyi yenisiyle degistirir;
+        //    "Ekle" modulleri (her <tr> bir modul) listeleyip -hepsi
+        //    isaretli gelir- secilenleri belgenin sonuna ekler.
+        //  Satir etkilesimleri #docTable uzerinde delegation ile bagli
+        //  oldugundan ice aktarilan satirlar hover/+/sil panelini
+        //  otomatik alir; etiket dropdown butonlari injectLabelDropdowns()
+        //  ile (duplicate-guard'li) yeniden enjekte edilir.
+        // ============================================================
+        const ARBSYS_MARKER = 'ARBSYS-CONTENT';
+        let ioImportedRows = [];   // parse edilmis <tr> node listesi
+
+        function openIOModal() {
+            resetIOImport();
+            var repl = document.querySelector('input[name="ioMode"][value="replace"]');
+            if (repl) repl.checked = true;
+            document.getElementById('ioModal').classList.add('open');
+        }
+        function closeIOModal(e) { if(e) e.preventDefault(); document.getElementById('ioModal').classList.remove('open'); }
+
+        // --- DIŞA AKTAR ---
+        function exportArbsys(fileName) {
+            var tbody = document.querySelector('#docTable > tbody');
+            if (!tbody) return;
+            var clone = tbody.cloneNode(true);
+            // gecici etkilesim class'larini temizle
+            clone.querySelectorAll('tr.row-hovered, tr.row-delete-preview').forEach(function(tr) {
+                tr.classList.remove('row-hovered'); tr.classList.remove('row-delete-preview');
+            });
+            // dropdown butonlari ice aktarimda yeniden uretilir
+            clone.querySelectorAll('.lbl-dd-btn').forEach(function(b) { b.remove(); });
+            // contenteditable'i CIKAR: cikti temiz ve tasinabilir kalsin
+            clone.querySelectorAll('[contenteditable]').forEach(function(el) { el.removeAttribute('contenteditable'); });
+            // her ust duzey satiri kendi satirinda, girintili yaz
+            var lines = [];
+            Array.prototype.forEach.call(clone.children, function(el) {
+                if (el.tagName === 'TR') lines.push('    ' + el.outerHTML);
+            });
+            var payload = '<!-- ' + ARBSYS_MARKER + ' v1 -->\n' +
+                '<table>\n  <tbody>\n' + lines.join('\n') + '\n  </tbody>\n</table>\n';
+            var safeName = (fileName || getFileName() || 'arbsys_sablon')
+                .replace(/[\r\n]+/g, ' ').replace(/[\\/:*?"<>|]/g, '').trim() || 'arbsys_sablon';
+            downloadBlob(new Blob([payload], { type: 'text/html;charset=utf-8' }), safeName + '.arbsys');
+        }
+
+        // --- İÇE AKTAR: dosya oku ---
+        function ioHandleFile(input) {
+            var f = input.files && input.files[0];
+            if (!f) return;
+            var reader = new FileReader();
+            reader.onload = function(e) { ioParseText(e.target.result); };
+            reader.onerror = function() { document.getElementById('ioImportStatus').textContent = 'Dosya okunamadı.'; };
+            reader.readAsText(f, 'utf-8');
+        }
+
+        function ioParseText(text) {
+            var doc;
+            try { doc = new DOMParser().parseFromString(text, 'text/html'); }
+            catch (err) { document.getElementById('ioImportStatus').textContent = 'Dosya çözümlenemedi.'; return; }
+            // guvenlik: script'leri at
+            doc.querySelectorAll('script').forEach(function(s) { s.remove(); });
+
+            // Yalniz UST DUZEY satirlari al (ic ice title-table satirlari haric).
+            // .children + TR filtresi ic tablolarin satirlarini disarida birakir.
+            var rows = [];
+            var arb = doc.querySelector('body > table > tbody');           // .arbsys formati
+            if (arb) rows = Array.prototype.filter.call(arb.children, function(el) { return el.tagName === 'TR'; });
+            if (!rows.length) {
+                var dt = doc.querySelector('#docTable > tbody');            // tam .htm belgesi
+                if (dt) rows = Array.prototype.filter.call(dt.children, function(el) { return el.tagName === 'TR'; });
+            }
+
+            if (!rows.length) {
+                ioImportedRows = [];
+                document.getElementById('ioImportStatus').textContent = 'Bu dosyada içe aktarılacak içerik bulunamadı.';
+                document.getElementById('ioModuleArea').style.display = 'none';
+                document.getElementById('ioApplyBtn').style.display = 'none';
+                return;
+            }
+
+            ioImportedRows = rows.map(function(r) {
+                var node = document.importNode(r, true);
+                node.classList.remove('row-hovered');
+                node.classList.remove('row-delete-preview');
+                node.querySelectorAll('.lbl-dd-btn').forEach(function(b) { b.remove(); });
+                return node;
+            });
+            document.getElementById('ioImportStatus').textContent = ioImportedRows.length + ' modül bulundu.';
+            ioRenderMode();
+        }
+
+        function ioSelectedMode() {
+            var r = document.querySelector('input[name="ioMode"]:checked');
+            return r ? r.value : 'replace';
+        }
+
+        function ioRenderMode() {
+            var mode = ioSelectedMode();
+            var area = document.getElementById('ioModuleArea');
+            var list = document.getElementById('ioModuleList');
+            var applyBtn = document.getElementById('ioApplyBtn');
+
+            if (!ioImportedRows.length) { area.style.display = 'none'; applyBtn.style.display = 'none'; return; }
+            applyBtn.style.display = '';
+
+            if (mode === 'replace') {
+                area.style.display = 'none';
+                applyBtn.textContent = 'İçeriği Değiştir';
+                applyBtn.style.background = '#e67e22';
+            } else {
+                area.style.display = '';
+                list.innerHTML = '';
+                ioImportedRows.forEach(function(tr, i) {
+                    var item = document.createElement('label');
+                    item.className = 'io-mod-item';
+                    var cb = document.createElement('input');
+                    cb.type = 'checkbox'; cb.checked = true; cb.dataset.idx = i;
+                    var span = document.createElement('span');
+                    var lbl = ioModuleLabel(tr);
+                    span.className = 'io-mod-label' + (lbl.muted ? ' io-mod-muted' : '');
+                    span.textContent = lbl.text;
+                    item.appendChild(cb); item.appendChild(span);
+                    list.appendChild(item);
+                });
+                applyBtn.textContent = 'Seçilenleri Ekle';
+                applyBtn.style.background = '#0d9488';
+            }
+        }
+
+        function ioToggleAll(check) {
+            document.querySelectorAll('#ioModuleList input[type="checkbox"]').forEach(function(cb) { cb.checked = check; });
+        }
+
+        // Her modul icin okunabilir bir etiket uret
+        function ioModuleLabel(tr) {
+            var trunc = function(s, n) { s = (s || '').replace(/\s+/g, ' ').trim(); return s.length > n ? s.slice(0, n) + '…' : s; };
+            var titleTable = tr.querySelector('.title-table');
+            if (titleTable) {
+                var cells = titleTable.querySelectorAll('.title-text-row td');
+                var t = cells.length ? cells[0].textContent : '';
+                return { text: '📛 Başlık: ' + (trunc(t, 38) || '(boş)'), muted: false };
+            }
+            var sig = tr.querySelector('.sig-grid');
+            if (sig) {
+                var names = Array.prototype.map.call(sig.querySelectorAll('.sig-box'), function(b) {
+                    var nm = b.querySelector('b') || b.querySelector('div');
+                    return nm ? trunc(nm.textContent, 16) : '';
+                }).filter(Boolean);
+                return { text: '✍️ İmza Tablosu' + (names.length ? ' (' + names.join(', ') + ')' : ''), muted: false };
+            }
+            if (tr.classList.contains('empty-row')) {
+                return { text: '— boş satır —', muted: true };
+            }
+            if (tr.querySelector('.madde-marker') || tr.querySelector('.madde-row')) {
+                return { text: '• Madde: ' + trunc(tr.textContent, 40), muted: false };
+            }
+            var lc = tr.querySelector('.label-cell');
+            if (lc) {
+                var label = trunc(lc.textContent, 26);
+                var cc = tr.querySelector('.content-cell');
+                var content = cc ? trunc(cc.textContent, 32) : '';
+                return { text: (label || '(etiketsiz)') + (content ? ' : ' + content : ''), muted: false };
+            }
+            return { text: '¶ Metin: ' + (trunc(tr.textContent, 42) || '(boş)'), muted: false };
+        }
+
+        function ioApply() {
+            if (!ioImportedRows.length) { alert('Önce bir .arbsys dosyası seçin.'); return; }
+            var tbody = document.querySelector('#docTable > tbody');
+            var mode = ioSelectedMode();
+
+            if (mode === 'replace') {
+                if (!confirm('Mevcut belge içeriği tamamen silinip içe aktarılan içerikle değiştirilecek. Devam edilsin mi?')) return;
+                tbody.innerHTML = '';
+                ioImportedRows.forEach(function(tr) { tbody.appendChild(tr); });
+            } else {
+                var checks = document.querySelectorAll('#ioModuleList input[type="checkbox"]');
+                var chosen = [];
+                checks.forEach(function(cb) { if (cb.checked) chosen.push(ioImportedRows[parseInt(cb.dataset.idx, 10)]); });
+                if (!chosen.length) { alert('Eklemek için en az bir modül seçin.'); return; }
+                chosen.forEach(function(tr) { tbody.appendChild(tr); });
+            }
+
+            injectLabelDropdowns();
+            applyEditable();
+            resetIOImport();
+            closeIOModal();
+        }
+
+        function resetIOImport() {
+            ioImportedRows = [];
+            var fi = document.getElementById('ioFileInput'); if (fi) fi.value = '';
+            var st = document.getElementById('ioImportStatus'); if (st) st.textContent = '';
+            var area = document.getElementById('ioModuleArea'); if (area) area.style.display = 'none';
+            var ab = document.getElementById('ioApplyBtn'); if (ab) ab.style.display = 'none';
+            var ml = document.getElementById('ioModuleList'); if (ml) ml.innerHTML = '';
+        }
+        
+        function executeSave(type) {
+            closeSaveModal(); 
+            setTimeout(function() {
+                if(type === 'htm') saveAsHtm();
+                if(type === 'arbsys') exportArbsys(getFileName());
+                if(type === 'pdf') saveAsPdf();
+                if(type === 'docx') exportToDocx();
+                if(type === 'udfjson') exportToUdfJson();
+            }, 100);
+        }
+
+        function toggleHFPanel() { document.getElementById('hfPanel').classList.toggle('open'); }
+        
+        function toggleHFData(type) {
+            const isChecked = document.getElementById(type + 'Check').checked;
+            const row = document.getElementById(type + 'Row');
+            if (isChecked) {
+                row.classList.add('active');
+                if(type === 'header' && uploadedLogoBase64) {
+                    document.getElementById('logoPrintBox').innerHTML = '<img src="' + uploadedLogoBase64 + '" alt="Logo">';
+                    document.getElementById('logoPrintBox').style.display = '';
+                    if(document.getElementById('headerLinePrint')) document.getElementById('headerLinePrint').style.display = '';
+                }
+                if(type === 'footer') {
+                    updateFooterText();
+                    if(document.getElementById('footerLinePrint')) document.getElementById('footerLinePrint').style.display = '';
+                }
+            } else {
+                row.classList.remove('active');
+                if(type === 'header') {
+                    document.getElementById('logoPrintBox').innerHTML = ''; 
+                    document.getElementById('logoPrintBox').style.display = 'none';
+                    if(document.getElementById('headerLinePrint')) document.getElementById('headerLinePrint').style.display = 'none';
+                }
+                if(type === 'footer') {
+                    document.getElementById('footerPrintBox').innerHTML = '';
+                    if(document.getElementById('footerLinePrint')) document.getElementById('footerLinePrint').style.display = 'none';
+                }
+            }
+            updateStatusDot();
+        }
+        
+        function clearHFData(type) {
+            if (type === 'header') {
+                uploadedLogoBase64 = ""; 
+                document.getElementById('logoInput').value = ""; 
+                document.getElementById('previewLogo').src = "";
+                document.getElementById('previewLogo').style.display = 'none'; 
+                document.getElementById('dropZoneText').style.display = 'inline-block';
+                document.getElementById('logoPrintBox').innerHTML = ''; 
+                document.getElementById('logoPrintBox').style.display = 'none';
+                if(document.getElementById('headerLinePrint')) document.getElementById('headerLinePrint').style.display = 'none';
+                document.getElementById('headerCheck').checked = false; 
+                document.getElementById('headerRow').classList.remove('active');
+            } else if (type === 'footer') {
+                document.getElementById('footerText1').value = ""; 
+                document.getElementById('footerText2').value = ""; 
+                document.getElementById('footerPrintBox').innerHTML = '';
+                if(document.getElementById('footerLinePrint')) document.getElementById('footerLinePrint').style.display = 'none';
+                document.getElementById('footerCheck').checked = false; 
+                document.getElementById('footerRow').classList.remove('active');
+            }
+            updateStatusDot();
+        }
+
+        function updateStatusDot() {
+            const panelBtn = document.getElementById('hfPanelBtn');
+            if(document.getElementById('headerCheck').checked || document.getElementById('footerCheck').checked) { 
+                panelBtn.classList.add('hf-active'); 
+            } else { 
+                panelBtn.classList.remove('hf-active'); 
+            }
+        }
+
+        function handleLogoSelect(input) {
+            if (input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    padLogoTo4x1(e.target.result, function(paddedBase64) {
+                    uploadedLogoBase64 = paddedBase64; 
+                    document.getElementById('previewLogo').src = uploadedLogoBase64;
+                    document.getElementById('previewLogo').style.display = 'inline-block'; 
+                    document.getElementById('dropZoneText').style.display = 'none';
+                    if(document.getElementById('headerCheck').checked) {
+                    document.getElementById('logoPrintBox').innerHTML = '<img src="' + uploadedLogoBase64 + '" alt="Logo">'; 
+                    document.getElementById('logoPrintBox').style.display = '';
+                    if(document.getElementById('headerLinePrint')) document.getElementById('headerLinePrint').style.display = '';
+                    }
+                    });
+                }; 
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function padLogoTo4x1(srcDataUrl, callback) {
+            const img = new Image();
+            img.onload = function() {
+                const targetRatio = 4, srcRatio = img.width / img.height; 
+                let canvasW, canvasH;
+                if (Math.abs(srcRatio - targetRatio) < 0.01) { callback(srcDataUrl); return; }
+                if (srcRatio > targetRatio) { 
+                    canvasW = img.width; canvasH = Math.round(img.width / targetRatio); 
+                } else { 
+                    canvasH = img.height; canvasW = Math.round(img.height * targetRatio); 
+                }
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d'); 
+                canvas.width = canvasW; canvas.height = canvasH;
+                ctx.fillStyle = '#ffff'; ctx.fillRect(0, 0, canvasW, canvasH);
+                ctx.drawImage(img, Math.round((canvasW - img.width) / 2), Math.round((canvasH - img.height) / 2), img.width, img.height);
+                callback(canvas.toDataURL('image/png'));
+            }; 
+            img.src = srcDataUrl;
+        }
+
+        function updateFooterText() {
+            if(!document.getElementById('footerCheck').checked) return;
+            const t1 = document.getElementById('footerText1').value.trim();
+            const t2 = document.getElementById('footerText2').value.trim();
+            let html = ""; 
+            if(t1) html += t1; 
+            if(t2) html += (html ? '<br>' : '') + t2;
+            document.getElementById('footerPrintBox').innerHTML = html;
+        }
+
+        const dropZone = document.getElementById('dropZone');
+        dropZone.addEventListener('dragover', function(e) { e.preventDefault(); dropZone.style.borderColor = '#3c40c6'; });
+        dropZone.addEventListener('dragleave', function() { dropZone.style.borderColor = '#cbd5e1'; });
+        dropZone.addEventListener('drop', function(e) {
+            e.preventDefault(); dropZone.style.borderColor = '#cbd5e1';
+            if(!document.getElementById('headerCheck').checked) return;
+            const file = e.dataTransfer.files[0];
+            if (file && (file.type === "image/jpeg" || file.type === "image/png")) { 
+                document.getElementById('logoInput').files = e.dataTransfer.files; 
+                handleLogoSelect(document.getElementById('logoInput')); 
+            }
+        });
+
+        // === TARAYICI KISAYOLLARINI BASKILAYAN (OVERRIDE) KEYDOWN EVENT ===
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Delete') {
+                const tag = document.activeElement ? document.activeElement.tagName : '';
+                if (tag === 'INPUT' || tag === 'TEXTAREA' || (document.activeElement && document.activeElement.isContentEditable)) return;
+                if (floatActiveRow) {
+                    e.preventDefault();
+                    removeBlock(floatActiveRow);
+                    document.getElementById('floatPanel').classList.remove('visible');
+                    document.getElementById('floatDeletePanel').classList.remove('visible');
+                    document.getElementById('floatMenu').classList.remove('open');
+                }
+                return;
+            }
+            if (e.shiftKey && e.key === 'Enter') { 
+                const target = e.target.closest('[contenteditable]'); 
+                if (target) { e.preventDefault(); document.execCommand('insertParagraph'); } 
+                return; 
+            }
+            
+            // Sadece CTRL veya META (CMD) tuşlarıyla kombinasyonları işle
+            if (!e.ctrlKey && !e.metaKey) return;
+            
+            // Tarayıcı eylemlerini baskılamak için tuşu algıla ve varsayılan davranışı durdur (preventDefault)
+            const key = e.key.toLowerCase();
+            
+            if (key === 'b') { 
+                e.preventDefault(); 
+                document.execCommand('bold'); 
+                return; 
+            }
+            if (key === 'i') { 
+                e.preventDefault(); 
+                document.execCommand('italic'); 
+                return; 
+            }
+            if (key === 'u') { 
+                e.preventDefault(); 
+                const target = e.target.closest('[contenteditable]'); 
+                if (target) { applySigTitle(); } 
+                return; 
+            }
+            
+            // YENİ SIRALAMALI KISAYOL LİSTESİ (1'den 8'e kadar, Tarayıcı sekme geçişlerini de önler)
+            const blockMap = { '1': 'single', '2': 'empty', '3': 'full', '4': 'madde', '5': 'sig3', '6': 'sig2', '7': 'sig1', '8': 'title' };
+            if (blockMap[e.key]) { 
+                e.preventDefault(); 
+                const refRow = getRefRowForShortcut(); 
+                if (refRow) addBlock(refRow, blockMap[e.key]); 
+            }
+        }, true);
+
+        function getRefRowForShortcut() {
+            if (floatActiveRow) return floatActiveRow;
+            const focused = document.activeElement; 
+            if (focused) { 
+                const tr = focused.closest('#docTable > tbody > tr'); 
+                if (tr) return tr; 
+            }
+            const sel = window.getSelection();
+            if (sel && sel.rangeCount) { 
+                let node = sel.anchorNode; 
+                if (node && node.nodeType === Node.TEXT_NODE) node = node.parentNode; 
+                const tr = node && node.closest('#docTable > tbody > tr'); 
+                if (tr) return tr; 
+            }
+            const rows = document.querySelectorAll('#docTable > tbody > tr'); 
+            return rows[rows.length - 1] || null;
+        }
+
+        (function() {
+            const panel = document.getElementById('floatPanel'), plusBtn = document.getElementById('floatPlus'), menu = document.getElementById('floatMenu');
+            const deletePanel = document.getElementById('floatDeletePanel'), deleteBtn = deletePanel.querySelector('.delete-btn');
+            const dragBtn = deletePanel.querySelector('.drag-btn');
+            let panelTimer = null;
+            let dragEl = null;   // suruklenmekte olan satir (null => surukleme yok)
+
+            function positionPanel(tr) { 
+                const rect = tr.getBoundingClientRect(); 
+                const tableRect = document.getElementById('docTable').getBoundingClientRect();
+                const minTop = 65; 
+                const maxBottom = window.innerHeight - 10;
+                const visibleTop = Math.max(rect.top, minTop);
+                const visibleBottom = Math.min(rect.bottom, maxBottom);
+                let visibleHeight = visibleBottom - visibleTop;
+                if (visibleHeight < 0) visibleHeight = 0;
+
+                // Satirin gorunur dikey merkezi. Panelleri bu merkeze
+                // hizaliyoruz; boylece cok ince satirlarda (bos satir gibi)
+                // butonlar satirin altinda kalmayip satirla ortalanir ve
+                // fareyle ulasmasi kolaylasir.
+                const rowCenter = visibleTop + (visibleHeight / 2);
+
+                // Sol (+) panel: normalde satir kadar yuksek, ince satirlarda
+                // konforlu bir minimuma (34px) sabitlenip merkeze hizalanir.
+                const plusH = Math.max(visibleHeight, 34);
+                panel.style.height = plusH + 'px';
+                panel.style.top = Math.max(minTop, rowCenter - plusH / 2) + 'px'; 
+                panel.style.left = (tableRect.left - 44) + 'px'; 
+
+                // Sag (surukle + sil) panel: icerigi ~68px oldugundan ince
+                // satirlarda da bu yukseklikte kalip merkeze hizalanir.
+                const delH = Math.max(visibleHeight, 68);
+                deletePanel.style.height = delH + 'px';
+                deletePanel.style.top = Math.max(minTop, rowCenter - delH / 2) + 'px';
+                deletePanel.style.left = (tableRect.right + 6) + 'px';
+
+                const spaceBelowCenter = window.innerHeight - rowCenter;
+                if (spaceBelowCenter < 280) { menu.className = 'menu-open-up'; } 
+                else { menu.className = 'menu-open-down'; }
+            }
+
+            function showPanel(tr) { 
+                if (dragEl) return;   // surukleme sirasinda aktif satiri degistirme
+                clearTimeout(panelTimer); 
+                if (floatActiveRow && floatActiveRow !== tr) { floatActiveRow.classList.remove('row-hovered'); menu.classList.remove('open'); } 
+                floatActiveRow = tr; tr.classList.add('row-hovered'); positionPanel(tr); 
+                panel.classList.add('visible'); deletePanel.classList.add('visible');
+            }
+
+            function hidePanel() { 
+                if (dragEl) return;   // surukleme sirasinda panelleri gizleme
+                panelTimer = setTimeout(function() { 
+                    panel.classList.remove('visible'); 
+                    deletePanel.classList.remove('visible'); 
+                    menu.classList.remove('open'); 
+                    if (floatActiveRow) { 
+                    floatActiveRow.classList.remove('row-hovered'); 
+                    floatActiveRow.classList.remove('row-delete-preview'); 
+                    floatActiveRow = null; 
+                    } 
+                }, 450); 
+            }
+
+            document.getElementById('docTable').addEventListener('mouseover', function(e) { const tr = e.target.closest('#docTable > tbody > tr'); if (tr) showPanel(tr); });
+            document.getElementById('docTable').addEventListener('mouseleave', hidePanel); 
+            panel.addEventListener('mouseenter', function() { clearTimeout(panelTimer); }); 
+            panel.addEventListener('mouseleave', hidePanel); 
+            deletePanel.addEventListener('mouseenter', function() { clearTimeout(panelTimer); }); 
+            deletePanel.addEventListener('mouseleave', hidePanel); 
+            menu.addEventListener('mouseenter', function() { clearTimeout(panelTimer); }); 
+            menu.addEventListener('mouseleave', hidePanel);
+            plusBtn.addEventListener('mouseenter', function() { menu.classList.add('open'); });
+            menu.addEventListener('click', function(e) { 
+                const btn = e.target.closest('.menu-btn'); 
+                if (!btn || !floatActiveRow) return; 
+                addBlock(floatActiveRow, btn.dataset.action); 
+                menu.classList.remove('open'); 
+            });
+            deleteBtn.addEventListener('click', function(e) { if(floatActiveRow) removeBlock(floatActiveRow); hidePanel(); });
+            deleteBtn.addEventListener('mouseover', function(e) { if (floatActiveRow) floatActiveRow.classList.add('row-delete-preview'); });
+            deleteBtn.addEventListener('mouseout', function(e) { if (floatActiveRow) floatActiveRow.classList.remove('row-delete-preview'); });
+            document.addEventListener('click', function(e) { if (!panel.contains(e.target)) menu.classList.remove('open'); });
+            window.addEventListener('scroll', function() { if (floatActiveRow && panel.classList.contains('visible')) positionPanel(floatActiveRow); }, { passive: true });
+            window.addEventListener('resize', function() { if (floatActiveRow && panel.classList.contains('visible')) positionPanel(floatActiveRow); });
+
+            // ===== SATIR SÜRÜKLE-TAŞI (drag handle) =====
+            // Tutamaca basili tutup yukari/asagi surukleyerek satir tasinir.
+            // Pointer, panelin (tablonun saginda) uzerinde hareket ettigi
+            // icin hedef satiri X'e gore degil imlecin Y koordinatina gore
+            // buluyoruz. setPointerCapture sayesinde imlec tutamactan
+            // ayrilsa bile move/up olaylari gelmeye devam eder.
+            function dragMoveTo(clientY) {
+                var tbody = document.querySelector('#docTable > tbody');
+                if (!tbody || !dragEl) return;
+                var rows = Array.prototype.filter.call(tbody.children, function(el) {
+                    return el.tagName === 'TR' && el !== dragEl;
+                });
+                var ref = null;
+                for (var i = 0; i < rows.length; i++) {
+                    var r = rows[i].getBoundingClientRect();
+                    if (clientY < r.top + r.height / 2) { ref = rows[i]; break; }
+                }
+                if (ref) {
+                    if (dragEl.nextSibling !== ref) tbody.insertBefore(dragEl, ref);
+                } else if (tbody.lastElementChild !== dragEl) {
+                    tbody.appendChild(dragEl);
+                }
+            }
+
+            function endDrag(e) {
+                if (!dragEl) return;
+                var moved = dragEl;
+                dragEl.classList.remove('row-dragging');
+                dragBtn.classList.remove('dragging');
+                document.body.style.userSelect = '';
+                document.body.style.cursor = '';
+                try { dragBtn.releasePointerCapture(e.pointerId); } catch (_) {}
+                dragEl = null;
+                floatActiveRow = moved;
+                moved.classList.add('row-hovered');
+                positionPanel(moved);
+                panel.classList.add('visible');
+                deletePanel.classList.add('visible');
+            }
+
+            dragBtn.addEventListener('pointerdown', function(e) {
+                if (!floatActiveRow) return;
+                e.preventDefault();
+                dragEl = floatActiveRow;
+                clearTimeout(panelTimer);
+                dragEl.classList.add('row-dragging');
+                dragBtn.classList.add('dragging');
+                document.body.style.userSelect = 'none';
+                document.body.style.cursor = 'grabbing';
+                try { dragBtn.setPointerCapture(e.pointerId); } catch (_) {}
+            });
+
+            dragBtn.addEventListener('pointermove', function(e) {
+                if (!dragEl) return;
+                e.preventDefault();
+                if (e.clientY < 90) window.scrollBy(0, -14);
+                else if (e.clientY > window.innerHeight - 46) window.scrollBy(0, 14);
+                dragMoveTo(e.clientY);
+                positionPanel(dragEl);
+            });
+
+            dragBtn.addEventListener('pointerup', endDrag);
+            dragBtn.addEventListener('pointercancel', endDrag);
+            dragBtn.addEventListener('click', function(e) { e.stopPropagation(); });
+        })();
+
+        // === 5. YENİ MADDE EKLE VE BLOK EKLEME FONKSİYONLARI ===
+        function addBlock(refRow, type) {
+            const newRow = document.createElement('tr'); 
+            let inner = '';
+            if (type === 'single') { 
+                newRow.className = 'single-row'; 
+                inner = '<td class="label-cell"><span>BAŞLIK</span></td><td class="colon-cell">:</td><td class="content-cell">Detay yazısı...</td>'; 
+            } 
+            else if (type === 'full') { 
+                newRow.className = 'full-row'; 
+                inner = '<td colspan="3"><div class="fr-content">Tam genişlikte metin bloğu...</div></td>'; 
+            } 
+         // YENİ MADDE ŞABLONU:
+         //   [Satır Başı (word-tab, 1.25cm)] + <b>X)</b> + [boşluk] + "Maddeyi buraya ekleyin..."
+         // Bu, tam-genişlik (full-row) bir metin bloğudur; hem UDF hem DOCX
+         // çıktısında: tab -> "X)" (KALIN) -> nbsp -> yer-tutucu metin olarak
+         // BİREBİR aynı üretilir. Eski 'madde-marker' (1.25cm inline-block sahte
+         // girinti) yaklaşımı BIRAKILDI; artık gerçek "Satır Başı" tab'ı
+         // kullanılıyor, böylece UDF'deki 1.25cm varsayılan sekme ile hizalanır.
+         // NOT: .madde-row sınıfı yalnızca içe-aktarma listesinde bloğu "Madde"
+         // olarak etiketlemek için (ioModuleLabel); dışa aktarımı etkilemez.
+            else if (type === 'madde') { 
+                newRow.className = 'full-row'; 
+                inner = '<td colspan="3"><div class="fr-content madde-row"><span class="word-tab" style="display:inline-block; width:1.25cm;" contenteditable="false">&nbsp;</span><b>X)</b>&nbsp;Maddeyi buraya ekleyin...</div></td>'; 
+            }
+            else if (type === 'empty') { 
+                newRow.className = 'empty-row'; 
+                inner = '<td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td>'; 
+            } 
+            else if (type === 'sig3') { 
+                newRow.className = 'single-row'; 
+                inner = '<td colspan="3"><div class="sig-grid"><div class="sig-box"><span class="sig-title">TARAF</span><div><b>İsim Soyisim</b></div></div><div class="sig-box"><span class="sig-title">ARABULUCU</span><div><b>Arb. Av. </b></div><div>(ADB Sicil No: XXXX)</div></div><div class="sig-box"><span class="sig-title">TARAF</span><div><b>İsim Soyisim</b></div></div></div></td>'; 
+            } 
+            else if (type === 'sig2') { 
+                newRow.className = 'single-row'; 
+                inner = '<td colspan="3"><div class="sig-grid"><div class="sig-box"><span class="sig-title">TARAF</span><div><b>İsim Soyisim</b></div></div><div class="sig-box"><span class="sig-title">ARABULUCU</span><div><b>Arb. Av. </b></div><div>(ADB Sicil No: XXXX)</div></div></div></td>'; 
+            } 
+            else if (type === 'sig1') { 
+                newRow.className = 'single-row'; 
+                inner = '<td colspan="3"><div class="sig-grid" style="justify-content:center;"><div class="sig-box" style="max-width:250px;"><div class="sig-title">ARABULUCU</div><div><b>Arb. Av.</b></div><div>(ADB Sicil No: XXXX)</div></div></div></td>'; 
+            }
+            else if (type === 'title') { 
+                newRow.className = 'title-wrapper-row'; 
+                inner = '<td class="title-cell" colspan="3">' +
+                    '<table class="title-table title-inner">' +
+                    '<tr class="title-blank-row"><td>&nbsp;</td></tr>' +
+                    '<tr class="title-text-row"><td>BAŞLIK EKLE</td></tr>' +
+                    '<tr class="title-text-row"><td>(Açıklama Ekle)</td></tr>' +
+                    '<tr class="title-blank-row"><td>&nbsp;</td></tr>' +
+                    '<tr class="title-blank-row"><td>&nbsp;</td></tr>' +
+                    '</table>' +
+                    '</td>'; 
+            }
+            newRow.innerHTML = inner; 
+            refRow.parentNode.insertBefore(newRow, refRow.nextSibling); 
+            injectLabelDropdowns();
+            applyEditable();
+        }
+        
+        function removeBlock(tr) { 
+            if (tr && document.querySelectorAll('#docTable > tbody > tr').length > 1) tr.remove(); 
+        }
+
+        // === 6. METİN BİÇİMLENDİRME (FORMATTING) FONKSİYONLARI ===
+        function incrementVersion() { 
+            const inp = document.getElementById('fileNameInput'); 
+            const m = inp.value.match(/^(.*?)_?v(\d+)$/i); 
+            inp.value = m ? m[1] + '_v' + (parseInt(m[2]) + 1) : inp.value + '_v2'; 
+        }
+        function setContentAlign(mode) { 
+            const sel = window.getSelection(); 
+            if (!sel.rangeCount) return; 
+            let node = sel.anchorNode; 
+            if (node && node.nodeType === Node.TEXT_NODE) node = node.parentNode; 
+            const target = node && node.closest('.content-cell, [contenteditable]'); 
+            if (!target) return; 
+            
+            target.style.textAlignLast = 'auto'; 
+            
+            if (mode === 'justify') { target.style.textAlign = 'justify'; target.style.textAlignLast = 'left'; } 
+            else if (mode === 'center') { target.style.textAlign = 'center'; } 
+            else if (mode === 'right') { target.style.textAlign = 'right'; } 
+            else { target.style.textAlign = 'left'; } 
+
+            const iconMap = { 'left': 'format_align_left', 'center': 'format_align_center', 'right': 'format_align_right', 'justify': 'format_align_justify' };
+            document.getElementById('currentAlignIcon').textContent = iconMap[mode];
+            document.getElementById('alignDropdownContainer').classList.remove('open');
+        }
+        function clearFormatting() { 
+            const sel = window.getSelection(); 
+            if (!sel || !sel.rangeCount) return; 
+            const range = sel.getRangeAt(0); 
+            document.execCommand('removeFormat'); 
+            let container = range.commonAncestorContainer; 
+            if (container.nodeType === Node.TEXT_NODE) container = container.parentNode; 
+            const editRoot = container.closest('[contenteditable]'); 
+            if (!editRoot) return; 
+            editRoot.querySelectorAll('span.sig-title').forEach(function(span) { 
+                if (range.intersectsNode ? range.intersectsNode(span) : true) { 
+                    const parent = span.parentNode; 
+                    if (!parent) return; 
+                    while (span.firstChild) parent.insertBefore(span.firstChild, span); 
+                    parent.removeChild(span); 
+                } 
+            }); 
+        }
+        function applySigTitle() { 
+            const sel = window.getSelection(); 
+            if (!sel.rangeCount) return; 
+            const range = sel.getRangeAt(0); 
+            const span  = document.createElement('span'); 
+            span.className = 'sig-title'; 
+            try { 
+                span.appendChild(range.extractContents()); 
+                range.insertNode(span); 
+                const r2 = document.createRange(); 
+                r2.selectNodeContents(span); 
+                sel.removeAllRanges(); 
+                sel.addRange(r2); 
+            } catch(e) { document.execCommand('underline'); } 
+        }
+
+        function insertTabSpace() {
+            const sel = window.getSelection();
+            if (!sel.rangeCount) return;
+            let node = sel.anchorNode;
+            if (node && node.nodeType === Node.TEXT_NODE) node = node.parentNode;
+            const target = node && node.closest('[contenteditable="true"]');
+            if (!target) return; 
+
+            const range = sel.getRangeAt(0);
+            range.deleteContents();
+
+            const span = document.createElement('span');
+            span.className = 'word-tab';
+            span.style.display = 'inline-block';
+            span.style.width = '1.25cm';
+            span.contentEditable = 'false'; 
+            span.innerHTML = '&nbsp;'; 
+            
+            range.insertNode(span);
+            
+            range.setStartAfter(span);
+            range.setEndAfter(span);
+            sel.removeAllRanges();
+            sel.addRange(range);
+        }
+
+        function toggleAlignMenu(e) {
+            e.stopPropagation();
+            document.getElementById('alignDropdownContainer').classList.toggle('open');
+        }
+
+        document.addEventListener('click', function(e) {
+            const dropdown = document.getElementById('alignDropdownContainer');
+            if (dropdown && !dropdown.contains(e.target)) {
+                dropdown.classList.remove('open');
+            }
+        });
+
+        // === 7. DIŞA AKTARMA (PDF, HTM, DOCX) İŞLEMLERİ ===
+        function getFileName() { 
+            return (document.getElementById('fileNameInput').value || 'Arabuluculuk_Tutanak').replace(/[\r\n]+/g, ' ').replace(/[\\/:*?"<>|]/g, '').trim(); 
+        }
+        
+        function downloadBlob(blob, name) { 
+            const url = URL.createObjectURL(blob); 
+            const a = document.createElement('a'); 
+            a.href = url; a.download = name; 
+            document.body.appendChild(a); a.click(); 
+            document.body.removeChild(a); URL.revokeObjectURL(url); 
+        }
+
+        // ====
+        //  SUNUCU TARAFLI DISA AKTARIM YARDIMCISI
+        //  JSON gonderir, donen dosyayi indirir. Su an sadece UDF kullaniyor
+        //  (/api/udf). PDF tarayicinin kendi yazdirma penceresini kullanir.
+        // ====
+        async function postForFile(url, payload, fallbackName, label) {
+            var btnLabel = label || 'Dosya';
+            showBusy(btnLabel + ' hazirlaniyor...');
+            try {
+                var res = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!res.ok) {
+                    var msg = res.status + ' ' + res.statusText;
+                    try { var j = await res.json(); if (j && j.error) msg = j.error; } catch (e) {}
+                    throw new Error(msg);
+                }
+
+                // Sunucu dosya adini Content-Disposition ile gonderiyor
+                // (RFC 5987 filename* -> Turkce karakterler bozulmuyor).
+                var name = fallbackName;
+                var cd = res.headers.get('Content-Disposition') || '';
+                var m = /filename\*=UTF-8''([^;]+)/i.exec(cd);
+                if (m) { try { name = decodeURIComponent(m[1]); } catch (e) {} }
+
+                downloadBlob(await res.blob(), name);
+            } catch (e) {
+                alert(btnLabel + ' olusturulamadi:\n' + e.message);
+            } finally {
+                hideBusy();
+            }
+        }
+
+        // Basit mesgul gostergesi (UDF donusumu icin)
+        function showBusy(text) {
+            var d = document.getElementById('busyOverlay');
+            if (!d) {
+                d = document.createElement('div');
+                d.id = 'busyOverlay';
+                d.style.cssText = 'position:fixed;inset:0;background:rgba(15,23,42,.55);' +
+                    'display:flex;align-items:center;justify-content:center;z-index:99999;' +
+                    'font-family:system-ui,sans-serif;font-size:15px;font-weight:600;color:#fff;';
+                document.body.appendChild(d);
+            }
+            d.textContent = text;
+            d.style.display = 'flex';
+        }
+        function hideBusy() {
+            var d = document.getElementById('busyOverlay');
+            if (d) d.style.display = 'none';
+        }
+        
+        function saveAsHtm() { 
+            var ignoreHF = document.getElementById('ignoreHFCheck').checked;
+            var origH = document.getElementById('headerCheck').checked;
+            var origF = document.getElementById('footerCheck').checked;
+
+            if (ignoreHF) {
+                if(origH) { document.getElementById('headerCheck').checked = false; toggleHFData('header'); }
+                if(origF) { document.getElementById('footerCheck').checked = false; toggleHFData('footer'); }
+            }
+
+            document.querySelectorAll('input').forEach(function(i) { 
+                i.setAttribute('value', i.value); 
+                // Checkbox/radio icin 'checked' OZELLIGI (property) disinda
+                // 'checked' NITELIGINI (attribute) de senkronize etmemiz
+                // lazim - aksi halde .htm yeniden acildiginda tarayici
+                // checkbox'lari hep isaretsiz gosterir (DOM'daki checked
+                // property'si outerHTML'e yansimaz, sadece attribute
+                // yansir). Bu, "logo yuklendi ama checkbox isaretli
+                // gorunmuyor" turu tutarsizliklarin bir kaynagiydi.
+                if (i.type === 'checkbox' || i.type === 'radio') {
+                    if (i.checked) { i.setAttribute('checked', 'checked'); }
+                    else { i.removeAttribute('checked'); }
+                }
+            }); 
+
+            // Kaydetmeden ONCE contenteditable'i gecici olarak temizle ki
+            // kaydedilen .htm kaynagi temiz olsun; tekrar acildiginda
+            // applyEditable() sayfa yuklenirken bunu geri ekler.
+            stripEditable();
+            downloadBlob(new Blob([document.documentElement.outerHTML], { type: 'text/html;charset=utf-8' }), getFileName() + '.htm'); 
+            applyEditable();
+
+            if (ignoreHF) {
+                if(origH) { document.getElementById('headerCheck').checked = true; toggleHFData('header'); }
+                if(origF) { document.getElementById('footerCheck').checked = true; toggleHFData('footer'); }
+            }
+        }
+        
+        function saveAsPdf() {
+            var ignoreHF = document.getElementById('ignoreHFCheck').checked;
+            if (ignoreHF) document.body.classList.add('no-print-hf');
+
+            // Fare hover'indan kalan gecici UI durumunu (mavi alt-cizgi, acik
+            // menu vb.) PDF'e yansimasin diye temizle.
+            document.querySelectorAll('tr.row-hovered').forEach(function(r) { r.classList.remove('row-hovered'); });
+            if (typeof floatActiveRow !== 'undefined') { floatActiveRow = null; }
+            var panelEl = document.getElementById('floatPanel');
+            var deletePanelEl = document.getElementById('floatDeletePanel');
+            if (panelEl) panelEl.classList.remove('visible');
+            if (deletePanelEl) deletePanelEl.classList.remove('visible');
+
+            // NOT (Turkce karakter sorunu - "AnlaÅma" gibi bozuk isimler):
+            // Chrome'un "Yazdir > PDF olarak kaydet" penceresi document.title'i
+            // dosya adi onerisine cevirirken bozuyor. Bu SAYFADAN KONTROL
+            // EDILEMEZ, tarayici seviyesinde bir kisitlama. normalize('NFC')
+            // zararsiz bir onlem ama garanti degil. Sorun devam ederse dosya
+            // adini kaydettikten sonra elle duzeltmek en guvenilir yol.
+            // .htm/.docx/.udf ciktilarinda bu sorun YOK - onlar <a download>
+            // ile kaydediliyor, o yol duzgun UTF-8 kullaniyor.
+            //
+            // TARIHCE: Bir donem bu fonksiyon HTML'i sunucudaki headless
+            // Chromium'a (/api/pdf) gonderip tek tikla PDF uretiyordu.
+            // Kaldirildi: Vercel'de calistirmak icin gereken chromium paketi
+            // her soguk baslangicta ~58MB indiriyor (15-30 sn bekleme) ve
+            // uc ayri paketin surum zincirine bagimli. Kazanci (bir tik +
+            // dogru dosya adi) bu maliyeti karsilamiyordu. UDF ve DOCX ise
+            // gercek veri donusumu oldugu icin sunucuda kaldi.
+            const old = document.title;
+            document.title = getFileName().normalize('NFC');
+            window.print();
+
+            setTimeout(function() {
+                document.title = old;
+                if (ignoreHF) document.body.classList.remove('no-print-hf');
+            }, 300);
+        }
+
+        function exportToDocx() {
+            if (typeof JSZip === 'undefined') {
+                alert('JSZip kütüphanesi yüklenemedi. İnternet bağlantınızı kontrol edin ve sayfayı yenileyin.');
+                return;
+            }
+
+            var fileName = getFileName();
+            var ignoreHF = document.getElementById('ignoreHFCheck').checked;
+            var headerChecked = !ignoreHF && document.getElementById('headerCheck').checked;
+            var footerChecked = !ignoreHF && document.getElementById('footerCheck').checked;
+
+            function esc(value) { return String(value == null ? '' : value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+            function makeParagraph(text, align) { var r = text ? '<w:r><w:t xml:space="preserve">' + esc(text) + '</w:t></w:r>' : ''; return '<w:p><w:pPr><w:jc w:val="' + align + '"/><w:spacing w:before="0" w:after="0" w:line="255" w:lineRule="atLeast"/></w:pPr>' + r + '</w:p>'; }
+
+            function cellToOoxml(node, defaultAlign) {
+                var xml = ''; var currentRuns = '';
+                var getAlignVal = function(el, fallback) { if (el && el.style && el.style.textAlign) { var ta = el.style.textAlign; if (ta === 'justify') return 'both'; if (ta === 'center') return 'center'; if (ta === 'right') return 'right'; if (ta === 'left') return 'left'; } return fallback; };
+                var rootAlign = getAlignVal(node, defaultAlign); var currentPAlign = rootAlign;
+
+                function flushParagraph() { if (currentRuns !== '') { xml += '<w:p><w:pPr><w:jc w:val="' + currentPAlign + '"/><w:spacing w:before="0" w:after="0" w:line="255" w:lineRule="atLeast"/></w:pPr>' + currentRuns + '</w:p>'; currentRuns = ''; } }
+
+                function processNode(n, styles) {
+                    if (!n) return;
+                    if (n.nodeType === Node.TEXT_NODE) {
+                        var txt = (n.textContent || '').replace(/\u00A0/g, ' '); 
+                        if (txt.trim() !== '' || txt.includes(' ')) { 
+                            var rPr = '';
+                            if (styles.b) rPr += '<w:b/>';
+                            if (styles.i) rPr += '<w:i/>';
+                            if (styles.u) rPr += '<w:u w:val="single"/>';
+                            var rPrStr = rPr ? '<w:rPr>' + rPr + '</w:rPr>' : '';
+                            currentRuns += '<w:r>' + rPrStr + '<w:t xml:space="preserve">' + esc(txt) + '</w:t></w:r>';
+                        }
+                    } else if (n.nodeType === Node.ELEMENT_NODE) {
+                        var tag = n.tagName.toLowerCase();
+                        if (tag === 'br') {
+                            if (currentRuns === '') { xml += '<w:p><w:pPr><w:jc w:val="' + currentPAlign + '"/><w:spacing w:before="0" w:after="0" w:line="260" w:lineRule="atLeast"/></w:pPr></w:p>'; } 
+                            else { flushParagraph(); }
+                        } else if (tag === 'div' || tag === 'p') {
+                            flushParagraph();
+                            var oldAlign = currentPAlign;
+                            currentPAlign = getAlignVal(n, currentPAlign);
+                            n.childNodes.forEach(function(c) { processNode(c, Object.assign({}, styles)); });
+                            flushParagraph();
+                            currentPAlign = oldAlign;
+                        } else {
+                            var newStyles = Object.assign({}, styles);
+                            if (tag === 'b' || tag === 'strong') newStyles.b = true;
+                            if (tag === 'i' || tag === 'em') newStyles.i = true;
+                            if (tag === 'span' && n.classList.contains('sig-title')) { newStyles.b = true; newStyles.u = true; }
+                            
+                            if (tag === 'span' && n.classList.contains('word-tab')) { currentRuns += '<w:r><w:tab/></w:r>'; } 
+                            else if (tag === 'span' && n.classList.contains('madde-marker')) {
+                                // legacy madde-marker: yeni duzenle ayni sirayla uret
+                                // -> ONCE tab, SONRA kalin marker, SONRA bosluk.
+                                var markerText = (n.textContent || 'X)').trim().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                                currentRuns += '<w:r><w:tab/></w:r><w:r><w:rPr><w:b/></w:rPr><w:t xml:space="preserve">' + markerText + '</w:t></w:r><w:r><w:t xml:space="preserve">\u00A0</w:t></w:r>';
+                            }
+                            else { n.childNodes.forEach(function(c) { processNode(c, newStyles); }); }
+                        }
+                    }
+                }
+
+                processNode(node, { b: false, i: false, u: false });
+                flushParagraph();
+
+                if (xml === '') xml = '<w:p><w:pPr><w:jc w:val="' + rootAlign + '"/><w:spacing w:before="0" w:after="0" w:line="260" w:lineRule="atLeast"/></w:pPr></w:p>';
+                return xml;
+            }
+
+            function createSignatureTableXml(sigBoxes) {
+                sigBoxes = sigBoxes || []; var sigCount = sigBoxes.length || 1; var sigColW = Math.floor(10206 / sigCount); var tableWidth = 10206; var tbl = '';
+                tbl += '<w:tbl><w:tblPr><w:tblW w:w="' + tableWidth + '" w:type="dxa"/><w:tblCellMar><w:top w:w="11" w:type="dxa"/><w:bottom w:w="11" w:type="dxa"/></w:tblCellMar><w:tblBorders><w:top w:val="none"/><w:bottom w:val="none"/><w:left w:val="none"/><w:right w:val="none"/><w:insideH w:val="none"/><w:insideV w:val="none"/></w:tblBorders><w:tblLook w:val="0000"/></w:tblPr><w:tblGrid>';
+                for (var i = 0; i < sigCount; i++) tbl += '<w:gridCol w:w="' + sigColW + '"/>';
+                // w:cantSplit: imza satirinin sayfa arasinda bolunmesini
+                // engeller (bir kutunun ortasindan kesilip ikinci sayfaya
+                // tasmasi onlenir). Tek satirlik tablo oldugu icin bu,
+                // tum imza blogunun tek parca halinde kalmasini saglar.
+                tbl += '</w:tblGrid><w:tr><w:trPr><w:cantSplit/></w:trPr>';
+                sigBoxes.forEach(function (box) { tbl += '<w:tc><w:tcPr><w:tcW w:w="' + sigColW + '" w:type="dxa"/><w:tcBorders><w:top w:val="none"/><w:bottom w:val="none"/><w:left w:val="none"/><w:right w:val="none"/></w:tcBorders></w:tcPr>' + cellToOoxml(box, 'center') + '</w:tc>'; });
+                tbl += '</w:tr></w:tbl>';
+                return tbl;
+            }
+
+            var titleXml = ''; var titleTable = document.querySelector('.title-table');
+            if (titleTable) {
+                titleXml += makeParagraph('', 'center');
+                titleTable.querySelectorAll('.title-text-row td').forEach(function (td) {
+                    var txt = (td.textContent || '').trim();
+                    if (txt) titleXml += '<w:p><w:pPr><w:jc w:val="center"/><w:spacing w:before="0" w:after="0" w:line="260" w:lineRule="atLeast"/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val="20"/><w:szCs w:val="20"/></w:rPr><w:t xml:space="preserve">' + esc(txt) + '</w:t></w:r></w:p>';
+                });
+                titleXml += makeParagraph('', 'center'); titleXml += makeParagraph('', 'center');
+            }
+
+            var colW1 = 2654, colW2 = 204, colW3 = 7348, colWFull = 10206;
+            var mainTableStart = '<w:tbl><w:tblPr><w:tblW w:w="10206" w:type="dxa"/><w:tblBorders><w:top w:val="none"/><w:bottom w:val="none"/><w:left w:val="none"/><w:right w:val="none"/><w:insideH w:val="none"/><w:insideV w:val="none"/></w:tblBorders><w:tblLook w:val="0000"/></w:tblPr><w:tblGrid><w:gridCol w:w="' + colW1 + '"/><w:gridCol w:w="' + colW2 + '"/><w:gridCol w:w="' + colW3 + '"/></w:tblGrid>';
+            var bodyXml = titleXml + mainTableStart; var mainTableOpen = true;
+
+            function closeMainTable() { if (mainTableOpen) { bodyXml += '</w:tbl>'; mainTableOpen = false; } }
+            function openMainTable() { if (!mainTableOpen) { bodyXml += mainTableStart; mainTableOpen = true; } }
+            function appendParaBetweenTables() { bodyXml += '<w:p><w:pPr><w:spacing w:before="0" w:after="0" w:line="5" w:lineRule="exact"/></w:pPr><w:r><w:t xml:space="preserve"> </w:t></w:r></w:p>'; }
+
+            var tbody = document.querySelector('#docTable tbody');
+            if (tbody) {
+                tbody.querySelectorAll('tr').forEach(function(tr) {
+                    if (tr.classList.contains('print-space-head') || tr.classList.contains('print-space-foot') || tr.classList.contains('title-wrapper-row')) return;
+                    if (tr.classList.contains('empty-row')) {
+                        bodyXml += '<w:tr><w:trPr><w:trHeight w:val="220" w:hRule="exact"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="' + colWFull + '" w:type="dxa"/><w:gridSpan w:val="3"/><w:tcBorders><w:top w:val="none"/><w:bottom w:val="none"/><w:left w:val="none"/><w:right w:val="none"/></w:tcBorders></w:tcPr><w:p><w:pPr><w:jc w:val="both"/><w:spacing w:before="0" w:after="0" w:line="180" w:lineRule="exact"/></w:pPr></w:p></w:tc></w:tr>';
+                        return;
+                    }
+
+                    var tds = tr.querySelectorAll(':scope > td'); var firstTd = tds[0];
+                    if (firstTd && (parseInt(firstTd.getAttribute('colspan') || '0', 10) >= 3 || tr.classList.contains('full-row'))) {
+                        var sigGrid = firstTd.querySelector('.sig-grid');
+                        if (sigGrid) {
+                            closeMainTable(); appendParaBetweenTables();
+                            var sigBoxes = Array.prototype.slice.call(sigGrid.querySelectorAll('.sig-box'));
+                            bodyXml += createSignatureTableXml(sigBoxes);
+                            appendParaBetweenTables(); openMainTable(); return;
+                        }
+                        var contentEl = firstTd.querySelector('[contenteditable]') || firstTd;
+                        bodyXml += '<w:tr><w:tc><w:tcPr><w:tcW w:w="' + colWFull + '" w:type="dxa"/><w:gridSpan w:val="3"/><w:tcBorders><w:top w:val="none"/><w:bottom w:val="none"/><w:left w:val="none"/><w:right w:val="none"/></w:tcBorders></w:tcPr>' + cellToOoxml(contentEl, 'both') + '</w:tc></w:tr>'; return;
+                    }
+
+                    if (tds.length >= 3) {
+                        var labelTd = tds[0], colonTd = tds[1], contentTd = tds[2];
+                        var labelTxt = esc(((labelTd.querySelector('span') || labelTd).textContent || '').trim());
+                        var colonTxt = esc((colonTd.textContent || '').trim());
+                        bodyXml += '<w:tr>';
+                        bodyXml += '<w:tc><w:tcPr><w:tcW w:w="' + colW1 + '" w:type="dxa"/><w:tcMar><w:top w:w="11" w:type="dxa"/><w:left w:w="11" w:type="dxa"/><w:bottom w:w="34" w:type="dxa"/><w:right w:w="11" w:type="dxa"/></w:tcMar><w:tcBorders><w:top w:val="none"/><w:bottom w:val="none"/><w:left w:val="none"/><w:right w:val="none"/></w:tcBorders></w:tcPr><w:p><w:pPr><w:jc w:val="left"/><w:spacing w:before="0" w:after="0" w:line="240" w:lineRule="atLeast"/></w:pPr><w:r><w:rPr><w:b w:val="on"/></w:rPr><w:t>' + labelTxt + '</w:t></w:r></w:p></w:tc>';
+                        bodyXml += '<w:tc><w:tcPr><w:tcW w:w="' + colW2 + '" w:type="dxa"/><w:tcMar><w:top w:w="11" w:type="dxa"/><w:left w:w="11" w:type="dxa"/><w:bottom w:w="34" w:type="dxa"/><w:right w:w="11" w:type="dxa"/></w:tcMar><w:tcBorders><w:top w:val="none"/><w:bottom w:val="none"/><w:left w:val="none"/><w:right w:val="none"/></w:tcBorders></w:tcPr><w:p><w:pPr><w:jc w:val="center"/><w:spacing w:before="0" w:after="0" w:line="240" w:lineRule="atLeast"/></w:pPr><w:r><w:rPr><w:b/></w:rPr><w:t>' + colonTxt + '</w:t></w:r></w:p></w:tc>';
+                        bodyXml += '<w:tc><w:tcPr><w:tcW w:w="' + colW3 + '" w:type="dxa"/><w:tcMar><w:top w:w="11" w:type="dxa"/><w:left w:w="11" w:type="dxa"/><w:bottom w:w="34" w:type="dxa"/><w:right w:w="11" w:type="dxa"/></w:tcMar><w:tcBorders><w:top w:val="none"/><w:bottom w:val="none"/><w:left w:val="none"/><w:right w:val="none"/></w:tcBorders></w:tcPr>' + cellToOoxml(contentTd, 'both') + '</w:tc>';
+                        bodyXml += '</w:tr>';
+                    }
+                });
+            }
+            closeMainTable();
+
+            var headerXml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:hdr xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><w:p><w:pPr><w:jc w:val="center"/></w:pPr>';
+            if (headerChecked && uploadedLogoBase64) {
+                headerXml += '<w:r><w:rPr/><w:drawing><wp:inline xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing"><wp:extent cx="2880000" cy="720000"/><wp:docPr id="1" name="Logo"/><a:graphic xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:pic xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:nvPicPr><pic:cNvPr id="1" name="Logo"/><pic:cNvPicPr/></pic:nvPicPr><pic:blipFill><a:blip r:embed="rId1"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill><pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="2880000" cy="720000"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></pic:spPr></pic:pic></a:graphicData></a:graphic></wp:inline></w:drawing></w:r>';
+            }
+            headerXml += '</w:p>';
+            if (headerChecked) headerXml += '<w:p><w:pPr><w:pBdr><w:bottom w:val="single" w:sz="4" w:space="1" w:color="808080"/></w:pBdr></w:pPr></w:p>';
+            headerXml += '</w:hdr>';
+
+            var footerXml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:ftr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">';
+            if (footerChecked) {
+                var ft1 = (document.getElementById('footerText1').value || '').trim().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+                var ft2 = (document.getElementById('footerText2').value || '').trim().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+                footerXml += '<w:p><w:pPr><w:pBdr><w:top w:val="single" w:sz="4" w:space="1" w:color="808080"/></w:pBdr><w:jc w:val="center"/><w:spacing w:before="0" w:after="0"/></w:pPr></w:p>';
+                if (ft1) footerXml += '<w:p><w:pPr><w:jc w:val="center"/><w:spacing w:before="0" w:after="0" w:line="240" w:lineRule="atLeast"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Palatino Linotype" w:hAnsi="Palatino Linotype"/><w:sz w:val="18"/></w:rPr><w:t>' + ft1 + '</w:t></w:r></w:p>';
+                if (ft2) footerXml += '<w:p><w:pPr><w:jc w:val="center"/><w:spacing w:before="0" w:after="0" w:line="240" w:lineRule="atLeast"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Palatino Linotype" w:hAnsi="Palatino Linotype"/><w:sz w:val="18"/></w:rPr><w:t>' + ft2 + '</w:t></w:r></w:p>';
+            } else { footerXml += '<w:p/>'; }
+            footerXml += '</w:ftr>';
+
+            var topMargin    = (headerChecked && uploadedLogoBase64) ? 1984 : 1134; 
+            var bottomMargin = 1134; 
+            var leftMargin   = 992;  
+            var rightMargin  = 709;  
+            var headerDist   = 340;  
+            var footerDist   = 284;  
+
+            var documentXml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing"><w:body>' + bodyXml + '<w:sectPr><w:headerReference w:type="default" r:id="rId1"/><w:footerReference w:type="default" r:id="rId2"/><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="' + topMargin + '" w:right="' + rightMargin + '" w:bottom="' + bottomMargin + '" w:left="' + leftMargin + '" w:header="' + headerDist + '" w:footer="' + footerDist + '" w:gutter="0"/></w:sectPr></w:body></w:document>';
+
+            var stylesXml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:docDefaults><w:rPrDefault><w:rPr><w:rFonts w:ascii="Arial" w:hAnsi="Arial" w:cs="Arial"/><w:sz w:val="20"/><w:szCs w:val="20"/></w:rPr></w:rPrDefault></w:docDefaults><w:style w:type="paragraph" w:default="1" w:styleId="Normal"><w:name w:val="Normal"/><w:pPr><w:spacing w:before="0" w:after="0" w:line="260" w:lineRule="atLeast"/></w:pPr></w:style></w:styles>';
+            var contentTypesXml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Default Extension="png" ContentType="image/png"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/><Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/><Override PartName="/word/header1.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.header+xml"/><Override PartName="/word/footer1.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml"/></Types>';
+            var rootRelsXml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>';
+            var docRelsXml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/header" Target="header1.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/footer" Target="footer1.xml"/><Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>';
+            var headerRelsXml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">';
+            if (headerChecked && uploadedLogoBase64) headerRelsXml += '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/logo.png"/>';
+            headerRelsXml += '</Relationships>';
+
+            var zip = new JSZip();
+            zip.file('[Content_Types].xml', contentTypesXml); zip.file('_rels/.rels', rootRelsXml); zip.file('word/document.xml', documentXml); zip.file('word/styles.xml', stylesXml); zip.file('word/header1.xml', headerXml); zip.file('word/footer1.xml', footerXml); zip.file('word/_rels/document.xml.rels', docRelsXml); zip.file('word/_rels/header1.xml.rels', headerRelsXml);
+
+            if (headerChecked && uploadedLogoBase64) { var b64data = uploadedLogoBase64.split(',')[1]; zip.file('word/media/logo.png', b64data, { base64: true }); }
+
+            zip.generateAsync({ type: 'blob', mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' })
+                .then(function(blob) { downloadBlob(blob, fileName + '.docx'); })
+                .catch(function(err) { alert('DOCX oluşturulurken hata: ' + err.message); });
+        }
+
+        // === UDF (UYAP) için ara JSON üretimi ===
+        // Bu fonksiyon exportToDocx ile aynı DOM'u gezer, ama OOXML yerine
+        // Python converter'ın tüketeceği duz bir JSON yapisi uretir.
+        // Yapı: { header: {...}, footer: {...}, title: [...], rows: [...] }
+        // Her "run" objesi: { text, bold, italic, underline }
+        function exportToUdfJson() {
+            var fileName = getFileName();
+            var ignoreHF = document.getElementById('ignoreHFCheck').checked;
+            var headerChecked = !ignoreHF && document.getElementById('headerCheck').checked;
+            var footerChecked = !ignoreHF && document.getElementById('footerCheck').checked;
+
+            function getAlignVal(el, fallback) {
+                if (el && el.style && el.style.textAlign) {
+                    var ta = el.style.textAlign;
+                    if (ta === 'justify') return 'justify';
+                    if (ta === 'center') return 'center';
+                    if (ta === 'right') return 'right';
+                    if (ta === 'left') return 'left';
+                }
+                return fallback;
+            }
+
+            // DOM node'unu paragraf listesine cevirir.
+            // Her paragraf: { align, runs: [ {text, bold, italic, underline} ] }
+            function nodeToParagraphs(node, defaultAlign) {
+                var paragraphs = [];
+                var currentRuns = [];
+                var rootAlign = getAlignVal(node, defaultAlign);
+                var currentAlign = rootAlign;
+
+                function flush(force) {
+                    if (currentRuns.length > 0) {
+                        paragraphs.push({ align: currentAlign, runs: currentRuns });
+                        currentRuns = [];
+                    } else if (force) {
+                        // bos paragraf (orn. <br> ile olusturulan bos satir) -
+                        // bunu atlamak sig-box vb. alanlarda "enter ile
+                        // olusturulmus boslugu" kaybettiriyordu.
+                        paragraphs.push({ align: currentAlign, runs: [] });
+                    }
+                }
+
+                function pushText(txt, styles) {
+                    if (txt === '') return;
+                    // metnin içindeki nbsp'leri koru, converter tarafında "space" olarak isaretlenecek
+                    currentRuns.push({
+                        text: txt,
+                        bold: !!styles.b,
+                        italic: !!styles.i,
+                        underline: !!styles.u
+                    });
+                }
+
+                function processNode(n, styles) {
+                    if (!n) return;
+                    if (n.nodeType === Node.TEXT_NODE) {
+                        var txt = n.textContent || '';
+                        if (txt !== '') pushText(txt, styles);
+                    } else if (n.nodeType === Node.ELEMENT_NODE) {
+                        var tag = n.tagName.toLowerCase();
+                        if (tag === 'br') {
+                            // DUZELTME (bosluk/bos-satir kaybi): DOCX ciktisiyla
+                            // BIREBIR ayni davranis. currentRuns BOS ise bu bir
+                            // BOS SATIR demektir (kullanicinin Enter ile birakip
+                            // 'normal bosluk' dedigi satir, orn. imza kutusundaki
+                            // <div><b><br></b></div>) -> BOS bir paragraf uret ki
+                            // UDF'de de bir bos satir olarak gorunsun. currentRuns
+                            // DOLU ise sadece mevcut satiri kapat.
+                            // ONCEDEN: sadece flush() cagriliyordu; flush() bos
+                            // currentRuns'ta hicbir sey uretmedigi icin bu bos
+                            // satirlar UDF'ye HIC aktarilmiyordu (kaybolan bosluk
+                            // sorununun kok nedeni).
+                            if (currentRuns.length === 0) {
+                                paragraphs.push({ align: currentAlign, runs: [] });
+                            } else {
+                                flush();
+                            }
+                        } else if (tag === 'div' || tag === 'p') {
+                            flush();
+                            var oldAlign = currentAlign;
+                            currentAlign = getAlignVal(n, currentAlign);
+                            n.childNodes.forEach(function(c) { processNode(c, Object.assign({}, styles)); });
+                            flush();
+                            currentAlign = oldAlign;
+                        } else {
+                            var newStyles = Object.assign({}, styles);
+                            if (tag === 'b' || tag === 'strong') newStyles.b = true;
+                            if (tag === 'i' || tag === 'em') newStyles.i = true;
+                            if (tag === 'span' && n.classList.contains('sig-title')) { newStyles.b = true; newStyles.u = true; }
+
+                            if (tag === 'span' && n.classList.contains('word-tab')) {
+                                currentRuns.push({ text: '\t', bold: !!newStyles.b, italic: !!newStyles.i, underline: !!newStyles.u, isTab: true });
+                            } else if (tag === 'span' && n.classList.contains('madde-marker')) {
+                                // ESKI/legacy madde-marker destegi. Yeni madde
+                                // sablonu artik word-tab + <b>X)</b> + bosluk
+                                // kullaniyor (bkz. addBlock 'madde'), ama eski
+                                // kaydedilmis belgelerde bu span hala bulunabilir.
+                                // Ayni yeni duzeni uret: ONCE TAB (satir basi),
+                                // SONRA kalin marker ("X)"), SONRA bir bosluk.
+                                var markerText = (n.textContent || 'X)').trim();
+                                currentRuns.push({ text: '\t', bold: !!newStyles.b, italic: !!newStyles.i, underline: !!newStyles.u, isTab: true });
+                                currentRuns.push({ text: markerText, bold: true, italic: !!newStyles.i, underline: !!newStyles.u });
+                                currentRuns.push({ text: '\u00A0', bold: false, italic: false, underline: false });
+                            } else {
+                                n.childNodes.forEach(function(c) { processNode(c, newStyles); });
+                            }
+                        }
+                    }
+                }
+
+                processNode(node, { b: false, i: false, u: false });
+                flush();
+
+                if (paragraphs.length === 0) paragraphs.push({ align: rootAlign, runs: [] });
+                return paragraphs;
+            }
+
+            // --- Title ---
+            var titleParagraphs = [];
+            var titleTable = document.querySelector('.title-table');
+            if (titleTable) {
+                titleTable.querySelectorAll('.title-text-row td').forEach(function (td) {
+                    var txt = (td.textContent || '').trim();
+                    if (txt) titleParagraphs.push({ align: 'center', runs: [{ text: txt, bold: true, italic: false, underline: false }] });
+                });
+            }
+
+            // --- Body rows ---
+            var rows = [];
+            var tbody = document.querySelector('#docTable tbody');
+            if (tbody) {
+                tbody.querySelectorAll('tr').forEach(function(tr) {
+                    if (tr.classList.contains('print-space-head') || tr.classList.contains('print-space-foot') || tr.classList.contains('title-wrapper-row')) return;
+
+                    if (tr.classList.contains('empty-row')) {
+                        rows.push({ type: 'empty' });
+                        return;
+                    }
+
+                    var tds = tr.querySelectorAll(':scope > td');
+                    var firstTd = tds[0];
+
+                    if (firstTd && (parseInt(firstTd.getAttribute('colspan') || '0', 10) >= 3 || tr.classList.contains('full-row'))) {
+                        var sigGrid = firstTd.querySelector('.sig-grid');
+                        if (sigGrid) {
+                            var sigBoxes = Array.prototype.slice.call(sigGrid.querySelectorAll('.sig-box')).map(function(box) {
+                                return nodeToParagraphs(box, 'center');
+                            });
+                            rows.push({ type: 'siggrid', boxes: sigBoxes });
+                            return;
+                        }
+                        var contentEl = firstTd.querySelector('[contenteditable]') || firstTd;
+                        rows.push({ type: 'full', paragraphs: nodeToParagraphs(contentEl, 'justify') });
+                        return;
+                    }
+
+                    if (tds.length >= 3) {
+                        var labelTd = tds[0], colonTd = tds[1], contentTd = tds[2];
+                        var labelTxt = ((labelTd.querySelector('span') || labelTd).textContent || '').trim();
+                        var colonTxt = (colonTd.textContent || '').trim();
+                        rows.push({
+                            type: 'labeled',
+                            label: labelTxt,
+                            colon: colonTxt,
+                            paragraphs: nodeToParagraphs(contentTd, 'justify')
+                        });
+                    }
+                });
+            }
+
+            var result = {
+                fileName: fileName,
+                header: {
+                    enabled: headerChecked,
+                    logoBase64: headerChecked ? (uploadedLogoBase64 || '') : ''
+                },
+                footer: {
+                    enabled: footerChecked,
+                    text1: footerChecked ? (document.getElementById('footerText1').value || '').trim() : '',
+                    text2: footerChecked ? (document.getElementById('footerText2').value || '').trim() : ''
+                },
+                title: titleParagraphs,
+                rows: rows
+            };
+
+            // JSON artik diske inmiyor; dogrudan /api/udf'e gidip .udf donuyor.
+            // Ham JSON'i incelemek gerekirse asagidaki satiri gecici olarak ac:
+            // downloadBlob(new Blob([JSON.stringify(result, null, 2)], { type: 'application/json' }), fileName + '.udfdata.json');
+            postForFile('/api/udf', result, fileName + '.udf', 'UDF');
+        }
+
+
+        // === 8. ETİKET ÖNERİ SİSTEMİ (DROPDOWN) ===
+        const BASE_LABEL_PRESETS = [
+            { label: 'Arb. Bürosu', value: 'ARB. BÜROSU' }, 
+            { label: 'Başvuru Dosya No', value: 'BAŞVURU DOSYA NO' }, 
+            { label: 'Arb. Dosya No', value: 'ARB. DOSYA NO' },
+            { label: 'Taraflar', value: 'TARAFLAR' }, 
+            { label: 'Başvurucu', value: 'BAŞVURUCU' }, 
+            { label: 'Yetkilisi', value: 'YETKİLİSİ' },
+            { label: 'Diğer Taraf', value: 'DİĞER TARAF' }, 
+            { label: 'Vekili', value: 'VEKİLİ' }, 
+            { label: 'Çalışanı', value: 'ÇALIŞANI' },
+            { label: 'Kanuni Temsilci', value: 'KANUNİ TEMSİLCİ' }, 
+            { label: 'Komisyon Üyesi', value: 'KOMİSYON ÜYESİ' }, 
+            { label: 'Uzman Kişi', value: 'UZMAN KİŞİ' },
+            { label: 'Uyuşmazlık Türü', value: 'UYUŞMAZLIK TÜRÜ' }, 
+            { label: 'Toplantı Yeri', value: 'TOPLANTI YERİ' }, 
+            { label: 'Başvuru Tarihi', value: 'BAŞVURU TARİHİ' },
+            { label: 'Görevi Kabul Tarihi', value: 'GÖREVİ KABUL TARİHİ' }, 
+            { label: 'İlk Toplantı Tarihi', value: 'İLK TOPLANTI TARİHİ' }, 
+            { label: 'Son Toplantı Tarihi', value: 'SON TOPLANTI TARİHİ' },
+            { label: 'Toplantı Başlama Saati', value: 'TOPLANTI BAŞL. SAATİ' },
+            { label: 'Toplantı Bitiş Saati', value: 'TOPLANTI BİTİŞ. SAATİ' },
+            { label: 'Uyuşmazlık Konusu (Talep Konusu)', value: 'UYUŞMAZLIK KONUSU <br> (Talep Konusu)' },
+            { label: 'Çözüm Önerisinde Bulunma', value: 'ÇÖZÜM ÖNERİSİNDE <br> BULUNMA' },
+            { label: 'Oturum Sayısı', value: 'OTURUM SAYISI' }, 
+            { label: 'Oturum Süresi', value: 'OTURUM SÜRESİ' }, 
+            { label: 'Varılan Anlaşma', value: 'VARILAN ANLAŞMA' }, 
+            { label: 'Sonuç', value: 'SONUÇ' }
+        ];
+
+        function loadCustomLabelPresets() {
+            var dataNode = document.getElementById('customLabelPresetsData');
+            if (!dataNode) return [];
+            try {
+                var parsed = JSON.parse(dataNode.textContent || '[]');
+                return Array.isArray(parsed) ? parsed.filter(function(p) {
+                    return p && typeof p.label === 'string' && typeof p.value === 'string' && p.label.trim() && p.value.trim();
+                }).map(function(p) {
+                    return { label:p.label.trim(), value:p.value.trim() };
+                }) : [];
+            } catch (e) { return []; }
+        }
+        let CUSTOM_LABEL_PRESETS = loadCustomLabelPresets();
+        let LABEL_PRESETS = BASE_LABEL_PRESETS.concat(CUSTOM_LABEL_PRESETS);
+        let renderLabelDropdownOptions = function() {};
+
+        function persistCustomLabelPresets() {
+            var dataNode = document.getElementById('customLabelPresetsData');
+            if (dataNode) dataNode.textContent = JSON.stringify(CUSTOM_LABEL_PRESETS);
+        }
+        function refreshLabelPresets() {
+            LABEL_PRESETS = BASE_LABEL_PRESETS.concat(CUSTOM_LABEL_PRESETS);
+            persistCustomLabelPresets();
+            renderLabelDropdownOptions();
+            renderSettingsList();
+        }
+        function renderSettingsList() {
+            var list = document.getElementById('settingsList');
+            if (!list) return;
+            list.innerHTML = '';
+            LABEL_PRESETS.forEach(function(p, index) {
+                var row = document.createElement('div');
+                row.className = 'settings-row';
+                var left = document.createElement('span');
+                var right = document.createElement('span');
+                var del = document.createElement('button');
+                left.textContent = p.label;
+                right.textContent = p.value;
+                del.className = 'settings-delete';
+                del.innerHTML = '<span class="material-icons" style="font-size:16px;">close</span>';
+                del.title = index < BASE_LABEL_PRESETS.length ? '' : 'Bu özel seçeneği sil';
+                del.disabled = index < BASE_LABEL_PRESETS.length;
+                if (!del.disabled) {
+                    del.onclick = function() { removeCustomLabelPreset(index - BASE_LABEL_PRESETS.length); };
+                }
+                row.appendChild(left);
+                row.appendChild(right);
+                row.appendChild(del);
+                list.appendChild(row);
+            });
+        }
+        function toggleSettingsAddRow() {
+            var row = document.getElementById('settingsAddRow');
+            var plus = document.getElementById('settingsPlusBtn');
+            row.classList.add('open');
+            plus.style.display = 'none';
+            document.getElementById('newPresetLabel').focus();
+        }
+        function addCustomLabelPreset() {
+            var labelInput = document.getElementById('newPresetLabel');
+            var valueInput = document.getElementById('newPresetValue');
+            var label = labelInput.value.trim();
+            var value = valueInput.value.trim();
+            if (!label || !value) {
+                alert('Lütfen iki alanı da doldurun.');
+                return;
+            }
+            CUSTOM_LABEL_PRESETS.push({ label:label, value:value });
+            labelInput.value = '';
+            valueInput.value = '';
+            refreshLabelPresets();
+            labelInput.focus();
+        }
+        function removeCustomLabelPreset(index) {
+            if (index < 0 || index >= CUSTOM_LABEL_PRESETS.length) return;
+            CUSTOM_LABEL_PRESETS.splice(index, 1);
+            refreshLabelPresets();
+        }
+        function injectLabelDropdowns() {
+            document.querySelectorAll('#docTable .single-row .label-cell').forEach(function(td) {
+                if (!td.querySelector('.lbl-dd-btn')) {
+                    const btn = document.createElement('button'); 
+                    btn.className = 'lbl-dd-btn'; 
+                    btn.title = 'Öneri Seç'; 
+                    btn.textContent = '▾';
+                    btn.addEventListener('mousedown', function(e) { e.preventDefault(); }); 
+                    td.appendChild(btn);
+                }
+            });
+        }
+        injectLabelDropdowns();
+        applyEditable();
+
+        (function() {
+            const dropdown = document.getElementById('lblDropdown');
+            const optsList = dropdown.querySelector('.lbl-opts-list');
+            const searchInp = dropdown.querySelector('.lbl-search'); 
+            let activeSpan = null;
+
+            renderLabelDropdownOptions = function() {
+                optsList.innerHTML = '';
+                LABEL_PRESETS.forEach(function(p) {
+                    const div = document.createElement('div');
+                    div.className = 'lbl-opt';
+                    div.textContent = p.label;
+                    div.dataset.value = p.value;
+                    optsList.appendChild(div);
+                });
+            };
+            renderLabelDropdownOptions();
+            
+            searchInp.addEventListener('input', function() {
+                const q = this.value.trim().toLowerCase(); 
+                let anyVisible = false;
+                optsList.querySelectorAll('.lbl-opt').forEach(function(opt) { 
+                    const match = opt.textContent.toLowerCase().includes(q); 
+                    opt.style.display = match ? '' : 'none'; 
+                    if (match) anyVisible = true; 
+                });
+                
+                let noRes = optsList.querySelector('.lbl-no-result');
+                if (!anyVisible) { 
+                    if (!noRes) { 
+                    noRes = document.createElement('div'); 
+                    noRes.className = 'lbl-no-result'; 
+                    noRes.textContent = 'Sonuç bulunamadı'; 
+                    optsList.appendChild(noRes); 
+                    } 
+                    noRes.style.display = ''; 
+                } else if (noRes) { 
+                    noRes.style.display = 'none'; 
+                }
+            });
+            
+            function openDropdown(btn) {
+                activeSpan = btn.closest('.label-cell').querySelector('span[contenteditable]');
+                const rect = btn.getBoundingClientRect();
+                const menuH = Math.min(280, LABEL_PRESETS.length * 31 + 44);
+                const spaceBelow = window.innerHeight - rect.bottom;
+                
+                dropdown.style.top = (spaceBelow < menuH ? rect.top - menuH - 4 : rect.bottom + 4) + 'px'; 
+                dropdown.style.left = rect.left + 'px'; 
+                searchInp.value = '';
+                
+                optsList.querySelectorAll('.lbl-opt').forEach(function(o) { o.style.display = ''; }); 
+                const noRes = optsList.querySelector('.lbl-no-result'); 
+                if (noRes) noRes.style.display = 'none';
+                dropdown.classList.add('open'); 
+                
+                setTimeout(function() { searchInp.focus(); }, 30);
+            }
+            
+            document.addEventListener('click', function(e) {
+                const btn = e.target.closest('.lbl-dd-btn'); 
+                if (btn) { e.stopPropagation(); openDropdown(btn); return; }
+                const opt = e.target.closest('.lbl-opt'); 
+                if (opt && activeSpan) { activeSpan.innerHTML = opt.dataset.value; dropdown.classList.remove('open'); activeSpan = null; return; }
+                if (!dropdown.contains(e.target)) dropdown.classList.remove('open');
+            });
+            
+            searchInp.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') { 
+                    const first = optsList.querySelector('.lbl-opt:not([style*="display: none"])'); 
+                    if (first && activeSpan) { 
+                    activeSpan.innerHTML = first.dataset.value; 
+                    dropdown.classList.remove('open'); 
+                    activeSpan = null; 
+                    } 
+                }
+                if (e.key === 'Escape') dropdown.classList.remove('open');
+            });
+        })();
+
+        // SAYFA YUKLENDIGINDE: ust/alt bilgi checkbox'larinin GERCEK
+        // durumunu (isaretli/isaretsiz) yesil-nokta gostergesine ve
+        // ilgili satirlarin 'active' class'ina yansit. Onceden bu hic
+        // yapilmiyordu; buton her zaman "aktif" (yesil nokta acik)
+        // olarak baslardi, checkbox durumundan BAGIMSIZ - bu da "logo
+        // yuklendi ama checkbox isaretlenmedi, yine de yesil nokta
+        // yaniyor" gibi yanilticiliklara yol aciyordu. Simdi sayfa
+        // her acildiginda (ilk kez veya kaydedilmis bir .htm yeniden
+        // acildiginda) gercek durum okunup gosterge buna gore ayarlanir.
+        (function initHfStateOnLoad() {
+            var headerCb = document.getElementById('headerCheck');
+            var footerCb = document.getElementById('footerCheck');
+            var headerRow = document.getElementById('headerRow');
+            var footerRow = document.getElementById('footerRow');
+            if (headerRow) headerRow.classList.toggle('active', !!(headerCb && headerCb.checked));
+            if (footerRow) footerRow.classList.toggle('active', !!(footerCb && footerCb.checked));
+            if (typeof updateStatusDot === 'function') updateStatusDot();
+        })();
+    </script>
+
+</body></html>
