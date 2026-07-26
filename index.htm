@@ -16,6 +16,7 @@
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
     <style>
         /* ====
@@ -387,6 +388,17 @@
         .dashboard-transfer-actions .whatsapp { border-color:#16a34a; color:#15803d; }
         .dashboard-transfer-actions .whatsapp:hover { background:#16a34a; color:#fff; }
         .dashboard-storage-status { margin-left:auto; color:#047857; font-size:9px; font-weight:bold; }
+        .supabase-sync-bar { display:flex; align-items:center; flex-wrap:wrap; gap:6px; margin-bottom:9px; border:1px solid #dbeafe; border-radius:9px; padding:7px 9px; background:#f8fbff; }
+        .supabase-sync-label { display:flex; align-items:center; gap:5px; color:#334155; font-size:9px; font-weight:800; }
+        .supabase-sync-dot { width:7px; height:7px; border-radius:50%; background:#f59e0b; }
+        .supabase-sync-dot.online { background:#16a34a; }
+        .supabase-sync-dot.error { background:#dc2626; }
+        .supabase-sync-email { min-width:210px; border:1px solid #cbd5e1; border-radius:7px; padding:6px 8px; background:#fff; color:#334155; font-size:9px; }
+        .supabase-sync-btn { border:1px solid #6366f1; border-radius:7px; padding:6px 8px; background:#fff; color:#4338ca; font-size:9px; font-weight:800; cursor:pointer; }
+        .supabase-sync-btn:hover:not(:disabled) { background:#eef2ff; }
+        .supabase-sync-btn:disabled { opacity:.5; cursor:not-allowed; }
+        .supabase-sync-user { color:#475569; font-size:9px; font-weight:700; }
+        .supabase-sync-message { margin-left:auto; color:#64748b; font-size:9px; font-weight:700; }
         .dashboard-template-panel { display:none; flex:1; min-height:0; grid-template-columns:minmax(280px,.8fr) minmax(440px,1.5fr); gap:10px; }
         .dashboard-template-left, .dashboard-template-detail { min-height:0; overflow-y:auto; border:1px solid #e2e8f0; border-radius:10px; padding:10px; background:#f8fafc; }
         .dashboard-template-toolbar { display:grid; grid-template-columns:1fr auto; gap:6px; position:sticky; top:-10px; z-index:2; padding:0 0 8px; background:#f8fafc; }
@@ -733,6 +745,15 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 </div>
                 <button class="close-btn" onclick="closeDataDashboard(event)">×</button>
             </div>
+            <div class="supabase-sync-bar">
+                <span class="supabase-sync-label"><span id="supabaseSyncDot" class="supabase-sync-dot"></span> Supabase</span>
+                <input id="supabaseEmailInput" class="supabase-sync-email" type="email" value="arbsyscomtr@gmail.com" aria-label="Supabase giriş e-postası">
+                <button id="supabaseLoginBtn" class="supabase-sync-btn" type="button" onclick="supabaseSendMagicLink()">Giriş Bağlantısı Gönder</button>
+                <button id="supabaseReloadBtn" class="supabase-sync-btn" type="button" onclick="supabaseReloadFromCloud()" style="display:none;">Buluttan Yenile</button>
+                <button id="supabaseLogoutBtn" class="supabase-sync-btn" type="button" onclick="supabaseSignOut()" style="display:none;">Çıkış</button>
+                <span id="supabaseSyncUser" class="supabase-sync-user"></span>
+                <span id="supabaseSyncMessage" class="supabase-sync-message">Giriş yapıldığında değişiklikler buluta kaydedilir.</span>
+            </div>
             <div class="dashboard-transfer-actions">
                 <button onclick="dashboardExportData()">Verileri Dışa Aktar</button>
                 <button onclick="document.getElementById('dashboardImportInput').click()">Verileri İçe Aktar</button>
@@ -901,6 +922,17 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         let dashboardSiteDirectoryHandle = null;
         const ARBSYS_DISPUTE_STORAGE_KEY = 'arbsys-editor-v5-dispute-data';
         const ARBSYS_TEMPLATE_STORAGE_KEY = 'arbsys-editor-v5-template-data';
+        const ARBSYS_SUPABASE_URL = 'https://wuiuqahzmrpzmxbpjtix.supabase.co';
+        const ARBSYS_SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_q3dOlWQ40g8I1C7DMGfRBQ_sEW6h4rZ';
+        const ARBSYS_SUPABASE_DATASET_ID = 'main';
+        let arbsysSupabaseClient = null;
+        let arbsysSupabaseSession = null;
+        let arbsysSupabaseRevision = 0;
+        let arbsysSupabaseReady = false;
+        let arbsysSupabaseApplyingRemote = false;
+        let arbsysSupabaseSaveTimer = null;
+        let arbsysSupabaseSaveInFlight = false;
+        let arbsysSupabaseSaveQueued = false;
 
         function setDocumentSourceInfo(info) {
             info = info || {};
@@ -1161,6 +1193,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 dashboardSetStorageStatus('Tarayıcı otomatik kaydı kullanılamıyor; yedek almanız gerekir.', true);
             }
             dashboardWriteConnectedSiteFiles(false);
+            scheduleSupabaseDatasetSave();
         }
 
         function ioPersistGuidedTemplateData() {
@@ -1175,6 +1208,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 dashboardSetStorageStatus('Tarayıcı otomatik kaydı kullanılamıyor; yedek almanız gerekir.', true);
             }
             dashboardWriteConnectedSiteFiles(false);
+            scheduleSupabaseDatasetSave();
         }
 
         function dashboardSetStorageStatus(message, isError) {
@@ -1182,6 +1216,239 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             if (!status) return;
             status.textContent = message;
             status.style.color = isError ? '#be123c' : '#047857';
+        }
+
+        function supabaseSetSyncState(state, message) {
+            var dot = document.getElementById('supabaseSyncDot');
+            var messageEl = document.getElementById('supabaseSyncMessage');
+            if (dot) {
+                dot.classList.toggle('online', state === 'online');
+                dot.classList.toggle('error', state === 'error');
+            }
+            if (messageEl && message) messageEl.textContent = message;
+        }
+
+        function supabaseRefreshAuthUI() {
+            var email = arbsysSupabaseSession?.user?.email || '';
+            var signedIn = !!email;
+            var emailInput = document.getElementById('supabaseEmailInput');
+            var loginButton = document.getElementById('supabaseLoginBtn');
+            var reloadButton = document.getElementById('supabaseReloadBtn');
+            var logoutButton = document.getElementById('supabaseLogoutBtn');
+            var user = document.getElementById('supabaseSyncUser');
+            if (emailInput) emailInput.style.display = signedIn ? 'none' : '';
+            if (loginButton) loginButton.style.display = signedIn ? 'none' : '';
+            if (reloadButton) reloadButton.style.display = signedIn ? '' : 'none';
+            if (logoutButton) logoutButton.style.display = signedIn ? '' : 'none';
+            if (user) user.textContent = signedIn ? email : '';
+        }
+
+        function supabaseValidEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(email || '').trim());
+        }
+
+        async function supabaseSendMagicLink() {
+            var input = document.getElementById('supabaseEmailInput');
+            var button = document.getElementById('supabaseLoginBtn');
+            var email = String(input?.value || '').trim().toLocaleLowerCase('tr-TR');
+            if (!supabaseValidEmail(email)) {
+                supabaseSetSyncState('error', 'Geçerli bir e-posta adresi yazın.');
+                return;
+            }
+            if (!arbsysSupabaseClient) {
+                supabaseSetSyncState('error', 'Supabase bağlantısı henüz hazır değil.');
+                return;
+            }
+            if (window.location.protocol === 'file:') {
+                supabaseSetSyncState('error', 'Supabase girişi yayınlanmış site adresinden kullanılmalıdır.');
+                return;
+            }
+            if (button) button.disabled = true;
+            supabaseSetSyncState('pending', 'Giriş bağlantısı gönderiliyor...');
+            var redirectTo = window.location.href.split('#')[0].split('?')[0];
+            var result = await arbsysSupabaseClient.auth.signInWithOtp({
+                email: email,
+                options: {
+                    shouldCreateUser: false,
+                    emailRedirectTo: redirectTo
+                }
+            });
+            if (button) button.disabled = false;
+            if (result.error) {
+                supabaseSetSyncState('error', 'Giriş bağlantısı gönderilemedi: ' + result.error.message);
+                return;
+            }
+            supabaseSetSyncState('pending', 'Giriş bağlantısı e-posta adresinize gönderildi.');
+        }
+
+        async function supabaseSignOut() {
+            if (!arbsysSupabaseClient) return;
+            await arbsysSupabaseClient.auth.signOut();
+            arbsysSupabaseSession = null;
+            arbsysSupabaseReady = false;
+            arbsysSupabaseRevision = 0;
+            supabaseRefreshAuthUI();
+            supabaseSetSyncState('pending', 'Çıkış yapıldı. Veriler tarayıcı yedeğinde kalır.');
+        }
+
+        function supabaseApplyRemoteDataset(row) {
+            arbsysSupabaseApplyingRemote = true;
+            try {
+                ioGuidedData = row.dispute_data;
+                ioGuidedTemplateData = row.template_data;
+                arbsysSupabaseRevision = Number(row.revision || 0);
+                dashboardRefreshRecordMap();
+                ioGuidedTemplateMap = {};
+                (ioGuidedTemplateData?.templates || []).forEach(function(template) {
+                    ioGuidedTemplateMap[template.fileName] = template;
+                });
+                ioPersistGuidedData();
+                ioPersistGuidedTemplateData();
+                ioResetGuidedSelection();
+                restoreDocumentSourceInfo();
+                if (document.getElementById('dataDashboardModal')?.classList.contains('open')) {
+                    dashboardRenderList();
+                    dashboardRenderTemplates();
+                }
+            } finally {
+                arbsysSupabaseApplyingRemote = false;
+            }
+        }
+
+        async function supabaseLoadOrCreateDataset() {
+            if (!arbsysSupabaseClient || !arbsysSupabaseSession) return;
+            arbsysSupabaseReady = false;
+            supabaseSetSyncState('pending', 'Bulut verileri yükleniyor...');
+            var response = await arbsysSupabaseClient
+                .from('arbsys_datasets')
+                .select('id, dispute_data, template_data, revision, updated_at')
+                .eq('id', ARBSYS_SUPABASE_DATASET_ID)
+                .maybeSingle();
+            if (response.error) {
+                supabaseSetSyncState('error', 'Supabase tablosu hazır değil. SUPABASE_KURULUM.sql dosyasını çalıştırın.');
+                dashboardSetStorageStatus('Bulut bağlantısı kurulamadı; tarayıcı yedeği kullanılmaya devam ediyor.', true);
+                return;
+            }
+            if (!response.data) {
+                ioLoadGuidedData();
+                ioLoadGuidedTemplateData();
+                var inserted = await arbsysSupabaseClient
+                    .from('arbsys_datasets')
+                    .insert({
+                        id: ARBSYS_SUPABASE_DATASET_ID,
+                        dispute_data: ioGuidedData,
+                        template_data: ioGuidedTemplateData,
+                        revision: 1,
+                        updated_by_email: arbsysSupabaseSession.user.email
+                    })
+                    .select('id, dispute_data, template_data, revision, updated_at')
+                    .single();
+                if (inserted.error) {
+                    supabaseSetSyncState('error', 'İlk bulut kaydı oluşturulamadı: ' + inserted.error.message);
+                    return;
+                }
+                response.data = inserted.data;
+            }
+            supabaseApplyRemoteDataset(response.data);
+            arbsysSupabaseReady = true;
+            supabaseSetSyncState('online', 'Bulut bağlantısı etkin · sürüm ' + arbsysSupabaseRevision);
+            dashboardSetStorageStatus('Değişiklikler tarayıcıya ve Supabase veritabanına otomatik kaydediliyor.');
+        }
+
+        async function supabaseReloadFromCloud() {
+            if (!arbsysSupabaseSession) return;
+            if (!confirm('Buluttaki son veri bu tarayıcıdaki mevcut verinin üzerine yüklenecek. Devam edilsin mi?')) return;
+            await supabaseLoadOrCreateDataset();
+        }
+
+        function scheduleSupabaseDatasetSave() {
+            if (arbsysSupabaseApplyingRemote || !arbsysSupabaseReady || !arbsysSupabaseSession) return;
+            clearTimeout(arbsysSupabaseSaveTimer);
+            supabaseSetSyncState('pending', 'Değişiklik buluta kaydedilecek...');
+            arbsysSupabaseSaveTimer = setTimeout(supabaseSaveDatasetNow, 900);
+        }
+
+        async function supabaseSaveDatasetNow() {
+            if (!arbsysSupabaseReady || !arbsysSupabaseSession || !arbsysSupabaseClient) return;
+            if (arbsysSupabaseSaveInFlight) {
+                arbsysSupabaseSaveQueued = true;
+                return;
+            }
+            arbsysSupabaseSaveInFlight = true;
+            arbsysSupabaseSaveQueued = false;
+            supabaseSetSyncState('pending', 'Buluta kaydediliyor...');
+            var expectedRevision = arbsysSupabaseRevision;
+            var result = await arbsysSupabaseClient
+                .from('arbsys_datasets')
+                .update({
+                    dispute_data: ioGuidedData,
+                    template_data: ioGuidedTemplateData,
+                    revision: expectedRevision + 1,
+                    updated_at: new Date().toISOString(),
+                    updated_by_email: arbsysSupabaseSession.user.email
+                })
+                .eq('id', ARBSYS_SUPABASE_DATASET_ID)
+                .eq('revision', expectedRevision)
+                .select('revision, updated_at')
+                .maybeSingle();
+            arbsysSupabaseSaveInFlight = false;
+            if (result.error) {
+                supabaseSetSyncState('error', 'Bulut kaydı başarısız; tarayıcı yedeği korundu.');
+                dashboardSetStorageStatus('Supabase kaydı başarısız oldu; dışa aktarılmış yedek alabilirsiniz.', true);
+                arbsysSupabaseSaveTimer = setTimeout(supabaseSaveDatasetNow, 5000);
+                return;
+            }
+            if (!result.data) {
+                arbsysSupabaseReady = false;
+                supabaseSetSyncState('error', 'Bulutta daha yeni bir sürüm var. “Buluttan Yenile” düğmesini kullanın.');
+                dashboardSetStorageStatus('Sürüm çakışması nedeniyle yerel değişiklik buluta yazılmadı.', true);
+                return;
+            }
+            arbsysSupabaseRevision = Number(result.data.revision || expectedRevision + 1);
+            supabaseSetSyncState('online', 'Buluta kaydedildi · sürüm ' + arbsysSupabaseRevision);
+            dashboardSetStorageStatus('Değişiklikler tarayıcıya ve Supabase veritabanına kaydedildi.');
+            if (arbsysSupabaseSaveQueued) scheduleSupabaseDatasetSave();
+        }
+
+        async function handleSupabaseSession(session) {
+            arbsysSupabaseSession = session || null;
+            arbsysSupabaseReady = false;
+            supabaseRefreshAuthUI();
+            if (!session) {
+                supabaseSetSyncState('pending', 'Giriş yapıldığında değişiklikler buluta kaydedilir.');
+                return;
+            }
+            var access = await arbsysSupabaseClient.rpc('arbsys_is_allowed_user');
+            if (access.error || access.data !== true) {
+                supabaseSetSyncState('error', 'Bu hesabın veri erişim izni yok.');
+                await arbsysSupabaseClient.auth.signOut();
+                return;
+            }
+            await supabaseLoadOrCreateDataset();
+        }
+
+        async function initSupabaseSync() {
+            if (!window.supabase || typeof window.supabase.createClient !== 'function') {
+                supabaseSetSyncState('error', 'Supabase bileşeni yüklenemedi; tarayıcı yedeği kullanılacak.');
+                return;
+            }
+            arbsysSupabaseClient = window.supabase.createClient(
+                ARBSYS_SUPABASE_URL,
+                ARBSYS_SUPABASE_PUBLISHABLE_KEY,
+                { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } }
+            );
+            var current = await arbsysSupabaseClient.auth.getSession();
+            if (current.error) {
+                supabaseSetSyncState('error', 'Supabase oturumu okunamadı.');
+            } else {
+                await handleSupabaseSession(current.data.session);
+            }
+            arbsysSupabaseClient.auth.onAuthStateChange(function(_event, session) {
+                var previousUserId = arbsysSupabaseSession?.user?.id || '';
+                var nextUserId = session?.user?.id || '';
+                if (previousUserId === nextUserId && arbsysSupabaseReady) return;
+                setTimeout(function() { handleSupabaseSession(session); }, 0);
+            });
         }
 
         function ioLoadGuidedData() {
@@ -1370,11 +1637,10 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             if (!record.completeness || !record.completeness.canGenerateDocument) {
                 var missing = dashboardMissingFieldNames(record) || 'Uyuşmazlık Türü, Müzakere Metni veya Varılan Anlaşma';
                 if (warning) {
-                    warning.textContent = 'Şimdilik Eksik — Bu kaydın “' + missing + '” bilgileri tamamlanmadığı için belge gösterilmiyor.';
+                    warning.textContent = 'Şimdilik Eksik — Bu kaydın “' + missing + '” bilgileri tamamlanmadığı için ilgili alanlar belgede boş gösteriliyor.';
                     warning.style.display = 'block';
                 }
-                if (status) status.textContent = 'Başka bir uyuşmazlık konusu seçebilirsiniz.';
-                return;
+                if (status) status.textContent = 'Eksik bilgiler boş bırakılarak belge oluşturulabilir.';
             }
 
             var negotiationOptions = record.templateValues.negotiationOptions || [];
@@ -1493,9 +1759,11 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             var editor = document.getElementById('dashboardEditor');
             if (editor) editor.innerHTML = '<div class="dashboard-empty">Düzenlemek için soldan bir uyuşmazlık konusu seçin.</div>';
             dashboardSetStorageStatus(
-                dashboardSiteDirectoryHandle
-                    ? 'Otomatik tarayıcı kaydı etkin; bağlı site klasörü de güncelleniyor.'
-                    : 'Otomatik tarayıcı kaydı etkin. Site dosyaları henüz bir proje klasörüne bağlanmadı.'
+                arbsysSupabaseReady
+                    ? 'Değişiklikler tarayıcıya ve Supabase veritabanına otomatik kaydediliyor.'
+                    : (dashboardSiteDirectoryHandle
+                        ? 'Otomatik tarayıcı kaydı etkin; bağlı site klasörü de güncelleniyor.'
+                        : 'Otomatik tarayıcı kaydı etkin. Supabase girişi yapılırsa bulut kaydı da etkinleşir.')
             );
         }
 
@@ -2265,8 +2533,8 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             var selection = ioGuidedCurrentSelection();
             var record = selection.record;
             var template = ioGuidedTemplateMap[selection.templateFileName];
-            if (!record || !record.completeness || !record.completeness.canGenerateDocument) {
-                alert('Belge oluşturmak için tamamlanmış bir uyuşmazlık konusu seçin.');
+            if (!record) {
+                alert('Belge oluşturmak için bir uyuşmazlık konusu seçin.');
                 return;
             }
             if (!template || !template.content) {
@@ -2283,19 +2551,17 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
 
             var disputeTypeCell = ioGuidedFindImportedContentCell('UYUŞMAZLIK TÜRÜ');
             var negotiationCell = ioGuidedFindImportedContentCell('UYUŞMAZLIK KONUSU (Talep Konusu)');
-            if (!disputeTypeCell || !negotiationCell) {
-                ioImportedRows = [];
-                alert('Seçilen şablonda UYUŞMAZLIK TÜRÜ veya UYUŞMAZLIK KONUSU (Talep Konusu) alanı bulunamadı.');
-                return;
-            }
-
             var negotiationOptions = record.templateValues.negotiationOptions || [];
             var agreementOptions = record.templateValues.agreementOptions || [];
-            ioGuidedWritePlainText(disputeTypeCell, record.templateValues.disputeType);
-            ioGuidedWritePlainText(
-                negotiationCell,
-                negotiationOptions[selection.negotiationIndex] || negotiationOptions[0] || ''
-            );
+            if (disputeTypeCell) {
+                ioGuidedWritePlainText(disputeTypeCell, record.templateValues.disputeType || '');
+            }
+            if (negotiationCell) {
+                ioGuidedWritePlainText(
+                    negotiationCell,
+                    negotiationOptions[selection.negotiationIndex] || negotiationOptions[0] || ''
+                );
+            }
 
             var agreementCell = ioGuidedFindImportedContentCell('VARILAN ANLAŞMA');
             if (agreementCell) {
@@ -3762,6 +4028,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             ioLoadGuidedData();
             ioLoadGuidedTemplateData();
             restoreDocumentSourceInfo();
+            initSupabaseSync();
         })();
 
         // SAYFA YUKLENDIGINDE: ust/alt bilgi checkbox'larinin GERCEK
