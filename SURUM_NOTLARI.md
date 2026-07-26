@@ -1,28 +1,28 @@
-# ArbsysEditor v4
+# ArbsysEditor v5
 
-v3 üzerinden devam eden dashboard sürümüdür.
+v4 korunarak oluşturulan arayüz ve veri-kayıt sürümüdür.
 
-Bu sürümde uygulanan başlıca özellikler:
+## Görünüm
 
-- Eksik kayıtların renkli olarak bulunması
-- Birden fazla müzakere/anlaşma seçeneği bulunan kayıtların filtrelenmesi
-- Seçeneklere kullanıcı tarafından açıklayıcı başlık verilmesi
-- Seçenek metinlerinin düzenlenmesi
-- Daha önce alternatifi olmayan kayıtlara yeni seçenek eklenmesi
-- Değişikliklerin editörün içine kalıcı olarak kaydedilmesi
-- Uyuşmazlık Türü — Belge (D) metninin dashboard üzerinden doldurulması
-- JSON yedek alma ve geri yükleme
+- Belge kaynağı sağ üstte ayrı bir kartta gösterilir.
+- Kartta belge şablonu, uyuşmazlık türü, alt türü ve konusu bulunur.
+- Varsa seçilen müzakere ve anlaşma seçeneklerinin başlıkları gösterilir.
+- Veri düğmesi üst araç çubuğundan kaldırılmıştır.
+- Şablon Verileri, Şablon Yükle penceresinin içinden açılır.
 
-Renkler:
+## Veri kaydı
 
-- Kırmızı: D, E veya F bölümü eksik
-- Mor: Birden fazla müzakere veya anlaşma seçeneği var
-- Turuncu: Seçenek var fakat açıklayıcı başlığı henüz girilmemiş
+- Uyuşmazlık ve şablon değişiklikleri tarayıcıya otomatik kaydedilir.
+- Tüm veriler tek JSON yedeği olarak indirilebilir ve geri yüklenebilir.
+- Site için gereken iki JavaScript veri paketi doğrudan üretilebilir.
+- Desteklenen tarayıcılarda site veri klasörü bağlanabilir; değişiklikler bu
+  oturum boyunca ilgili iki dosyaya otomatik yazılır.
 
-Veri durumu:
+## Belge şablonları
 
-- 225 uyuşmazlık kaydı
-- 13 eksik kayıt
-- 46 müzakere seçenekli kayıt
-- 80 anlaşma seçenekli kayıt
+- Dashboard içinde Belge Şablonları bölümü bulunur.
+- Yeni `.arbsys` şablonu eklenebilir veya aynı isimli şablon güncellenebilir.
+- Şablonun listede görünen adı değiştirilebilir.
+- Şablon silinebilir.
+- D, E ve F hedef alanlarının bulunup bulunmadığı gösterilir.
 

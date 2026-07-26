@@ -3,13 +3,13 @@ const vm = require('vm');
 const path = require('path');
 
 const root = __dirname;
-const editor = fs.readFileSync(path.join(root, 'ArbsysEditor_v4.htm'), 'utf8');
+const editor = fs.readFileSync(path.join(root, 'ArbsysEditor_v5.htm'), 'utf8');
 const context = { window: {} };
 vm.runInNewContext(fs.readFileSync(path.join(root, 'arbsys-dispute-data.js'), 'utf8'), context);
 const data = context.window.ARBSYS_DISPUTE_DATA;
 
 const archiveRoot = path.resolve(root, '..');
-const versionEditors = [1, 2, 3, 4].map((version) =>
+const versionEditors = [1, 2, 3, 4, 5].map((version) =>
   path.join(archiveRoot, `ArbsysEditor_v${version}`, `ArbsysEditor_v${version}.htm`)
 );
 let scriptsChecked = 0;
@@ -32,7 +32,12 @@ const required = [
   'dashboardImportData',
   'negotiationOptionTitles',
   'agreementOptionTitles',
-  'Seçenek başlığı eksik olanlar'
+  'Seçenek başlığı eksik olanlar',
+  'documentSourceCard',
+  'openDataDashboardFromIO',
+  'dashboardConnectSiteFolder',
+  'dashboardDownloadSitePackages',
+  'dashboardAddTemplate'
 ];
 for (const fragment of required) {
   if (!editor.includes(fragment)) throw new Error(`v4 bütünleşmesi eksik: ${fragment}`);
@@ -56,6 +61,10 @@ console.log(JSON.stringify({
   versionEditorsChecked: versionEditors.length,
   scriptsChecked,
   dashboardWired: true,
+  sourceCardWired: true,
+  automaticBrowserSaveWired: true,
+  sitePackageExportWired: true,
+  templateManagerWired: true,
   optionTitlesEditable: true,
   optionsCanBeAddedAndDeleted: true
 }, null, 2));
