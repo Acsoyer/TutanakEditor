@@ -96,8 +96,12 @@
         .toolbar-left { display: flex; align-items: center; gap: 2px; flex-shrink: 0; }
         .toolbar-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; margin-left: auto}
         .document-source-card { position:fixed; top:72px; left:18px; z-index:998; width:300px; max-height:calc(100vh - 90px); overflow-y:auto; box-sizing:border-box; border:1px solid #d8def0; border-radius:13px; background:rgba(255,255,255,0.97); box-shadow:0 8px 25px rgba(30,41,59,0.13); padding:12px 14px; color:#334155; }
-        .document-source-title { display:flex; align-items:center; gap:7px; color:#3c40c6; font-size:12px; font-weight:800; letter-spacing:.1px; }
+        .document-source-title { display:flex; align-items:center; justify-content:space-between; gap:8px; color:#3c40c6; font-size:12px; font-weight:800; letter-spacing:.1px; }
+        .document-source-title-main { display:flex; align-items:center; gap:7px; }
         .document-source-title .material-icons { font-size:17px; }
+        .document-source-data-btn { border:1px solid #c7d2fe; border-radius:9px; padding:5px 7px; background:#eef2ff; color:#4338ca; font-size:9px; font-weight:800; cursor:pointer; white-space:nowrap; }
+        .document-source-data-btn:hover:not(:disabled) { border-color:#6366f1; background:#e0e7ff; }
+        .document-source-data-btn:disabled { opacity:.45; cursor:not-allowed; }
         .document-source-list { margin-top:8px; border-top:1px solid #edf0f7; }
         .document-source-row { padding:7px 0; border-bottom:1px solid #edf0f7; }
         .document-source-label { color:#64748b; font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.35px; }
@@ -109,6 +113,9 @@
         .document-source-option-btn:hover { background:#ede9fe; }
         .document-source-option-btn.active { border-color:#6d28d9; background:#6d28d9; color:#fff; }
         .document-source-option-btn.untitled:not(.active) { border-color:#fb923c; background:#fff7ed; color:#c2410c; }
+        .document-source-option-btn:disabled { opacity:.45; cursor:not-allowed; }
+        .document-source-option-btn:disabled:hover { background:#f5f3ff; }
+        .document-source-option-note { display:none; margin-top:6px; color:#b45309; font-size:9px; font-weight:700; line-height:1.35; }
         @media (max-width:1150px) {
             .document-source-card { position:absolute; top:72px; left:10px; width:260px; }
         }
@@ -460,7 +467,10 @@
         data-record-id=""
         data-negotiation-index="0"
         data-agreement-index="0">
-        <div class="document-source-title"><span class="material-icons">description</span> Aktif Belge</div>
+        <div class="document-source-title">
+            <span class="document-source-title-main"><span class="material-icons">description</span> Aktif Belge</span>
+            <button id="documentSourceDataBtn" class="document-source-data-btn" type="button" onclick="openActiveRecordInDashboard()" disabled>Şablon Verisi</button>
+        </div>
         <div class="document-source-list">
             <div class="document-source-row"><div class="document-source-label">Şablon</div><div id="documentSourceTemplate" class="document-source-value">Editör Başlangıç İçeriği</div></div>
             <div class="document-source-row"><div class="document-source-label">Uyuşmazlık Türü</div><div id="documentSourceType" class="document-source-value">—</div></div>
@@ -470,10 +480,12 @@
         <div id="documentSourceNegotiationArea" class="document-source-options">
             <div class="document-source-options-title">Müzakere Metni Seçeneği</div>
             <div id="documentSourceNegotiationButtons" class="document-source-option-buttons"></div>
+            <div id="documentSourceNegotiationNote" class="document-source-option-note">Bu belgede UYUŞMAZLIK KONUSU (Talep Konusu) alanı yok.</div>
         </div>
         <div id="documentSourceAgreementArea" class="document-source-options">
-            <div class="document-source-options-title">Varılan Anlaşma Seçeneği</div>
+            <div class="document-source-options-title">Varılan Anlaşma Metni Seçeneği</div>
             <div id="documentSourceAgreementButtons" class="document-source-option-buttons"></div>
+            <div id="documentSourceAgreementNote" class="document-source-option-note">Bu belgede VARILAN ANLAŞMA alanı yok.</div>
         </div>
     </aside>
 
@@ -658,7 +670,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                                     <select id="ioNegotiationSelect"></select>
                                 </div>
                                 <div id="ioAgreementField" class="io-field" style="display:none;">
-                                    <label for="ioAgreementSelect">Varılan Anlaşma Seçeneği</label>
+                                    <label for="ioAgreementSelect">Varılan Anlaşma Metni Seçeneği</label>
                                     <select id="ioAgreementSelect"></select>
                                 </div>
                             </div>
@@ -912,6 +924,8 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             card.dataset.recordId = values.recordId;
             card.dataset.negotiationIndex = String(values.negotiationIndex);
             card.dataset.agreementIndex = String(values.agreementIndex);
+            var sourceDataButton = document.getElementById('documentSourceDataBtn');
+            if (sourceDataButton) sourceDataButton.disabled = !values.recordId;
             document.getElementById('documentSourceTemplate').textContent = values.templateName;
             document.getElementById('documentSourceType').textContent = values.disputeType || '—';
             document.getElementById('documentSourceSubtype').textContent = values.subtype || '—';
@@ -924,7 +938,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         function documentSourceOptionTitle(record, kind, index) {
             var values = record?.templateValues || {};
             var titles = kind === 'negotiation' ? (values.negotiationOptionTitles || []) : (values.agreementOptionTitles || []);
-            return (titles[index] || '').trim() || ('Başlık eksik -' + (index + 1));
+            return (titles[index] || '').trim() || ('(' + (index + 1) + ')');
         }
 
         function renderDocumentSourceOptionButtons(record, kind, activeIndex) {
@@ -934,10 +948,15 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 : [];
             var area = document.getElementById(isNegotiation ? 'documentSourceNegotiationArea' : 'documentSourceAgreementArea');
             var container = document.getElementById(isNegotiation ? 'documentSourceNegotiationButtons' : 'documentSourceAgreementButtons');
+            var note = document.getElementById(isNegotiation ? 'documentSourceNegotiationNote' : 'documentSourceAgreementNote');
             if (!area || !container) return;
             container.innerHTML = '';
             area.style.display = options.length > 1 ? 'block' : 'none';
+            if (note) note.style.display = 'none';
             if (options.length <= 1) return;
+            var targetLabel = isNegotiation ? 'UYUŞMAZLIK KONUSU (Talep Konusu)' : 'VARILAN ANLAŞMA';
+            var hasTarget = !!ioGuidedFindCurrentContentCell(targetLabel);
+            if (note) note.style.display = hasTarget ? 'none' : 'block';
             options.forEach(function(_text, index) {
                 var title = documentSourceOptionTitle(record, kind, index);
                 var hasTitle = !!((isNegotiation ? record.templateValues.negotiationOptionTitles[index] : record.templateValues.agreementOptionTitles[index]) || '').trim();
@@ -945,6 +964,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 button.type = 'button';
                 button.className = 'document-source-option-btn' + (index === activeIndex ? ' active' : '') + (hasTitle ? '' : ' untitled');
                 button.textContent = title;
+                button.disabled = !hasTarget;
                 button.addEventListener('click', function() {
                     switchDocumentSourceOption(kind, index);
                 });
@@ -973,10 +993,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             var isNegotiation = kind === 'negotiation';
             var targetLabel = isNegotiation ? 'UYUŞMAZLIK KONUSU (Talep Konusu)' : 'VARILAN ANLAŞMA';
             var targetCell = ioGuidedFindCurrentContentCell(targetLabel);
-            if (!targetCell) {
-                alert('Aktif belge şablonunda “' + targetLabel + '” alanı bulunmuyor.');
-                return;
-            }
+            if (!targetCell) return;
             var options = isNegotiation ? record.templateValues.negotiationOptions : record.templateValues.agreementOptions;
             ioGuidedWritePlainText(targetCell, options[index] || '');
             if (isNegotiation) {
@@ -1329,7 +1346,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             var field = document.getElementById(fieldId);
             options.forEach(function(_text, index) {
                 var title = titles && titles[index] ? titles[index].trim() : '';
-                ioGuidedAddOption(select, String(index), title || (labelPrefix + ' ' + (index + 1) + ' — başlık eksik'));
+                ioGuidedAddOption(select, String(index), title || (labelPrefix + ' ' + (index + 1) + ' — başlık yok'));
             });
             select.value = '0';
             if (field) field.style.display = options.length > 1 ? '' : 'none';
@@ -1367,14 +1384,14 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 'ioNegotiationField',
                 negotiationOptions,
                 record.templateValues.negotiationOptionTitles || [],
-                'Müzakere seçeneği'
+                'Müzakere Metni'
             );
             var hasAgreementVariants = ioGuidedRenderAlternative(
                 'ioAgreementSelect',
                 'ioAgreementField',
                 agreementOptions,
                 record.templateValues.agreementOptionTitles || [],
-                'Anlaşma seçeneği'
+                'Anlaşma Metni'
             );
             var variantArea = document.getElementById('ioVariantArea');
             if (variantArea) variantArea.style.display = hasNegotiationVariants || hasAgreementVariants ? 'block' : 'none';
@@ -1426,11 +1443,11 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 agreementIndex: agreementIndex,
                 negotiationTitle: record
                     ? (record.templateValues.negotiationOptionTitles[negotiationIndex] ||
-                        (record.templateValues.negotiationOptions.length > 1 ? 'Müzakere seçeneği ' + (negotiationIndex + 1) + ' — başlık eksik' : ''))
+                        (record.templateValues.negotiationOptions.length > 1 ? 'Müzakere Metni ' + (negotiationIndex + 1) + ' — başlık yok' : ''))
                     : '',
                 agreementTitle: record
                     ? (record.templateValues.agreementOptionTitles[agreementIndex] ||
-                        (record.templateValues.agreementOptions.length > 1 ? 'Anlaşma seçeneği ' + (agreementIndex + 1) + ' — başlık eksik' : ''))
+                        (record.templateValues.agreementOptions.length > 1 ? 'Anlaşma Metni ' + (agreementIndex + 1) + ' — başlık yok' : ''))
                     : '',
                 templateFileName: templateSelect ? templateSelect.value : ''
             };
@@ -1480,6 +1497,37 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                     ? 'Otomatik tarayıcı kaydı etkin; bağlı site klasörü de güncelleniyor.'
                     : 'Otomatik tarayıcı kaydı etkin. Site dosyaları henüz bir proje klasörüne bağlanmadı.'
             );
+        }
+
+        function openActiveRecordInDashboard() {
+            var recordId = document.getElementById('documentSourceCard')?.dataset.recordId || '';
+            if (!recordId) return;
+            ioLoadGuidedData();
+            ioLoadGuidedTemplateData();
+            dashboardRefreshRecordMap();
+            if (!ioGuidedRecordMap[recordId]) return;
+            dashboardActiveFilter = 'all';
+            dashboardActiveRecordId = recordId;
+            var search = document.getElementById('dashboardSearch');
+            if (search) search.value = '';
+            var modal = document.getElementById('dataDashboardModal');
+            if (modal) modal.classList.add('open');
+            dashboardSetMode('records');
+            dashboardRenderList();
+            dashboardOpenRecord(recordId);
+            setTimeout(function() {
+                var target = Array.from(document.querySelectorAll('#dashboardRecordList .dashboard-record')).find(function(item) {
+                    return item.dataset.recordId === recordId;
+                });
+                if (!target) return;
+                var parent = target.parentElement;
+                var list = document.getElementById('dashboardRecordList');
+                while (parent && parent !== list) {
+                    if (parent.tagName === 'DETAILS') parent.open = true;
+                    parent = parent.parentElement;
+                }
+                target.scrollIntoView({ block: 'center', behavior: 'smooth' });
+            }, 0);
         }
 
         function openDataDashboardFromIO() {
@@ -1590,6 +1638,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             button.className = 'dashboard-record dashboard-compact-record' +
                 (incomplete ? ' dashboard-record-missing' : '') +
                 (dashboardActiveRecordId === record.id ? ' active' : '');
+            button.dataset.recordId = record.id;
             var title = document.createElement('div');
             title.className = 'dashboard-record-title';
             title.textContent = record.selection?.subject || '(Konu adı eksik)';
@@ -1759,7 +1808,9 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             var record = ioGuidedRecordMap[recordId];
             if (!record) return;
             dashboardActiveRecordId = recordId;
-            dashboardRenderList();
+            document.querySelectorAll('#dashboardRecordList .dashboard-record').forEach(function(item) {
+                item.classList.toggle('active', item.dataset.recordId === recordId);
+            });
             var editor = document.getElementById('dashboardEditor');
             if (!editor) return;
             editor.innerHTML = '';
