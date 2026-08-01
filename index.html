@@ -926,6 +926,49 @@
         .dashboard-folder-content.drag-over,.dashboard-template-list.drag-over { outline:2px dashed #07979a; outline-offset:-3px; background:#ecfeff; }
         .v16-sub-action { display:inline-flex !important; align-items:center; gap:5px; }
         .v16-sub-action .action-dot { width:8px; height:8px; box-shadow:none; }
+        /* v17 - klasor odakli surukle-birak ve katlanabilir aktif belge */
+        .document-source-card.is-collapsed > :not(.document-source-title) { display:none !important; }
+        .document-source-card.is-collapsed .document-source-title button { display:none !important; }
+        .document-source-title { cursor:pointer; user-select:none; }
+        .document-source-card:not(.is-collapsed) .document-source-title { cursor:default; }
+        .document-source-chevron { margin-left:2px; color:#64748b; font-size:18px !important; transition:transform .18s ease; }
+        .document-source-card:not(.is-collapsed) .document-source-chevron { transform:rotate(180deg); }
+        .document-source-card button { min-height:30px; border-radius:8px !important; font-family:var(--arbsys-font); font-size:9px; font-weight:800; transition:filter .15s,transform .15s,border-color .15s; }
+        .document-source-title .document-source-fill-toggle,.document-source-title .document-source-data-btn { height:30px; min-height:30px; padding:0 9px; border:0; color:#fff; }
+        .document-source-title .document-source-data-btn { background:#0f766e !important; }
+        .document-source-title .document-source-fill-toggle { background:#7c3aed !important; }
+        .document-source-save-btn,.document-source-fill-submit { min-height:35px !important; }
+        .document-source-edit { width:25px; height:25px; min-height:25px !important; border-radius:7px !important; }
+        .document-source-option-btn { min-height:32px !important; }
+        .dashboard-template-list { gap:9px; }
+        .dashboard-folder-tree-section { display:flex; flex-direction:column; gap:7px; }
+        .dashboard-template-root-heading { display:flex; align-items:center; gap:7px; margin:9px 2px 3px; color:#64748b; font-size:9px; font-weight:850; text-transform:uppercase; letter-spacing:.06em; }
+        .dashboard-template-root-heading::after { content:''; flex:1; height:1px; background:#dfe7eb; }
+        .dashboard-folder { border:1px solid #d8e2e8; border-radius:12px; background:#fff; overflow:visible; box-shadow:0 1px 3px rgba(15,23,42,.04); }
+        .dashboard-folder > summary { position:relative; min-height:44px; padding:0 9px; border-radius:11px; background:#fff; transition:background .15s,border-color .15s,box-shadow .15s; }
+        .dashboard-folder > summary::before { content:'chevron_right'; font-family:'Material Icons'; font-size:18px; color:#64748b; }
+        .dashboard-folder[open] > summary::before { transform:rotate(90deg); }
+        .dashboard-folder-icon { color:#d97706; font-size:19px !important; }
+        .dashboard-folder-name { color:#24343d; font-size:10.5px; }
+        .dashboard-folder-count { border-radius:999px; padding:3px 7px; background:#eef3f6; color:#64748b; font-size:8px; font-weight:800; }
+        .dashboard-folder-drop-hint { display:none; margin-left:auto; border-radius:7px; padding:5px 8px; background:#dcfce7; color:#15803d; font-size:8px; font-weight:900; }
+        body.template-dragging .dashboard-folder-drop-hint { display:inline-flex; }
+        body.template-dragging .dashboard-folder > summary { outline:1px dashed #94a3b8; outline-offset:-4px; }
+        .dashboard-folder > summary.drop-candidate { outline:2px solid #07979a !important; outline-offset:-3px; background:#ecfeff; box-shadow:0 0 0 4px rgba(7,151,154,.12); }
+        .dashboard-folder > summary.drop-candidate .dashboard-folder-drop-hint { background:#07979a; color:#fff; }
+        .dashboard-folder-content { gap:7px; padding:7px 7px 9px 20px; border-top:1px solid #e9eff2; background:#f8fafb; }
+        .dashboard-folder-content.drop-candidate { outline:2px dashed #07979a; outline-offset:-4px; background:#ecfeff; }
+        .dashboard-folder-empty { min-height:38px; display:flex; align-items:center; justify-content:center; border:1px dashed #b8c7cf; border-radius:9px; color:#71838e; background:#fff; font-size:9px; font-weight:750; }
+        .dashboard-root-dropzone { display:none; min-height:42px; align-items:center; justify-content:center; gap:7px; margin-top:8px; border:2px dashed #94a3b8; border-radius:11px; color:#52636d; background:#f8fafb; font-size:9px; font-weight:850; }
+        body.template-dragging .dashboard-root-dropzone { display:flex; }
+        .dashboard-root-dropzone.drop-candidate { border-color:#07979a; background:#ecfeff; color:#04777b; }
+        .dashboard-template-card { padding-left:38px; transition:border-color .15s,box-shadow .15s,transform .15s,opacity .15s; }
+        .dashboard-template-card:hover { transform:translateY(-1px); box-shadow:0 4px 12px rgba(15,23,42,.08) !important; }
+        .dashboard-template-drag-handle { position:absolute; left:8px; top:50%; display:flex; align-items:center; justify-content:center; width:23px; height:34px; transform:translateY(-50%); border-radius:7px; background:#eef3f6; color:#64748b; cursor:grab; }
+        .dashboard-template-drag-handle .material-icons { font-size:17px; }
+        body.template-dragging .dashboard-template-card:not(.dragging) { opacity:.72; }
+        .dashboard-template-card.dragging { opacity:.35 !important; transform:scale(.98); }
+        @media (max-width:700px) { .dashboard-folder-content { padding-left:11px; } .dashboard-folder-drop-hint { display:none !important; } }
     </style>
 </head>
 <body class="auth-locked vsc-initialized" data-new-gr-c-s-check-loaded="8.937.0" data-gr-ext-installed="" data-gr-ext-disabled="forever" style="">
@@ -1008,7 +1051,7 @@
     </aside>
     <div id="udfSplitter" class="udf-splitter" role="separator" aria-label="Editör ve UDF görüntüleyici genişliğini ayarla" aria-orientation="vertical" aria-valuemin="20" aria-valuemax="40" aria-valuenow="40" tabindex="0"></div>
 
-    <aside id="documentSourceCard" class="document-source-card"
+    <aside id="documentSourceCard" class="document-source-card is-collapsed"
         data-template-name="Editör Başlangıç İçeriği"
         data-dispute-type=""
         data-subtype=""
@@ -1016,10 +1059,11 @@
         data-record-id=""
         data-negotiation-index="0"
         data-agreement-index="0">
-        <div class="document-source-title">
+        <div class="document-source-title" role="button" tabindex="0" aria-expanded="false" onclick="v17ToggleDocumentSourceCard(event)" onkeydown="v17DocumentSourceKeydown(event)">
             <span class="document-source-title-main"><span class="material-icons">description</span> Aktif Belge</span>
             <button id="documentSourceFillToggle" class="document-source-fill-toggle" type="button" onclick="v16ToggleSourceFill()">Şablonu Doldur</button>
             <button id="documentSourceDataBtn" class="document-source-data-btn" type="button" onclick="openActiveRecordInDashboard()" disabled>Şablon Verisi</button>
+            <span class="material-icons document-source-chevron" aria-hidden="true">expand_more</span>
         </div>
         <div class="document-source-list">
             <div class="document-source-row"><div class="document-source-label">Şablon</div><div id="documentSourceTemplate" class="document-source-value">Editör Başlangıç İçeriği</div></div>
@@ -6226,6 +6270,109 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             card.addEventListener('dragstart',function(event){card.classList.add('dragging');event.dataTransfer.effectAllowed='move';event.dataTransfer.setData('text/arbsys-template',template.fileName);event.dataTransfer.setData('text/plain',template.fileName);});
             card.addEventListener('dragend',function(){card.classList.remove('dragging');document.querySelectorAll('.drag-over').forEach(function(item){item.classList.remove('drag-over');});});
             return card;
+        };
+
+        // ==== v17: kesin hedefli klasor agaci ve katlanabilir aktif belge ====
+        var v17OpenTemplateFolders=new Set();
+
+        function v17ToggleDocumentSourceCard(event) {
+            if(event?.target?.closest('button'))return;
+            var card=document.getElementById('documentSourceCard');if(!card)return;
+            var collapsed=card.classList.toggle('is-collapsed');
+            var title=card.querySelector('.document-source-title');if(title)title.setAttribute('aria-expanded',String(!collapsed));
+            if(collapsed)document.getElementById('documentSourceFillPanel')?.classList.remove('open');
+        }
+        function v17DocumentSourceKeydown(event){if(event.key==='Enter'||event.key===' '){event.preventDefault();v17ToggleDocumentSourceCard(event);}}
+
+        function v17ClearTemplateDragState() {
+            document.body.classList.remove('template-dragging');
+            document.querySelectorAll('.drop-candidate').forEach(function(item){item.classList.remove('drop-candidate');});
+            document.querySelectorAll('[data-v17-drop]').forEach(function(item){if(item._v17OpenTimer){clearTimeout(item._v17OpenTimer);item._v17OpenTimer=null;}});
+        }
+
+        function v17MoveTemplateToFolder(fileName,folderPath) {
+            if(!fileName||!ioGuidedTemplateMap[fileName])return;
+            var manifest=v15TemplateManifest(fileName);manifest.folderPath=folderPath || '';
+            if(folderPath){ioGuidedData.templateFolders=ioGuidedData.templateFolders || [];if(!ioGuidedData.templateFolders.includes(folderPath))ioGuidedData.templateFolders.push(folderPath);}
+            ioPersistGuidedData();v17ClearTemplateDragState();dashboardRenderTemplates();
+            dashboardSetStorageStatus('“'+(manifest.displayName || fileName.replace(/\.arbsys$/i,''))+'” '+(folderPath ? '“'+folderPath.replaceAll('/',' › ')+'” klasörüne' : 'ana klasöre')+' taşındı.');
+        }
+
+        function v17BindTemplateDropZone(element,folderPath,details) {
+            if(!element)return;element.dataset.v17Drop='1';
+            function activate(event){
+                event.preventDefault();event.stopPropagation();event.dataTransfer.dropEffect='move';element.classList.add('drop-candidate');
+                if(details&&!details.open&&!element._v17OpenTimer){element._v17OpenTimer=setTimeout(function(){details.open=true;v17OpenTemplateFolders.add(folderPath);element._v17OpenTimer=null;},550);}
+            }
+            element.addEventListener('dragenter',activate);
+            element.addEventListener('dragover',activate);
+            element.addEventListener('dragleave',function(event){
+                if(event.relatedTarget&&element.contains(event.relatedTarget))return;
+                element.classList.remove('drop-candidate');if(element._v17OpenTimer){clearTimeout(element._v17OpenTimer);element._v17OpenTimer=null;}
+            });
+            element.addEventListener('drop',function(event){
+                event.preventDefault();event.stopPropagation();if(element._v17OpenTimer){clearTimeout(element._v17OpenTimer);element._v17OpenTimer=null;}
+                var fileName=event.dataTransfer.getData('text/arbsys-template') || event.dataTransfer.getData('text/plain');v17MoveTemplateToFolder(fileName,folderPath);
+            });
+        }
+
+        function v17TemplateCard(template,manifest) {
+            var card=document.createElement('div');card.className='dashboard-template-card'+(dashboardActiveTemplateFile===template.fileName?' active':'');card.setAttribute('role','button');card.tabIndex=0;card.draggable=true;card.dataset.templateFile=template.fileName;
+            var handle=document.createElement('span');handle.className='dashboard-template-drag-handle';handle.title='Klasöre taşımak için sürükleyin';handle.innerHTML='<span class="material-icons">drag_indicator</span>';handle.addEventListener('click',function(event){event.stopPropagation();});card.appendChild(handle);
+            card.appendChild(dashboardCreateText('div','dashboard-record-title',manifest.displayName || template.fileName.replace(/\.arbsys$/i,'')));
+            card.appendChild(dashboardCreateText('div','dashboard-template-file',template.fileName));
+            var meta=document.createElement('div');meta.className='dashboard-template-meta';
+            if(manifest.disputeType)meta.appendChild(dashboardCreateText('span','',manifest.disputeType));if(manifest.subtype)meta.appendChild(dashboardCreateText('span','',manifest.subtype));if(manifest.subject)meta.appendChild(dashboardCreateText('span','',manifest.subject));if(!manifest.disputeType)meta.appendChild(dashboardCreateText('span','','Bütün türler'));card.appendChild(meta);
+            var actions=document.createElement('div');actions.className='dashboard-template-card-actions';
+            var duplicate=document.createElement('button');duplicate.type='button';duplicate.className='dashboard-template-card-action duplicate';duplicate.title='Şablonu çoğalt';duplicate.setAttribute('aria-label','Şablonu çoğalt');duplicate.innerHTML='<span class="material-icons">content_copy</span>';duplicate.addEventListener('click',function(event){event.stopPropagation();v15DuplicateTemplate(template.fileName);});
+            var remove=document.createElement('button');remove.type='button';remove.className='dashboard-template-card-action delete';remove.title='Şablonu sil';remove.setAttribute('aria-label','Şablonu sil');remove.innerHTML='<span class="material-icons">delete_outline</span>';remove.addEventListener('click',function(event){event.stopPropagation();dashboardDeleteTemplate(template.fileName);});actions.appendChild(duplicate);actions.appendChild(remove);card.appendChild(actions);
+            card.addEventListener('click',function(event){if(!event.target.closest('.dashboard-template-card-actions')&&!event.target.closest('.dashboard-template-drag-handle'))dashboardOpenTemplateDetail(template.fileName);});
+            card.addEventListener('keydown',function(event){if((event.key==='Enter'||event.key===' ')&&!event.target.closest('.dashboard-template-card-actions')){event.preventDefault();dashboardOpenTemplateDetail(template.fileName);}});
+            card.addEventListener('dragstart',function(event){
+                if(event.target.closest('.dashboard-template-card-actions')){event.preventDefault();return;}
+                card.classList.add('dragging');document.body.classList.add('template-dragging');event.dataTransfer.effectAllowed='move';event.dataTransfer.setData('text/arbsys-template',template.fileName);event.dataTransfer.setData('text/plain',template.fileName);try{event.dataTransfer.setDragImage(card,22,22);}catch(error){}
+            });
+            card.addEventListener('dragend',function(){card.classList.remove('dragging');v17ClearTemplateDragState();});
+            return card;
+        }
+        v15TemplateCard=v17TemplateCard;
+
+        dashboardRenderTemplates=function() {
+            var list=document.getElementById('dashboardTemplateList');if(!list)return;
+            ioLoadGuidedTemplateData();
+            Array.from(document.querySelectorAll('.dashboard-folder[open]')).forEach(function(folder){if(folder.dataset.folderPath)v17OpenTemplateFolders.add(folder.dataset.folderPath);});
+            var query=(document.getElementById('dashboardTemplateSearch')?.value || '').toLocaleLowerCase('tr-TR').trim();
+            var templates=(ioGuidedTemplateData?.templates || []).filter(function(template){var manifest=v15TemplateManifest(template.fileName);return !query||[template.fileName,manifest.displayName,manifest.disputeType,manifest.subtype,manifest.subject,manifest.folderPath].join(' ').toLocaleLowerCase('tr-TR').includes(query);});
+            var allFolders=v15FolderPaths();list.innerHTML='';list.className='dashboard-template-list dashboard-folder-tree';
+
+            function directChildren(parent){return allFolders.filter(function(path){var split=path.lastIndexOf('/');return (split<0?'':path.slice(0,split))===parent;});}
+            function templatesIn(path){return templates.filter(function(template){return (v15TemplateManifest(template.fileName).folderPath || '')===path;});}
+            function descendantCount(path){return templates.filter(function(template){var folder=v15TemplateManifest(template.fileName).folderPath || '';return folder===path||folder.startsWith(path+'/');}).length;}
+            function buildFolder(path){
+                var details=document.createElement('details');details.className='dashboard-folder';details.dataset.folderPath=path;details.open=v17OpenTemplateFolders.has(path)||(dashboardActiveTemplateFile&&String(v15TemplateManifest(dashboardActiveTemplateFile).folderPath || '').startsWith(path));
+                details.addEventListener('toggle',function(){if(details.open)v17OpenTemplateFolders.add(path);else v17OpenTemplateFolders.delete(path);});
+                var summary=document.createElement('summary');
+                var icon=document.createElement('span');icon.className='material-icons dashboard-folder-icon';icon.textContent='folder';summary.appendChild(icon);
+                summary.appendChild(dashboardCreateText('span','dashboard-folder-name',path.split('/').pop()));
+                summary.appendChild(dashboardCreateText('span','dashboard-folder-count',String(descendantCount(path))));
+                summary.appendChild(dashboardCreateText('span','dashboard-folder-drop-hint','Buraya bırak'));
+                var add=document.createElement('button');add.type='button';add.className='dashboard-folder-add';add.innerHTML='<span class="action-dot" style="--dot-color:#07979a"></span> Alt klasör';add.addEventListener('click',function(event){event.preventDefault();event.stopPropagation();dashboardCreateTemplateFolder(path);});summary.appendChild(add);details.appendChild(summary);v17BindTemplateDropZone(summary,path,details);
+                var content=document.createElement('div');content.className='dashboard-folder-content';v17BindTemplateDropZone(content,path,null);
+                directChildren(path).forEach(function(child){content.appendChild(buildFolder(child));});
+                var direct=templatesIn(path);direct.forEach(function(template){content.appendChild(v17TemplateCard(template,v15TemplateManifest(template.fileName)));});
+                if(!direct.length&&!directChildren(path).length)content.appendChild(dashboardCreateText('div','dashboard-folder-empty','Şablonu bu klasöre sürükleyin'));
+                details.appendChild(content);return details;
+            }
+
+            var folderSection=document.createElement('div');folderSection.className='dashboard-folder-tree-section';
+            directChildren('').forEach(function(path){folderSection.appendChild(buildFolder(path));});
+            if(folderSection.children.length)list.appendChild(folderSection);
+            var rootTemplates=templatesIn('');
+            if(rootTemplates.length){list.appendChild(dashboardCreateText('div','dashboard-template-root-heading','Ana klasördeki şablonlar'));rootTemplates.forEach(function(template){list.appendChild(v17TemplateCard(template,v15TemplateManifest(template.fileName)));});}
+            var rootDrop=document.createElement('div');rootDrop.className='dashboard-root-dropzone';rootDrop.innerHTML='<span class="material-icons">move_to_inbox</span> Ana klasöre taşımak için buraya bırakın';v17BindTemplateDropZone(rootDrop,'',null);list.appendChild(rootDrop);
+            if(!templates.length&&!allFolders.length)list.insertBefore(dashboardCreateText('div','dashboard-empty','Belge şablonu bulunamadı.'),rootDrop);
+            if(dashboardActiveTemplateFile&&ioGuidedTemplateMap[dashboardActiveTemplateFile])dashboardRenderTemplateDetail(dashboardActiveTemplateFile);
+            v15DecorateActions();
         };
 
         ioEnsureLoaderLayout();
