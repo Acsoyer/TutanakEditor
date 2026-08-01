@@ -1,34 +1,4 @@
-@font-face {
-  font-family: "Bookman Old Style";
-  src: url("BOOKOS.TTF") format("truetype");
-  font-style: normal;
-  font-weight: 400;
-  font-display: block;
-}
-
-@font-face {
-  font-family: "Bookman Old Style";
-  src: url("BOOKOSB.TTF") format("truetype");
-  font-style: normal;
-  font-weight: 700;
-  font-display: block;
-}
-
-@font-face {
-  font-family: "Bookman Old Style";
-  src: url("BOOKOSI.TTF") format("truetype");
-  font-style: italic;
-  font-weight: 400;
-  font-display: block;
-}
-
-@font-face {
-  font-family: "Bookman Old Style";
-  src: url("BOOKOSBI.TTF") format("truetype");
-  font-style: italic;
-  font-weight: 700;
-  font-display: block;
-}
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap");
 
 :root {
   --ink: #17242c;
@@ -614,7 +584,7 @@ h1 {
   box-sizing: border-box;
 }
 .topbar-brand { min-width: 0; }
-.viewer-brand-logo { display:block; width:auto; max-width:none; height:30px; object-fit:contain; object-position:left center; }
+.viewer-brand-logo { display:block; width:auto; max-width:none; height:26px; object-fit:contain; object-position:left center; }
 .document-tabs { position:fixed; top:calc(var(--toolbar-h) + 3px); right:10px; z-index:24; display:flex; flex-direction:column; align-items:flex-end; width:auto; max-width:min(250px,70vw); gap:5px; padding:0; overflow:visible; }
 .document-tab { width:max-content; min-width:125px; max-width:240px; border-color:#c7d2fe; border-radius:9px; color:#4338ca; background:#f7f7ff; font-size:10px; box-shadow:0 5px 16px rgba(49,46,129,.14); }
 .document-tab:hover { border-color:#818cf8; color:#312e81; }
@@ -653,7 +623,7 @@ h1 {
 @media (max-width: 670px) {
   :root { --toolbar-h:55px; }
   .topbar { grid-template-columns:auto minmax(4px,1fr) auto; grid-template-rows:1fr; gap:4px; padding:6px; }
-  .viewer-brand-logo { width:auto; max-width:none; height:30px; }
+  .viewer-brand-logo { width:auto; max-width:none; height:26px; }
   .document-tabs { top:calc(var(--toolbar-h) + 3px); right:7px; width:auto; }
   .toolbar { grid-column:3; grid-row:1; }
   .zoom-select { min-width:48px; width:48px; }

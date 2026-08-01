@@ -126,8 +126,13 @@
     return Number.isFinite(number) ? number : fallback;
   }
 
+  function webFontFamily(family) {
+    const value = String(family || '').trim();
+    return /bookman/i.test(value) ? 'Libre Baskerville' : value;
+  }
+
   function applyTextStyle(target, attrs) {
-    if (attrs.family) target.style.fontFamily = `"${attrs.family}", "Times New Roman", serif`;
+    if (attrs.family) target.style.fontFamily = `"${webFontFamily(attrs.family)}", "Times New Roman", serif`;
     if (attrs.size) target.style.fontSize = `${pt(attrs.size, 12)}pt`;
     if (attrs.bold === 'true') target.style.fontWeight = '700';
     if (attrs.italic === 'true') target.style.fontStyle = 'italic';
@@ -153,7 +158,7 @@
       .filter(Number.isFinite)
       .sort((a, b) => a - b);
     target.dataset.tabStops = tabStops.join(',');
-    if (attrs.family) target.style.setProperty('--font-family', `"${attrs.family}"`);
+    if (attrs.family) target.style.setProperty('--font-family', `"${webFontFamily(attrs.family)}"`);
     if (attrs.size) target.style.setProperty('--font-size', `${pt(attrs.size, 12)}pt`);
     if (attrs.bold === 'true') target.style.setProperty('--font-weight', '700');
     if (attrs.italic === 'true') target.style.setProperty('--font-style', 'italic');
@@ -493,7 +498,7 @@
     if (documentModel.pageNumber) {
       number = document.createElement('div');
       number.className = 'page-number';
-      number.style.fontFamily = `"${documentModel.pageNumber.family}", Arial, sans-serif`;
+      number.style.fontFamily = `"${webFontFamily(documentModel.pageNumber.family)}", Arial, sans-serif`;
       number.style.fontSize = `${documentModel.pageNumber.size}pt`;
       number.style.fontWeight = documentModel.pageNumber.bold ? '700' : '400';
       number.style.fontStyle = documentModel.pageNumber.italic ? 'italic' : 'normal';
