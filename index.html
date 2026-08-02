@@ -6421,9 +6421,9 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                     {label:'Kısmen Anlaşma',file:'Son Tutanak - Kısmen Anlaşma - Boş.arbsys'},
                     {label:'Görüşme Sonunda Anlaşamama',file:'Son Tutanak - Görüşme Sonunda Anlaşamama - Boş.arbsys'},
                     {label:'Görüşme Yapılmadan Anlaşamama',file:'Son Tutanak - Görüşme Yapılmadan Anlaşamama - Boş.arbsys'},
-                    {label:'Arabuluculuğa Elverişli Olunmaması',file:'Son Tutanak - Arabuluculuğa Elverişli Olunmaması - Boş.arbsys'},
-                    {label:'Konusuz Kalma / Başvurucunun Vazgeçmesi',file:'Son Tutanak - Konusuz Kalma - Başvurucunun Vazgeçmesi - Boş.arbsys'},
-                    {label:'Yetkisizlik',file:'Son Tutanak - Yetkisizlik - Boş.arbsys'},
+                    {label:'Arabuluculuğa Elverişli Olunmaması',file:'Son Tutanak - Arabuluculuğa Elverişli Olunmaması - Boş.arbsys',resultGroup:'son-tutanak-elverissiz'},
+                    {label:'Konusuz Kalma / Başvurucunun Vazgeçmesi',file:'Son Tutanak - Konusuz Kalma - Başvurucunun Vazgeçmesi - Boş.arbsys',resultGroup:'son-tutanak-konusuz-kalma'},
+                    {label:'Yetkisizlik',file:'Son Tutanak - Yetkisizlik - Boş.arbsys',resultGroup:'son-tutanak-yetkisizlik'},
                     {label:'Sehven Kayıt',file:'Son Tutanak - Sehven Kayıt 1 - Boş.arbsys',resultGroup:'son-tutanak-sehven'}
                 ]
             },
@@ -6455,7 +6455,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         function v18BuildBlankPanel(){
             var panel=document.getElementById('ioDocumentPanel');if(!panel)return;
             document.getElementById('ioDocumentTab').textContent='Boş Belge Aç';
-            panel.innerHTML='<div class="v18-blank-shell"><p class="v18-blank-intro">Düzenlemeye boş ve noktalı alanlarla başlayacağınız belgeyi seçin. Belge editörde açıldıktan sonra “Belgeyi Doldur” ile uyuşmazlık bilgilerini ekleyebilirsiniz.</p><div class="v18-blank-columns"><section class="v18-blank-column"><h3>Tutanak ve anlaşma belgeleri</h3><p>Belge boş olarak doğrudan açılır.</p><div class="v18-document-choices">'+['Toplantı Tutanağı','Anlaşma Belgesi','Son Tutanak'].map(v18ChoiceButton).join('')+'</div><div id="v18PrimaryOptions" class="v18-conditional"><div class="io-field"><label for="v18BlankVariant">Belge seçeneği</label><select id="v18BlankVariant" onchange="v18BlankVariantChanged()"></select></div><div id="v18BlankResultField" class="io-field" style="display:none"><label for="v18BlankResult">SONUÇ metni</label><select id="v18BlankResult" onchange="v18UpdateBlankSummary()"></select></div></div></section><section class="v18-blank-column"><h3>Hazırlık belgeleri</h3><p>Bu belgeleri açmak için uyuşmazlık türü ve alt türü seçilir.</p><div class="v18-document-choices">'+['Davet Mektubu','Bilgilendirme Tutanağı','KVKK'].map(v18ChoiceButton).join('')+'</div><div id="v18SecondaryOptions" class="v18-conditional"><div class="io-field"><label for="v18BlankType">Uyuşmazlık Türü</label><select id="v18BlankType" onchange="v18BlankTypeChanged()"></select></div><div class="io-field"><label for="v18BlankSubtype">Uyuşmazlık Alt Türü</label><select id="v18BlankSubtype" onchange="v18UpdateBlankSummary()" disabled></select></div></div></section></div><div class="v18-open-row"><div id="v18BlankSummary" class="v18-open-summary"><strong>Henüz belge seçilmedi</strong>Başlamak için yukarıdaki belgelerden birini seçin.</div><button id="ioDocumentOpenBtn" class="tb-btn io-document-open v18-open-button" type="button" onclick="v18OpenBlankDocument()" disabled><span class="material-icons">description</span>Seçilen Belgeyi Aç</button></div></div>';
+            panel.innerHTML='<div class="v18-blank-shell"><p class="v18-blank-intro">Düzenlemeye boş ve noktalı alanlarla başlayacağınız belgeyi seçin. Belge editörde açıldıktan sonra “Belgeyi Doldur” ile uyuşmazlık bilgilerini ekleyebilirsiniz.</p><div class="v18-blank-columns"><section class="v18-blank-column"><h3>Tutanak ve anlaşma belgeleri</h3><p>Belge boş olarak doğrudan açılır.</p><div class="v18-document-choices">'+['Toplantı Tutanağı','Anlaşma Belgesi','Son Tutanak'].map(v18ChoiceButton).join('')+'</div><div id="v18PrimaryOptions" class="v18-conditional"><div class="io-field"><label for="v18BlankVariant">Belge seçeneği</label><select id="v18BlankVariant" onchange="v18BlankVariantChanged()"></select></div><div id="v18BlankResultField" class="io-field" style="display:none"><label for="v18BlankResult">SONUÇ metni</label><select id="v18BlankResult" onchange="v18UpdateBlankSummary()"></select></div></div></section><section class="v18-blank-column"><h3>Hazırlık belgeleri</h3><p>Bu belgeleri açmak için uyuşmazlık türü ve alt türü seçilir.</p><div class="v18-document-choices">'+['Davet Mektubu','Bilgilendirme Tutanağı','KVKK'].map(v18ChoiceButton).join('')+'</div><div id="v18SecondaryOptions" class="v18-conditional"><div class="io-field"><label for="v18BlankType">Uyuşmazlık Türü</label><select id="v18BlankType" onchange="v18BlankTypeChanged()"></select></div><div class="io-field"><label for="v18BlankSubtype">Uyuşmazlık Alt Türü</label><select id="v18BlankSubtype" onchange="v18UpdateBlankSummary()" disabled></select></div></div></section></div><div class="v18-open-row"><div id="v18BlankSummary" class="v18-open-summary"><strong>Henüz belge seçilmedi</strong>Başlamak için yukarıdaki belgelerden birini seçin.</div><button id="ioDocumentOpenBtn" class="tb-btn io-document-open v18-open-button" type="button" onclick="v18OpenBlankDocument()" disabled><span class="material-icons">description</span>Boş Belge Olarak Aç</button></div></div>';
             v15FillTypeSelect(document.getElementById('v18BlankType'),'',false);v15FillSubtypeSelect(document.getElementById('v18BlankSubtype'),'','',false);v15DecorateActions();
         }
 
@@ -6557,4 +6557,151 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         v18Boot();
     </script>
 
+    <style>
+        /* ==== v20: sade belge kartları ve tek ekrana sığan boş belge akışı ==== */
+        #ioDocumentPanel{overflow:auto}
+        #ioDocumentPanel .v18-blank-shell{gap:10px}
+        #ioDocumentPanel .v18-blank-intro{font-size:12px;line-height:1.35;margin:0}
+        #ioDocumentPanel .v18-blank-columns{gap:10px;min-height:0}
+        #ioDocumentPanel .v18-blank-column{padding:12px;border-radius:12px;min-width:0}
+        #ioDocumentPanel .v18-blank-column h3{font-size:14px;margin-bottom:2px}
+        #ioDocumentPanel .v18-blank-column p{font-size:11px;line-height:1.3;margin-bottom:8px}
+        #ioDocumentPanel .v18-document-choices{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+        #ioDocumentPanel .v18-document-choice{min-width:0;min-height:48px;padding:7px 5px;gap:4px;font-size:10px;line-height:1.2}
+        #ioDocumentPanel .v18-document-choice .material-icons{font-size:18px}
+        #ioDocumentPanel .v18-conditional.open{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:8px;padding-top:8px}
+        #ioDocumentPanel .v18-conditional .io-field{min-width:0}
+        #ioDocumentPanel .v18-conditional label{font-size:10px;margin-bottom:3px}
+        #ioDocumentPanel .v18-conditional select{height:34px;min-width:0;font-size:11px;padding:5px 25px 5px 8px}
+        #ioDocumentPanel .v18-open-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;padding:10px 12px;align-items:center}
+        #ioDocumentPanel .v18-open-summary{min-width:0;font-size:11px;line-height:1.35;overflow-wrap:anywhere}
+        #ioDocumentPanel .v18-open-summary strong{font-size:13px;margin-bottom:2px}
+        #ioDocumentPanel .v18-open-button{width:auto;min-width:0;max-width:180px;padding:9px 13px;white-space:normal;line-height:1.2}
+
+        #documentSourceCard{width:318px;border-radius:14px;box-shadow:0 10px 30px rgba(15,23,42,.12);overflow:visible}
+        #documentSourceCard .document-source-title{min-height:46px;padding:10px 12px}
+        #documentSourceCard .document-source-title-main{font-size:13px}
+        #documentSourceCard .document-source-edit{display:none!important}
+        #documentSourceCard .document-source-list{padding:0 12px 12px}
+        #documentSourceCard .document-source-row{padding:9px 0}
+        #documentSourceCard .v20-template-block{display:block;padding:11px 0 10px}
+        #documentSourceCard .v20-template-block .document-source-label{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#64748b;margin-bottom:4px}
+        #documentSourceCard .v20-template-block .document-source-value{font-size:14px;line-height:1.35;color:#172033;font-weight:700}
+        #v20DocumentActions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px}
+        #v20DocumentActions button{display:inline-flex!important;align-items:center;justify-content:center;min-height:36px;border-radius:9px;padding:7px 8px;font-size:11px;font-weight:700;line-height:1.2}
+        #v20DocumentActions #documentSourceFillToggle{border:1px solid #0f766e;background:#0f766e;color:#fff}
+        #v20DocumentActions #documentSourceClearBtn{border:1px solid #d7dee8;background:#fff;color:#475569}
+        #documentSourceCard #documentSourceFillPanel{margin:7px 0 4px;padding:10px;border-radius:11px;background:#f7fafc;border:1px solid #dce5ef}
+        #documentSourceCard #documentSourceFillPanel.open{display:grid}
+        #documentSourceCard .v20-data-action{padding-top:9px}
+        #documentSourceCard #documentSourceDataBtn{display:flex!important;width:100%;min-height:36px;align-items:center;justify-content:center;border-radius:9px;padding:7px 9px;white-space:normal;line-height:1.25;background:#f0f7ff;border:1px solid #bfd8f5;color:#185a90;font-size:10px;font-weight:700}
+        #documentSourceCard #documentSourceDataBtn:disabled{opacity:.48}
+        #documentSourceCard .document-source-save-actions{display:none!important}
+
+        .v20-companion-card{position:fixed;z-index:997;left:18px;width:318px;display:none;border:1px solid #dce5ef;border-radius:14px;background:#fff;box-shadow:0 10px 30px rgba(15,23,42,.12);padding:12px;box-sizing:border-box;max-height:34vh;overflow:auto}
+        .v20-companion-card.open{display:block}
+        .v20-companion-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;color:#172033;font-size:12px;font-weight:800}
+        .v20-companion-heading-main{display:flex;align-items:center;gap:7px;min-width:0}
+        .v20-companion-heading .material-icons{font-size:18px;color:#59677b}
+        .v20-manage-result{display:inline-flex;align-items:center;gap:4px;flex:none;border:1px solid #e5b6ce;border-radius:8px;background:#fff3f8;color:#a0195b;padding:6px 8px;font-size:10px;font-weight:800}
+        .v20-manage-result .material-icons{font-size:15px;color:inherit}
+        #v18DocumentVariantsCard{position:fixed!important;left:18px!important;top:auto;width:318px!important;max-height:34vh;border-radius:14px;box-shadow:0 10px 30px rgba(15,23,42,.12);box-sizing:border-box}
+        #v18DocumentVariantsCard .v18-variant-heading{font-size:12px}
+        #v20TemplateSaveCard{position:fixed;right:18px;bottom:18px;z-index:996;width:300px;border:1px solid #dce5ef;border-radius:14px;background:#fff;box-shadow:0 10px 30px rgba(15,23,42,.12);padding:13px;box-sizing:border-box}
+        #v20TemplateSaveCard h3{margin:0 0 10px;color:#172033;font-size:13px}
+        #v20TemplateSaveCard .document-source-save-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+        #v20TemplateSaveCard .document-source-save-btn{min-width:0;min-height:38px;padding:7px 8px;white-space:normal;line-height:1.2;border-radius:9px}
+        #dashboardResultsTab{color:#a0195b!important;border-color:#e7bad0!important}
+        #dashboardResultsTab.active{background:#a0195b!important;border-color:#a0195b!important;color:#fff!important;box-shadow:0 6px 16px rgba(160,25,91,.22)!important}
+        .v20-result-section-title{margin:13px 8px 6px;color:#64748b;font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:800}
+        @media(max-width:860px){#ioDocumentPanel .v18-blank-columns{grid-template-columns:1fr}#ioDocumentPanel .v18-open-row{grid-template-columns:1fr}#ioDocumentPanel .v18-open-button{max-width:none;width:100%}.v20-companion-card,#v18DocumentVariantsCard{left:10px!important;right:10px!important;width:auto!important}#v20TemplateSaveCard{right:10px;bottom:10px;width:280px}}
+    </style>
+    <script>
+        // ==== v20: SONUÇ seçenekleri, Aktif Belge yerleşimi ve kısa boş-belge ekranı ====
+        function v20Normalize(value){return String(value||'').toLocaleLowerCase('tr-TR').replace(/[ıİ]/g,'i').replace(/[şŞ]/g,'s').replace(/[ğĞ]/g,'g').replace(/[üÜ]/g,'u').replace(/[öÖ]/g,'o').replace(/[çÇ]/g,'c');}
+        function v20InferResultGroup(fileName){
+            var value=v20Normalize(fileName);
+            if(value.indexOf('toplanti')>=0&&value.indexOf('erteleme')>=0)return value.indexOf('gorusmeyok')>=0||value.indexOf('gorusme yapil')>=0?'toplanti-gorusmeyok-erteleme':'toplanti-gorusme-erteleme';
+            if(value.indexOf('son tutanak')<0)return '';
+            if(value.indexOf('sehven')>=0)return 'son-tutanak-sehven';
+            if(value.indexOf('elverisli')>=0)return 'son-tutanak-elverissiz';
+            if(value.indexOf('konusuz')>=0||value.indexOf('vazgec')>=0)return 'son-tutanak-konusuz-kalma';
+            if(value.indexOf('yetkisiz')>=0)return 'son-tutanak-yetkisizlik';
+            return '';
+        }
+        function v20MergeResultDefaults(){
+            ioGuidedData.resultVariantGroups=Array.isArray(ioGuidedData.resultVariantGroups)?ioGuidedData.resultVariantGroups:[];
+            (window.ARBSYS_RESULT_VARIANTS?.groups||[]).forEach(function(group){if(!ioGuidedData.resultVariantGroups.some(function(item){return item.id===group.id;}))ioGuidedData.resultVariantGroups.push(JSON.parse(JSON.stringify(group)));});
+            ioPersistGuidedData();
+        }
+        var v20GetResultGroupBase=v18GetResultGroup;
+        v18GetResultGroup=function(id){return v20GetResultGroupBase(id)||(window.ARBSYS_RESULT_VARIANTS?.groups||[]).find(function(group){return group.id===id;})||null;};
+        function v20ResultManagerOpen(){
+            var card=document.getElementById('documentSourceCard');v18ActiveResultGroup=card?.dataset.resultGroupId||v18ActiveResultGroup;
+            document.getElementById('ioModal')?.classList.remove('open');
+            ioLoadGuidedData();v20MergeResultDefaults();document.getElementById('dataDashboardModal')?.classList.add('open');dashboardSetMode('results');v18RenderResultManagerList();v18RenderResultEditor();
+            setTimeout(function(){document.querySelector('#v18ResultGroupList .active')?.scrollIntoView({block:'center',behavior:'smooth'});},0);
+        }
+        function v20SetFilledState(filled){var card=document.getElementById('documentSourceCard'),button=document.getElementById('documentSourceFillToggle');if(!card||!button)return;card.dataset.contentFilled=filled?'1':'0';button.textContent=filled?'İçerik Değiştir':'Belgeyi Doldur';}
+        function v20RefreshTemplateName(){var node=document.getElementById('documentSourceTemplate');if(node)node.textContent=node.textContent.replace(/^Şablon\s*-\s*/i,'').trim()||'Editör Başlangıç İçeriği';}
+        function v20BuildActiveCard(){
+            var active=document.getElementById('documentSourceCard'),list=active?.querySelector('.document-source-list'),template=document.getElementById('documentSourceTemplate');if(!active||!list||!template)return;
+            active.querySelectorAll('.document-source-edit').forEach(function(button){button.remove();});
+            var templateRow=template.closest('.document-source-row');templateRow.classList.add('v20-template-block');
+            var actions=document.createElement('div');actions.id='v20DocumentActions';templateRow.appendChild(actions);
+            var fill=document.getElementById('documentSourceFillToggle');actions.appendChild(fill);
+            var clear=document.createElement('button');clear.id='documentSourceClearBtn';clear.type='button';clear.innerHTML='<span class="material-icons" style="font-size:15px;margin-right:4px">cleaning_services</span>Belgeyi Temizle';clear.onclick=v20ClearActiveDocument;actions.appendChild(clear);
+            var panel=document.getElementById('documentSourceFillPanel');templateRow.insertAdjacentElement('afterend',panel);
+            var data=document.getElementById('documentSourceDataBtn'),dataWrap=document.createElement('div');dataWrap.className='v20-data-action';data.textContent='Uyuşmazlık Konusu Metinlerini Düzenle';dataWrap.appendChild(data);list.appendChild(dataWrap);
+            var save=active.querySelector('.document-source-save-actions'),saveCard=document.createElement('aside');saveCard.id='v20TemplateSaveCard';saveCard.innerHTML='<h3>Bu Belgeyi Şablon Olarak Kaydet</h3>';saveCard.appendChild(save);document.body.appendChild(saveCard);
+            var resultArea=document.getElementById('v18DocumentResultArea'),resultCard=document.createElement('aside');resultCard.id='v20DocumentResultCard';resultCard.className='v20-companion-card';resultCard.innerHTML='<div class="v20-companion-heading"><span class="v20-companion-heading-main"><span class="material-icons">rule</span>Belgedeki Sonuç Seçenekleri</span><button class="v20-manage-result" type="button" onclick="v20ResultManagerOpen()"><span class="material-icons">edit_note</span>Düzenle</button></div>';resultArea?.parentElement?.removeChild(resultArea);if(resultArea)resultCard.appendChild(resultArea);document.body.appendChild(resultCard);
+            v20RefreshTemplateName();v20SetFilledState(false);v20LayoutCards();
+        }
+        function v20LayoutCards(){
+            var active=document.getElementById('documentSourceCard'),text=document.getElementById('v18DocumentVariantsCard'),result=document.getElementById('v20DocumentResultCard');if(!active)return;
+            var top=active.offsetTop+active.offsetHeight+9;if(text?.classList.contains('open')){text.style.top=top+'px';top+=text.offsetHeight+9;}if(result?.classList.contains('open'))result.style.top=top+'px';
+        }
+        async function v20ClearActiveDocument(){
+            var card=document.getElementById('documentSourceCard'),file=card?.dataset.templateFile||'',documentType=card?.dataset.documentType||'',groupId=card?.dataset.resultGroupId||v20InferResultGroup(file),index=card?.dataset.resultIndex||'0';
+            if(!file||!ioGuidedTemplateMap[file]){await appAlert('Temizlenecek boş belge şablonu bulunamadı.','Belge Temizlenemedi');return;}
+            await ioOpenTemplateDirect(file);setDocumentSourceInfo({templateName:documentType||file.replace(/\.arbsys$/i,''),templateFileName:file,disputeType:'',subtype:'',subject:'',recordId:''});
+            card.dataset.templateFile=file;card.dataset.documentType=documentType;card.dataset.resultGroupId=groupId;card.dataset.resultIndex=index;v20SetFilledState(false);document.getElementById('documentSourceFillPanel')?.classList.remove('open');v18RenderResultOptions();
+        }
+        function v20UpdateBlankSummary(){
+            var summary=document.getElementById('v18BlankSummary'),button=document.getElementById('ioDocumentOpenBtn');if(!summary||!button)return;
+            button.innerHTML='<span class="material-icons">description</span>Boş Belge Olarak Aç';
+            if(!v18BlankSelection){button.disabled=true;summary.innerHTML='<strong>Henüz belge seçilmedi</strong>Başlamak için yukarıdaki belgelerden birini seçin.';return;}
+            var config=V18_BLANK_CATALOG[v18BlankSelection],type=document.getElementById('v18BlankType')?.value||'',subtype=document.getElementById('v18BlankSubtype')?.value||'',variant=config.variants?v18SelectedVariant(v18BlankSelection,'v18BlankVariant'):null,valid=!config.requiresClassification||!!(type&&subtype);
+            button.disabled=!valid;var title=v18BlankSelection+(variant?' — '+variant.label:'');var detail=config.requiresClassification?(valid?type+' › '+subtype:'Uyuşmazlık türü ve alt türü seçilmelidir.'):'Boş ve noktalı alanlarla açılacak.';summary.innerHTML='<strong>'+title+'</strong>'+detail;
+        }
+        var v20SetDocumentSourceInfoBase=setDocumentSourceInfo;
+        setDocumentSourceInfo=function(info){v20SetDocumentSourceInfoBase(info);v20RefreshTemplateName();setTimeout(v20LayoutCards,0);};
+        var v20OpenTemplateDirectBase=ioOpenTemplateDirect;
+        ioOpenTemplateDirect=async function(fileName){var result=await v20OpenTemplateDirectBase(fileName),card=document.getElementById('documentSourceCard'),group=v20InferResultGroup(fileName);if(card&&group){card.dataset.resultGroupId=group;card.dataset.resultIndex='0';v18RenderResultOptions();}v20RefreshTemplateName();return result;};
+        var v20FillActiveDocumentBase=v16FillActiveDocument;
+        v16FillActiveDocument=async function(){await v20FillActiveDocumentBase();var card=document.getElementById('documentSourceCard');if(card?.dataset.recordId)v20SetFilledState(true);setTimeout(v20LayoutCards,0);};
+        var v20GuidedApplyBase=ioGuidedApply;
+        ioGuidedApply=async function(){await v20GuidedApplyBase();if(document.getElementById('documentSourceCard')?.dataset.recordId)v20SetFilledState(true);};
+        var v20OpenBlankDocumentBase=v18OpenBlankDocument;
+        v18OpenBlankDocument=async function(){await v20OpenBlankDocumentBase();v20SetFilledState(false);v20RefreshTemplateName();};
+        var v20ToggleCardBase=v17ToggleDocumentSourceCard;
+        v17ToggleDocumentSourceCard=function(event){v20ToggleCardBase(event);setTimeout(function(){v18UpdateVariantCard();v20LayoutCards();},0);};
+        v18UpdateBlankSummary=v20UpdateBlankSummary;
+        v18RenderResultOptions=function(){
+            var source=document.getElementById('documentSourceCard'),group=v18GetResultGroup(source?.dataset.resultGroupId||''),area=document.getElementById('v18DocumentResultArea'),buttons=document.getElementById('v18DocumentResultButtons'),note=document.getElementById('v18DocumentResultNote');if(!area||!buttons)return;
+            buttons.innerHTML='';area.style.display=group?.options?.length?'block':'none';if(note)note.style.display='none';
+            if(group?.options?.length){var hasTarget=!!ioGuidedFindCurrentContentCell('SONUÇ'),active=parseInt(source.dataset.resultIndex||'0',10);if(note)note.style.display=hasTarget?'none':'block';group.options.forEach(function(option,index){var button=document.createElement('button');button.type='button';button.className='document-source-option-btn'+(index===active?' active':'');button.textContent=option.title||('SONUÇ '+(index+1));button.disabled=!hasTarget;button.onclick=function(){source.dataset.resultIndex=String(index);v18WriteResultToCurrentDocument(group.id,index);v18RenderResultOptions();};buttons.appendChild(button);});}
+            v18UpdateVariantCard();setTimeout(v20LayoutCards,0);
+        };
+        v18UpdateVariantCard=function(){
+            var active=document.getElementById('documentSourceCard'),collapsed=active?.classList.contains('is-collapsed'),text=document.getElementById('v18DocumentVariantsCard'),result=document.getElementById('v20DocumentResultCard');
+            var textVisible=Array.from(text?.querySelectorAll('.document-source-options')||[]).some(function(area){return area.style.display!=='none';});var resultVisible=document.getElementById('v18DocumentResultArea')?.style.display!=='none';
+            text?.classList.toggle('open',!!textVisible&&!collapsed);result?.classList.toggle('open',!!resultVisible&&!collapsed);setTimeout(v20LayoutCards,0);
+        };
+        v18RenderResultManagerList=function(){
+            var list=document.getElementById('v18ResultGroupList');if(!list)return;list.innerHTML='';var last='';(ioGuidedData.resultVariantGroups||[]).slice().sort(function(a,b){return a.documentType.localeCompare(b.documentType,'tr')||a.title.localeCompare(b.title,'tr');}).forEach(function(group){if(group.documentType!==last){var heading=document.createElement('div');heading.className='v20-result-section-title';heading.textContent=group.documentType;list.appendChild(heading);last=group.documentType;}var button=document.createElement('button');button.type='button';button.className='v18-result-group-card'+(v18ActiveResultGroup===group.id?' active':'');button.innerHTML='<strong>'+group.title+'</strong><small>'+group.options.length+' metin seçeneği</small>';button.onclick=function(){v18ActiveResultGroup=group.id;v18RenderResultManagerList();v18RenderResultEditor();};list.appendChild(button);});
+        };
+        function v20Boot(){v20MergeResultDefaults();v20BuildActiveCard();v18RenderResultOptions();v20UpdateBlankSummary();window.addEventListener('resize',v20LayoutCards);setTimeout(v20LayoutCards,50);}
+        v20Boot();
+    </script>
 </body></html>
