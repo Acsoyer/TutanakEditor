@@ -6704,4 +6704,91 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         function v20Boot(){v20MergeResultDefaults();v20BuildActiveCard();v18RenderResultOptions();v20UpdateBlankSummary();window.addEventListener('resize',v20LayoutCards);setTimeout(v20LayoutCards,50);}
         v20Boot();
     </script>
+    <style>
+        /* ==== v21: görünür ve düzenlenebilir SONUÇ seçenekleri ==== */
+        #v20DocumentResultCard{max-height:min(52vh,520px);overflow:auto}
+        #v20DocumentResultCard .document-source-options{display:block;margin:0;padding:0;border:0;background:transparent}
+        #v20DocumentResultCard .document-source-options-title{font-size:11px;line-height:1.35;text-transform:none;letter-spacing:0;color:#475569;margin:0 0 9px}
+        #v20DocumentResultCard .document-source-option-buttons{display:grid;grid-template-columns:1fr;gap:8px}
+        #v20DocumentResultCard .v21-result-option{display:block;width:100%;min-height:0;padding:10px 11px;border:1px solid #dce3ec;border-radius:10px;background:#f8fafc;color:#26354b;text-align:left;box-shadow:none}
+        #v20DocumentResultCard .v21-result-option:hover:not(:disabled){border-color:#8b5cf6;background:#faf8ff;color:#35256b}
+        #v20DocumentResultCard .v21-result-option.active{border-color:#7c3aed;background:#f3efff;color:#35256b;box-shadow:0 0 0 2px rgba(124,58,237,.09)}
+        #v20DocumentResultCard .v21-result-option-label{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:11px;font-weight:800;color:#6d28d9;margin-bottom:5px}
+        #v20DocumentResultCard .v21-result-option.active .v21-result-option-label{color:#5b21b6}
+        #v20DocumentResultCard .v21-result-option-check{display:none;font-size:15px}
+        #v20DocumentResultCard .v21-result-option.active .v21-result-option-check{display:inline-block}
+        #v20DocumentResultCard .v21-result-option-text{display:block;font-size:10px;font-weight:500;line-height:1.45;color:#526174;white-space:normal;overflow-wrap:anywhere}
+        #v20DocumentResultCard .document-source-option-note{margin-top:9px;padding:8px 9px;border-radius:8px;background:#fff7ed;color:#9a3412;font-size:10px;line-height:1.4}
+        #v20DocumentResultCard .v21-result-empty{padding:10px;border-radius:9px;background:#f8fafc;color:#64748b;font-size:11px}
+        #v20DocumentResultCard .v20-manage-result{background:#7c3aed;border-color:#7c3aed;color:#fff}
+        #v20DocumentResultCard .v20-manage-result:hover{background:#6d28d9;border-color:#6d28d9}
+    </style>
+    <script>
+        // ==== v21: sonuç kartı her zaman Aktif Belge altında ve veri göçü dayanıklı ==== 
+        function v21EnsureResultGroups(persist){
+            if(!ioGuidedData)return false;
+            ioGuidedData.resultVariantGroups=Array.isArray(ioGuidedData.resultVariantGroups)?ioGuidedData.resultVariantGroups:[];
+            var changed=false,defaults=window.ARBSYS_RESULT_VARIANTS?.groups||[];
+            defaults.forEach(function(seed){
+                var current=ioGuidedData.resultVariantGroups.find(function(group){return group.id===seed.id;});
+                if(!current){ioGuidedData.resultVariantGroups.push(JSON.parse(JSON.stringify(seed)));changed=true;return;}
+                if(!Array.isArray(current.options)||!current.options.length){current.options=JSON.parse(JSON.stringify(seed.options||[]));changed=true;}
+                if(!current.documentType){current.documentType=seed.documentType;changed=true;}
+                if(!current.title){current.title=seed.title;changed=true;}
+            });
+            if(changed&&persist!==false)ioPersistGuidedData();
+            return changed;
+        }
+        function v21ActiveResultGroup(){
+            var source=document.getElementById('documentSourceCard');if(!source)return null;
+            var inferred=v20InferResultGroup(source.dataset.templateFile||source.dataset.templateName||'');
+            if(!source.dataset.resultGroupId&&inferred)source.dataset.resultGroupId=inferred;
+            var group=v18GetResultGroup(source.dataset.resultGroupId||inferred||'');
+            if((!group||!Array.isArray(group.options)||!group.options.length)&&ioGuidedData){v21EnsureResultGroups(false);group=v18GetResultGroup(source.dataset.resultGroupId||inferred||'');}
+            return group;
+        }
+        function v21WriteResult(groupId,index){
+            var group=v18GetResultGroup(groupId),option=group?.options?.[index],cell=ioGuidedFindCurrentContentCell('SONUÇ');
+            if(!cell||!option)return false;ioGuidedWritePlainText(cell,option.text||String(option.html||'').replace(/<br\s*\/?\s*>/gi,'\n').replace(/<[^>]+>/g,' ').replace(/&nbsp;/gi,' ').replace(/\s+/g,' ').trim());applyEditable();return true;
+        }
+        function v21ResultPreview(value){var text=String(value||'').replace(/\s+/g,' ').trim();return text.length>330?text.slice(0,327)+'…':text;}
+        v18WriteResultToCurrentDocument=v21WriteResult;
+        v18RenderResultOptions=function(){
+            var source=document.getElementById('documentSourceCard'),group=v21ActiveResultGroup(),area=document.getElementById('v18DocumentResultArea'),buttons=document.getElementById('v18DocumentResultButtons'),note=document.getElementById('v18DocumentResultNote');if(!area||!buttons)return;
+            buttons.innerHTML='';var available=!!group?.options?.length;area.style.display=available?'block':'none';
+            if(!available){if(note)note.style.display='none';v18UpdateVariantCard();return;}
+            area.querySelector('.document-source-options-title').textContent=(group.documentType||'Belge')+' — '+(group.title||'SONUÇ')+' için sonuç metnini seçin';
+            var hasTarget=!!ioGuidedFindCurrentContentCell('SONUÇ'),active=Math.min(parseInt(source.dataset.resultIndex||'0',10)||0,group.options.length-1);source.dataset.resultGroupId=group.id;source.dataset.resultIndex=String(active);
+            group.options.forEach(function(option,index){
+                var button=document.createElement('button');button.type='button';button.className='document-source-option-btn v21-result-option'+(index===active?' active':'');button.disabled=!hasTarget;
+                var title=String(option.title||'').trim();if(!/^seçenek\s*\d+/i.test(title))title='Seçenek '+(index+1)+(title?' — '+title:'');
+                button.innerHTML='<span class="v21-result-option-label"><span>'+title.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</span><span class="material-icons v21-result-option-check">check_circle</span></span><span class="v21-result-option-text"></span>';
+                button.querySelector('.v21-result-option-text').textContent=v21ResultPreview(option.text||String(option.html||'').replace(/<[^>]+>/g,' '));
+                button.onclick=function(){source.dataset.resultIndex=String(index);v21WriteResult(group.id,index);v18RenderResultOptions();};buttons.appendChild(button);
+            });
+            if(note){note.style.display=hasTarget?'none':'block';note.textContent='Bu belgede “SONUÇ” başlıklı alan bulunamadığı için seçenekler belgeye uygulanamıyor.';}
+            v18UpdateVariantCard();setTimeout(v20LayoutCards,0);
+        };
+        v18UpdateVariantCard=function(){
+            var active=document.getElementById('documentSourceCard'),collapsed=active?.classList.contains('is-collapsed'),text=document.getElementById('v18DocumentVariantsCard'),result=document.getElementById('v20DocumentResultCard');
+            var textVisible=Array.from(text?.querySelectorAll('.document-source-options')||[]).some(function(area){return area.style.display!=='none';}),resultVisible=!!v21ActiveResultGroup()?.options?.length;
+            text?.classList.toggle('open',!!textVisible&&!collapsed);result?.classList.toggle('open',resultVisible);setTimeout(v20LayoutCards,0);
+        };
+        var v21OpenBlankDocumentBase=v18OpenBlankDocument;
+        v18OpenBlankDocument=async function(){
+            var name=v18BlankSelection,variant=V18_BLANK_CATALOG[name]?.variants?v18SelectedVariant(name,'v18BlankVariant'):null;
+            await v21OpenBlankDocumentBase();var source=document.getElementById('documentSourceCard'),groupId=variant?.resultGroup||v20InferResultGroup(source?.dataset.templateFile||'');
+            if(source&&groupId){source.dataset.resultGroupId=groupId;source.dataset.resultIndex=document.getElementById('v18BlankResult')?.value||'0';v18RenderResultOptions();}
+        };
+        var v21OpenTemplateDirectBase=ioOpenTemplateDirect;
+        ioOpenTemplateDirect=async function(fileName){var result=await v21OpenTemplateDirectBase(fileName),source=document.getElementById('documentSourceCard'),groupId=v20InferResultGroup(fileName);if(source&&groupId){source.dataset.resultGroupId=groupId;source.dataset.resultIndex='0';v18RenderResultOptions();}return result;};
+        var v21SaveResultOptionsBase=v18SaveResultOptions;
+        v18SaveResultOptions=async function(){await v21SaveResultOptionsBase();v18RenderResultOptions();};
+        var v21SupabaseApplyRemoteDatasetBase=supabaseApplyRemoteDataset;
+        supabaseApplyRemoteDataset=function(row){v21SupabaseApplyRemoteDatasetBase(row);v21EnsureResultGroups(true);v18RenderResultOptions();};
+        var v21RestoreDocumentSourceInfoBase=restoreDocumentSourceInfo;
+        restoreDocumentSourceInfo=function(){v21RestoreDocumentSourceInfoBase();v21EnsureResultGroups(false);v18RenderResultOptions();};
+        function v21Boot(){v21EnsureResultGroups(true);v18RenderResultOptions();setTimeout(function(){v18RenderResultOptions();v20LayoutCards();},100);}
+        v21Boot();
+    </script>
 </body></html>
