@@ -7018,15 +7018,22 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             position:absolute; inset:0 auto auto 0; width:794px; height:1123px;
             background:#fff; color:#000; overflow:hidden; transform-origin:top left;
             transform:scale(var(--v23-page-scale, .7)); font-family:Arial,sans-serif;
+            font-size:10pt; line-height:1.2;
         }
         .v23-preview-page-header, .v23-preview-page-footer { position:absolute; left:66px; right:47px; text-align:center; }
-        .v23-preview-page-header { top:27px; height:86px; }
-        .v23-preview-page-header img { display:block; max-width:100%; max-height:72px; margin:0 auto; object-fit:contain; }
-        .v23-preview-page-header::after { content:""; position:absolute; left:0; right:0; bottom:0; border-bottom:1px solid #777; }
-        .v23-preview-page-footer { bottom:22px; min-height:48px; padding-top:8px; border-top:1px solid #777; color:#333; font-size:10px; line-height:1.45; }
+        .v23-preview-page-header { top:23px; height:91px; }
+        .v23-preview-page-header img { display:block; width:302px; height:76px; max-width:100%; margin:0 auto; object-fit:contain; }
+        .v23-preview-page-header::after { content:""; position:absolute; left:0; right:0; bottom:0; border-bottom:2px solid #6f7780; }
+        .v23-preview-page-footer { bottom:19px; min-height:49px; padding-top:8px; border-top:2px solid #6f7780; color:#000; font-family:'Palatino Linotype',Georgia,serif; font-size:9pt; line-height:1.5; }
         .v23-preview-page-body { position:absolute; left:66px; right:47px; top:47px; bottom:47px; overflow:hidden; }
         .v23-preview-page.has-hf .v23-preview-page-body { top:132px; bottom:76px; }
         .v23-preview-page table { width:100%; border-collapse:collapse; table-layout:fixed; }
+        .v23-preview-page .label-cell, .v23-preview-page .colon-cell,
+        .v23-preview-page .content-cell, .v23-preview-page .title-text-row td,
+        .v23-preview-page .sig-title { color:#000 !important; }
+        .v23-preview-page .label-cell, .v23-preview-page .colon-cell,
+        .v23-preview-page .content-cell { margin:0 !important; padding-top:2px !important; padding-bottom:2px !important; }
+        .v23-preview-page .sig-grid { break-inside:avoid !important; page-break-inside:avoid !important; }
         .v23-preview-page .lbl-dd-btn, .v23-preview-page button, .v23-preview-page input,
         .v23-preview-page select, .v23-preview-page textarea { display:none !important; }
         .v23-preview-page [contenteditable] { outline:none !important; }
@@ -7046,6 +7053,9 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         #v23PreviewZoom { width:66px; height:32px; border:1px solid #aab4be; border-radius:8px; background:#fff; color:#263b4d; font-weight:700; }
         #v23PreviewPageIndicator { min-width:58px; text-align:center; color:#33495c; }
         #v23PreviewMeasure { position:fixed; left:-10000px; top:0; width:794px; visibility:hidden; pointer-events:none; }
+        /* Ölçüm gerçek A4 boyutunda yapılır; ekrandaki zoom sayfa kırılımını değiştiremez. */
+        #v23PreviewMeasure .v23-preview-page-shell { width:794px !important; height:1123px !important; margin:0 !important; }
+        #v23PreviewMeasure .v23-preview-page { transform:none !important; }
 
         /* UDF paneli açıldığında üst araç çubuğu artık yeniden boyutlanmaz ve yana kaymaz. */
         body.udf-view-open > .toolbar {
@@ -7107,9 +7117,10 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
 
             function clonePrintableRow(row){
                 const copy=row.cloneNode(true);
+                copy.classList.remove('row-hovered','row-delete-preview','row-dragging');
                 copy.querySelectorAll('button,input,select,textarea,.lbl-dd-btn,[data-no-print]').forEach(function(node){node.remove();});
                 copy.querySelectorAll('[contenteditable]').forEach(function(node){node.removeAttribute('contenteditable');});
-                copy.querySelectorAll('.selected,.hover,.drag-over').forEach(function(node){node.classList.remove('selected','hover','drag-over');});
+                copy.querySelectorAll('.selected,.hover,.drag-over,.row-hovered,.row-delete-preview,.row-dragging').forEach(function(node){node.classList.remove('selected','hover','drag-over','row-hovered','row-delete-preview','row-dragging');});
                 return copy;
             }
             function buildPage(){
