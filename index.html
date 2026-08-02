@@ -6965,4 +6965,236 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         function v22Boot(){v22EnsureSpecialTemplates();v22BuildBlankDocumentScreen();v22AddTemplateLibraryButton();v22BuildFolderDeleteModal();v22PrepareResultCard();v22BuildHFPanel();v18UpdateBlankSummary();v18RenderResultOptions();dashboardRenderTemplates();}
         v22Boot();
     </script>
+
+    <style id="v23-preview-styles">
+        /* v23: Baskı önizleme paneli ve baskı güvenliği */
+        #v23PreviewToggle {
+            position: fixed; top: 76px; right: 18px; z-index: 996;
+            display: inline-flex; align-items: center; gap: 8px;
+            min-height: 42px; padding: 0 17px; border: 1px solid #2f638a;
+            border-radius: 11px; background: #276083; color: #fff;
+            font: 700 13px/1 Arial, sans-serif; box-shadow: 0 6px 18px rgba(26,55,76,.22);
+            cursor: pointer; transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+        }
+        #v23PreviewToggle:hover { background:#1f506f; transform:translateY(-1px); box-shadow:0 9px 22px rgba(26,55,76,.28); }
+        #v23PreviewToggle .material-icons { font-size:20px; }
+        #v23PreviewPanel {
+            --v23-preview-width: min(680px, 52vw);
+            position: fixed; top: 60px; right: 0; bottom: 0; z-index: 1200;
+            width: var(--v23-preview-width); display:flex; flex-direction:column;
+            background:#b8c3cf; border-left:1px solid #8e9dac;
+            box-shadow:-16px 0 38px rgba(30,42,55,.22);
+            transform:translateX(105%); visibility:hidden;
+            transition:transform .28s ease, visibility 0s linear .28s;
+        }
+        #v23PreviewPanel.open { transform:translateX(0); visibility:visible; transition:transform .28s ease; }
+        .v23-preview-head {
+            flex:0 0 auto; display:flex; align-items:center; gap:12px; min-height:64px;
+            padding:10px 14px 10px 18px; background:#f7f9fb; border-bottom:1px solid #9eabb8;
+        }
+        .v23-preview-title { min-width:0; flex:1; }
+        .v23-preview-title strong { display:block; color:#172b3b; font:700 15px/1.25 Arial,sans-serif; }
+        .v23-preview-title span { display:block; margin-top:4px; color:#657483; font:12px/1.2 Arial,sans-serif; }
+        .v23-preview-refresh, .v23-preview-close {
+            display:inline-flex; align-items:center; justify-content:center; gap:6px;
+            height:36px; border-radius:9px; cursor:pointer; font-weight:700;
+        }
+        .v23-preview-refresh { padding:0 12px; border:1px solid #2f638a; background:#eaf2f7; color:#234f6c; }
+        .v23-preview-refresh:hover { background:#dceaf3; }
+        .v23-preview-refresh .material-icons { font-size:17px; }
+        .v23-preview-close { width:36px; border:1px solid #aab4be; background:#fff; color:#425364; font-size:22px; }
+        .v23-preview-close:hover { background:#eef2f5; }
+        #v23PreviewViewport {
+            position:relative; flex:1 1 auto; min-height:0; overflow:auto;
+            padding:24px 18px 92px; scroll-behavior:smooth; overscroll-behavior:contain;
+        }
+        #v23PreviewPages { width:100%; }
+        .v23-preview-page-shell {
+            position:relative; width:calc(794px * var(--v23-page-scale, .7));
+            height:calc(1123px * var(--v23-page-scale, .7)); margin:0 auto 22px;
+            background:#fff; box-shadow:0 8px 25px rgba(24,34,45,.25); overflow:hidden;
+        }
+        .v23-preview-page {
+            position:absolute; inset:0 auto auto 0; width:794px; height:1123px;
+            background:#fff; color:#000; overflow:hidden; transform-origin:top left;
+            transform:scale(var(--v23-page-scale, .7)); font-family:Arial,sans-serif;
+        }
+        .v23-preview-page-header, .v23-preview-page-footer { position:absolute; left:66px; right:47px; text-align:center; }
+        .v23-preview-page-header { top:27px; height:86px; }
+        .v23-preview-page-header img { display:block; max-width:100%; max-height:72px; margin:0 auto; object-fit:contain; }
+        .v23-preview-page-header::after { content:""; position:absolute; left:0; right:0; bottom:0; border-bottom:1px solid #777; }
+        .v23-preview-page-footer { bottom:22px; min-height:48px; padding-top:8px; border-top:1px solid #777; color:#333; font-size:10px; line-height:1.45; }
+        .v23-preview-page-body { position:absolute; left:66px; right:47px; top:47px; bottom:47px; overflow:hidden; }
+        .v23-preview-page.has-hf .v23-preview-page-body { top:132px; bottom:76px; }
+        .v23-preview-page table { width:100%; border-collapse:collapse; table-layout:fixed; }
+        .v23-preview-page .lbl-dd-btn, .v23-preview-page button, .v23-preview-page input,
+        .v23-preview-page select, .v23-preview-page textarea { display:none !important; }
+        .v23-preview-page [contenteditable] { outline:none !important; }
+        .v23-preview-tools {
+            position:absolute; left:50%; bottom:18px; transform:translateX(-50%); z-index:3;
+            display:flex; align-items:center; gap:7px; padding:8px 10px;
+            border:1px solid #8e9ba8; border-radius:13px; background:rgba(247,249,251,.97);
+            box-shadow:0 8px 22px rgba(28,40,52,.24); font:700 12px/1 Arial,sans-serif;
+        }
+        .v23-preview-tools button {
+            display:inline-flex; align-items:center; justify-content:center; width:34px; height:32px;
+            padding:0; border:1px solid #aab4be; border-radius:8px; background:#fff; color:#263b4d; cursor:pointer;
+        }
+        .v23-preview-tools button:hover:not(:disabled) { background:#e7eef3; }
+        .v23-preview-tools button:disabled { opacity:.4; cursor:default; }
+        .v23-preview-tools .material-icons { font-size:18px; }
+        #v23PreviewZoom { width:66px; height:32px; border:1px solid #aab4be; border-radius:8px; background:#fff; color:#263b4d; font-weight:700; }
+        #v23PreviewPageIndicator { min-width:58px; text-align:center; color:#33495c; }
+        #v23PreviewMeasure { position:fixed; left:-10000px; top:0; width:794px; visibility:hidden; pointer-events:none; }
+
+        /* UDF paneli açıldığında üst araç çubuğu artık yeniden boyutlanmaz ve yana kaymaz. */
+        body.udf-view-open > .toolbar {
+            left:0 !important; right:0 !important; width:100% !important;
+            padding-left:20px !important; padding-right:20px !important; overflow:visible !important;
+        }
+        body.udf-view-open .toolbar-inner {
+            width:210mm !important; max-width:calc(100vw - 40px) !important;
+            margin:0 auto !important; justify-content:flex-start !important;
+        }
+        body.udf-view-open .toolbar-right { margin-left:auto !important; }
+
+        @media (max-width: 900px) {
+            #v23PreviewPanel { --v23-preview-width: min(620px, 92vw); }
+            #v23PreviewToggle { right:10px; }
+        }
+        @media print {
+            #v20TemplateSaveCard, #v18DocumentVariantsCard, #v20DocumentResultCard,
+            #v23PreviewToggle, #v23PreviewPanel, #v23PreviewMeasure,
+            #v22FolderDeleteModal, .v20-companion-card, .v20-template-save-card {
+                display:none !important; visibility:hidden !important;
+            }
+            body.udf-view-open > .toolbar { display:none !important; }
+        }
+    </style>
+
+    <button id="v23PreviewToggle" type="button" aria-controls="v23PreviewPanel" aria-expanded="false">
+        <span class="material-icons">preview</span>Önizleme
+    </button>
+    <aside id="v23PreviewPanel" aria-hidden="true">
+        <div class="v23-preview-head">
+            <div class="v23-preview-title"><strong>Baskı Önizleme</strong><span id="v23PreviewStatus">Henüz oluşturulmadı</span></div>
+            <button class="v23-preview-refresh" id="v23PreviewRefresh" type="button"><span class="material-icons">refresh</span>Güncelle</button>
+            <button class="v23-preview-close" id="v23PreviewClose" type="button" aria-label="Önizlemeyi kapat">×</button>
+        </div>
+        <div id="v23PreviewViewport">
+            <div id="v23PreviewPages"></div>
+        </div>
+        <div class="v23-preview-tools" aria-label="Önizleme araçları">
+            <button id="v23PreviewZoomOut" type="button" title="Uzaklaştır"><span class="material-icons">remove</span></button>
+            <select id="v23PreviewZoom" aria-label="Yakınlaştırma">
+                <option value="0.5">%50</option><option value="0.6">%60</option><option value="0.7" selected>%70</option>
+                <option value="0.8">%80</option><option value="0.9">%90</option><option value="1">%100</option>
+            </select>
+            <button id="v23PreviewZoomIn" type="button" title="Yakınlaştır"><span class="material-icons">add</span></button>
+            <button id="v23PreviewPrevious" type="button" title="Önceki sayfa"><span class="material-icons">keyboard_arrow_up</span></button>
+            <span id="v23PreviewPageIndicator">1 / 1</span>
+            <button id="v23PreviewNext" type="button" title="Sonraki sayfa"><span class="material-icons">keyboard_arrow_down</span></button>
+        </div>
+    </aside>
+    <div id="v23PreviewMeasure" aria-hidden="true"></div>
+
+    <script id="v23-preview-script">
+        // ==== v23: sayfalı baskı önizlemesi ====
+        (function(){
+            const PAGE_WIDTH=794,PAGE_HEIGHT=1123,ZOOMS=[.5,.6,.7,.8,.9,1];
+            let currentPage=1,autoRefreshTimer=null,refreshing=false,scrollFrame=0;
+            const panel=document.getElementById('v23PreviewPanel'),viewport=document.getElementById('v23PreviewViewport'),pages=document.getElementById('v23PreviewPages');
+
+            function clonePrintableRow(row){
+                const copy=row.cloneNode(true);
+                copy.querySelectorAll('button,input,select,textarea,.lbl-dd-btn,[data-no-print]').forEach(function(node){node.remove();});
+                copy.querySelectorAll('[contenteditable]').forEach(function(node){node.removeAttribute('contenteditable');});
+                copy.querySelectorAll('.selected,.hover,.drag-over').forEach(function(node){node.classList.remove('selected','hover','drag-over');});
+                return copy;
+            }
+            function buildPage(){
+                const shell=document.createElement('div');shell.className='v23-preview-page-shell';
+                const page=document.createElement('section');page.className='v23-preview-page';
+                const hf=typeof v22HFSettings!=='undefined'&&!!v22HFSettings.enabled;
+                if(hf)page.classList.add('has-hf');
+                if(hf){
+                    const header=document.createElement('div');header.className='v23-preview-page-header';
+                    const source=document.querySelector('#logoPrintBox img');
+                    if(source){const img=document.createElement('img');img.src=source.src;img.alt='';header.appendChild(img);}page.appendChild(header);
+                }
+                const body=document.createElement('div');body.className='v23-preview-page-body';
+                const table=document.createElement('table');
+                const original=document.getElementById('docTable');
+                const colgroup=original?.querySelector(':scope > colgroup');if(colgroup)table.appendChild(colgroup.cloneNode(true));
+                const tbody=document.createElement('tbody');table.appendChild(tbody);body.appendChild(table);page.appendChild(body);
+                if(hf){const footer=document.createElement('div');footer.className='v23-preview-page-footer';footer.innerHTML=document.getElementById('footerPrintBox')?.innerHTML||'';page.appendChild(footer);}
+                shell.appendChild(page);return {shell:shell,page:page,body:body,table:table,tbody:tbody};
+            }
+            function pageFits(record){return record.table.getBoundingClientRect().height<=record.body.clientHeight+.5;}
+            function refreshPreview(){
+                if(refreshing)return;refreshing=true;
+                try{
+                    const sourceRows=Array.from(document.querySelectorAll('#docTable > tbody > tr'));
+                    const measure=document.getElementById('v23PreviewMeasure');measure.innerHTML='';pages.innerHTML='';
+                    let record=buildPage();measure.appendChild(record.shell);let pageRecords=[];
+                    if(!sourceRows.length)pageRecords.push(record);
+                    sourceRows.forEach(function(row){
+                        const copy=clonePrintableRow(row);record.tbody.appendChild(copy);
+                        if(!pageFits(record)&&record.tbody.children.length>1){
+                            copy.remove();pageRecords.push(record);record=buildPage();measure.appendChild(record.shell);record.tbody.appendChild(copy);
+                        }
+                    });
+                    if(sourceRows.length)pageRecords.push(record);
+                    pageRecords.forEach(function(item,index){item.shell.dataset.page=String(index+1);pages.appendChild(item.shell);});
+                    measure.innerHTML='';currentPage=Math.min(Math.max(1,currentPage),Math.max(1,pageRecords.length));
+                    const now=new Date(),stamp=now.toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+                    document.getElementById('v23PreviewStatus').textContent=pageRecords.length+' sayfa · Son güncelleme '+stamp;
+                    updateControls();requestAnimationFrame(function(){goToPage(currentPage,false);});
+                }finally{refreshing=false;}
+            }
+            function updateScale(value){
+                const scale=Math.min(1,Math.max(.5,Number(value)||.7));pages.style.setProperty('--v23-page-scale',String(scale));
+                document.getElementById('v23PreviewZoom').value=String(scale);
+            }
+            function updateControls(){
+                const count=pages.children.length||1;
+                document.getElementById('v23PreviewPageIndicator').textContent=currentPage+' / '+count;
+                document.getElementById('v23PreviewPrevious').disabled=currentPage<=1;
+                document.getElementById('v23PreviewNext').disabled=currentPage>=count;
+            }
+            function goToPage(number,smooth){
+                const count=pages.children.length||1;currentPage=Math.min(Math.max(1,number),count);updateControls();
+                const target=pages.children[currentPage-1];if(target)target.scrollIntoView({behavior:smooth===false?'auto':'smooth',block:'start'});
+            }
+            function detectCurrentPage(){
+                scrollFrame=0;const items=Array.from(pages.children);if(!items.length)return;
+                const anchor=viewport.getBoundingClientRect().top+32;let best=1,distance=Infinity;
+                items.forEach(function(item,index){const d=Math.abs(item.getBoundingClientRect().top-anchor);if(d<distance){distance=d;best=index+1;}});
+                if(best!==currentPage){currentPage=best;updateControls();}
+            }
+            function closePreview(){
+                panel.classList.remove('open');panel.setAttribute('aria-hidden','true');document.getElementById('v23PreviewToggle').setAttribute('aria-expanded','false');
+                if(autoRefreshTimer){clearInterval(autoRefreshTimer);autoRefreshTimer=null;}
+            }
+            function openPreview(){
+                if(document.body.classList.contains('udf-view-open')&&typeof toggleUdfViewer==='function')toggleUdfViewer(false);
+                panel.classList.add('open');panel.setAttribute('aria-hidden','false');document.getElementById('v23PreviewToggle').setAttribute('aria-expanded','true');
+                const fit=Math.max(.5,Math.min(.8,(panel.clientWidth-58)/PAGE_WIDTH));const nearest=ZOOMS.reduce(function(a,b){return Math.abs(b-fit)<Math.abs(a-fit)?b:a;},ZOOMS[0]);updateScale(nearest);refreshPreview();
+                if(autoRefreshTimer)clearInterval(autoRefreshTimer);autoRefreshTimer=setInterval(refreshPreview,30000);
+            }
+            window.v23ClosePreview=closePreview;window.v23RefreshPreview=refreshPreview;
+            document.getElementById('v23PreviewToggle').onclick=function(){panel.classList.contains('open')?closePreview():openPreview();};
+            document.getElementById('v23PreviewClose').onclick=closePreview;document.getElementById('v23PreviewRefresh').onclick=refreshPreview;
+            document.getElementById('v23PreviewPrevious').onclick=function(){goToPage(currentPage-1);};document.getElementById('v23PreviewNext').onclick=function(){goToPage(currentPage+1);};
+            document.getElementById('v23PreviewZoom').onchange=function(event){updateScale(event.target.value);updateControls();};
+            document.getElementById('v23PreviewZoomOut').onclick=function(){const current=Number(document.getElementById('v23PreviewZoom').value),index=ZOOMS.indexOf(current);updateScale(ZOOMS[Math.max(0,index-1)]);};
+            document.getElementById('v23PreviewZoomIn').onclick=function(){const current=Number(document.getElementById('v23PreviewZoom').value),index=ZOOMS.indexOf(current);updateScale(ZOOMS[Math.min(ZOOMS.length-1,index+1)]);};
+            viewport.addEventListener('scroll',function(){if(!scrollFrame)scrollFrame=requestAnimationFrame(detectCurrentPage);},{passive:true});
+            document.addEventListener('keydown',function(event){if(event.key==='Escape'&&panel.classList.contains('open'))closePreview();});
+            if(typeof window.toggleUdfViewer==='function'){
+                const originalToggleUdfViewer=window.toggleUdfViewer;
+                window.toggleUdfViewer=function(forceOpen){const opening=typeof forceOpen==='boolean'?forceOpen:!document.body.classList.contains('udf-view-open');if(opening)closePreview();return originalToggleUdfViewer.apply(this,arguments);};
+            }
+        })();
+    </script>
 </body></html>
