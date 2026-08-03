@@ -1067,9 +1067,9 @@
         </div>
         <div class="document-source-list">
             <div class="document-source-row"><div class="document-source-label">Şablon</div><div id="documentSourceTemplate" class="document-source-value">Editör Başlangıç İçeriği</div></div>
-            <div class="document-source-row"><div class="document-source-label">Uyuşmazlık Türü <button class="document-source-edit" type="button" title="Uyuşmazlık türünü değiştir" onclick="v16ToggleSourceFill('documentSourceFillType')"><span class="material-icons">edit</span></button></div><div id="documentSourceType" class="document-source-value">—</div></div>
-            <div id="documentSourceSubtypeRow" class="document-source-row"><div class="document-source-label">Alt Tür</div><div id="documentSourceSubtype" class="document-source-value">—</div></div>
-            <div class="document-source-row"><div class="document-source-label">Uyuşmazlık Konusu <button class="document-source-edit" type="button" title="Uyuşmazlık konusunu değiştir" onclick="v16ToggleSourceFill('documentSourceFillSubject')"><span class="material-icons">edit</span></button></div><div id="documentSourceSubject" class="document-source-value">—</div></div>
+            <div class="document-source-row"><div class="document-source-label">Uyuşmazlık Türü <button class="document-source-edit" type="button" title="Uyuşmazlık türünü değiştir" onclick="v16ToggleSourceFill('documentSourceFillType')"><span class="material-icons">edit</span></button></div><div id="documentSourceType" class="document-source-value">-</div></div>
+            <div id="documentSourceSubtypeRow" class="document-source-row"><div class="document-source-label">Alt Tür</div><div id="documentSourceSubtype" class="document-source-value">-</div></div>
+            <div class="document-source-row"><div class="document-source-label">Uyuşmazlık Konusu <button class="document-source-edit" type="button" title="Uyuşmazlık konusunu değiştir" onclick="v16ToggleSourceFill('documentSourceFillSubject')"><span class="material-icons">edit</span></button></div><div id="documentSourceSubject" class="document-source-value">-</div></div>
         </div>
         <div id="documentSourceFillPanel" class="document-source-fill-panel">
             <label>Uyuşmazlık Türü<select id="documentSourceFillType" onchange="v16SourceTypeChanged()"></select></label>
@@ -1244,19 +1244,19 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                     <div class="io-guided-card">
                         <div class="io-select-grid">
                             <div class="io-field">
-                                <label for="ioDisputeTypeSelect">1 — Uyuşmazlık Türü</label>
+                                <label for="ioDisputeTypeSelect">1. Uyuşmazlık Türü</label>
                                 <select id="ioDisputeTypeSelect" onchange="ioGuidedTypeChanged()">
                                     <option value="">Uyuşmazlık türü seçin</option>
                                 </select>
                             </div>
                             <div class="io-field">
-                                <label for="ioSubtypeSelect">2 — Uyuşmazlık Alt Türü</label>
+                                <label for="ioSubtypeSelect">2. Uyuşmazlık Alt Türü</label>
                                 <select id="ioSubtypeSelect" onchange="ioGuidedSubtypeChanged()" disabled>
                                     <option value="">Önce uyuşmazlık türünü seçin</option>
                                 </select>
                             </div>
                             <div class="io-field io-field-full">
-                                <label for="ioSubjectSelect">3 — Uyuşmazlık Konusu</label>
+                                <label for="ioSubjectSelect">3. Uyuşmazlık Konusu</label>
                                 <select id="ioSubjectSelect" onchange="ioGuidedSubjectChanged()" disabled style="display:none;">
                                     <option value="">Önce alt türü seçin</option>
                                 </select>
@@ -1287,7 +1287,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
 
                         <div id="ioTemplateArea" class="io-guided-subsection">
                             <div class="io-field">
-                                <label for="ioTemplateSelect">4 — Belge Şablonu</label>
+                                <label for="ioTemplateSelect">4. Belge Şablonu</label>
                                 <select id="ioTemplateSelect" onchange="ioGuidedTemplateChanged()">
                                     <option value="">Belge şablonu seçin</option>
                                 </select>
@@ -1656,10 +1656,10 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             var sourceDataButton = document.getElementById('documentSourceDataBtn');
             if (sourceDataButton) sourceDataButton.disabled = !values.recordId;
             document.getElementById('documentSourceTemplate').textContent = values.templateName;
-            document.getElementById('documentSourceType').textContent = values.disputeType || '—';
-            document.getElementById('documentSourceSubtype').textContent = values.subtype || '—';
+            document.getElementById('documentSourceType').textContent = values.disputeType || '-';
+            document.getElementById('documentSourceSubtype').textContent = values.subtype || '-';
             document.getElementById('documentSourceSubtypeRow').style.display = values.subtype ? '' : 'none';
-            document.getElementById('documentSourceSubject').textContent = values.subject || '—';
+            document.getElementById('documentSourceSubject').textContent = values.subject || '-';
             renderDocumentSourceOptionButtons(record, 'negotiation', values.negotiationIndex);
             renderDocumentSourceOptionButtons(record, 'agreement', values.agreementIndex);
         }
@@ -2428,7 +2428,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             var field = document.getElementById(fieldId);
             options.forEach(function(_text, index) {
                 var title = titles && titles[index] ? titles[index].trim() : '';
-                ioGuidedAddOption(select, String(index), title || (labelPrefix + ' ' + (index + 1) + ' — başlık yok'));
+                ioGuidedAddOption(select, String(index), title || (labelPrefix + ' ' + (index + 1) + ' - başlık yok'));
             });
             select.value = '0';
             if (field) field.style.display = options.length > 1 ? '' : 'none';
@@ -2452,7 +2452,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             if (!record.completeness || !record.completeness.canGenerateDocument) {
                 var missing = dashboardMissingFieldNames(record) || 'Uyuşmazlık Türü, Müzakere Metni veya Varılan Anlaşma';
                 if (warning) {
-                    warning.textContent = 'Şimdilik Eksik — Bu kaydın “' + missing + '” bilgileri tamamlanmadığı için ilgili alanlar belgede boş gösteriliyor.';
+                    warning.textContent = 'Şimdilik Eksik - Bu kaydın “' + missing + '” bilgileri tamamlanmadığı için ilgili alanlar belgede boş gösteriliyor.';
                     warning.style.display = 'block';
                 }
                 if (status) status.textContent = 'Eksik bilgiler boş bırakılarak belge oluşturulabilir.';
@@ -2530,11 +2530,11 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 agreementIndex: agreementIndex,
                 negotiationTitle: record
                     ? (record.templateValues.negotiationOptionTitles[negotiationIndex] ||
-                        (record.templateValues.negotiationOptions.length > 1 ? 'Müzakere Metni ' + (negotiationIndex + 1) + ' — başlık yok' : ''))
+                        (record.templateValues.negotiationOptions.length > 1 ? 'Müzakere Metni ' + (negotiationIndex + 1) + ' - başlık yok' : ''))
                     : '',
                 agreementTitle: record
                     ? (record.templateValues.agreementOptionTitles[agreementIndex] ||
-                        (record.templateValues.agreementOptions.length > 1 ? 'Anlaşma Metni ' + (agreementIndex + 1) + ' — başlık yok' : ''))
+                        (record.templateValues.agreementOptions.length > 1 ? 'Anlaşma Metni ' + (agreementIndex + 1) + ' - başlık yok' : ''))
                     : '',
                 templateFileName: templateSelect ? templateSelect.value : ''
             };
@@ -2740,35 +2740,56 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 (incomplete ? ' dashboard-record-missing' : '') +
                 (dashboardActiveRecordId === record.id ? ' active' : '');
             button.dataset.recordId = record.id;
+            var main = document.createElement('div');
+            main.className = 'dashboard-record-main';
             var title = document.createElement('div');
             title.className = 'dashboard-record-title';
             title.textContent = record.selection?.subject || '(Konu adı eksik)';
-            if (record.updatedAt) {
-                var updatedDot = document.createElement('span');
-                updatedDot.className = 'dashboard-updated-dot';
-                updatedDot.title = 'Güncellenmiş kayıt';
-                title.appendChild(updatedDot);
-            }
-            button.appendChild(title);
+            main.appendChild(title);
+            var side = document.createElement('div');
+            side.className = 'dashboard-record-side';
             var badges = document.createElement('div');
             badges.className = 'dashboard-badges';
             dashboardAppendRecordCountBadge(badges, record, 'negotiation');
             dashboardAppendRecordCountBadge(badges, record, 'agreement');
-            if (incomplete) dashboardAddBadge(badges, 'Eksik: ' + (dashboardMissingFieldNames(record) || 'bilgi'), 'missing');
-            button.appendChild(badges);
+            side.appendChild(badges);
+            var updateSlot = document.createElement('span');
+            updateSlot.className = 'dashboard-update-slot';
+            if (record.updatedAt) {
+                var updatedDot = document.createElement('span');
+                updatedDot.className = 'dashboard-updated-dot';
+                updatedDot.title = 'Güncellenmiş kayıt';
+                updateSlot.appendChild(updatedDot);
+            }
+            side.appendChild(updateSlot);
+            main.appendChild(side);
+            button.appendChild(main);
+            if (incomplete) {
+                var missingBadges = document.createElement('div');
+                missingBadges.className = 'dashboard-badges dashboard-missing-badges';
+                dashboardAddBadge(missingBadges, 'Eksik: ' + (dashboardMissingFieldNames(record) || 'bilgi'), 'missing');
+                button.appendChild(missingBadges);
+            }
             button.addEventListener('click', function() { dashboardOpenRecord(record.id); });
             return button;
         }
 
-        function dashboardCreateTreeGroup(label, count, open) {
+        function dashboardCreateTreeGroup(label, count, open, missingCount) {
             var details = document.createElement('details');
             details.className = 'dashboard-tree-group';
             details.open = !!open;
             var summary = document.createElement('summary');
             summary.appendChild(document.createTextNode(label));
+            if (missingCount > 0) {
+                var missingPill = document.createElement('span');
+                missingPill.className = 'dashboard-tree-missing-count';
+                missingPill.textContent = '(' + missingCount + ')';
+                missingPill.title = missingCount + ' eksik uyuşmazlık konusu';
+                summary.appendChild(missingPill);
+            }
             var countPill = document.createElement('span');
             countPill.className = 'dashboard-tree-count';
-            countPill.textContent = count;
+            countPill.textContent = '(' + count + ')';
             summary.appendChild(countPill);
             var content = document.createElement('div');
             content.className = 'dashboard-tree-content';
@@ -2815,13 +2836,17 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             var openFiltered = dashboardActiveFilter !== 'all' || !!query;
             grouped.forEach(function(subtypeMap, typeName) {
                 var typeCount = Array.from(subtypeMap.values()).reduce(function(sum, items) { return sum + items.length; }, 0);
-                var typeGroup = dashboardCreateTreeGroup(typeName, typeCount, openFiltered);
+                var typeMissingCount = Array.from(subtypeMap.values()).reduce(function(sum, items) {
+                    return sum + items.filter(function(record) { return !record.completeness || !record.completeness.canGenerateDocument; }).length;
+                }, 0);
+                var typeGroup = dashboardCreateTreeGroup(typeName, typeCount, openFiltered, typeMissingCount);
                 subtypeMap.forEach(function(items, subtypeName) {
                     if (!subtypeName) {
                         items.forEach(function(record) { typeGroup.content.appendChild(dashboardCreateCompactRecord(record)); });
                         return;
                     }
-                    var subtypeGroup = dashboardCreateTreeGroup(subtypeName, items.length, openFiltered);
+                    var subtypeMissingCount = items.filter(function(record) { return !record.completeness || !record.completeness.canGenerateDocument; }).length;
+                    var subtypeGroup = dashboardCreateTreeGroup(subtypeName, items.length, openFiltered, subtypeMissingCount);
                     items.forEach(function(record) { subtypeGroup.content.appendChild(dashboardCreateCompactRecord(record)); });
                     typeGroup.content.appendChild(subtypeGroup.details);
                 });
@@ -2847,7 +2872,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             titleInput.type = 'text';
             titleInput.className = 'dashboard-option-title' + ((title || '').trim() ? '' : ' title-missing');
             titleInput.value = title || '';
-            titleInput.placeholder = prefix + ' seçeneği ' + (index + 1) + ' — açıklayıcı başlık girin';
+            titleInput.placeholder = prefix + ' seçeneği ' + (index + 1) + ' - açıklayıcı başlık girin';
             titleInput.addEventListener('input', function() {
                 var missing = !titleInput.value.trim();
                 titleInput.classList.toggle('title-missing', missing);
@@ -2930,7 +2955,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             identityGrid.className = 'dashboard-new-grid';
             [
                 { id: 'dashboardNewTypeInput', placeholder: 'Uyuşmazlık türü' },
-                { id: 'dashboardNewSubtypeInput', placeholder: 'Alt tür — yoksa boş bırakın' },
+                { id: 'dashboardNewSubtypeInput', placeholder: 'Alt tür - yoksa boş bırakın' },
                 { id: 'dashboardNewSubjectInput', placeholder: 'Uyuşmazlık konusu' }
             ].forEach(function(config) {
                 var input = document.createElement('input');
@@ -2944,7 +2969,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
 
             var documentTypeSection = document.createElement('section');
             documentTypeSection.className = 'dashboard-section field-dispute';
-            documentTypeSection.appendChild(dashboardCreateText('div', 'dashboard-section-title', 'Uyuşmazlık Türü — Belge Metni'));
+            documentTypeSection.appendChild(dashboardCreateText('div', 'dashboard-section-title', 'Uyuşmazlık Türü - Belge Metni'));
             var documentTypeInput = document.createElement('textarea');
             documentTypeInput.id = 'dashboardDocumentTypeInput';
             documentTypeInput.className = 'dashboard-option-text';
@@ -3028,7 +3053,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             if (record.updatedAt) editor.appendChild(dashboardCreateText('div', 'dashboard-last-updated', 'Son Güncellenme: ' + dashboardFormatUpdatedAt(record.updatedAt)));
             var documentTypeSection = document.createElement('section');
             documentTypeSection.className = 'dashboard-section field-dispute';
-            documentTypeSection.appendChild(dashboardCreateText('div', 'dashboard-section-title', 'Uyuşmazlık Türü — Belge'));
+            documentTypeSection.appendChild(dashboardCreateText('div', 'dashboard-section-title', 'Uyuşmazlık Türü - Belge'));
             var documentTypeInput = document.createElement('textarea');
             documentTypeInput.id = 'dashboardDocumentTypeInput';
             documentTypeInput.className = 'dashboard-option-text';
@@ -3717,7 +3742,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 return { text: '✍️ İmza Tablosu' + (names.length ? ' (' + names.join(', ') + ')' : ''), muted: false };
             }
             if (tr.classList.contains('empty-row')) {
-                return { text: '— boş satır —', muted: true };
+                return { text: '- boş satır -', muted: true };
             }
             if (tr.querySelector('.madde-marker') || tr.querySelector('.madde-row')) {
                 return { text: '• Madde: ' + trunc(tr.textContent, 40), muted: false };
@@ -3748,7 +3773,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 checks.forEach(function(cb) { if (cb.checked) chosen.push(ioImportedRows[parseInt(cb.dataset.idx, 10)]); });
                 if (!chosen.length) { appAlert('Eklemek için en az bir modül seçin.', 'Modül Seçilmedi'); return; }
                 chosen.forEach(function(tr) { tbody.appendChild(tr); });
-                setActiveTemplateName('Karma belge — son eklenen: ' + (ioImportedFileName || 'Bilinmiyor'));
+                setActiveTemplateName('Karma belge - son eklenen: ' + (ioImportedFileName || 'Bilinmiyor'));
             }
 
             injectLabelDropdowns();
@@ -6078,7 +6103,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             var agrTitle=agreement.querySelector('.dashboard-section-title'); if(agrTitle)agrTitle.textContent='Varılan Anlaşma';
             [negotiation,agreement].forEach(function(section){var cards=section.querySelectorAll('.dashboard-option-card'); if(cards.length===1)cards[0].classList.add('single-option');});
             var grid=document.createElement('div'); grid.className='dashboard-record-fields'; negotiation.insertAdjacentElement('beforebegin',grid); grid.appendChild(negotiation); grid.appendChild(agreement);
-            if(dispute) dispute.querySelector('.dashboard-section-title').textContent='Uyuşmazlık Türü — Belge';
+            if(dispute) dispute.querySelector('.dashboard-section-title').textContent='Uyuşmazlık Türü - Belge';
             v15DecorateActions();
         }
         var dashboardOpenRecordV14Final=dashboardOpenRecord;
@@ -6201,7 +6226,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             var normalized=ioGuidedNormalizeLabel(label);
             var alternatives=[];
             if(normalized.includes('TALEP KONUSU') || normalized.includes('MÜZAKERE')) alternatives=['UYUŞMAZLIK KONUSU (Müzakere Edilen Hususlar)','MÜZAKERE EDİLEN HUSUSLAR','UYUŞMAZLIK KONUSU'];
-            if(normalized==='UYUŞMAZLIK TÜRÜ') alternatives=['UYUŞMAZLIK TÜRÜ — BELGE'];
+            if(normalized==='UYUŞMAZLIK TÜRÜ') alternatives=['UYUŞMAZLIK TÜRÜ - BELGE'];
             for(var index=0;index<alternatives.length;index++){found=ioGuidedFindCurrentContentCellV15(alternatives[index]);if(found)return found;}
             return null;
         };
@@ -6509,8 +6534,8 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
 
         function v18BuildGuidedDocumentSelector(){
             var card=document.querySelector('#ioGuidedPanel .io-guided-card');if(!card||document.getElementById('v18GuidedDocumentType'))return;
-            var box=document.createElement('div');box.className='v18-guided-document';box.innerHTML='<div class="io-select-grid"><div class="io-field io-field-full"><label for="v18GuidedDocumentType">1 — Belge</label><select id="v18GuidedDocumentType" onchange="v18GuidedDocumentChanged()"><option value="">Belge seçin</option>'+V18_GUIDED_ORDER.map(function(name){return '<option value="'+name+'">'+name+'</option>';}).join('')+'</select></div><div id="v18GuidedVariantField" class="io-field" style="display:none"><label for="v18GuidedVariant">Belge seçeneği</label><select id="v18GuidedVariant" onchange="v18GuidedVariantChanged()"></select></div><div id="v18GuidedResultField" class="io-field" style="display:none"><label for="v18GuidedResult">SONUÇ metni</label><select id="v18GuidedResult"></select></div></div></div>';
-            card.insertBefore(box,card.firstChild);var labels=[['ioDisputeTypeSelect','2 — Uyuşmazlık Türü'],['ioSubtypeSelect','3 — Uyuşmazlık Alt Türü'],['ioSubjectSelect','4 — Uyuşmazlık Konusu']];labels.forEach(function(pair){var label=document.querySelector('label[for="'+pair[0]+'"]');if(label)label.textContent=pair[1];});
+            var box=document.createElement('div');box.className='v18-guided-document';box.innerHTML='<div class="io-select-grid"><div class="io-field io-field-full"><label for="v18GuidedDocumentType">1. Belge</label><select id="v18GuidedDocumentType" onchange="v18GuidedDocumentChanged()"><option value="">Belge seçin</option>'+V18_GUIDED_ORDER.map(function(name){return '<option value="'+name+'">'+name+'</option>';}).join('')+'</select></div><div id="v18GuidedVariantField" class="io-field" style="display:none"><label for="v18GuidedVariant">Belge seçeneği</label><select id="v18GuidedVariant" onchange="v18GuidedVariantChanged()"></select></div><div id="v18GuidedResultField" class="io-field" style="display:none"><label for="v18GuidedResult">SONUÇ metni</label><select id="v18GuidedResult"></select></div></div></div>';
+            card.insertBefore(box,card.firstChild);var labels=[['ioDisputeTypeSelect','2. Uyuşmazlık Türü'],['ioSubtypeSelect','3. Uyuşmazlık Alt Türü'],['ioSubjectSelect','4. Uyuşmazlık Konusu']];labels.forEach(function(pair){var label=document.querySelector('label[for="'+pair[0]+'"]');if(label)label.textContent=pair[1];});
         }
         function v18GuidedDocumentChanged(){
             var name=document.getElementById('v18GuidedDocumentType')?.value || '';var config=V18_BLANK_CATALOG[name];var field=document.getElementById('v18GuidedVariantField');var select=document.getElementById('v18GuidedVariant');select.innerHTML='';
@@ -6560,10 +6585,10 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             var tabs=document.querySelector('#dataDashboardModal .dashboard-tabs');if(!tabs||document.getElementById('dashboardResultsTab'))return;var tab=document.createElement('button');tab.id='dashboardResultsTab';tab.className='dashboard-tab';tab.type='button';tab.textContent='Son Tutanak / Toplantı Tutanağı Şablonları';tab.onclick=function(){dashboardSetMode('results');};tabs.insertBefore(tab,document.getElementById('dashboardDataTab'));
             var modal=document.querySelector('#dataDashboardModal .dashboard-modal-content');var panel=document.createElement('div');panel.id='dashboardResultsPanel';panel.className='v18-result-manager';panel.innerHTML='<aside class="v18-result-list"><h3>SONUÇ şablonları</h3><div id="v18ResultGroupList"></div></aside><main id="v18ResultEditor" class="v18-result-editor"><div class="dashboard-empty">Düzenlemek için soldan bir belge sonucu seçin.</div></main>';modal.appendChild(panel);
         }
-        function v18RenderResultManagerList(){var list=document.getElementById('v18ResultGroupList');if(!list)return;list.innerHTML='';(ioGuidedData.resultVariantGroups || []).forEach(function(group){var button=document.createElement('button');button.type='button';button.className='v18-result-group-card'+(v18ActiveResultGroup===group.id?' active':'');button.innerHTML='<strong>'+group.documentType+' — '+group.title+'</strong><small>'+group.options.length+' metin seçeneği</small>';button.onclick=function(){v18ActiveResultGroup=group.id;v18RenderResultManagerList();v18RenderResultEditor();};list.appendChild(button);});}
+        function v18RenderResultManagerList(){var list=document.getElementById('v18ResultGroupList');if(!list)return;list.innerHTML='';(ioGuidedData.resultVariantGroups || []).forEach(function(group){var button=document.createElement('button');button.type='button';button.className='v18-result-group-card'+(v18ActiveResultGroup===group.id?' active':'');button.innerHTML='<strong>'+group.documentType+' - '+group.title+'</strong><small>'+group.options.length+' metin seçeneği</small>';button.onclick=function(){v18ActiveResultGroup=group.id;v18RenderResultManagerList();v18RenderResultEditor();};list.appendChild(button);});}
         function v18RenderResultEditor(){
             var editor=document.getElementById('v18ResultEditor'),group=v18GetResultGroup(v18ActiveResultGroup);if(!editor)return;if(!group){editor.innerHTML='<div class="dashboard-empty">Düzenlemek için soldan bir belge sonucu seçin.</div>';return;}
-            editor.innerHTML='<div class="v18-result-editor-head"><div><h3>'+group.documentType+' — '+group.title+'</h3><div class="dashboard-record-subheading">Bu seçenekler belgedeki SONUÇ alanına uygulanır.</div></div><button class="dashboard-primary-action" type="button" onclick="v18AddResultOption()">+ Metin Seçeneği Ekle</button></div><div id="v18ResultOptions"></div><div class="v18-result-actions"><button class="dashboard-template-action" type="button" onclick="v18SaveResultOptions()">Kaydet</button></div>';
+            editor.innerHTML='<div class="v18-result-editor-head"><div><h3>'+group.documentType+' - '+group.title+'</h3><div class="dashboard-record-subheading">Bu seçenekler belgedeki SONUÇ alanına uygulanır.</div></div><button class="dashboard-primary-action" type="button" onclick="v18AddResultOption()">+ Metin Seçeneği Ekle</button></div><div id="v18ResultOptions"></div><div class="v18-result-actions"><button class="dashboard-template-action" type="button" onclick="v18SaveResultOptions()">Kaydet</button></div>';
             var host=document.getElementById('v18ResultOptions');group.options.forEach(function(option,index){var card=document.createElement('section');card.className='v18-result-option';card.innerHTML='<div class="v18-result-option-head"><input class="dashboard-input" value=""><button class="dashboard-delete-btn" type="button" title="Seçeneği sil"><span class="action-dot" style="--dot-color:#dc2626"></span>Sil</button></div><textarea class="dashboard-textarea"></textarea>';card.querySelector('input').value=option.title || '';card.querySelector('textarea').value=option.text || '';card.querySelector('button').onclick=function(){v18DeleteResultOption(index);};host.appendChild(card);});v15DecorateActions();
         }
         function v18CollectResultOptions(){var group=v18GetResultGroup(v18ActiveResultGroup);if(!group)return;group.options=Array.from(document.querySelectorAll('#v18ResultOptions .v18-result-option')).map(function(card,index){var text=card.querySelector('textarea').value.trim();return {title:card.querySelector('input').value.trim() || ('SONUÇ '+(index+1)),text:text,html:'<div>'+text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</div>'};});}
@@ -6675,7 +6700,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             var clear=document.createElement('button');clear.id='documentSourceClearBtn';clear.type='button';clear.innerHTML='<span class="material-icons" style="font-size:15px;margin-right:4px">cleaning_services</span>Belgeyi Temizle';clear.onclick=v20ClearActiveDocument;actions.appendChild(clear);
             var panel=document.getElementById('documentSourceFillPanel');templateRow.insertAdjacentElement('afterend',panel);
             var data=document.getElementById('documentSourceDataBtn'),dataWrap=document.createElement('div');dataWrap.className='v20-data-action';data.textContent='Uyuşmazlık Konusu Metinlerini Düzenle';dataWrap.appendChild(data);list.appendChild(dataWrap);
-            var save=active.querySelector('.document-source-save-actions'),saveCard=document.createElement('aside');saveCard.id='v20TemplateSaveCard';saveCard.innerHTML='<h3>Bu Belgeyi Şablon Olarak Kaydet</h3>';saveCard.appendChild(save);document.body.appendChild(saveCard);
+            var save=active.querySelector('.document-source-save-actions'),saveCard=document.createElement('aside');saveCard.id='v20TemplateSaveCard';saveCard.innerHTML='<h3>Belgeyi Şablon Olarak Database\'e Kaydet</h3>';saveCard.appendChild(save);document.body.appendChild(saveCard);
             var resultArea=document.getElementById('v18DocumentResultArea'),resultCard=document.createElement('aside');resultCard.id='v20DocumentResultCard';resultCard.className='v20-companion-card';resultCard.innerHTML='<div class="v20-companion-heading"><span class="v20-companion-heading-main"><span class="material-icons">rule</span>Belgedeki Sonuç Seçenekleri</span><button class="v20-manage-result" type="button" onclick="v20ResultManagerOpen()"><span class="material-icons">edit_note</span>Düzenle</button></div>';resultArea?.parentElement?.removeChild(resultArea);if(resultArea)resultCard.appendChild(resultArea);document.body.appendChild(resultCard);
             v20RefreshTemplateName();v20SetFilledState(false);v20LayoutCards();
         }
@@ -6694,7 +6719,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             button.innerHTML='<span class="material-icons">description</span>Boş Belge Olarak Aç';
             if(!v18BlankSelection){button.disabled=true;summary.innerHTML='<strong>Henüz belge seçilmedi</strong>Başlamak için yukarıdaki belgelerden birini seçin.';return;}
             var config=V18_BLANK_CATALOG[v18BlankSelection],type=document.getElementById('v18BlankType')?.value||'',subtype=document.getElementById('v18BlankSubtype')?.value||'',variant=config.variants?v18SelectedVariant(v18BlankSelection,'v18BlankVariant'):null,valid=!config.requiresClassification||!!(type&&subtype);
-            button.disabled=!valid;var title=v18BlankSelection+(variant?' — '+variant.label:'');var detail=config.requiresClassification?(valid?type+' › '+subtype:'Uyuşmazlık türü ve alt türü seçilmelidir.'):'Boş ve noktalı alanlarla açılacak.';summary.innerHTML='<strong>'+title+'</strong>'+detail;
+            button.disabled=!valid;var title=v18BlankSelection+(variant?' - '+variant.label:'');var detail=config.requiresClassification?(valid?type+' › '+subtype:'Uyuşmazlık türü ve alt türü seçilmelidir.'):'Boş ve noktalı alanlarla açılacak.';summary.innerHTML='<strong>'+title+'</strong>'+detail;
         }
         var v20SetDocumentSourceInfoBase=setDocumentSourceInfo;
         setDocumentSourceInfo=function(info){v20SetDocumentSourceInfoBase(info);v20RefreshTemplateName();setTimeout(v20LayoutCards,0);};
@@ -6779,11 +6804,11 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             var source=document.getElementById('documentSourceCard'),group=v21ActiveResultGroup(),area=document.getElementById('v18DocumentResultArea'),buttons=document.getElementById('v18DocumentResultButtons'),note=document.getElementById('v18DocumentResultNote');if(!area||!buttons)return;
             buttons.innerHTML='';var available=!!group?.options?.length;area.style.display=available?'block':'none';
             if(!available){if(note)note.style.display='none';v18UpdateVariantCard();return;}
-            area.querySelector('.document-source-options-title').textContent=(group.documentType||'Belge')+' — '+(group.title||'SONUÇ')+' için sonuç metnini seçin';
+            area.querySelector('.document-source-options-title').textContent=(group.documentType||'Belge')+' - '+(group.title||'SONUÇ')+' için sonuç metnini seçin';
             var hasTarget=!!ioGuidedFindCurrentContentCell('SONUÇ'),active=Math.min(parseInt(source.dataset.resultIndex||'0',10)||0,group.options.length-1);source.dataset.resultGroupId=group.id;source.dataset.resultIndex=String(active);
             group.options.forEach(function(option,index){
                 var button=document.createElement('button');button.type='button';button.className='document-source-option-btn v21-result-option'+(index===active?' active':'');button.disabled=!hasTarget;
-                var title=String(option.title||'').trim();if(!/^seçenek\s*\d+/i.test(title))title='Seçenek '+(index+1)+(title?' — '+title:'');
+                var title=String(option.title||'').trim();if(!/^seçenek\s*\d+/i.test(title))title='Seçenek '+(index+1)+(title?' - '+title:'');
                 button.innerHTML='<span class="v21-result-option-label"><span>'+title.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</span><span class="material-icons v21-result-option-check">check_circle</span></span><span class="v21-result-option-text"></span>';
                 button.querySelector('.v21-result-option-text').textContent=v21ResultPreview(option.text||String(option.html||'').replace(/<[^>]+>/g,' '));
                 button.onclick=function(){source.dataset.resultIndex=String(index);v21WriteResult(group.id,index);v18RenderResultOptions();};buttons.appendChild(button);
@@ -6878,7 +6903,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         function v22Safe(value){return String(value||'').replace(/[\\/:*?"<>|]/g,'').trim();}
         function v22EnsureSpecialTemplates(){
             ioLoadGuidedData();ioLoadGuidedTemplateData();var changed=false;
-            var specs=[{file:V22_KVKK_FILE,name:'KVKK',folder:'',type:''}].concat(Object.entries(V22_MEDIATOR_FILES).map(function(entry){var type={'tuketici uyusmazliklari':'Tüketici Uyuşmazlıkları','ticari uyusmazliklar':'Ticari Uyuşmazlıklar','is hukuku uyusmazliklari':'İş Hukuku Uyuşmazlıkları','diger tur uyusmazliklar':'Diğer Tür Uyuşmazlıklar'}[entry[0]];return {file:entry[1],name:'Arabulucu Belirleme Tutanağı — '+type,folder:V22_MEDIATOR_FOLDER,type:type};}));
+            var specs=[{file:V22_KVKK_FILE,name:'KVKK',folder:'',type:''}].concat(Object.entries(V22_MEDIATOR_FILES).map(function(entry){var type={'tuketici uyusmazliklari':'Tüketici Uyuşmazlıkları','ticari uyusmazliklar':'Ticari Uyuşmazlıklar','is hukuku uyusmazliklari':'İş Hukuku Uyuşmazlıkları','diger tur uyusmazliklar':'Diğer Tür Uyuşmazlıklar'}[entry[0]];return {file:entry[1],name:'Arabulucu Belirleme Tutanağı - '+type,folder:V22_MEDIATOR_FOLDER,type:type};}));
             specs.forEach(function(spec){var embedded=(window.ARBSYS_TEMPLATE_DATA?.templates||[]).find(function(item){return item.fileName===spec.file;});if(embedded&&!ioGuidedTemplateMap[spec.file]){ioGuidedTemplateData.templates.push(JSON.parse(JSON.stringify(embedded)));ioGuidedTemplateMap[spec.file]=ioGuidedTemplateData.templates[ioGuidedTemplateData.templates.length-1];changed=true;}var manifest=v15TemplateManifest(spec.file);if(!manifest.v22Prepared){manifest.displayName=spec.name;manifest.family=spec.file===V22_KVKK_FILE?'KVKK':'Arabulucu Belirleme Tutanağı';manifest.folderPath=spec.folder;manifest.disputeType=spec.type;manifest.subtype='';manifest.v22Prepared=true;changed=true;}});
             ioGuidedData.templateFolders=ioGuidedData.templateFolders||[];if(!ioGuidedData.templateFolders.includes(V22_MEDIATOR_FOLDER)){ioGuidedData.templateFolders.push(V22_MEDIATOR_FOLDER);changed=true;}
             if(changed){ioPersistGuidedTemplateData();ioPersistGuidedData();}
@@ -6904,12 +6929,12 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             v18BlankSelection=name;document.querySelectorAll('#ioDocumentPanel .v18-document-choice').forEach(function(button){button.classList.toggle('active',button.dataset.document===name);});
             var config=V18_BLANK_CATALOG[name],primary=document.getElementById('v18PrimaryOptions'),secondary=document.getElementById('v18SecondaryOptions');primary.classList.toggle('open',config.column==='primary'&&!!config.variants);secondary.classList.toggle('open',config.column==='secondary');
             if(config.variants){var select=document.getElementById('v18BlankVariant');select.innerHTML='';config.variants.forEach(function(option,index){ioGuidedAddOption(select,String(index),option.label);});select.value='0';}
-            var subtypeField=document.getElementById('v18BlankSubtype')?.closest('.io-field');if(subtypeField)subtypeField.style.display=config.requiresTypeOnly?'none':'';if(config.requiresTypeOnly)document.getElementById('v18BlankSubtype').value='';v18UpdateBlankSummary();
+            var subtype=document.getElementById('v18BlankSubtype'),subtypeField=subtype?.closest('.io-field');if(subtypeField){subtypeField.style.display='';subtypeField.classList.toggle('v26-disabled-field',!!config.requiresTypeOnly);}if(config.requiresTypeOnly&&subtype){subtype.innerHTML='<option value="">Bu belge için alt tür gerekmiyor</option>';subtype.value='';subtype.disabled=true;}v18UpdateBlankSummary();
         };
         v18UpdateBlankSummary=function(){
             var summary=document.getElementById('v18BlankSummary'),button=document.getElementById('ioDocumentOpenBtn');if(!summary||!button)return;button.innerHTML='<span class="material-icons">description</span>Boş Belge Olarak Aç';if(!v18BlankSelection){button.disabled=true;return;}
             var config=V18_BLANK_CATALOG[v18BlankSelection],type=document.getElementById('v18BlankType')?.value||'',subtype=document.getElementById('v18BlankSubtype')?.value||'',variant=config.variants?v18SelectedVariant(v18BlankSelection,'v18BlankVariant'):null,valid=config.requiresTypeOnly?!!type:(!config.requiresClassification||!!(type&&subtype));button.disabled=!valid;
-            var title=v18BlankSelection+(variant?' — '+variant.label:''),detail=config.requiresTypeOnly?(valid?type:'Yalnızca uyuşmazlık türünü seçin.'):(config.requiresClassification?(valid?type+' › '+subtype:'Uyuşmazlık türü ve alt türü seçilmelidir.'):'Boş belge olarak doğrudan açılacak.');summary.innerHTML='<strong>'+title+'</strong>'+detail;
+            var title=v18BlankSelection+(variant?' - '+variant.label:''),detail=config.requiresTypeOnly?(valid?type:'Yalnızca uyuşmazlık türünü seçin.'):(config.requiresClassification?(valid?type+' › '+subtype:'Uyuşmazlık türü ve alt türü seçilmelidir.'):'Boş belge olarak doğrudan açılacak.');summary.innerHTML='<strong>'+title+'</strong>'+detail;
         };
         var v22OpenBlankDocumentBase=v18OpenBlankDocument;
         v18OpenBlankDocument=async function(){
@@ -6950,7 +6975,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         dashboardRenderTemplates=function(){v22DashboardRenderTemplatesBase();document.querySelectorAll('.dashboard-folder > summary').forEach(function(summary){if(summary.querySelector('.dashboard-folder-delete'))return;var path=summary.parentElement.dataset.folderPath,button=document.createElement('button');button.type='button';button.className='dashboard-folder-delete';button.innerHTML='<span class="material-icons">delete_outline</span>Sil';button.onclick=function(event){event.preventDefault();event.stopPropagation();v22DeleteTemplateFolder(path);};summary.appendChild(button);});};
         function v22PrepareResultCard(){var card=document.getElementById('v20DocumentResultCard'),heading=card?.querySelector('.v20-companion-heading'),main=heading?.querySelector('.v20-companion-heading-main');if(!card||!heading||heading.dataset.v22Ready)return;heading.dataset.v22Ready='1';main.innerHTML='<span>Sonuç Metni</span>';var chevron=document.createElement('span');chevron.className='material-icons v22-result-chevron';chevron.textContent='expand_more';heading.appendChild(chevron);heading.setAttribute('role','button');heading.tabIndex=0;heading.onclick=function(event){if(event.target.closest('button'))return;card.classList.toggle('v22-collapsed');};heading.onkeydown=function(event){if(event.key==='Enter'||event.key===' '){event.preventDefault();card.classList.toggle('v22-collapsed');}};}
         var v22RenderResultOptionsBase=v18RenderResultOptions;
-        v18RenderResultOptions=function(){v22RenderResultOptionsBase();var area=document.getElementById('v18DocumentResultArea'),group=v21ActiveResultGroup();if(!area||!group)return;area.querySelector('.v22-result-group')?.remove();var info=document.createElement('div');info.className='v22-result-group';info.innerHTML='<strong></strong><span></span>';info.querySelector('strong').textContent=group.documentType||'Belge';info.querySelector('span').textContent=group.title||'';area.insertBefore(info,area.firstChild);var title=area.querySelector('.document-source-options-title');if(title)title.style.display='none';area.querySelectorAll('.v21-result-option-label > span:first-child').forEach(function(label,index){var option=group.options[index],text=String(option?.title||'').replace(/^Seçenek\s*\d+\s*[—-]?\s*/i,'').trim();label.textContent=text||('Metin '+(index+1));});};
+        v18RenderResultOptions=function(){v22RenderResultOptionsBase();var area=document.getElementById('v18DocumentResultArea'),group=v21ActiveResultGroup();if(!area||!group)return;area.querySelector('.v22-result-group')?.remove();var info=document.createElement('div');info.className='v22-result-group';info.innerHTML='<strong></strong><span></span>';info.querySelector('strong').textContent=group.documentType||'Belge';info.querySelector('span').textContent=group.title||'';area.insertBefore(info,area.firstChild);var title=area.querySelector('.document-source-options-title');if(title)title.style.display='none';area.querySelectorAll('.v21-result-option-label > span:first-child').forEach(function(label,index){var option=group.options[index],text=String(option?.title||'').replace(/^Seçenek\s*\d+\s*[\u2014-]?\s*/i,'').trim();label.textContent=text||('Metin '+(index+1));});};
         // ==== v22: birleşik üst/alt bilgi paneli ====
         const V22_HEADER_URLS={arbsys:'https://wuiuqahzmrpzmxbpjtix.supabase.co/storage/v1/object/public/Images/Header/ArbsysLogoHeader.png',consensus:'https://wuiuqahzmrpzmxbpjtix.supabase.co/storage/v1/object/public/Images/Header/ConsensusLogoHeader.png'};
         const V22_FOOTERS={arbsys:['Mahalle Mh. 888/8 Sk. No:8 Apartman Apt. Z Blok K:8 D:8 İlçe / ŞEHİR','Tel: 0232 555 6789 – 0555 555 6789    web: www.arbsys.com.tr'],consensus:['Mansuroğlu Mh. 288/3 Sk. No:3 Mehmet Refik Soyer Sitesi (Selvili-2 Apt.) B-Blok K:5 D:13 Bayraklı / İZMİR','Tel: 0232 290 0350 – 0553 790 0350    web: www.consensusdanismanlik.com.tr']};
@@ -6969,7 +6994,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         function v22FooterChanged(){if(v22HFSettings.footerMode!=='custom'){v22HFSettings.footerMode='custom';document.querySelector('input[name="v22FooterMode"][value="custom"]').checked=true;}v22HFSettings.customFooter=[document.getElementById('footerText1').value,document.getElementById('footerText2').value];v22ApplyFooter(false);v22HFStore();}
         function v22BuildHFPanel(){
             var panel=document.getElementById('hfPanel');if(!panel)return;v22HFSettings=Object.assign({enabled:false,headerMode:'arbsys',footerMode:'arbsys',customHeaderLogo:'',customFooter:['','']},ioGuidedData?.headerFooterSettings||{});
-            panel.innerHTML='<div class="v22-hf-head"><label class="v22-hf-master"><input id="hfMasterCheck" type="checkbox">Üst ve Alt Bilgiyi Kullan</label><button class="v22-hf-close" type="button" title="Kapat">×</button></div><input id="headerCheck" type="checkbox" hidden><input id="footerCheck" type="checkbox" hidden><section id="headerRow" class="v22-hf-section"><div><h3 class="v22-hf-section-title">Üst Bilgi — Logo</h3><div class="v22-hf-radios"><label class="v22-hf-radio"><input type="radio" name="v22HeaderMode" value="arbsys">Arbsys Logo</label><label class="v22-hf-radio"><input type="radio" name="v22HeaderMode" value="consensus">Consensus Logo</label><label class="v22-hf-radio"><input type="radio" name="v22HeaderMode" value="custom">Kendim Seçeceğim</label></div></div><div><div class="v22-hf-preview"><img id="v22HeaderPreview" alt="Üst bilgi logo önizlemesi"></div><div class="v22-hf-tools"><button class="v22-hf-change" type="button"><span class="material-icons" style="font-size:14px">change_circle</span>Değiştir</button><button class="v22-hf-clear" type="button"><span class="material-icons" style="font-size:14px">delete_outline</span>Sil</button></div><input type="file" id="logoInput" accept="image/png,image/jpeg" hidden></div></section><section id="footerRow" class="v22-hf-section"><div><h3 class="v22-hf-section-title">Alt Bilgi — Metin</h3><div class="v22-hf-radios"><label class="v22-hf-radio"><input type="radio" name="v22FooterMode" value="arbsys">Arbsys Footer</label><label class="v22-hf-radio"><input type="radio" name="v22FooterMode" value="consensus">Consensus Footer</label><label class="v22-hf-radio"><input type="radio" name="v22FooterMode" value="custom">Kendim Ekleyeceğim</label></div></div><div><div id="v22FooterPreview" class="v22-hf-preview v22-hf-preview-text"></div><div id="v22FooterInputs" class="v22-footer-inputs"><input id="footerText1" type="text"><input id="footerText2" type="text"></div><div class="v22-hf-tools"><button class="v22-hf-change" id="v22FooterChange" type="button"><span class="material-icons" style="font-size:14px">edit</span>Değiştir</button><button class="v22-hf-clear" id="v22FooterClear" type="button"><span class="material-icons" style="font-size:14px">delete_outline</span>Sil</button></div></div></section>';
+            panel.innerHTML='<div class="v22-hf-head"><label class="v22-hf-master"><input id="hfMasterCheck" type="checkbox">Üst ve Alt Bilgiyi Kullan</label><button class="v22-hf-close" type="button" title="Kapat">×</button></div><input id="headerCheck" type="checkbox" hidden><input id="footerCheck" type="checkbox" hidden><section id="headerRow" class="v22-hf-section"><div><h3 class="v22-hf-section-title">Üst Bilgi - Logo</h3><div class="v22-hf-radios"><label class="v22-hf-radio"><input type="radio" name="v22HeaderMode" value="arbsys">Arbsys Logo</label><label class="v22-hf-radio"><input type="radio" name="v22HeaderMode" value="consensus">Consensus Logo</label><label class="v22-hf-radio"><input type="radio" name="v22HeaderMode" value="custom">Kendim Seçeceğim</label></div></div><div><div class="v22-hf-preview"><img id="v22HeaderPreview" alt="Üst bilgi logo önizlemesi"></div><div class="v22-hf-tools"><button class="v22-hf-change" type="button"><span class="material-icons" style="font-size:14px">change_circle</span>Değiştir</button><button class="v22-hf-clear" type="button"><span class="material-icons" style="font-size:14px">delete_outline</span>Sil</button></div><input type="file" id="logoInput" accept="image/png,image/jpeg" hidden></div></section><section id="footerRow" class="v22-hf-section"><div><h3 class="v22-hf-section-title">Alt Bilgi - Metin</h3><div class="v22-hf-radios"><label class="v22-hf-radio"><input type="radio" name="v22FooterMode" value="arbsys">Arbsys Footer</label><label class="v22-hf-radio"><input type="radio" name="v22FooterMode" value="consensus">Consensus Footer</label><label class="v22-hf-radio"><input type="radio" name="v22FooterMode" value="custom">Kendim Ekleyeceğim</label></div></div><div><div id="v22FooterPreview" class="v22-hf-preview v22-hf-preview-text"></div><div id="v22FooterInputs" class="v22-footer-inputs"><input id="footerText1" type="text"><input id="footerText2" type="text"></div><div class="v22-hf-tools"><button class="v22-hf-change" id="v22FooterChange" type="button"><span class="material-icons" style="font-size:14px">edit</span>Değiştir</button><button class="v22-hf-clear" id="v22FooterClear" type="button"><span class="material-icons" style="font-size:14px">delete_outline</span>Sil</button></div></div></section>';
             panel.querySelector('.v22-hf-close').onclick=function(){panel.classList.remove('open');};document.getElementById('hfMasterCheck').onchange=function(event){v22SetHFEnabled(event.target.checked);};document.querySelectorAll('input[name="v22HeaderMode"]').forEach(function(radio){radio.onchange=function(){v22SelectHeader(radio.value);};});document.querySelectorAll('input[name="v22FooterMode"]').forEach(function(radio){radio.onchange=function(){v22SelectFooter(radio.value);};});document.querySelector('input[name="v22HeaderMode"][value="'+v22HFSettings.headerMode+'"]').checked=true;document.querySelector('input[name="v22FooterMode"][value="'+v22HFSettings.footerMode+'"]').checked=true;
             panel.querySelector('#headerRow .v22-hf-change').onclick=function(){document.getElementById('logoInput').click();};panel.querySelector('#headerRow .v22-hf-clear').onclick=v22ClearHeader;document.getElementById('v22FooterChange').onclick=function(){v22SelectFooter('custom');document.getElementById('footerText1').focus();};document.getElementById('v22FooterClear').onclick=v22ClearFooter;document.getElementById('footerText1').placeholder=V22_FOOTERS.arbsys[0];document.getElementById('footerText2').placeholder=V22_FOOTERS.arbsys[1];document.getElementById('footerText1').oninput=v22FooterChanged;document.getElementById('footerText2').oninput=v22FooterChanged;
             document.getElementById('logoInput').onchange=function(event){var file=event.target.files?.[0];if(!file){if(!v22HFSettings.customHeaderLogo)v22ClearHeader();return;}var reader=new FileReader();reader.onload=function(){padLogoTo4x1(reader.result,function(data){v22HFSettings.customHeaderLogo=data;v22HFSettings.headerMode='custom';document.querySelector('input[name="v22HeaderMode"][value="custom"]').checked=true;v22ApplyHeader();v22HFStore();});};reader.readAsDataURL(file);};v22SetHFEnabled(v22HFSettings.enabled);v22ApplyFooter(true);
@@ -7223,7 +7248,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 closeSaveDialog();
             }
             function closeSaveDialog(){var modal=document.getElementById('v25PreviewSaveModal');modal.classList.remove('open');modal.setAttribute('aria-hidden','true');}
-            function openSaveDialog(){var modal=document.getElementById('v25PreviewSaveModal'),input=document.getElementById('v25PreviewFileName');input.value=document.getElementById('fileNameInput')?.value||'Arabuluculuk Belgesi';modal.classList.add('open');modal.setAttribute('aria-hidden','false');setTimeout(function(){input.focus();input.select();},0);}
+            function openSaveDialog(){var modal=document.getElementById('v25PreviewSaveModal'),input=document.getElementById('v25PreviewFileName');input.value=window.v26SuggestedFileName?window.v26SuggestedFileName():(document.getElementById('fileNameInput')?.value||'Arabuluculuk Belgesi');modal.classList.add('open');modal.setAttribute('aria-hidden','false');setTimeout(function(){input.focus();input.select();},0);}
             function saveFromPreview(format){
                 var input=document.getElementById('v25PreviewFileName'),clean=String(input.value||'Arabuluculuk Belgesi').replace(/[\\/:*?"<>|]/g,'').trim()||'Arabuluculuk Belgesi';
                 var mainName=document.getElementById('fileNameInput');if(mainName)mainName.value=clean;
@@ -7400,6 +7425,166 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             }
             window.addEventListener('resize',function(){if(document.body.classList.contains('udf-view-open'))updateUdfSplitScale();});
             if(document.body.classList.contains('udf-view-open'))updateUdfSplitScale();
+        })();
+    </script>
+    <style id="v26-interface-styles">
+        /* Uyuşmazlık kartları: solda konu, sağda sayılar ve sabit güncelleme alanı. */
+        .dashboard-record-main { display:flex; align-items:center; gap:10px; width:100%; min-width:0; }
+        .dashboard-record-main .dashboard-record-title { display:block; min-width:0; flex:1; font-size:12px; line-height:1.4; text-align:left; }
+        .dashboard-record-side { display:flex; align-items:center; justify-content:flex-end; gap:7px; flex:0 0 auto; }
+        .dashboard-record-side .dashboard-badges { flex-wrap:nowrap; justify-content:flex-end; margin:0; }
+        .dashboard-update-slot { display:grid; place-items:center; width:14px; height:14px; flex:0 0 14px; }
+        .dashboard-updated-dot { display:block; width:9px; height:9px; border-radius:50%; background:#a16207; box-shadow:0 0 0 3px #fef3c7; }
+        .dashboard-missing-badges { margin-top:6px; }
+        .dashboard-record.dashboard-record-missing { border:1px solid #ef4444 !important; border-left-width:3px !important; }
+        .dashboard-record.dashboard-record-missing.active { border-color:#dc2626 !important; box-shadow:0 0 0 2px rgba(220,38,38,.12); }
+        .dashboard-tree-missing-count { margin-left:auto; color:#dc2626; font-size:10px; font-weight:900; }
+        .dashboard-tree-missing-count + .dashboard-tree-count { margin-left:0; }
+        .dashboard-tree-count { font-size:9.5px; }
+
+        /* Laptop ekranlarında Şablon Verileri ve Şablon Yükle okunabilirliği. */
+        #dataDashboardModal .dashboard-tab, #ioModal .io-tab { font-size:12px; }
+        #dataDashboardModal .dashboard-tree-group > summary { font-size:11.5px; }
+        #dataDashboardModal .dashboard-record-title, #dataDashboardModal .dashboard-record-subheading,
+        #dataDashboardModal .dashboard-section-title, #dataDashboardModal label,
+        #dataDashboardModal input, #dataDashboardModal select, #dataDashboardModal textarea,
+        #dataDashboardModal button, #dataDashboardModal .dashboard-empty { font-size:11.5px; }
+        #dataDashboardModal .dashboard-badge { font-size:9.5px; }
+        #ioModal .io-tab-panel, #ioModal .io-field label, #ioModal select, #ioModal input,
+        #ioModal button, #ioModal .io-subject-item, #ioModal .io-subject-trigger-label,
+        #ioModal .v18-open-summary, #ioModal .v18-document-choice { font-size:11.5px; }
+        #ioDocumentPanel .v18-blank-intro { font-size:11.5px; }
+        #ioDocumentPanel .v18-blank-column h3 { font-size:14px; }
+        #ioDocumentPanel .v18-blank-column p { font-size:10.5px; }
+
+        /* Devre dışı seçimler görünür kalır fakat yanlışlıkla kullanılamaz. */
+        .v26-disabled-field { opacity:.62; }
+        .v26-disabled-field select, #documentSourceFillPanel label.v26-disabled-field select { background:#e5e7eb !important; color:#6b7280 !important; cursor:not-allowed; }
+
+        /* Konu listesi pencerenin altında kesilmemesi için yukarı açılır. */
+        #ioGuidedPanel .io-subject-menu { top:auto; bottom:calc(100% + 6px); max-height:min(270px,45vh); }
+
+        /* Üst/Alt Bilgi odağı ve açıklaması. */
+        #v26HFBackdrop { display:none; position:fixed; inset:0; z-index:1290; border:0; background:rgba(15,23,42,.42); backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px); }
+        body:has(#hfPanel.open) #v26HFBackdrop { display:block; }
+        .v22-hf-head { display:grid; grid-template-columns:1fr auto; align-items:center; }
+        .v26-hf-note { grid-column:1 / -1; margin-top:4px; color:#526174; font-size:11.5px; line-height:1.4; }
+        .v26-hf-note strong { color:#1d4ed8; }
+
+        /* UDF ayırıcısı daha net ve nötr. */
+        .udf-splitter::after { left:3px !important; width:5px !important; background:#4b5563 !important; box-shadow:none !important; }
+        .udf-splitter:hover::after, .udf-splitter:focus::after, body.udf-resizing .udf-splitter::after { left:2px !important; width:7px !important; background:#374151 !important; }
+    </style>
+    <script id="v26-interface-script">
+        (function(){
+            function cleanTitle(value){
+                return String(value||'').replace(/\s+/g,' ').replace(/^\(|\)$/g,'').trim();
+            }
+            function titleCaseTr(value){
+                return cleanTitle(value).toLocaleLowerCase('tr-TR').replace(/(^|[\s-])([a-zçğıöşü])/g,function(_match,space,letter){return space+letter.toLocaleUpperCase('tr-TR');});
+            }
+            window.v26SuggestedFileName=function(){
+                var title=Array.from(document.querySelectorAll('#docTable .title-text-row td')).map(function(cell){return cleanTitle(cell.textContent);}).find(function(text){return text && !/^\(/.test(text);});
+                if(!title)title=document.getElementById('fileNameInput')?.value || document.getElementById('documentSourceTemplate')?.textContent || 'Arabuluculuk Belgesi';
+                var now=new Date(),date=[String(now.getDate()).padStart(2,'0'),String(now.getMonth()+1).padStart(2,'0'),now.getFullYear()].join('-');
+                return titleCaseTr(title)+' - '+date;
+            };
+
+            function setDisabledField(select,disabled,message){
+                if(!select)return;
+                select.disabled=!!disabled;
+                var field=select.closest('label,.io-field');
+                field?.classList.toggle('v26-disabled-field',!!disabled);
+                if(disabled&&message){select.innerHTML='';ioGuidedAddOption(select,'',message);}
+            }
+            function hasRealSubtypes(typeName){
+                var type=typeof ioGuidedFindType==='function'?ioGuidedFindType(typeName):null;
+                return !!(type?.subtypes || []).some(function(item){return !item.isPlaceholder;});
+            }
+            function refreshSourceAvailability(){
+                var card=document.getElementById('documentSourceCard'),type=document.getElementById('documentSourceFillType')?.value||'';
+                var subtype=document.getElementById('documentSourceFillSubtype'),subject=document.getElementById('documentSourceFillSubject');
+                var subtypeAvailable=hasRealSubtypes(type);
+                if(!subtypeAvailable)setDisabledField(subtype,true,type?'Bu uyuşmazlık türünde alt tür bulunmuyor':'Önce uyuşmazlık türünü seçin');
+                else setDisabledField(subtype,!type);
+                var templateName=card?.dataset.templateName||'',templateFile=card?.dataset.templateFile||'';
+                var fromTemplate=!!templateFile || (!!templateName && !/Editör Başlangıç İçeriği/i.test(templateName));
+                var agreementExists=typeof ioGuidedFindCurrentContentCell==='function'&&!!ioGuidedFindCurrentContentCell('VARILAN ANLAŞMA');
+                if(fromTemplate&&!agreementExists)setDisabledField(subject,true,'Bu şablonda Varılan Anlaşma alanı yok');
+                else subject?.closest('label,.io-field')?.classList.toggle('v26-disabled-field',!!subject.disabled);
+            }
+            if(typeof v16SyncSourceFillPanel==='function'){
+                var baseSync=v16SyncSourceFillPanel;
+                v16SyncSourceFillPanel=function(){baseSync();refreshSourceAvailability();};
+            }
+            if(typeof v16SourceTypeChanged==='function'){
+                var baseSourceTypeChanged=v16SourceTypeChanged;
+                v16SourceTypeChanged=function(){baseSourceTypeChanged();refreshSourceAvailability();};
+            }
+            if(typeof v16SourceSubtypeChanged==='function'){
+                var baseSourceSubtypeChanged=v16SourceSubtypeChanged;
+                v16SourceSubtypeChanged=function(){baseSourceSubtypeChanged();refreshSourceAvailability();};
+            }
+            if(typeof v16FillActiveDocument==='function'){
+                var baseFillActiveDocument=v16FillActiveDocument;
+                v16FillActiveDocument=async function(){
+                    var card=document.getElementById('documentSourceCard'),subject=document.getElementById('documentSourceFillSubject');
+                    var templateName=card?.dataset.templateName||'',templateFile=card?.dataset.templateFile||'',fromTemplate=!!templateFile|| (!!templateName&&!/Editör Başlangıç İçeriği/i.test(templateName));
+                    var agreementExists=typeof ioGuidedFindCurrentContentCell==='function'&&!!ioGuidedFindCurrentContentCell('VARILAN ANLAŞMA');
+                    if(fromTemplate&&!agreementExists&&subject?.disabled){
+                        var type=document.getElementById('documentSourceFillType')?.value||'',subtype=document.getElementById('documentSourceFillSubtype')?.value||'';
+                        if(!type||(hasRealSubtypes(type)&&!subtype)){await appAlert('Uyuşmazlık türünü ve varsa alt türünü seçin.','Eksik Seçim');return;}
+                        var typeNode=typeof ioGuidedFindType==='function'?ioGuidedFindType(type):null,subtypeNode=(typeNode?.subtypes||[]).find(function(item){return item.name===subtype;})||(typeNode?.subtypes||[]).find(function(item){return item.isPlaceholder;});
+                        var record=ioGuidedRecordMap[subtypeNode?.subjects?.[0]?.recordId],disputeText=record?.templateValues?.disputeType||type;
+                        var disputeCell=ioGuidedFindCurrentContentCell('UYUŞMAZLIK TÜRÜ');if(disputeCell)ioGuidedWritePlainText(disputeCell,disputeText);
+                        setDocumentSourceInfo({templateName:templateName||templateFile||'Aktif Belge',templateFileName:templateFile,disputeType:type,subtype:subtype,subject:'',recordId:''});
+                        document.getElementById('documentSourceFillPanel')?.classList.remove('open');if(typeof v20SetFilledState==='function')v20SetFilledState(true);applyEditable();
+                        await appAlert('Belgedeki uyuşmazlık türü bilgisi güncellendi. Bu şablonda Varılan Anlaşma alanı olmadığı için uyuşmazlık konusu seçimi kullanılmadı.','Belge Dolduruldu');return;
+                    }
+                    return baseFillActiveDocument();
+                };
+            }
+            if(typeof v18BlankTypeChanged==='function'){
+                v18BlankTypeChanged=function(){
+                    var type=document.getElementById('v18BlankType')?.value||'',select=document.getElementById('v18BlankSubtype'),config=V18_BLANK_CATALOG[v18BlankSelection];
+                    if(config?.requiresTypeOnly){setDisabledField(select,true,'Bu belge için alt tür gerekmiyor');}
+                    else{v15FillSubtypeSelect(select,type,'',false);var available=hasRealSubtypes(type);setDisabledField(select,!available,available?'':'Bu uyuşmazlık türünde alt tür bulunmuyor');}
+                    v18UpdateBlankSummary();
+                };
+            }
+            if(typeof v18UpdateBlankSummary==='function'){
+                v18UpdateBlankSummary=function(){
+                    var summary=document.getElementById('v18BlankSummary'),button=document.getElementById('ioDocumentOpenBtn');if(!summary||!button)return;
+                    button.innerHTML='<span class="material-icons">description</span>Boş Belge Olarak Aç';if(!v18BlankSelection){button.disabled=true;return;}
+                    var config=V18_BLANK_CATALOG[v18BlankSelection],type=document.getElementById('v18BlankType')?.value||'',subtype=document.getElementById('v18BlankSubtype')?.value||'',variant=config.variants?v18SelectedVariant(v18BlankSelection,'v18BlankVariant'):null;
+                    var needsSubtype=!!(config.requiresClassification&&!config.requiresTypeOnly&&hasRealSubtypes(type));
+                    var valid=config.requiresTypeOnly?!!type:(!config.requiresClassification||!!(type&&(!needsSubtype||subtype)));
+                    button.disabled=!valid;
+                    var title=v18BlankSelection+(variant?' - '+variant.label:''),detail=config.requiresTypeOnly?(valid?type:'Yalnızca uyuşmazlık türünü seçin.'):(config.requiresClassification?(valid?(subtype?type+' › '+subtype:type):'Uyuşmazlık türünü ve varsa alt türünü seçin.'):'Boş belge olarak doğrudan açılacak.');
+                    summary.innerHTML='<strong>'+title+'</strong>'+detail;
+                };
+            }
+            if(typeof v18SelectBlankDocument==='function'){
+                var baseSelectBlankDocument=v18SelectBlankDocument;
+                v18SelectBlankDocument=function(name){baseSelectBlankDocument(name);var config=V18_BLANK_CATALOG[name];if(config?.column==='secondary')v18BlankTypeChanged();};
+            }
+
+            var backdrop=document.createElement('button');backdrop.id='v26HFBackdrop';backdrop.type='button';backdrop.setAttribute('aria-label','Üst ve Alt Bilgi penceresini kapat');backdrop.onclick=function(){document.getElementById('hfPanel')?.classList.remove('open');};document.body.appendChild(backdrop);
+            function addHFNote(){var head=document.querySelector('#hfPanel .v22-hf-head');if(head&&!head.querySelector('.v26-hf-note')){var note=document.createElement('div');note.className='v26-hf-note';note.innerHTML='Bu alanları sayfanızda görebilmek için <strong>Önizleme</strong> alanına bakın.';head.appendChild(note);}}
+            addHFNote();
+            if(typeof v22BuildHFPanel==='function'){var baseBuildHF=v22BuildHFPanel;v22BuildHFPanel=function(){baseBuildHF();addHFNote();};}
+
+            if(typeof ioToggleSubjectPicker==='function'){
+                var baseToggleSubject=ioToggleSubjectPicker;
+                ioToggleSubjectPicker=function(){baseToggleSubject();var picker=document.getElementById('ioSubjectPicker'),menu=document.getElementById('ioSubjectMenu'),trigger=document.getElementById('ioSubjectTrigger');if(!picker?.classList.contains('open')||!menu||!trigger)return;var rect=trigger.getBoundingClientRect();menu.style.position='fixed';menu.style.left=rect.left+'px';menu.style.right='auto';menu.style.width=rect.width+'px';menu.style.top='auto';menu.style.bottom=(window.innerHeight-rect.top+6)+'px';menu.style.maxHeight=Math.max(150,Math.min(270,rect.top-24))+'px';};
+            }
+
+            /* Uzak veride veya içe aktarılan belgede kalmış uzun çizgileri de arayüzden kaldır. */
+            function removeEmDashes(root){
+                var walker=document.createTreeWalker(root||document.body,NodeFilter.SHOW_TEXT),nodes=[];while(walker.nextNode())if(walker.currentNode.nodeValue.includes('\u2014'))nodes.push(walker.currentNode);nodes.forEach(function(node){node.nodeValue=node.nodeValue.replace(/\u2014/g,'-');});
+            }
+            removeEmDashes(document.body);
+            new MutationObserver(function(changes){changes.forEach(function(change){change.addedNodes.forEach(function(node){if(node.nodeType===Node.TEXT_NODE&&node.nodeValue.includes('\u2014'))node.nodeValue=node.nodeValue.replace(/\u2014/g,'-');else if(node.nodeType===Node.ELEMENT_NODE)removeEmDashes(node);});});}).observe(document.body,{childList:true,subtree:true});
         })();
     </script>
 </body></html>

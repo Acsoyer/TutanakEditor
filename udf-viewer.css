@@ -580,7 +580,7 @@ h1 {
   grid-template-columns: auto minmax(10px, 1fr) auto;
   grid-template-rows: 1fr;
   gap: 7px;
-  padding: 7px 10px;
+  padding: 7px 10px 7px 4px;
   box-sizing: border-box;
 }
 .topbar-brand { min-width: 0; }
@@ -622,7 +622,7 @@ h1 {
 .page-controls-floating .icon-button:hover, .page-controls-floating .page-indicator:hover { color:#fff; background:var(--brand); }
 @media (max-width: 670px) {
   :root { --toolbar-h:55px; }
-  .topbar { grid-template-columns:auto minmax(4px,1fr) auto; grid-template-rows:1fr; gap:4px; padding:6px; }
+  .topbar { grid-template-columns:auto minmax(4px,1fr) auto; grid-template-rows:1fr; gap:4px; padding:6px 6px 6px 4px; }
   .viewer-brand-logo { width:auto; max-width:none; height:26px; }
   .document-tabs { top:calc(var(--toolbar-h) + 3px); right:7px; width:auto; }
   .toolbar { grid-column:3; grid-row:1; }
