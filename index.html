@@ -2725,6 +2725,13 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             }).join(', ');
         }
 
+        function dashboardFormatUpdatedAt(value) {
+            if (!value) return '';
+            var date = new Date(value);
+            if (isNaN(date.getTime())) return '';
+            return String(date.getDate()).padStart(2, '0') + '-' + String(date.getMonth() + 1).padStart(2, '0');
+        }
+
         function dashboardCreateCompactRecord(record) {
             var incomplete = !record.completeness || !record.completeness.canGenerateDocument;
             var button = document.createElement('button');
@@ -2736,6 +2743,12 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             var title = document.createElement('div');
             title.className = 'dashboard-record-title';
             title.textContent = record.selection?.subject || '(Konu adı eksik)';
+            if (record.updatedAt) {
+                var updatedDot = document.createElement('span');
+                updatedDot.className = 'dashboard-updated-dot';
+                updatedDot.title = 'Güncellenmiş kayıt';
+                title.appendChild(updatedDot);
+            }
             button.appendChild(title);
             var badges = document.createElement('div');
             badges.className = 'dashboard-badges';
@@ -3012,6 +3025,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 'dashboard-record-subheading',
                 (record.selection?.disputeType || '(Tür eksik)') + (record.selection?.subtype ? ' › ' + record.selection.subtype : '')
             ));
+            if (record.updatedAt) editor.appendChild(dashboardCreateText('div', 'dashboard-last-updated', 'Son Güncellenme: ' + dashboardFormatUpdatedAt(record.updatedAt)));
             var documentTypeSection = document.createElement('section');
             documentTypeSection.className = 'dashboard-section field-dispute';
             documentTypeSection.appendChild(dashboardCreateText('div', 'dashboard-section-title', 'Uyuşmazlık Türü — Belge'));
@@ -3109,6 +3123,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 missingDocumentColumns: missing,
                 warningLabel: missing.length ? '(Şimdilik Eksik)' : ''
             };
+            record.updatedAt = new Date().toISOString();
             if (isNewRecord) dashboardRebuildHierarchy();
             else dashboardUpdateHierarchyRecord(record);
             ioPersistGuidedData();
@@ -5035,8 +5050,10 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         function updateUdfSplitScale() {
             if (!document.body.classList.contains('udf-view-open')) return;
             var leftPaneWidth = window.innerWidth * (1 - udfSplitRatio);
-            var cardRightEdge = 245;
-            var zoneRightEdge = leftPaneWidth - 16;
+            var sourceCard = document.getElementById('documentSourceCard');
+            var sourceRect = sourceCard && getComputedStyle(sourceCard).display !== 'none' ? sourceCard.getBoundingClientRect() : null;
+            var cardRightEdge = sourceRect && sourceRect.width ? Math.ceil(sourceRect.right) + 14 : 14;
+            var zoneRightEdge = leftPaneWidth - 14;
             var usable = Math.max(280, zoneRightEdge - cardRightEdge);
             var a4Pixels = 210 * 96 / 25.4;
             var scale = Math.min(1, usable / a4Pixels);
@@ -5044,6 +5061,9 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             var pageLeft = cardRightEdge + Math.max(0, (usable - visualPageWidth) / 2);
             document.documentElement.style.setProperty('--editor-split-scale', String(scale));
             document.documentElement.style.setProperty('--editor-page-left', pageLeft + 'px');
+            document.documentElement.style.setProperty('--editor-page-width', visualPageWidth + 'px');
+            document.documentElement.style.setProperty('--editor-zone-left', cardRightEdge + 'px');
+            document.documentElement.style.setProperty('--editor-zone-width', usable + 'px');
         }
 
         function toggleUdfViewer(forceState) {
@@ -5763,6 +5783,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             ioGuidedTemplateMap[fileName] = existing || stored;
             var manifest = v15TemplateManifest(fileName);
             Object.assign(manifest, metadata || {});
+            manifest.updatedAt = new Date().toISOString();
             manifest.displayName = String(manifest.displayName || fileName.replace(/\.arbsys$/i,'')).trim();
             manifest.family = manifest.family || manifest.displayName;
             ioGuidedTemplateData.templates.sort(function(a,b){ return a.fileName.localeCompare(b.fileName,'tr'); });
@@ -6011,6 +6032,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             manifest.recordId=document.getElementById('dashboardTemplateSubject')?.value || '';
             manifest.subject=manifest.recordId ? (ioGuidedRecordMap[manifest.recordId]?.selection?.subject || '') : '';
             manifest.folderPath=document.getElementById('dashboardTemplateFolder')?.value || '';
+            manifest.updatedAt=new Date().toISOString();
             ioPersistGuidedData(); ioResetGuidedSelection(); dashboardRenderTemplates(); v15RenderDocumentTemplates(fileName);
             dashboardSetStorageStatus('Belge şablonu bilgileri veritabanına kaydedildi.');
         }
@@ -7089,6 +7111,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         <div class="v23-preview-head">
             <div class="v23-preview-title"><strong>Baskı Önizleme</strong><span id="v23PreviewStatus">Henüz oluşturulmadı</span></div>
             <button class="v23-preview-refresh" id="v23PreviewRefresh" type="button"><span class="material-icons">refresh</span>Güncelle</button>
+            <button class="v25-preview-save" id="v25PreviewSave" type="button"><span class="material-icons">save</span>Kaydet</button>
             <button class="v23-preview-close" id="v23PreviewClose" type="button" aria-label="Önizlemeyi kapat">×</button>
         </div>
         <div id="v23PreviewViewport">
@@ -7105,6 +7128,19 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             <span id="v23PreviewPageIndicator">1 / 1</span>
             <button id="v23PreviewNext" type="button" title="Sonraki sayfa"><span class="material-icons">keyboard_arrow_down</span></button>
         </div>
+        <div id="v25PreviewSaveModal" class="v25-preview-save-modal" aria-hidden="true">
+            <div class="v25-preview-save-dialog" role="dialog" aria-modal="true" aria-labelledby="v25PreviewSaveTitle">
+                <button id="v25PreviewSaveClose" class="v25-preview-save-close" type="button" aria-label="Kayıt penceresini kapat">×</button>
+                <h3 id="v25PreviewSaveTitle">Belgeyi Kaydet</h3>
+                <label for="v25PreviewFileName">Kayıt Dosya Adı</label>
+                <input id="v25PreviewFileName" type="text" autocomplete="off">
+                <div class="v25-preview-format-buttons">
+                    <button type="button" data-format="pdf"><span class="material-icons">picture_as_pdf</span><span><strong>PDF</strong><small>Yazdırma düzeninde kaydet</small></span></button>
+                    <button type="button" data-format="docx"><span class="material-icons">description</span><span><strong>DOCX</strong><small>Word belgesi olarak kaydet</small></span></button>
+                    <button type="button" data-format="udf"><span class="material-icons">gavel</span><span><strong>UDF</strong><small>UYAP belgesi olarak kaydet</small></span></button>
+                </div>
+            </div>
+        </div>
     </aside>
     <div id="v23PreviewMeasure" aria-hidden="true"></div>
 
@@ -7112,7 +7148,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         // ==== v23: sayfalı baskı önizlemesi ====
         (function(){
             const PAGE_WIDTH=794,PAGE_HEIGHT=1123,ZOOMS=[.5,.6,.7,.8,.9,1];
-            let currentPage=1,autoRefreshTimer=null,refreshing=false,scrollFrame=0;
+            let currentPage=1,refreshing=false,scrollFrame=0;
             const panel=document.getElementById('v23PreviewPanel'),viewport=document.getElementById('v23PreviewViewport'),pages=document.getElementById('v23PreviewPages');
 
             function clonePrintableRow(row){
@@ -7158,8 +7194,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                     if(sourceRows.length)pageRecords.push(record);
                     pageRecords.forEach(function(item,index){item.shell.dataset.page=String(index+1);pages.appendChild(item.shell);});
                     measure.innerHTML='';currentPage=Math.min(Math.max(1,currentPage),Math.max(1,pageRecords.length));
-                    const now=new Date(),stamp=now.toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
-                    document.getElementById('v23PreviewStatus').textContent=pageRecords.length+' sayfa · Son güncelleme '+stamp;
+                    document.getElementById('v23PreviewStatus').textContent=pageRecords.length+' sayfa';
                     updateControls();requestAnimationFrame(function(){goToPage(currentPage,false);});
                 }finally{refreshing=false;}
             }
@@ -7185,17 +7220,27 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             }
             function closePreview(){
                 panel.classList.remove('open');panel.setAttribute('aria-hidden','true');document.getElementById('v23PreviewToggle').setAttribute('aria-expanded','false');
-                if(autoRefreshTimer){clearInterval(autoRefreshTimer);autoRefreshTimer=null;}
+                closeSaveDialog();
+            }
+            function closeSaveDialog(){var modal=document.getElementById('v25PreviewSaveModal');modal.classList.remove('open');modal.setAttribute('aria-hidden','true');}
+            function openSaveDialog(){var modal=document.getElementById('v25PreviewSaveModal'),input=document.getElementById('v25PreviewFileName');input.value=document.getElementById('fileNameInput')?.value||'Arabuluculuk Belgesi';modal.classList.add('open');modal.setAttribute('aria-hidden','false');setTimeout(function(){input.focus();input.select();},0);}
+            function saveFromPreview(format){
+                var input=document.getElementById('v25PreviewFileName'),clean=String(input.value||'Arabuluculuk Belgesi').replace(/[\\/:*?"<>|]/g,'').trim()||'Arabuluculuk Belgesi';
+                var mainName=document.getElementById('fileNameInput');if(mainName)mainName.value=clean;
+                closeSaveDialog();closePreview();setTimeout(function(){if(format==='pdf')saveAsPdf();else if(format==='docx')exportToDocx();else if(format==='udf')exportToUdfJson();},120);
             }
             function openPreview(){
                 if(document.body.classList.contains('udf-view-open')&&typeof toggleUdfViewer==='function')toggleUdfViewer(false);
                 panel.classList.add('open');panel.setAttribute('aria-hidden','false');document.getElementById('v23PreviewToggle').setAttribute('aria-expanded','true');
+                closeSaveDialog();
                 const fit=Math.max(.5,Math.min(.8,(panel.clientWidth-58)/PAGE_WIDTH));const nearest=ZOOMS.reduce(function(a,b){return Math.abs(b-fit)<Math.abs(a-fit)?b:a;},ZOOMS[0]);updateScale(nearest);refreshPreview();
-                if(autoRefreshTimer)clearInterval(autoRefreshTimer);autoRefreshTimer=setInterval(refreshPreview,30000);
             }
             window.v23ClosePreview=closePreview;window.v23RefreshPreview=refreshPreview;
             document.getElementById('v23PreviewToggle').onclick=function(){panel.classList.contains('open')?closePreview():openPreview();};
             document.getElementById('v23PreviewClose').onclick=closePreview;document.getElementById('v23PreviewRefresh').onclick=refreshPreview;
+            document.getElementById('v25PreviewSave').onclick=openSaveDialog;document.getElementById('v25PreviewSaveClose').onclick=closeSaveDialog;
+            document.getElementById('v25PreviewSaveModal').onclick=function(event){if(event.target===this)closeSaveDialog();};
+            document.querySelectorAll('#v25PreviewSaveModal [data-format]').forEach(function(button){button.onclick=function(){saveFromPreview(button.dataset.format);};});
             document.getElementById('v23PreviewPrevious').onclick=function(){goToPage(currentPage-1);};document.getElementById('v23PreviewNext').onclick=function(){goToPage(currentPage+1);};
             document.getElementById('v23PreviewZoom').onchange=function(event){updateScale(event.target.value);updateControls();};
             document.getElementById('v23PreviewZoomOut').onclick=function(){const current=Number(document.getElementById('v23PreviewZoom').value),index=ZOOMS.indexOf(current);updateScale(ZOOMS[Math.max(0,index-1)]);};
@@ -7206,6 +7251,155 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 const originalToggleUdfViewer=window.toggleUdfViewer;
                 window.toggleUdfViewer=function(forceOpen){const opening=typeof forceOpen==='boolean'?forceOpen:!document.body.classList.contains('udf-view-open');if(opening)closePreview();return originalToggleUdfViewer.apply(this,arguments);};
             }
+        })();
+    </script>
+    <style id="v25-interface-styles">
+        /* ==== v25: A4 ile hizalı araç çubuğu ==== */
+        .toolbar { height:55px; padding:7px 18px; }
+        .toolbar-inner { width:210mm; max-width:calc(100vw - 36px); gap:4px; box-sizing:border-box; }
+        .toolbar-left { gap:2px; }
+        .toolbar-left .tb-btn { width:31px; height:31px; }
+        .toolbar-left .tb-btn .material-icons { font-size:18px; }
+        .toolbar-sep { height:24px; margin:0 4px; }
+        .toolbar-right { gap:5px; }
+        .toolbar-right .tb-btn-wide { height:32px; padding:0 9px; border-radius:10px; font-size:10.5px; gap:4px; }
+        .toolbar-right .tb-btn-wide .material-icons { font-size:16px !important; }
+        .toolbar-right .status-dot { width:7px; height:7px; margin-left:2px; }
+
+        /* UDF açıkken sol çalışma alanının gerçek merkezi kullanılır. */
+        .udf-viewer-pane { z-index:1006; }
+        body.udf-view-open { padding-left:0 !important; padding-right:var(--udf-pane-width,40vw) !important; align-items:flex-start !important; }
+        body.udf-view-open > .toolbar {
+            left:0 !important; right:var(--udf-pane-width,40vw) !important; width:auto !important;
+            padding:7px 0 !important; overflow:visible !important; z-index:1005;
+        }
+        body.udf-view-open .toolbar-inner {
+            position:absolute; left:var(--editor-page-left,245px); top:7px;
+            width:var(--editor-page-width,650px) !important; max-width:none !important;
+            min-width:0; margin:0 !important; justify-content:center !important; gap:4px;
+        }
+        body.udf-view-open .toolbar-left, body.udf-view-open .toolbar-right { min-width:0; }
+        body.udf-view-open .a4-page {
+            align-self:flex-start !important; position:relative !important;
+            left:var(--editor-page-left,245px) !important; margin-right:0 !important;
+            transform:scale(var(--editor-split-scale,.62)) !important; transform-origin:top left !important;
+        }
+        body.udf-view-open .hf-sticky-container {
+            left:calc(var(--editor-page-left,245px) + var(--editor-page-width,650px) / 2) !important;
+            width:min(760px,var(--editor-page-width,650px)) !important;
+            transform:translateX(-50%) !important; margin:0 !important;
+        }
+        @media(max-width:1150px){
+            .toolbar-right .tb-btn-wide{padding:0 7px;font-size:10px}
+            .toolbar-left .tb-btn{width:29px;height:29px}
+        }
+
+        /* ==== v25: daha kompakt Şablon Yükle ==== */
+        #ioModal .modal-content { height:660px !important; max-height:calc(100vh - 16px) !important; }
+        #ioModal .modal-header { min-height:48px; padding:8px 12px 8px 16px; }
+        #ioModal .modal-body { display:flex; flex-direction:column; overflow:hidden; }
+        #ioModal .modal-body > .io-section { display:flex !important; flex:1; min-height:0; flex-direction:column; }
+        #ioModal .modal-body > .io-section > .io-tab-panel.active { flex:1; min-height:0; }
+        #ioModal .io-loader-tabs { flex:0 0 auto; padding:6px 10px 4px; gap:3px; background:#f7f9fc; }
+        #ioModal .io-loader-tab { height:32px; font-size:10.5px; }
+        #ioModal .io-tab-panel { padding:9px 12px 12px; min-height:0; overflow:auto; }
+        #ioDocumentPanel.active { display:flex; flex-direction:column; height:100%; overflow:hidden; }
+        #ioDocumentPanel .v18-blank-shell { display:flex; flex:1; min-height:0; flex-direction:column; gap:7px; }
+        #ioDocumentPanel .v18-blank-intro { margin:0; padding:0 2px; font-size:10.5px; line-height:1.3; }
+        #ioDocumentPanel .v18-blank-columns { flex:1; min-height:0; gap:8px; }
+        #ioDocumentPanel .v18-blank-column { display:grid; grid-template-rows:auto auto auto 72px; align-content:start; padding:10px; border-radius:11px; }
+        #ioDocumentPanel .v18-blank-column h3 { margin:0 0 2px; font-size:12.5px; }
+        #ioDocumentPanel .v18-blank-column p { min-height:27px; margin:0 0 5px; font-size:9.5px; line-height:1.25; }
+        #ioDocumentPanel .v18-document-choices { gap:5px; }
+        #ioDocumentPanel .v18-document-choice { min-height:42px; padding:5px 4px; font-size:9px; }
+        #ioDocumentPanel .v18-document-choice .material-icons { font-size:16px; }
+        #ioDocumentPanel .v18-conditional,
+        #ioDocumentPanel .v18-conditional.open {
+            display:grid !important; grid-template-columns:repeat(2,minmax(0,1fr));
+            align-content:start; gap:6px; min-height:64px; margin-top:6px; padding-top:6px;
+            border-top:1px solid #e5eaf1; transition:opacity .14s ease;
+        }
+        #ioDocumentPanel .v18-conditional:not(.open) { visibility:hidden; opacity:0; pointer-events:none; }
+        #ioDocumentPanel #v18PrimaryOptions { grid-template-columns:1fr; }
+        #ioDocumentPanel .v18-conditional .io-field { padding:6px; border-radius:8px; }
+        #ioDocumentPanel .v18-conditional label { font-size:8.5px; margin-bottom:2px; }
+        #ioDocumentPanel .v18-conditional select { height:30px; min-height:30px; padding:4px 24px 4px 7px; font-size:9.5px; }
+        #ioDocumentPanel .v18-open-row {
+            flex:0 0 58px; display:grid; grid-template-columns:minmax(0,1fr) 175px;
+            gap:10px; align-items:center; margin:0; padding:7px 9px;
+            border:1px solid #dfe6ef; border-radius:10px; background:#fff;
+        }
+        #ioDocumentPanel .v18-open-summary { font-size:9.5px; line-height:1.25; }
+        #ioDocumentPanel .v18-open-summary strong { font-size:11px; margin-bottom:1px; }
+        #ioDocumentPanel .v18-open-button { width:175px; max-width:175px; min-height:36px; padding:6px 9px; font-size:10px; }
+        #ioModal .io-header-data-btn {
+            height:34px; padding:0 13px; border:0; background:#2563eb; color:#fff;
+            box-shadow:0 5px 14px rgba(37,99,235,.22); font-size:10.5px;
+        }
+        #ioModal .io-header-data-btn:hover { background:#1d4ed8; color:#fff; }
+        #ioModal .io-header-data-btn .material-icons { color:#fff; font-size:18px; }
+        #ioModal .close-btn { width:34px; height:34px; border:1px solid #d8e0ea; background:#fff; }
+        @media(max-height:720px){
+            #ioModal .modal-content{height:650px!important;max-height:calc(100vh - 10px)!important}
+            #ioDocumentPanel .v18-blank-intro{display:none}
+            #ioDocumentPanel .v18-document-choice{min-height:38px}
+            #ioDocumentPanel .v18-blank-column{grid-template-rows:auto auto auto 66px;padding:8px}
+            #ioDocumentPanel .v18-open-row{flex-basis:54px}
+        }
+
+        /* ==== v25: güncellenen kayıt göstergeleri ==== */
+        .dashboard-record-title { display:flex; align-items:center; gap:6px; }
+        .dashboard-updated-dot { display:inline-block; width:7px; height:7px; flex:0 0 7px; border-radius:50%; background:#dc2626; box-shadow:0 0 0 2px #fee2e2; }
+        .dashboard-last-updated { align-self:flex-start; margin:3px 0 5px; color:#64748b; font-size:9px; font-weight:700; }
+
+        /* ==== v25: önizleme kayıt penceresi ==== */
+        .v25-preview-save {
+            display:inline-flex; align-items:center; gap:6px; height:36px; padding:0 12px;
+            border:1px solid #0f766e; border-radius:9px; background:#0f766e; color:#fff; font-weight:800; cursor:pointer;
+        }
+        .v25-preview-save:hover { background:#0b625c; }
+        .v25-preview-save .material-icons { font-size:17px; }
+        .v25-preview-save-modal {
+            position:absolute; inset:0; z-index:20; display:flex; align-items:center; justify-content:center;
+            padding:22px; background:rgba(19,31,43,.58); backdrop-filter:blur(5px);
+            opacity:0; visibility:hidden; transition:opacity .18s ease,visibility 0s linear .18s;
+        }
+        .v25-preview-save-modal.open { opacity:1; visibility:visible; transition:opacity .18s ease; }
+        .v25-preview-save-dialog {
+            position:relative; width:min(430px,100%); padding:24px; border:1px solid rgba(255,255,255,.45);
+            border-radius:17px; background:#fff; box-shadow:0 24px 70px rgba(15,23,42,.35);
+        }
+        .v25-preview-save-dialog h3 { margin:0 38px 18px 0; color:#172b3b; font-size:18px; }
+        .v25-preview-save-dialog label { display:block; margin-bottom:6px; color:#475569; font-size:11px; font-weight:800; }
+        #v25PreviewFileName { width:100%; height:42px; box-sizing:border-box; border:1px solid #cbd5e1; border-radius:10px; padding:0 12px; color:#172b3b; font-size:12px; outline:none; }
+        #v25PreviewFileName:focus { border-color:#2563eb; box-shadow:0 0 0 3px rgba(37,99,235,.12); }
+        .v25-preview-save-close { position:absolute; top:14px; right:14px; width:34px; height:34px; border:1px solid #d7dee7; border-radius:9px; background:#fff; color:#536273; font-size:22px; cursor:pointer; }
+        .v25-preview-format-buttons { display:grid; gap:9px; margin-top:16px; }
+        .v25-preview-format-buttons button { display:grid; grid-template-columns:42px 1fr; align-items:center; gap:10px; min-height:62px; border:1px solid #dce3eb; border-radius:12px; padding:9px 12px; background:#f8fafc; color:#25384a; text-align:left; cursor:pointer; }
+        .v25-preview-format-buttons button:hover { border-color:#93b7d2; background:#eef5f9; transform:translateY(-1px); }
+        .v25-preview-format-buttons .material-icons { display:grid; place-items:center; width:38px; height:38px; border-radius:10px; background:#e4edf4; color:#245a7a; font-size:22px; }
+        .v25-preview-format-buttons strong,.v25-preview-format-buttons small { display:block; }
+        .v25-preview-format-buttons strong { font-size:13px; }
+        .v25-preview-format-buttons small { margin-top:3px; color:#6b7a89; font-size:10px; }
+        @media print { #v25PreviewSaveModal { display:none !important; } }
+    </style>
+    <script id="v25-interface-script">
+        (function(){
+            function appendTemplateUpdatedDate(fileName){
+                var detail=document.getElementById('dashboardTemplateDetail'),manifest=typeof v15TemplateManifest==='function'?v15TemplateManifest(fileName):null;
+                if(!detail||!manifest?.updatedAt||detail.querySelector('.dashboard-last-updated'))return;
+                var heading=detail.querySelector('.dashboard-record-subheading'),date=document.createElement('div');date.className='dashboard-last-updated';date.textContent='Son Güncellenme: '+dashboardFormatUpdatedAt(manifest.updatedAt);heading?.insertAdjacentElement('afterend',date);
+            }
+            if(typeof dashboardRenderTemplateDetail==='function'){
+                var baseTemplateDetail=dashboardRenderTemplateDetail;
+                dashboardRenderTemplateDetail=function(fileName){baseTemplateDetail(fileName);appendTemplateUpdatedDate(fileName);};
+            }
+            if(typeof dashboardAddTemplate==='function'){
+                var baseAddTemplate=dashboardAddTemplate;
+                dashboardAddTemplate=async function(input){var fileName=input?.files?.[0]?.name||'';await baseAddTemplate(input);if(fileName&&ioGuidedTemplateMap[fileName]){var manifest=v15TemplateManifest(fileName);manifest.updatedAt=new Date().toISOString();ioPersistGuidedData();dashboardRenderTemplates();if(dashboardActiveTemplateFile===fileName)dashboardRenderTemplateDetail(fileName);}};
+            }
+            window.addEventListener('resize',function(){if(document.body.classList.contains('udf-view-open'))updateUdfSplitScale();});
+            if(document.body.classList.contains('udf-view-open'))updateUdfSplitScale();
         })();
     </script>
 </body></html>
