@@ -7243,7 +7243,14 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             function buildPage(){
                 const shell=document.createElement('div');shell.className='v23-preview-page-shell';
                 const page=document.createElement('section');page.className='v23-preview-page';
-                const hf=typeof v22HFSettings!=='undefined'&&!!v22HFSettings.enabled&&!document.getElementById('ignoreHFCheck')?.checked;
+                // Gercek PDF'te .print-space-head/.print-space-foot (3,5cm/2cm bosluk)
+                // rezervasyonu v22HFSettings.enabled'dan BAGIMSIZDIR - Ust/Alt Bilgi
+                // paneli tamamen kapali olsa bile bu alan hep ayrilir; yalnizca "Ust/alt
+                // bilgi olmadan kaydet" onay kutusu (body.no-print-hf) bunu kapatir (bkz.
+                // saveAsPdf()). Gercek Chrome --print-to-pdf ciktisiyla dogrulandi: bu
+                // rezervasyon acikken 924px'lik icerik 915px'lik alana sigmiyor ve imza
+                // bloğu 2. sayfaya geciyor - onizleme de aynen bu sekilde hesaplamali.
+                const hf=!document.getElementById('ignoreHFCheck')?.checked;
                 if(hf)page.classList.add('has-hf');
                 if(hf){
                     const header=document.createElement('div');header.className='v23-preview-page-header';
