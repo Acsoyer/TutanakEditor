@@ -7067,19 +7067,22 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             transform:scale(var(--v23-page-scale, .7)); font-family:Arial,sans-serif;
             font-size:10pt; line-height:1.2;
         }
-        .v23-preview-page-header, .v23-preview-page-footer { position:absolute; left:66px; right:47px; text-align:center; }
-        .v23-preview-page-header { top:23px; height:91px; }
-        .v23-preview-page-header img { display:block; width:302px; height:76px; max-width:100%; margin:0 auto; object-fit:contain; }
-        .v23-preview-page-header::after { content:""; position:absolute; left:0; right:0; bottom:0; border-bottom:2px solid #6f7780; }
-        .v23-preview-page-footer { bottom:19px; min-height:49px; padding-top:8px; border-top:2px solid #6f7780; color:#000; font-family:'Palatino Linotype',Georgia,serif; font-size:9pt; line-height:1.5; }
-        .v23-preview-page-body { position:absolute; left:66px; right:47px; top:47px; bottom:47px; overflow:hidden; }
-        .v23-preview-page.has-hf .v23-preview-page-body { top:132px; bottom:76px; }
+        /* Bu ölçüler @media print içindeki gerçek PDF alanlarının birebir karşılığıdır. */
+        .v23-preview-page-header { position:absolute; top:0; left:0; right:0; height:3.5cm; padding:.6cm 1.25cm 0 1.75cm; box-sizing:border-box; background:#fff; }
+        .v23-preview-page-footer { position:absolute; bottom:0; left:0; right:0; height:2cm; padding:0 1.25cm .5cm 1.75cm; box-sizing:border-box; display:flex; flex-direction:column; justify-content:space-between; background:#fff; }
+        .v23-preview-page-header .logo-container-print { margin:0 auto; width:8cm; height:2cm; }
+        .v23-preview-page-header .header-line-print { border-top:1px solid #808080; margin-top:.4cm; margin-bottom:.5cm; }
+        .v23-preview-page-footer .footer-line-print { border-top:1px solid #808080; margin-bottom:.5cm; }
+        .v23-preview-page-footer .footer-text-print { font-size:9pt; line-height:1.5; }
+        .v23-preview-page-body { position:absolute; left:1.75cm; right:1.25cm; top:1.25cm; bottom:1.25cm; overflow:hidden; }
+        .v23-preview-page.has-hf .v23-preview-page-body { top:3.5cm; bottom:2cm; }
         .v23-preview-page table { width:100%; border-collapse:collapse; table-layout:fixed; }
         .v23-preview-page .label-cell, .v23-preview-page .colon-cell,
         .v23-preview-page .content-cell, .v23-preview-page .title-text-row td,
         .v23-preview-page .sig-title { color:#000 !important; }
         .v23-preview-page .label-cell, .v23-preview-page .colon-cell,
         .v23-preview-page .content-cell { margin:0 !important; padding-top:2px !important; padding-bottom:2px !important; }
+        .v23-preview-page tr, .v23-preview-page td, .v23-preview-page p, .v23-preview-page div { break-inside:auto; page-break-inside:auto; }
         .v23-preview-page .sig-grid { break-inside:avoid !important; page-break-inside:avoid !important; }
         .v23-preview-page .lbl-dd-btn, .v23-preview-page button, .v23-preview-page input,
         .v23-preview-page select, .v23-preview-page textarea { display:none !important; }
@@ -7187,33 +7190,87 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             function buildPage(){
                 const shell=document.createElement('div');shell.className='v23-preview-page-shell';
                 const page=document.createElement('section');page.className='v23-preview-page';
-                const hf=typeof v22HFSettings!=='undefined'&&!!v22HFSettings.enabled;
+                const hf=typeof v22HFSettings!=='undefined'&&!!v22HFSettings.enabled&&!document.getElementById('ignoreHFCheck')?.checked;
                 if(hf)page.classList.add('has-hf');
                 if(hf){
                     const header=document.createElement('div');header.className='v23-preview-page-header';
-                    const source=document.querySelector('#logoPrintBox img');
-                    if(source){const img=document.createElement('img');img.src=source.src;img.alt='';header.appendChild(img);}page.appendChild(header);
+                    header.innerHTML=document.querySelector('.fixed-print-header')?.innerHTML||'';
+                    header.querySelectorAll('[id]').forEach(function(node){node.removeAttribute('id');});
+                    page.appendChild(header);
                 }
                 const body=document.createElement('div');body.className='v23-preview-page-body';
                 const table=document.createElement('table');
                 const original=document.getElementById('docTable');
                 const colgroup=original?.querySelector(':scope > colgroup');if(colgroup)table.appendChild(colgroup.cloneNode(true));
                 const tbody=document.createElement('tbody');table.appendChild(tbody);body.appendChild(table);page.appendChild(body);
-                if(hf){const footer=document.createElement('div');footer.className='v23-preview-page-footer';footer.innerHTML=document.getElementById('footerPrintBox')?.innerHTML||'';page.appendChild(footer);}
+                if(hf){const footer=document.createElement('div');footer.className='v23-preview-page-footer';footer.innerHTML=document.querySelector('.fixed-print-footer')?.innerHTML||'';footer.querySelectorAll('[id]').forEach(function(node){node.removeAttribute('id');});page.appendChild(footer);}
                 shell.appendChild(page);return {shell:shell,page:page,body:body,table:table,tbody:tbody};
             }
             function pageFits(record){return record.table.getBoundingClientRect().height<=record.body.clientHeight+.5;}
+            function splitTarget(row){
+                const cells=Array.from(row.children).filter(function(cell){return cell.tagName==='TD';});
+                const preferred=row.querySelector('.content-cell');
+                const target=preferred||cells.reduce(function(best,cell){return (cell.textContent||'').length>(best?.textContent||'').length?cell:best;},null);
+                return {cell:target,index:cells.indexOf(target)};
+            }
+            function textPoint(root,offset){
+                const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let node,total=0,last=null;
+                while((node=walker.nextNode())){last=node;const length=node.nodeValue.length;if(offset<=total+length)return {node:node,offset:Math.max(0,offset-total)};total+=length;}
+                return last?{node:last,offset:last.nodeValue.length}:{node:root,offset:0};
+            }
+            function cellFragment(cell,start,end){
+                const range=document.createRange();range.selectNodeContents(cell);const from=textPoint(cell,start),to=textPoint(cell,end);
+                try{range.setStart(from.node,from.offset);range.setEnd(to.node,to.offset);return range.cloneContents();}catch(_error){const fragment=document.createDocumentFragment();fragment.appendChild(document.createTextNode((cell.textContent||'').slice(start,end)));return fragment;}
+            }
+            function rowFragment(row,start,end,continuation){
+                const info=splitTarget(row),copy=row.cloneNode(true),cells=Array.from(copy.children).filter(function(cell){return cell.tagName==='TD';}),target=cells[info.index];
+                if(!info.cell||!target)return copy;
+                target.replaceChildren(cellFragment(info.cell,start,end));
+                if(continuation)cells.forEach(function(cell,index){if(index!==info.index)cell.innerHTML='';});
+                return copy;
+            }
+            function splitPositions(row){
+                const info=splitTarget(row),text=info.cell?.textContent||'',positions=[];let match;
+                const spaces=/\s+/g;while((match=spaces.exec(text)))positions.push(match.index+match[0].length);
+                if(!positions.length||positions[positions.length-1]!==text.length)positions.push(text.length);
+                return {text:text,positions:positions};
+            }
+            function largestFittingPrefix(record,row){
+                const split=splitPositions(row);if(!split.text.length)return 0;
+                let low=0,high=split.positions.length-1,best=-1;
+                while(low<=high){const middle=Math.floor((low+high)/2),end=split.positions[middle],candidate=rowFragment(row,0,end,false);record.tbody.appendChild(candidate);const fits=pageFits(record);candidate.remove();if(fits){best=middle;low=middle+1;}else high=middle-1;}
+                return best>=0?split.positions[best]:0;
+            }
+            function largestFittingCharPrefix(record,row){
+                const text=splitTarget(row).cell?.textContent||'';if(!text.length)return 0;
+                let low=1,high=text.length,best=0;
+                while(low<=high){const middle=Math.floor((low+high)/2),candidate=rowFragment(row,0,middle,false);record.tbody.appendChild(candidate);const fits=pageFits(record);candidate.remove();if(fits){best=middle;low=middle+1;}else high=middle-1;}
+                return best;
+            }
             function refreshPreview(){
                 if(refreshing)return;refreshing=true;
                 try{
                     const sourceRows=Array.from(document.querySelectorAll('#docTable > tbody > tr'));
                     const measure=document.getElementById('v23PreviewMeasure');measure.innerHTML='';pages.innerHTML='';
                     let record=buildPage();measure.appendChild(record.shell);let pageRecords=[];
+                    function nextPage(){pageRecords.push(record);record=buildPage();measure.appendChild(record.shell);}
                     if(!sourceRows.length)pageRecords.push(record);
                     sourceRows.forEach(function(row){
-                        const copy=clonePrintableRow(row);record.tbody.appendChild(copy);
-                        if(!pageFits(record)&&record.tbody.children.length>1){
-                            copy.remove();pageRecords.push(record);record=buildPage();measure.appendChild(record.shell);record.tbody.appendChild(copy);
+                        let remainder=clonePrintableRow(row),continuation=false,safety=0;
+                        while(remainder&&safety++<100){
+                            record.tbody.appendChild(remainder);
+                            if(pageFits(record)){remainder=null;break;}
+                            remainder.remove();
+                            if(remainder.querySelector('.sig-grid')){if(record.tbody.children.length)nextPage();record.tbody.appendChild(remainder);remainder=null;break;}
+                            let splitAt=largestFittingPrefix(record,remainder),length=splitPositions(remainder).text.length;
+                            if(splitAt<=0){
+                                if(record.tbody.children.length){nextPage();continue;}
+                                splitAt=largestFittingCharPrefix(record,remainder);
+                                if(splitAt<=0)splitAt=splitPositions(remainder).positions[0]||length;
+                            }
+                            if(splitAt>=length){record.tbody.appendChild(remainder);remainder=null;break;}
+                            record.tbody.appendChild(rowFragment(remainder,0,splitAt,continuation));
+                            remainder=rowFragment(remainder,splitAt,length,true);continuation=true;nextPage();
                         }
                     });
                     if(sourceRows.length)pageRecords.push(record);
@@ -7587,4 +7644,41 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             new MutationObserver(function(changes){changes.forEach(function(change){change.addedNodes.forEach(function(node){if(node.nodeType===Node.TEXT_NODE&&node.nodeValue.includes('\u2014'))node.nodeValue=node.nodeValue.replace(/\u2014/g,'-');else if(node.nodeType===Node.ELEMENT_NODE)removeEmDashes(node);});});}).observe(document.body,{childList:true,subtree:true});
         })();
     </script>
+    <style id="v27-interface-styles">
+        /* Boş belge açma işlemi ana eylem olarak daha kolay fark edilir. */
+        #ioDocumentPanel .v18-open-row { grid-template-columns:minmax(0,1fr) 260px; min-height:76px; padding:9px 11px; }
+        #ioDocumentPanel .v18-open-button { width:260px; max-width:260px; min-height:54px; padding:11px 16px; border-radius:12px; font-size:14.5px; font-weight:800; }
+        #ioDocumentPanel .v18-open-button .material-icons { font-size:21px !important; }
+
+        /* Uyuşmazlık seçerek belge aç: tek akış, daha az çerçeve ve daha net adımlar. */
+        #ioGuidedPanel { padding:12px 16px 16px !important; }
+        #ioGuidedPanel > .io-hint { margin:0 0 14px; padding:0 2px; }
+        #ioGuidedPanel .io-guided-card { display:grid; gap:16px; }
+        #ioGuidedPanel .io-global-search { margin:0; }
+        #ioGuidedPanel .v18-guided-document { margin:0; padding:0; border:0; }
+        #ioGuidedPanel .io-select-grid { gap:12px 14px !important; }
+        #ioGuidedPanel .io-field { border:0 !important; border-radius:0 !important; padding:0 !important; background:transparent !important; }
+        #ioGuidedPanel .io-field label { margin:0 0 2px; color:#334155; font-size:11px; }
+        #ioGuidedPanel .io-field select, #ioGuidedPanel .io-subject-trigger { min-height:40px; border:1px solid #cfd8e3; border-radius:9px; background:#fff; font-size:11.5px; }
+        #ioGuidedPanel #ioTemplateArea { margin:0; padding-top:2px; border:0; }
+        #ioGuidedPanel .io-guided-status { margin:0 2px; font-size:10.5px; }
+        #ioGuidedPanel .io-guided-apply { width:min(280px,100%); min-height:43px; margin:0 0 0 auto; font-size:12px; }
+        #ioGuidedPanel .io-guided-warning { margin:0; }
+
+        /* Sağ düzenleyicideki mor, mavi ve yeşil içerikler okunaklılaştırıldı. */
+        #dataDashboardModal .dashboard-editor .dashboard-section-title { font-size:16px !important; line-height:1.35; }
+        #dataDashboardModal .dashboard-editor .dashboard-help { font-size:12.5px !important; line-height:1.55; }
+        #dataDashboardModal .dashboard-editor .dashboard-option-title,
+        #dataDashboardModal .dashboard-editor .dashboard-option-text,
+        #dataDashboardModal .dashboard-editor .dashboard-option-preview { font-size:14px !important; line-height:1.6; }
+        #dataDashboardModal .dashboard-editor .dashboard-option-card { padding:13px; }
+        #dataDashboardModal .dashboard-editor .dashboard-edit-btn,
+        #dataDashboardModal .dashboard-editor .dashboard-delete-btn,
+        #dataDashboardModal .dashboard-editor .dashboard-add-btn { font-size:12px !important; }
+
+        @media(max-width:860px){
+            #ioDocumentPanel .v18-open-row { grid-template-columns:1fr; }
+            #ioDocumentPanel .v18-open-button { width:100%; max-width:none; }
+        }
+    </style>
 </body></html>
