@@ -7130,6 +7130,11 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         .v23-preview-page .sig-title { color:#000 !important; }
         .v23-preview-page .label-cell, .v23-preview-page .colon-cell,
         .v23-preview-page .content-cell { margin:0 !important; padding-top:2px !important; padding-bottom:2px !important; }
+        /* PDF'de .empty-row td{padding:0} kurali .label-cell/.colon-cell/.content-cell
+           genel kuralindan daha yuksek ozguldugu icin kazaniyor (bir class+bir type > iki class).
+           Onizlemede ".v23-preview-page" on eki eklendigi icin bu sira bozuluyor ve bos satirlar
+           10px yerine 14px yukseklikte olculuyordu; asagidaki kural onu PDF ile ayni sekilde geri aliyor. */
+        .v23-preview-page .empty-row td { padding:0 !important; height:10px !important; line-height:10px !important; }
         .v23-preview-page tr, .v23-preview-page td, .v23-preview-page p, .v23-preview-page div { break-inside:auto; page-break-inside:auto; }
         .v23-preview-page .sig-grid { break-inside:avoid !important; page-break-inside:avoid !important; }
         .v23-preview-page .lbl-dd-btn, .v23-preview-page button, .v23-preview-page input,
