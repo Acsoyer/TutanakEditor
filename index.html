@@ -307,6 +307,7 @@
         .io-subject-trigger-label { overflow:hidden; text-overflow:ellipsis; }
         .io-subject-menu { display:none; position:absolute; left:0; right:0; top:40px; z-index:2105; max-height:270px; overflow-y:auto; border:1px solid #cfd4e8; border-radius:9px; padding:5px; background:#fff; box-shadow:0 10px 24px rgba(30,41,59,.16); }
         .io-subject-picker.open .io-subject-menu { display:block; }
+        .io-subject-menu.io-subject-menu-detached { display:block; z-index:2600; }
         .io-subject-item { width:100%; display:flex; align-items:center; justify-content:space-between; gap:8px; border:0; border-radius:7px; padding:8px; background:#fff; color:#334155; font-size:10px; cursor:pointer; text-align:left; }
         .io-subject-item:hover { background:#f5f6ff; color:#3c40c6; }
         .io-count-pills { display:flex; flex-wrap:wrap; gap:4px; flex-shrink:0; }
@@ -1779,11 +1780,10 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         }
 
         function ioResetSubjectPicker(placeholder, disabled) {
-            var picker = document.getElementById('ioSubjectPicker');
             var trigger = document.getElementById('ioSubjectTrigger');
             var content = document.getElementById('ioSubjectTriggerContent');
             var menu = document.getElementById('ioSubjectMenu');
-            if (picker) picker.classList.remove('open');
+            ioCloseSubjectMenu();
             if (trigger) trigger.disabled = !!disabled;
             if (content) {
                 content.innerHTML = '';
@@ -1841,23 +1841,71 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                     var select = document.getElementById('ioSubjectSelect');
                     select.value = subject.recordId;
                     ioBuildSubjectDisplay(document.getElementById('ioSubjectTriggerContent'), subject.displayLabel || subject.label, record);
-                    document.getElementById('ioSubjectPicker').classList.remove('open');
+                    ioCloseSubjectMenu();
                     ioGuidedSubjectChanged();
                 });
                 menu.appendChild(button);
             });
         }
 
+        function ioCloseSubjectMenu() {
+            var picker = document.getElementById('ioSubjectPicker');
+            var menu = document.getElementById('ioSubjectMenu');
+            if (picker) picker.classList.remove('open');
+            if (menu && menu.classList.contains('io-subject-menu-detached')) {
+                menu.classList.remove('io-subject-menu-detached');
+                menu.style.position = '';
+                menu.style.left = '';
+                menu.style.right = '';
+                menu.style.top = '';
+                menu.style.bottom = '';
+                menu.style.width = '';
+                menu.style.maxHeight = '';
+                if (picker) picker.appendChild(menu);
+            }
+        }
+        window.ioCloseSubjectMenu = ioCloseSubjectMenu;
+
         function ioToggleSubjectPicker() {
             var trigger = document.getElementById('ioSubjectTrigger');
-            if (!trigger || trigger.disabled) return;
-            document.getElementById('ioSubjectPicker')?.classList.toggle('open');
+            var picker = document.getElementById('ioSubjectPicker');
+            var menu = document.getElementById('ioSubjectMenu');
+            if (!trigger || trigger.disabled || !picker) return;
+            if (picker.classList.contains('open')) { ioCloseSubjectMenu(); return; }
+            picker.classList.add('open');
+            if (menu) {
+                // Menü, ölçeklenen (transform) modal kutusunun içinde kaldığında sabit
+                // konumlandırma yanlış noktada açılıyordu; menüyü geçici olarak gövdeye
+                // taşıyıp tetikleyici düğmenin gerçek ekran konumuna göre yerleştiriyoruz.
+                document.body.appendChild(menu);
+                menu.classList.add('io-subject-menu-detached');
+                var rect = trigger.getBoundingClientRect();
+                var openUpward = rect.top > window.innerHeight - rect.bottom;
+                menu.style.position = 'fixed';
+                menu.style.left = rect.left + 'px';
+                menu.style.right = 'auto';
+                menu.style.width = rect.width + 'px';
+                if (openUpward) {
+                    menu.style.top = 'auto';
+                    menu.style.bottom = (window.innerHeight - rect.top + 6) + 'px';
+                    menu.style.maxHeight = Math.max(150, Math.min(270, rect.top - 24)) + 'px';
+                } else {
+                    menu.style.bottom = 'auto';
+                    menu.style.top = (rect.bottom + 6) + 'px';
+                    menu.style.maxHeight = Math.max(150, Math.min(270, window.innerHeight - rect.bottom - 24)) + 'px';
+                }
+            }
         }
 
         document.addEventListener('click', function(event) {
             var picker = document.getElementById('ioSubjectPicker');
-            if (picker && !picker.contains(event.target)) picker.classList.remove('open');
-        });
+            var menu = document.getElementById('ioSubjectMenu');
+            if (picker && !picker.contains(event.target) && !(menu && menu.contains(event.target))) ioCloseSubjectMenu();
+        }, true);
+        document.addEventListener('scroll', function() {
+            var menu = document.getElementById('ioSubjectMenu');
+            if (menu && menu.classList.contains('io-subject-menu-detached')) ioCloseSubjectMenu();
+        }, true);
 
         function ioNormalizeRecordOptions(record) {
             if (!record) return;
@@ -5322,7 +5370,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             custom.className = 'io-subject-custom';
             custom.textContent = '+ Kendim ekleyeceğim';
             custom.addEventListener('click', function() {
-                document.getElementById('ioSubjectPicker')?.classList.remove('open');
+                ioCloseSubjectMenu();
                 ioOpenCustomEntry('subject');
             });
             menu.appendChild(custom);
@@ -7630,11 +7678,6 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             function addHFNote(){var head=document.querySelector('#hfPanel .v22-hf-head');if(head&&!head.querySelector('.v26-hf-note')){var note=document.createElement('div');note.className='v26-hf-note';note.innerHTML='Bu alanları sayfanızda görebilmek için <strong>Önizleme</strong> alanına bakın.';head.appendChild(note);}}
             addHFNote();
             if(typeof v22BuildHFPanel==='function'){var baseBuildHF=v22BuildHFPanel;v22BuildHFPanel=function(){baseBuildHF();addHFNote();};}
-
-            if(typeof ioToggleSubjectPicker==='function'){
-                var baseToggleSubject=ioToggleSubjectPicker;
-                ioToggleSubjectPicker=function(){baseToggleSubject();var picker=document.getElementById('ioSubjectPicker'),menu=document.getElementById('ioSubjectMenu'),trigger=document.getElementById('ioSubjectTrigger');if(!picker?.classList.contains('open')||!menu||!trigger)return;var rect=trigger.getBoundingClientRect();menu.style.position='fixed';menu.style.left=rect.left+'px';menu.style.right='auto';menu.style.width=rect.width+'px';menu.style.top='auto';menu.style.bottom=(window.innerHeight-rect.top+6)+'px';menu.style.maxHeight=Math.max(150,Math.min(270,rect.top-24))+'px';};
-            }
 
             /* Uzak veride veya içe aktarılan belgede kalmış uzun çizgileri de arayüzden kaldır. */
             function removeEmDashes(root){
