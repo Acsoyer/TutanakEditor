@@ -247,6 +247,8 @@
     const table = document.createElement('table');
     table.className = 'udf-table';
     const tableAttrs = resolvedAttributes(node, context.styleMap);
+    table.dataset.keepTogether = tableAttrs.keepTogether === 'true' ? 'true' : 'false';
+    if (tableAttrs.tableName) table.dataset.tableName = tableAttrs.tableName;
     if (tableAttrs.border && tableAttrs.border !== 'borderNone') table.classList.add('has-border');
 
     const rowNodes = Array.from(node.children).filter(child => child.tagName === 'row');
@@ -340,11 +342,16 @@
 
   function isArbsysGeneratedUdf(root, elements) {
     const tabLength = directChild(root, 'tabLength');
-    const tables = Array.from(elements.children).filter(node => node.tagName === 'table');
+    const format = root.querySelector('properties > pageFormat');
+    const tables = Array.from(elements.querySelectorAll('table'));
+    const hasGeneratedTables = tables.some(table => /^Sabit\d+$/.test(table.getAttribute('tableName') || ''));
+    const hasGeneratedPage = Math.abs(pt(format?.getAttribute('leftMargin')) - 49.6063) < .1
+      && Math.abs(pt(format?.getAttribute('rightMargin')) - 35.4331) < .1
+      && Math.abs(pt(format?.getAttribute('topMargin')) - 85.0394) < .1;
+    const hasHeaderFooterImages = !!elements.querySelector('header image') && !!elements.querySelector('footer image');
     return root.getAttribute('format_id') === '1.8'
-      && tabLength?.getAttribute('length') === '1.25'
-      && elements.getAttribute('resolver') === 'hvl-default'
-      && tables.some(table => /^Sabit\d+$/.test(table.getAttribute('tableName') || ''));
+      && hasGeneratedTables
+      && (tabLength?.getAttribute('length') === '1.25' || hasGeneratedPage || hasHeaderFooterImages);
   }
 
   function getWebId(root) {
@@ -479,6 +486,7 @@
     const page = document.createElement('article');
     page.className = 'udf-page';
     page.classList.toggle('is-arbsys-generated', documentModel.arbsysGenerated);
+    page.dataset.layoutProfile = documentModel.arbsysGenerated ? 'arbsys' : 'uyap-legacy';
     configurePage(page, documentModel);
 
     if (documentModel.watermark) {
@@ -619,7 +627,7 @@
     return pairOverflows;
   }
 
-  function splitParagraphToFit(paragraph, body) {
+  function splitParagraphToFit(paragraph, container, body = container) {
     const runs = Array.from(paragraph.childNodes).map(node => ({
       template: node.nodeType === Node.ELEMENT_NODE ? node.cloneNode(false) : null,
       text: node.classList?.contains('udf-tab') ? '\t' : (node.textContent || ''),
@@ -656,7 +664,7 @@
     while (low <= high) {
       const middle = Math.floor((low + high) / 2);
       const candidate = make(tokens.slice(0, middle));
-      body.appendChild(candidate);
+      container.appendChild(candidate);
       layoutBlockTabs(candidate);
       const fits = !bodyOverflows(body);
       candidate.remove();
@@ -670,6 +678,93 @@
     continuation.style.setProperty('--space-above', '0pt');
     continuation.style.setProperty('--first-indent', '0pt');
     return [first, continuation];
+  }
+
+  function cloneTableFrame(table) {
+    const clone = table.cloneNode(false);
+    const colgroup = table.querySelector(':scope > colgroup');
+    if (colgroup) clone.appendChild(colgroup.cloneNode(true));
+    const sourceRow = table.querySelector(':scope > tbody > tr');
+    if (!sourceRow) return null;
+    const tbody = document.createElement('tbody');
+    const row = sourceRow.cloneNode(false);
+    const cells = Array.from(sourceRow.children).map(cell => cell.cloneNode(false));
+    cells.forEach(cell => row.appendChild(cell));
+    tbody.appendChild(row);
+    clone.appendChild(tbody);
+    return { table: clone, cells };
+  }
+
+  function splitTableToFit(table, body) {
+    if (table.dataset.keepTogether === 'true') return null;
+    const sourceRow = table.querySelector(':scope > tbody > tr');
+    const sourceCells = sourceRow ? Array.from(sourceRow.children) : [];
+    if (!sourceCells.length || table.querySelectorAll(':scope > tbody > tr').length !== 1) return null;
+
+    const flowIndex = sourceCells.reduce((best, cell, index, cells) => {
+      const score = cell.textContent.length + cell.children.length * 80;
+      const bestScore = cells[best].textContent.length + cells[best].children.length * 80;
+      return score > bestScore ? index : best;
+    }, 0);
+    const sourceFlowBlocks = Array.from(sourceCells[flowIndex].children);
+    if (!sourceFlowBlocks.length) return null;
+
+    const first = cloneTableFrame(table);
+    if (!first) return null;
+    sourceCells.forEach((cell, index) => {
+      if (index !== flowIndex) {
+        Array.from(cell.childNodes).forEach(child => first.cells[index].appendChild(child.cloneNode(true)));
+      }
+    });
+    body.appendChild(first.table);
+    layoutBlockTabs(first.table);
+    if (bodyOverflows(body)) {
+      first.table.remove();
+      return null;
+    }
+
+    const remaining = [];
+    for (let index = 0; index < sourceFlowBlocks.length; index += 1) {
+      const sourceBlock = sourceFlowBlocks[index];
+      const candidate = sourceBlock.cloneNode(true);
+      first.cells[flowIndex].appendChild(candidate);
+      layoutBlockTabs(candidate);
+      if (!bodyOverflows(body)) continue;
+
+      candidate.remove();
+      let currentWasSplit = false;
+      if (sourceBlock.classList.contains('udf-paragraph')) {
+        const split = splitParagraphToFit(sourceBlock, first.cells[flowIndex], body);
+        if (split) {
+          first.cells[flowIndex].appendChild(split[0]);
+          layoutBlockTabs(split[0]);
+          remaining.push(split[1]);
+          currentWasSplit = true;
+        }
+      }
+      if (!currentWasSplit && first.cells[flowIndex].children.length === 0) {
+        first.table.remove();
+        return null;
+      }
+      if (!currentWasSplit) remaining.push(sourceBlock.cloneNode(true));
+      remaining.push(...sourceFlowBlocks.slice(index + 1).map(block => block.cloneNode(true)));
+      break;
+    }
+
+    if (!remaining.length) {
+      first.table.remove();
+      return null;
+    }
+
+    const continuation = cloneTableFrame(table);
+    if (!continuation) {
+      first.table.remove();
+      return null;
+    }
+    continuation.table.classList.add('is-continuation');
+    continuation.cells[flowIndex].append(...remaining);
+    first.table.remove();
+    return [first.table, continuation.table];
   }
 
   async function waitForDocumentFonts(documentModel) {
@@ -732,6 +827,16 @@
       const bodyHasContent = shell.body.childElementCount > shell.bodyHeaderCount;
       if (block.classList.contains('udf-paragraph')) {
         const split = splitParagraphToFit(block, shell.body);
+        if (split) {
+          shell.body.appendChild(split[0]);
+          layoutBlockTabs(split[0]);
+          commit();
+          pending.unshift(split[1]);
+          continue;
+        }
+      }
+      if (documentModel.arbsysGenerated && block.classList.contains('udf-table')) {
+        const split = splitTableToFit(block, shell.body);
         if (split) {
           shell.body.appendChild(split[0]);
           layoutBlockTabs(split[0]);
