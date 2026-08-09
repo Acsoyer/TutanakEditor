@@ -1334,6 +1334,34 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         </div>
     </div>
 
+    <div id="ioDropModal" class="modal-overlay" onclick="closeIoDropModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()" style="width:480px;">
+            <div class="modal-header">
+                Şablon Sürüklendi
+                <button class="close-btn" onclick="closeIoDropModal(event)">×</button>
+            </div>
+            <div id="ioDropFileName" style="font-size:12px;color:#64748b;margin:-6px 0 14px;line-height:1.4;"></div>
+            <div class="io-mode-row">
+                <label class="io-radio"><input type="radio" name="ioDropMode" value="replace" onchange="ioDropRenderMode()" checked="checked"> Değiştir <span>(mevcut içeriğin yerine)</span></label>
+                <label class="io-radio"><input type="radio" name="ioDropMode" value="add" onchange="ioDropRenderMode()"> Ekle <span>(modül seçip sona ekle)</span></label>
+            </div>
+            <div id="ioDropModuleArea" style="display:none;">
+                <div class="io-mod-toolbar">
+                    <span>Eklenecek modüller</span>
+                    <span>
+                        <button class="io-mini-btn" onclick="ioDropToggleAll(true)">Tümünü Seç</button>
+                        <button class="io-mini-btn" onclick="ioDropToggleAll(false)">Temizle</button>
+                    </span>
+                </div>
+                <div id="ioDropModuleList" class="io-mod-list"></div>
+            </div>
+            <div style="display:flex;gap:10px;margin-top:16px;">
+                <button class="tb-btn" onclick="closeIoDropModal()" style="flex:1;justify-content:center;height:42px;border-radius:10px;font-size:13px;font-weight:bold;">İptal</button>
+                <button id="ioDropApplyBtn" class="tb-btn" onclick="ioDropApply()" style="flex:1;justify-content:center;height:42px;border-radius:10px;font-size:13px;font-weight:bold;color:#fff;border:none;background:#e67e22;">Tamamını Değiştir</button>
+            </div>
+        </div>
+    </div>
+
     <div id="dataDashboardModal" class="modal-overlay" onclick="closeDataDashboard(event)">
         <div class="modal-content dashboard-modal-content" onclick="event.stopPropagation()">
             <div class="modal-header">
@@ -3839,7 +3867,144 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             var ab = document.getElementById('ioApplyBtn'); if (ab) ab.style.display = 'none';
             var ml = document.getElementById('ioModuleList'); if (ml) ml.innerHTML = '';
         }
-        
+
+        // --- .arbsys DOSYASINI SÜRÜKLE-BIRAK İLE İÇE AKTAR ---
+        // Aynı Değiştir/Ekle secimini "Bilgisayardan Şablon Yükle" ile aynı arayuzle
+        // sunar, ama tek fark: onay isteyen "Mevcut belge icerigi tamamen silinip..."
+        // uyarisi burada YOK - sürükle-bırakta kullanıcı zaten OK dedigi an dogrudan uygulanir.
+        var ioDropRows = [];
+        var ioDropFileName = '';
+
+        function ioParseRowsFromDoc(doc) {
+            var rows = [];
+            var arb = doc.querySelector('body > table > tbody');
+            if (arb) rows = Array.prototype.filter.call(arb.children, function(el) { return el.tagName === 'TR'; });
+            if (!rows.length) {
+                var dt = doc.querySelector('#docTable > tbody');
+                if (dt) rows = Array.prototype.filter.call(dt.children, function(el) { return el.tagName === 'TR'; });
+            }
+            return rows;
+        }
+
+        function ioDropSelectedMode() {
+            var r = document.querySelector('input[name="ioDropMode"]:checked');
+            return r ? r.value : 'replace';
+        }
+
+        function ioDropRenderMode() {
+            var mode = ioDropSelectedMode();
+            var area = document.getElementById('ioDropModuleArea');
+            var list = document.getElementById('ioDropModuleList');
+            var btn = document.getElementById('ioDropApplyBtn');
+            if (mode === 'replace') {
+                area.style.display = 'none';
+                btn.textContent = 'Tamamını Değiştir';
+                btn.style.background = '#e67e22';
+            } else {
+                area.style.display = '';
+                list.innerHTML = '';
+                ioDropRows.forEach(function(tr, i) {
+                    var item = document.createElement('label');
+                    item.className = 'io-mod-item';
+                    var cb = document.createElement('input');
+                    cb.type = 'checkbox'; cb.checked = true; cb.dataset.idx = i;
+                    var span = document.createElement('span');
+                    var lbl = ioModuleLabel(tr);
+                    span.className = 'io-mod-label' + (lbl.muted ? ' io-mod-muted' : '');
+                    span.textContent = lbl.text;
+                    item.appendChild(cb); item.appendChild(span);
+                    list.appendChild(item);
+                });
+                btn.textContent = 'Seçilenleri Ekle';
+                btn.style.background = '#0d9488';
+            }
+        }
+
+        function ioDropToggleAll(check) {
+            document.querySelectorAll('#ioDropModuleList input[type="checkbox"]').forEach(function(cb) { cb.checked = check; });
+        }
+
+        function closeIoDropModal(e) {
+            if (e) e.preventDefault();
+            var modal = document.getElementById('ioDropModal');
+            if (modal) modal.classList.remove('open');
+            ioDropRows = [];
+            ioDropFileName = '';
+        }
+
+        function ioDropApply() {
+            if (!ioDropRows.length) { closeIoDropModal(); return; }
+            var tbody = document.querySelector('#docTable > tbody');
+            var mode = ioDropSelectedMode();
+            if (mode === 'replace') {
+                tbody.innerHTML = '';
+                ioDropRows.forEach(function(tr) { tbody.appendChild(tr); });
+                setActiveTemplateName(ioDropFileName);
+            } else {
+                var checks = document.querySelectorAll('#ioDropModuleList input[type="checkbox"]');
+                var chosen = [];
+                checks.forEach(function(cb) { if (cb.checked) chosen.push(ioDropRows[parseInt(cb.dataset.idx, 10)]); });
+                if (!chosen.length) { appAlert('Eklemek için en az bir modül seçin.', 'Modül Seçilmedi'); return; }
+                chosen.forEach(function(tr) { tbody.appendChild(tr); });
+                setActiveTemplateName('Karma belge - son eklenen: ' + (ioDropFileName || 'Bilinmiyor'));
+            }
+            injectLabelDropdowns();
+            applyEditable();
+            closeIoDropModal();
+        }
+
+        function handleArbsysFileDrop(file) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var text = e.target.result;
+                var doc;
+                try { doc = new DOMParser().parseFromString(text, 'text/html'); }
+                catch (err) { appAlert('Dosya çözümlenemedi.', 'Hata'); return; }
+                doc.querySelectorAll('script').forEach(function(s) { s.remove(); });
+                var rows = ioParseRowsFromDoc(doc);
+                if (!rows.length) { appAlert('Bu dosyada içe aktarılacak içerik bulunamadı.', 'Boş Şablon'); return; }
+                ioDropRows = rows.map(function(r) {
+                    var node = document.importNode(r, true);
+                    node.classList.remove('row-hovered');
+                    node.classList.remove('row-delete-preview');
+                    node.querySelectorAll('.lbl-dd-btn').forEach(function(b) { b.remove(); });
+                    return node;
+                });
+                ioDropFileName = file.name || '';
+                var fnEl = document.getElementById('ioDropFileName');
+                if (fnEl) fnEl.textContent = ioDropFileName + ' — ' + ioDropRows.length + ' modül bulundu.';
+                var replRadio = document.querySelector('input[name="ioDropMode"][value="replace"]');
+                if (replRadio) replRadio.checked = true;
+                ioDropRenderMode();
+                document.getElementById('ioDropModal').classList.add('open');
+            };
+            reader.onerror = function() { appAlert('Dosya okunamadı.', 'Hata'); };
+            reader.readAsText(file, 'utf-8');
+        }
+
+        (function() {
+            function hasFiles(e) {
+                return e.dataTransfer && Array.prototype.indexOf.call(e.dataTransfer.types || [], 'Files') !== -1;
+            }
+            document.addEventListener('dragover', function(e) {
+                if (!hasFiles(e)) return;
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'copy';
+            });
+            document.addEventListener('drop', function(e) {
+                if (!e.dataTransfer || !e.dataTransfer.files || !e.dataTransfer.files.length) return;
+                e.preventDefault();
+                if (document.body.classList.contains('auth-locked')) return;
+                var file = e.dataTransfer.files[0];
+                var name = (file.name || '').toLowerCase();
+                if (!/\.(arbsys|htm|html)$/.test(name)) {
+                    appAlert('Yalnızca .arbsys, .htm veya .html dosyaları sürüklenebilir.', 'Desteklenmeyen Dosya');
+                    return;
+                }
+                handleArbsysFileDrop(file);
+            });
+        })();
+
         function executeSave(type) {
             closeSaveModal(); 
             setTimeout(function() {
@@ -4390,6 +4555,9 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
 
                 if (!res.ok) {
                     var msg = res.status + ' ' + res.statusText;
+                    if (res.status === 404 && url === '/api/udf') {
+                        msg = 'UDF dönüştürme servisi bulunamadı. Yayına index.html ile birlikte api klasörünü ve vercel.json dosyasını da yükleyin.';
+                    }
                     try { var j = await res.json(); if (j && j.error) msg = j.error; } catch (e) {}
                     throw new Error(msg);
                 }
