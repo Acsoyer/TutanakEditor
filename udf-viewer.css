@@ -406,9 +406,20 @@ h1 {
   transform-origin: center;
 }
 
-.udf-body, .udf-footer, .page-number, .verification-footer {
+.udf-header, .udf-body, .udf-footer, .page-number, .verification-footer {
   z-index: 1;
 }
+
+.udf-header {
+  position: absolute;
+  top: var(--header-offset);
+  right: var(--margin-right);
+  left: var(--margin-left);
+  max-height: calc(var(--margin-top) - var(--header-offset));
+  overflow: hidden;
+}
+
+.udf-header .udf-paragraph { margin: 0; }
 
 .udf-body {
   position: absolute;
@@ -475,6 +486,18 @@ h1 {
   font-size: 8pt;
 }
 .udf-footer .udf-paragraph { font-size: 8pt !important; line-height: 1.05; margin: 0; }
+
+.udf-page.is-arbsys-generated .udf-footer {
+  bottom: var(--footer-offset);
+  max-height: var(--footer-max-height);
+  font-size: inherit;
+}
+
+.udf-page.is-arbsys-generated .udf-footer .udf-paragraph {
+  font-size: var(--font-size, 9pt) !important;
+  line-height: var(--line-height, normal);
+  margin: var(--space-above, 0pt) 0 var(--space-below, 0pt);
+}
 
 .page-number {
   position: absolute;

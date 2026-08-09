@@ -170,7 +170,7 @@
     if (!['content', 'field', 'space', 'tab', 'image'].includes(tag)) return null;
 
     if (tag === 'image') {
-      if (context.inFooter) return null;
+      if (context.inFooter && !context.arbsysGenerated) return null;
       const raw = node.getAttribute('imageData') || '';
       if (!raw || raw.length > 12 * 1024 * 1024) return null;
       const img = document.createElement('img');
@@ -332,8 +332,19 @@
       leftPt: pt(format?.getAttribute('leftMargin'), 42.52),
       rightPt: pt(format?.getAttribute('rightMargin'), 28.35),
       topPt: pt(format?.getAttribute('topMargin'), 42.52),
-      bottomPt: pt(format?.getAttribute('bottomMargin'), 42.52)
+      bottomPt: pt(format?.getAttribute('bottomMargin'), 42.52),
+      headerOffsetPt: pt(format?.getAttribute('headerFOffset'), 14.17),
+      footerOffsetPt: pt(format?.getAttribute('footerFOffset'), 8.5)
     };
+  }
+
+  function isArbsysGeneratedUdf(root, elements) {
+    const tabLength = directChild(root, 'tabLength');
+    const tables = Array.from(elements.children).filter(node => node.tagName === 'table');
+    return root.getAttribute('format_id') === '1.8'
+      && tabLength?.getAttribute('length') === '1.25'
+      && elements.getAttribute('resolver') === 'hvl-default'
+      && tables.some(table => /^Sabit\d+$/.test(table.getAttribute('tableName') || ''));
   }
 
   function getWebId(root) {
@@ -399,7 +410,8 @@
     const pool = codePoints(contentNode.textContent || '');
     const styleMap = parseStyles(root);
     const documentProperties = await parseDocumentProperties(zip);
-    const context = { pool, styleMap, inFooter: false };
+    const arbsysGenerated = isArbsysGeneratedUdf(root, elements);
+    const context = { pool, styleMap, inFooter: false, arbsysGenerated };
     const blocks = [];
     let footerNode = null;
     let headerNode = null;
@@ -436,6 +448,7 @@
       footerBlocks,
       headerBlocks,
       pageFormat: parsePageFormat(root),
+      arbsysGenerated,
       webId: getWebId(root),
       watermark: documentProperties.uyapsicil || '',
       pageNumber: parsePageNumberSettings(footerNode),
@@ -453,13 +466,19 @@
     page.style.setProperty('--margin-left', `${mmFromPt(format.leftPt)}mm`);
     page.style.setProperty('--margin-right', `${mmFromPt(format.rightPt)}mm`);
     page.style.setProperty('--margin-top', `${mmFromPt(format.topPt)}mm`);
-    const reservedBottomMm = documentModel.webId ? Math.max(25, mmFromPt(format.bottomPt)) : Math.max(16, mmFromPt(format.bottomPt));
+    const reservedBottomMm = documentModel.arbsysGenerated
+      ? mmFromPt(format.bottomPt)
+      : (documentModel.webId ? Math.max(25, mmFromPt(format.bottomPt)) : Math.max(16, mmFromPt(format.bottomPt)));
     page.style.setProperty('--body-bottom', `${reservedBottomMm}mm`);
+    page.style.setProperty('--header-offset', `${mmFromPt(format.headerOffsetPt)}mm`);
+    page.style.setProperty('--footer-offset', `${mmFromPt(format.footerOffsetPt)}mm`);
+    page.style.setProperty('--footer-max-height', `${Math.max(0, mmFromPt(format.bottomPt - format.footerOffsetPt))}mm`);
   }
 
   function createPageShell(documentModel) {
     const page = document.createElement('article');
     page.className = 'udf-page';
+    page.classList.toggle('is-arbsys-generated', documentModel.arbsysGenerated);
     configurePage(page, documentModel);
 
     if (documentModel.watermark) {
@@ -482,9 +501,18 @@
       page.appendChild(watermark);
     }
 
+    if (documentModel.arbsysGenerated && documentModel.headerBlocks.length) {
+      const header = document.createElement('header');
+      header.className = 'udf-header';
+      documentModel.headerBlocks.forEach(block => header.appendChild(block.cloneNode(true)));
+      page.appendChild(header);
+    }
+
     const body = document.createElement('div');
     body.className = 'udf-body';
-    documentModel.headerBlocks.forEach(block => body.appendChild(block.cloneNode(true)));
+    if (!documentModel.arbsysGenerated) {
+      documentModel.headerBlocks.forEach(block => body.appendChild(block.cloneNode(true)));
+    }
     page.appendChild(body);
 
     if (documentModel.footerBlocks.length) {
@@ -513,7 +541,12 @@
       page.appendChild(verify);
     }
 
-    return { page, body, number };
+    return {
+      page,
+      body,
+      number,
+      bodyHeaderCount: documentModel.arbsysGenerated ? 0 : documentModel.headerBlocks.length
+    };
   }
 
   function bodyOverflows(body) {
@@ -678,7 +711,7 @@
       const block = pending.shift();
       if (block.dataset.pageBreak === 'true') {
         block.remove();
-        if (shell.body.childElementCount > documentModel.headerBlocks.length) commit();
+        if (shell.body.childElementCount > shell.bodyHeaderCount) commit();
         continue;
       }
 
@@ -686,7 +719,7 @@
       layoutBlockTabs(block);
       if (!bodyOverflows(shell.body)) {
         const nextBlock = pending[0];
-        const bodyHasEarlierContent = shell.body.childElementCount > documentModel.headerBlocks.length + 1;
+        const bodyHasEarlierContent = shell.body.childElementCount > shell.bodyHeaderCount + 1;
         if (bodyHasEarlierContent && shouldMoveWithNext(block, nextBlock, shell.body)) {
           block.remove();
           commit();
@@ -696,7 +729,7 @@
       }
 
       block.remove();
-      const bodyHasContent = shell.body.childElementCount > documentModel.headerBlocks.length;
+      const bodyHasContent = shell.body.childElementCount > shell.bodyHeaderCount;
       if (block.classList.contains('udf-paragraph')) {
         const split = splitParagraphToFit(block, shell.body);
         if (split) {
@@ -717,7 +750,7 @@
       }
     }
 
-    if (shell.body.childElementCount > documentModel.headerBlocks.length || pages.length === 0) pages.push(shell.page);
+    if (shell.body.childElementCount > shell.bodyHeaderCount || pages.length === 0) pages.push(shell.page);
     else shell.page.remove();
 
     pages.forEach((page, index) => {
