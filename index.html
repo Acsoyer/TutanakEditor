@@ -7904,4 +7904,161 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             #ioDocumentPanel .v18-open-button { width:100%; max-width:none; }
         }
     </style>
+    <style id="v28-template-structure-styles">
+        .v28-subject-name-section{border-color:#c7d9ee!important;background:#f7fbff!important}
+        .v28-subject-name-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center;margin-top:8px}
+        .v28-subject-name-row .dashboard-input:disabled{background:#eef3f8;color:#334155;cursor:default}
+        .v28-inline-edit{min-height:38px;padding:7px 12px;border:1px solid #9bb9d9;border-radius:9px;background:#fff;color:#185a90;font-weight:800;cursor:pointer}
+        #documentStructureEditBtn{grid-column:1/-1;border:1px solid #9bb9d9;background:#eff7ff;color:#185a90}
+        #documentStructureEditBtn:disabled{opacity:.48;cursor:not-allowed}
+        #v28StructureModal{z-index:1300}
+        #v28StructureModal .v28-structure-dialog{width:min(1180px,94vw);height:min(780px,92vh);display:grid;grid-template-rows:auto minmax(0,1fr) auto;overflow:hidden}
+        .v28-structure-body{display:grid;grid-template-columns:270px minmax(0,1fr) 310px;gap:14px;min-height:0;padding:14px;background:#f4f7fb}
+        .v28-structure-pane{min-width:0;min-height:0;border:1px solid #d9e2ec;border-radius:12px;background:#fff;overflow:auto}
+        .v28-structure-pane h3{position:sticky;top:0;z-index:2;margin:0;padding:12px 13px;border-bottom:1px solid #e4eaf1;background:#fff;color:#172033;font-size:13px}
+        #v28StructureRows{padding:7px}
+        .v28-row-item{display:block;width:100%;margin:0 0 5px;padding:8px 9px;border:1px solid transparent;border-radius:8px;background:#f7f9fc;color:#334155;text-align:left;font-size:11px;line-height:1.3;cursor:pointer}
+        .v28-row-item.active{border-color:#2f78b7;background:#eaf4ff;color:#174f7e;font-weight:800}
+        .v28-preview-wrap{padding:16px;overflow:auto}
+        #v28StructurePreview table{width:100%;border-collapse:collapse;background:#fff}
+        #v28StructurePreview td{border:1px solid #d7dee8;padding:7px;vertical-align:top}
+        #v28StructurePreview tbody>tr{cursor:pointer}
+        #v28StructurePreview tbody>tr.v28-selected-row>td{outline:2px solid #2f78b7;outline-offset:-2px;background:#eef7ff}
+        .v28-inspector{padding:13px}
+        .v28-inspector .io-field{margin-bottom:12px}
+        .v28-inspector label{display:block;margin-bottom:5px;color:#475569;font-size:11px;font-weight:800}
+        .v28-inspector textarea{min-height:92px;resize:vertical}
+        .v28-row-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px}
+        .v28-row-actions button{min-height:36px;border:1px solid #cbd6e2;border-radius:8px;background:#fff;color:#334155;font-weight:700;cursor:pointer}
+        .v28-row-actions .primary{grid-column:1/-1;border-color:#2f78b7;background:#2f78b7;color:#fff}
+        .v28-row-actions .danger{border-color:#fecaca;color:#b42318}
+        .v28-structure-note{margin:10px 0 0;padding:9px;border-radius:8px;background:#fff7df;color:#76520b;font-size:10.5px;line-height:1.45}
+        .v28-structure-footer{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:12px 15px;border-top:1px solid #dce4ed;background:#fff}
+        .v28-structure-footer small{color:#64748b;line-height:1.4}
+        .v28-structure-footer-actions{display:flex;gap:8px}
+        .v28-structure-footer button{min-height:38px;padding:8px 14px;border-radius:9px;font-weight:800;cursor:pointer}
+        .v28-cancel{border:1px solid #cbd5e1;background:#fff;color:#475569}
+        .v28-save{border:1px solid #0f766e;background:#0f766e;color:#fff}
+        @media(max-width:900px){#v28StructureModal .v28-structure-dialog{height:94vh}.v28-structure-body{grid-template-columns:220px minmax(0,1fr)}.v28-inspector{grid-column:1/-1}.v28-structure-pane:last-child{max-height:300px}}
+    </style>
+    <script id="v28-template-structure-script">
+        // ==== v28: listede görünen uyuşmazlık adı ve belge yapısı yönetimi ====
+        let v28StructureFile='';
+        let v28StructureTable=null;
+        let v28StructureRowIndex=-1;
+
+        function v28EscapeText(value){
+            return String(value||'').replace(/\s+/g,' ').trim();
+        }
+
+        function v28InsertSubjectNameEditor(record){
+            var editor=document.getElementById('dashboardEditor');
+            var documentType=document.getElementById('dashboardDocumentTypeInput')?.closest('.dashboard-section');
+            if(!editor||!documentType||document.getElementById('dashboardSubjectNameInput'))return;
+            var section=document.createElement('section');
+            section.className='dashboard-section field-dispute v28-subject-name-section';
+            section.appendChild(dashboardCreateText('div','dashboard-section-title','Soldaki Listede Görünen Uyuşmazlık Adı'));
+            section.appendChild(dashboardCreateText('div','dashboard-help','Bu ad; soldaki listede, aramada ve uyuşmazlık seçim alanlarında kullanılır. Belge içindeki “Uyuşmazlık Türü” metninden bağımsızdır.'));
+            var row=document.createElement('div');row.className='v28-subject-name-row';
+            var input=document.createElement('input');input.id='dashboardSubjectNameInput';input.className='dashboard-input';input.value=record.selection?.subject||'';input.disabled=true;
+            var edit=document.createElement('button');edit.type='button';edit.className='v28-inline-edit';edit.textContent='Düzenle';edit.onclick=function(){input.disabled=false;input.focus();input.select();edit.textContent='Düzenleniyor';};
+            row.appendChild(input);row.appendChild(edit);section.appendChild(row);editor.insertBefore(section,documentType);
+        }
+
+        var v28DashboardOpenRecordBase=dashboardOpenRecord;
+        dashboardOpenRecord=function(recordId){
+            v28DashboardOpenRecordBase(recordId);
+            var record=ioGuidedRecordMap[recordId];if(record)v28InsertSubjectNameEditor(record);
+        };
+
+        function v28SyncRenamedSubject(record){
+            dashboardRebuildHierarchy();
+            (ioGuidedData?.templates||[]).forEach(function(manifest){if(manifest.recordId===record.id)manifest.subject=record.selection.subject;});
+            var source=document.getElementById('documentSourceCard');
+            if(source?.dataset.recordId===record.id){source.dataset.subject=record.selection.subject;var visible=document.getElementById('documentSourceSubject');if(visible)visible.textContent=record.selection.subject||'-';}
+        }
+
+        var v28DashboardSaveRecordBase=dashboardSaveActiveRecord;
+        dashboardSaveActiveRecord=async function(){
+            var record=ioGuidedRecordMap[dashboardActiveRecordId];
+            var input=document.getElementById('dashboardSubjectNameInput');
+            if(record&&input){
+                var nextName=input.value.trim();
+                if(!nextName){await appAlert('Soldaki listede görünecek uyuşmazlık adı boş bırakılamaz.','Eksik Uyuşmazlık Adı');return;}
+                record.selection.subject=nextName;
+            }
+            await v28DashboardSaveRecordBase();
+            if(record){v28SyncRenamedSubject(record);ioPersistGuidedData();dashboardRefreshRecordMap();dashboardRenderList();dashboardOpenRecord(record.id);dashboardSetStorageStatus('Uyuşmazlık adı ve şablon metinleri otomatik kaydedildi.');}
+        };
+
+        function v28EnsureStructureModal(){
+            if(document.getElementById('v28StructureModal'))return;
+            var modal=document.createElement('div');modal.id='v28StructureModal';modal.className='modal-overlay';
+            modal.innerHTML='<div class="modal-content v28-structure-dialog" onclick="event.stopPropagation()"><div class="modal-header"><span><strong>Belge Yapısını Düzenle</strong><small id="v28StructureFileLabel" style="display:block;margin-top:3px;font-size:10px;font-weight:500;color:#64748b"></small></span><button class="close-btn" type="button" onclick="v28CloseStructureEditor()">×</button></div><div class="v28-structure-body"><aside class="v28-structure-pane"><h3>Belge satırları</h3><div id="v28StructureRows"></div></aside><main class="v28-structure-pane v28-preview-wrap"><div id="v28StructurePreview"></div></main><aside class="v28-structure-pane"><h3>Seçili alan</h3><div class="v28-inspector"><div class="io-field"><label for="v28StructureLabel">Alan başlığı</label><input id="v28StructureLabel" class="dashboard-input" type="text"></div><div class="io-field"><label for="v28StructureValue">Varsayılan içerik</label><textarea id="v28StructureValue" class="dashboard-input"></textarea></div><div id="v28StructureHelp" class="dashboard-help">Düzenlemek için soldan bir alan satırı seçin.</div><div class="v28-row-actions"><button class="primary" type="button" onclick="v28ApplyStructureFields()">Seçili Alanı Güncelle</button><button type="button" onclick="v28MoveStructureRow(-1)">Yukarı Taşı</button><button type="button" onclick="v28MoveStructureRow(1)">Aşağı Taşı</button><button type="button" onclick="v28AddStructureRow()">Yeni Alan Ekle</button><button class="danger" type="button" onclick="v28DeleteStructureRow()">Alanı Sil</button></div><div class="v28-structure-note"><strong>SONUÇ alanı korunur.</strong> Sonuç metni bu belge yapısına kaydedilmez; mevcut “Son Tutanak / Toplantı Tutanağı Şablonları” bölümünden gelmeye devam eder.</div></div></aside></div><div class="v28-structure-footer"><small>Kaydettiğiniz yapı yalnızca yukarıda adı yazan belge seçeneğine uygulanır.</small><div class="v28-structure-footer-actions"><button class="v28-cancel" type="button" onclick="v28CloseStructureEditor()">Vazgeç</button><button class="v28-save" type="button" onclick="v28SaveStructureTemplate()">Belge Yapısını Kaydet</button></div></div></div>';
+            modal.addEventListener('click',function(event){if(event.target===modal)v28CloseStructureEditor();});document.body.appendChild(modal);
+        }
+
+        function v28StructureRows(){return v28StructureTable?Array.from(v28StructureTable.querySelectorAll(':scope > tbody > tr')):[];}
+        function v28RowTitle(row,index){
+            var label=v28EscapeText(row.querySelector('.label-cell')?.textContent);
+            if(label)return (index+1)+'. '+label;
+            var title=v28EscapeText(row.querySelector('.title-cell')?.textContent);if(title)return (index+1)+'. Başlık: '+title.slice(0,55);
+            var section=v28EscapeText(row.textContent);return (index+1)+'. '+(section?section.slice(0,58):'Boş satır');
+        }
+        function v28RenderStructureEditor(){
+            var rows=v28StructureRows(),list=document.getElementById('v28StructureRows'),preview=document.getElementById('v28StructurePreview');if(!list||!preview)return;
+            list.innerHTML='';rows.forEach(function(row,index){var button=document.createElement('button');button.type='button';button.className='v28-row-item'+(index===v28StructureRowIndex?' active':'');button.textContent=v28RowTitle(row,index);button.onclick=function(){v28SelectStructureRow(index);};list.appendChild(button);row.classList.toggle('v28-selected-row',index===v28StructureRowIndex);row.onclick=function(event){event.preventDefault();v28SelectStructureRow(index);};});
+            if(v28StructureTable.parentElement!==preview){preview.innerHTML='';preview.appendChild(v28StructureTable);}
+            v28LoadStructureFields();
+        }
+        function v28SelectStructureRow(index){v28StructureRowIndex=index;v28RenderStructureEditor();}
+        function v28LoadStructureFields(){
+            var row=v28StructureRows()[v28StructureRowIndex],labelInput=document.getElementById('v28StructureLabel'),valueInput=document.getElementById('v28StructureValue'),help=document.getElementById('v28StructureHelp');
+            var labelCell=row?.querySelector('.label-cell'),valueCell=row?.querySelector('.content-cell'),label=v28EscapeText(labelCell?.textContent),isResult=label.toLocaleUpperCase('tr-TR')==='SONUÇ';
+            labelInput.value=label;valueInput.value=valueCell?(valueCell.innerText||valueCell.textContent||'').trim():'';
+            labelInput.disabled=!labelCell||isResult;valueInput.disabled=!valueCell;
+            help.textContent=!row?'Düzenlemek için soldan bir satır seçin.':(!labelCell?'Bu özel satır taşınabilir veya silinebilir; alan adı ve içerik düzenlemesi yalnızca standart alan satırlarında yapılır.':(isResult?'SONUÇ başlığı, ortak sonuç şablonu bağlantısının korunması için değiştirilemez.':'Alan başlığını ve boş belge açıldığında görünecek varsayılan içeriği değiştirebilirsiniz.'));
+        }
+        function v28ApplyStructureFields(){
+            var row=v28StructureRows()[v28StructureRowIndex],labelCell=row?.querySelector('.label-cell'),valueCell=row?.querySelector('.content-cell');if(!labelCell||!valueCell)return;
+            var oldLabel=v28EscapeText(labelCell.textContent),nextLabel=document.getElementById('v28StructureLabel').value.trim();if(oldLabel.toLocaleUpperCase('tr-TR')==='SONUÇ')nextLabel='SONUÇ';if(!nextLabel)return;
+            labelCell.innerHTML='<span></span>';labelCell.querySelector('span').textContent=nextLabel;valueCell.textContent=document.getElementById('v28StructureValue').value;v28RenderStructureEditor();
+        }
+        function v28AddStructureRow(){
+            if(!v28StructureTable)return;var body=v28StructureTable.tBodies[0]||v28StructureTable.appendChild(document.createElement('tbody')),row=document.createElement('tr');row.className='single-row';row.innerHTML='<td class="label-cell"><span>YENİ ALAN</span></td><td class="colon-cell">:</td><td class="content-cell">.............</td>';
+            var selected=v28StructureRows()[v28StructureRowIndex];if(selected)selected.insertAdjacentElement('afterend',row);else body.appendChild(row);v28StructureRowIndex=v28StructureRows().indexOf(row);v28RenderStructureEditor();
+        }
+        async function v28DeleteStructureRow(){
+            var row=v28StructureRows()[v28StructureRowIndex];if(!row)return;var label=v28EscapeText(row.querySelector('.label-cell')?.textContent);if(label.toLocaleUpperCase('tr-TR')==='SONUÇ'){await appAlert('SONUÇ alanı ortak sonuç şablonlarıyla bağlantılı olduğu için silinemez.','Korunan Alan');return;}
+            if(!await appConfirm('Seçili belge satırı bu şablondan silinsin mi?','Belge Satırını Sil','Sil'))return;row.remove();v28StructureRowIndex=Math.min(v28StructureRowIndex,v28StructureRows().length-1);v28RenderStructureEditor();
+        }
+        function v28MoveStructureRow(direction){
+            var rows=v28StructureRows(),row=rows[v28StructureRowIndex];if(!row)return;var target=rows[v28StructureRowIndex+direction];if(!target)return;if(direction<0)row.parentElement.insertBefore(row,target);else row.parentElement.insertBefore(target,row);v28StructureRowIndex+=direction;v28RenderStructureEditor();
+        }
+        function v28OpenStructureEditor(fileName){
+            v28EnsureStructureModal();ioLoadGuidedTemplateData();var template=ioGuidedTemplateMap[fileName];if(!template){appAlert('Bu belge seçeneğine bağlı şablon bulunamadı.','Belge Şablonu Bulunamadı');return;}
+            var parsed=new DOMParser().parseFromString(template.content||'','text/html'),table=parsed.body.querySelector('table');if(!table){appAlert('Bu şablonda düzenlenebilir belge tablosu bulunamadı.','Belge Yapısı Açılamadı');return;}
+            v28StructureFile=fileName;v28StructureTable=document.importNode(table,true);v28StructureTable.querySelectorAll('[contenteditable]').forEach(function(node){node.removeAttribute('contenteditable');});v28StructureRowIndex=-1;
+            document.getElementById('v28StructureFileLabel').textContent=fileName.replace(/\.arbsys$/i,'');document.getElementById('v28StructureModal').classList.add('open');v28RenderStructureEditor();
+        }
+        function v28OpenActiveStructureEditor(){var file=document.getElementById('documentSourceCard')?.dataset.templateFile||'';if(file)v28OpenStructureEditor(file);}
+        function v28CloseStructureEditor(){document.getElementById('v28StructureModal')?.classList.remove('open');v28StructureFile='';v28StructureTable=null;v28StructureRowIndex=-1;}
+        async function v28SaveStructureTemplate(){
+            var template=ioGuidedTemplateMap[v28StructureFile];if(!template||!v28StructureTable)return;
+            var resultRow=v28StructureRows().find(function(row){return v28EscapeText(row.querySelector('.label-cell')?.textContent).toLocaleUpperCase('tr-TR')==='SONUÇ';});
+            if(!resultRow&&v20InferResultGroup(v28StructureFile)){await appAlert('Bu belge seçeneği ortak SONUÇ şablonunu kullanıyor. Kaydetmek için SONUÇ alanı belgede bulunmalıdır.','SONUÇ Alanı Eksik');return;}
+            v28StructureTable.querySelectorAll('tr').forEach(function(row){row.classList.remove('v28-selected-row');row.removeAttribute('onclick');});
+            var content='<!-- ARBSYS-CONTENT v1 -->\n'+v28StructureTable.outerHTML;template.content=content;
+            try{var hash=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(content));template.sha256=Array.from(new Uint8Array(hash)).map(function(value){return value.toString(16).padStart(2,'0');}).join('');}catch(error){template.sha256='';}
+            var manifest=v15TemplateManifest(v28StructureFile);manifest.updatedAt=new Date().toISOString();ioPersistGuidedTemplateData();ioPersistGuidedData();dashboardRenderTemplates();var savedFile=v28StructureFile;v28CloseStructureEditor();await appAlert('“'+savedFile.replace(/\.arbsys$/i,'')+'” belge yapısı kaydedildi. Bu yapı yalnızca bu belge seçeneğinde kullanılacaktır; SONUÇ metni mevcut ortak sonuç şablonundan gelmeye devam eder.','Belge Yapısı Kaydedildi');
+        }
+        function v28EnsureStructureButton(){
+            var actions=document.getElementById('v20DocumentActions');if(!actions||document.getElementById('documentStructureEditBtn'))return;
+            var button=document.createElement('button');button.id='documentStructureEditBtn';button.type='button';button.innerHTML='<span class="material-icons" style="font-size:15px;margin-right:4px">table_view</span>Belge Yapısını Düzenle';button.onclick=v28OpenActiveStructureEditor;actions.appendChild(button);v28RefreshStructureButton();
+        }
+        function v28RefreshStructureButton(){var button=document.getElementById('documentStructureEditBtn'),file=document.getElementById('documentSourceCard')?.dataset.templateFile||'',available=!!(file&&ioGuidedTemplateMap[file]);if(button){button.disabled=!available;button.title=available?file.replace(/\.arbsys$/i,''):'Önce düzenlenebilir bir belge şablonu açın';}}
+        var v28SetDocumentSourceInfoBase=setDocumentSourceInfo;
+        setDocumentSourceInfo=function(info){v28SetDocumentSourceInfoBase(info);v28EnsureStructureButton();v28RefreshStructureButton();};
+        v28EnsureStructureModal();v28EnsureStructureButton();v28RefreshStructureButton();
+    </script>
 </body></html>

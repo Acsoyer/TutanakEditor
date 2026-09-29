@@ -1,0 +1,3899 @@
+{
+  "documentCount": 171,
+  "recordCount": 226,
+  "commercialRecordCount": 171,
+  "multiOptionDocumentCount": 59,
+  "titleBlockCount": 58,
+  "retiredDuplicates": [
+    {
+      "recordId": "excel-row-172",
+      "subject": "LTD Sermaye Hk. Yanlış Beyanlar - Ödeme Yetersizliğinin Bilinmesinden Doğan Tazminat Sorumluluğu Uyuş."
+    }
+  ],
+  "matchAudit": [
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\01) TTK md. 4 ve 5 (+)\\04 - Anlaşma Belgesi - (Antrepo Sözleşmesinden Kaynaklanan Uyuşmazlık) (TTK md. 4).docx",
+      "recordId": "excel-row-220",
+      "subject": "Antrepo Sözleşmesinden Kaynaklanan Uyuşmazlık - TTK md. 4",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\01) TTK md. 4 ve 5 (+)\\04 - Anlaşma Belgesi - (Bankacılık İşlemlerinden Kaynaklanan Uyuşmazlık) (TTK md. 4).docx",
+      "recordId": "excel-row-221",
+      "subject": "Bankacılık İşlemlerinden Kaynaklanan Uyuşmazlık - TTK md. 4",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\01) TTK md. 4 ve 5 (+)\\04 - Anlaşma Belgesi - (Eser Sözleşmesinden Kaynaklanan Uyuşmazlık) (TTK md. 4).docx",
+      "recordId": "excel-row-222",
+      "subject": "Eser Sözleşmesinden Kaynaklanan Uyuşmazlık - TTK md. 4",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\01) TTK md. 4 ve 5 (+)\\04 - Anlaşma Belgesi - (Fikri ve Sınai Haklardan Kaynaklanan Uyuşmazlık) (TTK md. 4).docx",
+      "recordId": "excel-row-223",
+      "subject": "Fikri ve Sınai Haklardan Kaynaklanan Uyuşmazlık - TTK md. 4",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\01) TTK md. 4 ve 5 (+)\\04 - Anlaşma Belgesi - (Havale İşleminden Kaynaklanan Uyuşmazlık  - TBK md. 555 vd.).docx",
+      "recordId": "excel-row-224",
+      "subject": "Havale İşleminden Kaynaklanan Uyuşmazlık  - TBK md. 555 vd.",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\01) TTK md. 4 ve 5 (+)\\04 - Anlaşma Belgesi - (İşletmenin Birleşmesi - Devralınması Uyuşmazlığı) (TBK md. 202-203).docx",
+      "recordId": "excel-row-225",
+      "subject": "İşletmenin Birleşmesi - Devralınması Uyuşmazlığı - TBK md. 202-203",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\01) TTK md. 4 ve 5 (+)\\04 - Anlaşma Belgesi - (Komisyoncu) (TBK md. 532 vd.).docx",
+      "recordId": "excel-row-226",
+      "subject": "Komisyoncu - TBK md. 532 vd.",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\01) TTK md. 4 ve 5 (+)\\04 - Anlaşma Belgesi - (Kredi Mektubundan - Emrinden Kaynaklanan Uyuşmazlık  - TBK md. 515 vd.).docx",
+      "recordId": "excel-row-227",
+      "subject": "Kredi Mektubundan - Emrinden Kaynaklanan Uyuşmazlık  - TBK md. 515 vd.",
+      "score": 0.96
+    },
+    {
+      "status": "matched-alias",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\01) TTK md. 4 ve 5 (+)\\04 - Anlaşma Belgesi - (Pazarlamacılık Sözleşmesi) (TBK md 448 vd.).docx",
+      "recordId": "excel-row-228",
+      "subject": "Pazarlamacı - TBK md 448 vd.",
+      "score": 1.0
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\01) TTK md. 4 ve 5 (+)\\04 - Anlaşma Belgesi - (Rehin Karşılığında Ödünç Verme) (TMK md 962 vd.).docx",
+      "recordId": "excel-row-229",
+      "subject": "Rehin Karşılığında Ödünç Verme - TMK md 962 vd.",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\01) TTK md. 4 ve 5 (+)\\04 - Anlaşma Belgesi - (Rekabet Yasağından Kaynaklanan Uyuşmazlık - TBK md. 444 vd.).docx",
+      "recordId": "excel-row-230",
+      "subject": "Rekabet Yasağından Kaynaklanan Uyuşmazlık - TBK md. 444 vd.",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\01) TTK md. 4 ve 5 (+)\\04 - Anlaşma Belgesi - (Saklama Sözleşmesinden Kaynaklanan Uyuşmazlık - TBK md. 561 vd.).docx",
+      "recordId": "excel-row-231",
+      "subject": "Saklama Sözleşmesinden Kaynaklanan Uyuşmazlık - TBK md. 561 vd.",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\01) TTK md. 4 ve 5 (+)\\04 - Anlaşma Belgesi - (Simsar) (TBK md. 520 vd.).docx",
+      "recordId": "excel-row-232",
+      "subject": "Simsar - TBK md. 520 vd.",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\01) TTK md. 4 ve 5 (+)\\04 - Anlaşma Belgesi - (Ticari Temsilci) (TBK md. 547 vd.).docx",
+      "recordId": "excel-row-233",
+      "subject": "Ticari Temsilci - TBK md. 547 vd.",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\01) TTK md. 4 ve 5 (+)\\04 - Anlaşma Belgesi - (Ticari Vekil) (TBK md. 551 vd.).docx",
+      "recordId": "excel-row-234",
+      "subject": "Ticari Vekil - TBK md. 551 vd.",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\01) TTK md. 4 ve 5 (+)\\04 - Anlaşma Belgesi - (Yayım Sözleşmesinden Kaynaklanan Uyuşmazlık - TBK md. 487).docx",
+      "recordId": "excel-row-235",
+      "subject": "Yayım Sözleşmesinden Kaynaklanan Uyuşmazlık - TBK md. 487",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\02) Ticari İşletme (+)\\04 - Anlaşma Belgesi - (Acente Sözleşmesinden Kaynaklanan Uyuşmazlık) (TTK md. 122-123).docx",
+      "recordId": "excel-row-210",
+      "subject": "Acente Sözleşmesinden Kaynaklanan Uyuşmazlık - TTK md. 122-123",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\02) Ticari İşletme (+)\\04 - Anlaşma Belgesi - (Cari Hesap Sözleşmesinden Kaynaklanan Uyuşmazlık) (TTK md. 89 vd.).docx",
+      "recordId": "excel-row-211",
+      "subject": "Cari Hesap Sözleşmesinden Kaynaklanan Uyuşmazlık - TTK md. 89 vd.",
+      "score": 0.96
+    },
+    {
+      "status": "matched-alias",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\02) Ticari İşletme (+)\\04 - Anlaşma Belgesi - (Haksız Rekabetten Kaynaklanan Uyuşmazlık) (TTK md. 56).docx",
+      "recordId": "excel-row-212",
+      "subject": "Haksız Rekabet - TTK md. 56",
+      "score": 1.0
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\02) Ticari İşletme (+)\\04 - Anlaşma Belgesi - (İşletme Adından Kaynaklanan Uyuşmazlık) (TTK md. 53).docx",
+      "recordId": "excel-row-218",
+      "subject": "İşletme Adı İşletme Adından Kaynaklanan Uyuşmazlık - TTK md. 53",
+      "score": 0.8189
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\02) Ticari İşletme (+)\\04 - Anlaşma Belgesi - (Ticaret Siciline Gerçeğe Aykırı Tescilden Doğan Sorumluluk ve Tazminat Uyuşmazlığı) (TTK md. 38).docx",
+      "recordId": "excel-row-213",
+      "subject": "Ticaret Siciline Gerçeğe Aykırı Tescilden Doğan Sorumluluk ve Tazminat Uyuşmazlığı - TTK md. 38",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\02) Ticari İşletme (+)\\04 - Anlaşma Belgesi - (Ticaret Ünvanı) (TTK md. 52).docx",
+      "recordId": "excel-row-214",
+      "subject": "Ticaret Ünvanı - TTK md. 52",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\02) Ticari İşletme (+)\\04 - Anlaşma Belgesi - (Ticari İşletmenin Devrinden Kaynaklanan Uyuşmazlık) (TTK md. 11) .docx",
+      "recordId": "excel-row-216",
+      "subject": "Ticari İşletmenin Devrinden Kaynaklanan Uyuşmazlık - TTK md. 11",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\02) Ticari İşletme (+)\\04 - Anlaşma Belgesi - (Ticari İşletmenin Rehninden Kaynaklanan Uyuşmazlık).docx",
+      "recordId": "excel-row-217",
+      "subject": "Ticari İşletmenin Rehninden Kaynaklanan Uyuşmazlık",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\02) Ticari İşletme (+)\\04 - Anlaşma Belgesi - (Ticari Satıştan Doğan Tazminat Uyuşmazlığı ) (TTK md. 23).docx",
+      "recordId": "excel-row-215",
+      "subject": "Ticari Satıştan Doğan Tazminat Uyuşmazlığı - TTK md. 23",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Ayrılma Akçesi Uyuşmazlığı) (TTK md. 141).docx",
+      "recordId": "excel-row-186",
+      "subject": "Ayrılma Akçesi Uyuşmazlığı - TTK md. 141",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Birleşmede Şirket Alacaklılarının Alacak Uyuşmazlığı) (TTK md. 157).docx",
+      "recordId": "excel-row-187",
+      "subject": "Birleşmede Şirket Alacaklılarının Alacak Uyuşmazlığı - TTK md. 157",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Bölünen Şirket İmtiyaz Haklarından Doğan Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 161).docx",
+      "recordId": "excel-row-189",
+      "subject": "Bölünen Şirket İmtiyaz Haklarından Doğan Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 161",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Bölünen Şirket İntifa Senedi Sahibinin Alacak Uyuşmazlığı) (TTK md. 161).docx",
+      "recordId": "excel-row-190",
+      "subject": "Bölünen Şirket İntifa Senedi Sahibinin Alacak Uyuşmazlığı - TTK md. 161",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Bölünen Şirket Ortağının Tazminat Uyuşmazlığı) (TTK md. 161).docx",
+      "recordId": "excel-row-188",
+      "subject": "Bölünen Şirket Ortağının Tazminat Uyuşmazlığı - TTK md. 161",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Bölünmede Şirket Alacaklılarının Alacak Uyuşmazlığı) (TTK md. 175).docx",
+      "recordId": "excel-row-191",
+      "subject": "Bölünmede Şirket Alacaklılarının Alacak Uyuşmazlığı - TTK md. 175",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Bölünmede Şirket Ortağının Denkleştirme İstemi Uyuşmazlığı) (TTK md. 161).docx",
+      "recordId": "excel-row-192",
+      "subject": "Bölünmede Şirket Ortağının Denkleştirme İstemi Uyuşmazlığı - TTK md. 161",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Denkleştirme Akçesi Uyuşmazlığı) (TTK md. 191).docx",
+      "recordId": "excel-row-193",
+      "subject": "Denkleştirme Akçesi Uyuşmazlığı - TTK md. 191",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Devrolunan Şirket İmtiyaz Haklarından Doğan Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 140-4).docx",
+      "recordId": "excel-row-196",
+      "subject": "Devrolunan Şirket İmtiyaz Haklarından Doğan Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 140-4",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Devrolunan Şirket İntifa Senedi Sahibinin Alacak Uyuşmazlığı) (TTK md. 140-5).docx",
+      "recordId": "excel-row-197",
+      "subject": "Devrolunan Şirket İntifa Senedi Sahibinin Alacak Uyuşmazlığı - TTK md. 140-5",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Devrolunan Şirket Ortağının Denkleştirme İstemi Uyuşmazlığı) (TTK md. 140-2).docx",
+      "recordId": "excel-row-194",
+      "subject": "Devrolunan Şirket Ortağının Denkleştirme İstemi Uyuşmazlığı - TTK md. 140-2",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Devrolunan Şirket Ortağının Tazminat Uyuşmazlığı) (TTK md. 140-1).docx",
+      "recordId": "excel-row-195",
+      "subject": "Devrolunan Şirket Ortağının Tazminat Uyuşmazlığı - TTK md. 140-1",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Hakim Şirketin Güvenden Doğan Sorumluluk Uyuşmazlığı) (TTK md. 209).docx",
+      "recordId": "excel-row-198",
+      "subject": "Hakim Şirketin Güvenden Doğan Sorumluluk Uyuşmazlığı - TTK md. 209",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Hakimiyetin Hukuka Aykırı Kullanılması Nedeniyle Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 202-1b-c).docx",
+      "recordId": "excel-row-199",
+      "subject": "Hakimiyetin Hukuka Aykırı Kullanılması Nedeniyle Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 202-1b-c",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Hakimiyetin Hukuka Aykırı Kullanılması Nedeniyle Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 202-2).docx",
+      "recordId": "excel-row-200",
+      "subject": "Hakimiyetin Hukuka Aykırı Kullanılması Nedeniyle Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 202-2",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Hakimiyetin Hukuka Aykırı Kullanılması Nedeniyle Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 202-3).docx",
+      "recordId": "excel-row-201",
+      "subject": "Hakimiyetin Hukuka Aykırı Kullanılması Nedeniyle Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 202-3",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Tam Hakimiyetin Hukuka Aykırı Kullanılması Nedeniyle Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 206).docx",
+      "recordId": "excel-row-202",
+      "subject": "Tam Hakimiyetin Hukuka Aykırı Kullanılması Nedeniyle Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 206",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Tür Değiştirmede Şirket İmtiyaz Haklarından Doğan Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 183-2).docx",
+      "recordId": "excel-row-204",
+      "subject": "Tür Değiştirmede Şirket İmtiyaz Haklarından Doğan Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 183-2",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Tür Değiştirmede Şirket İntifa Senedi Sahibinin Alacak Uyuşmazlığı) (TTK md. 183-3).docx",
+      "recordId": "excel-row-205",
+      "subject": "Tür Değiştirmede Şirket İntifa Senedi Sahibinin Alacak Uyuşmazlığı - TTK md. 183-3",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Tür Değiştirmede Şirket Ortağının Tazminat Uyuşmazlığı) (TTK md. 183-1).docx",
+      "recordId": "excel-row-203",
+      "subject": "Tür Değiştirmede Şirket Ortağının Tazminat Uyuşmazlığı - TTK md. 183-1",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Şirket Birleşmesinden Doğan Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 193).docx",
+      "recordId": "excel-row-206",
+      "subject": "Şirket Birleşmesinden Doğan Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 193",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Şirket Bölünmesinden Doğan Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 193) .docx",
+      "recordId": "excel-row-207",
+      "subject": "Şirket Bölünmesinden Doğan Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 193",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Şirket Türünün Değiştirilmesinden Doğan Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 193).docx",
+      "recordId": "excel-row-208",
+      "subject": "Şirket Türünün Değiştirilmesinden Doğan Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 193",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\04) Kollektif (+)\\04 - Anlaşma Belgesi - (Koll. Şti. Ayrılan Ortağın Payına İlişkin Alacak Uyuşmazlığı) (TTK md. 260).docx",
+      "recordId": "excel-row-111",
+      "subject": "Koll. Şti. Ayrılan Ortağın Payına İlişkin Alacak Uyuşmazlığı - TTK md. 260",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\04) Kollektif (+)\\04 - Anlaşma Belgesi - (Koll. Şti. Ortağının Ek Ödeme Uyuşmazlığı) (TTK md. 298).docx",
+      "recordId": "excel-row-112",
+      "subject": "Koll. Şti. Ortağının Ek Ödeme Uyuşmazlığı - TTK md. 298",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\04) Kollektif (+)\\04 - Anlaşma Belgesi - (Koll. Şti. Ortağının Faiz Verme Uyuşmazlığı) (TTK md. 224).docx",
+      "recordId": "excel-row-113",
+      "subject": "Koll. Şti. Ortağının Faiz Verme Uyuşmazlığı - TTK md. 224",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\04) Kollektif (+)\\04 - Anlaşma Belgesi - (Koll. Şti. Ortağının Haksız Fiilinden Doğan Uyuşmazlık) (TTK md. 234-2).docx",
+      "recordId": "excel-row-114",
+      "subject": "Koll. Şti. Ortağının Haksız Fiilinden Doğan Uyuşmazlık - TTK md. 234-2",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\04) Kollektif (+)\\04 - Anlaşma Belgesi - (Koll. Şti. Ortağının Kar Payı - Ödünç - Sermaye Faizi - Ücret Uyuşmazlığı) (TTK md. 228).docx",
+      "recordId": "excel-row-115",
+      "subject": "Koll. Şti. Ortağının Kar Payı - Ödünç - Sermaye Faizi - Ücret Uyuşmazlığı - TTK md. 228",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\04) Kollektif (+)\\04 - Anlaşma Belgesi - (Koll. Şti. Ortağının Kişisel Sorumluluğundan Doğan Uyuşmazlık) (TTK md. 236).docx",
+      "recordId": "excel-row-116",
+      "subject": "Koll. Şti. Ortağının Kişisel Sorumluluğundan Doğan Uyuşmazlık - TTK md. 236",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\04) Kollektif (+)\\04 - Anlaşma Belgesi - (Koll. Şti. Ortağının Rekabet Yasağı İhlali Uyuşmazlığı) (TTK md. 231).docx",
+      "recordId": "excel-row-117",
+      "subject": "Koll. Şti. Ortağının Rekabet Yasağı İhlali Uyuşmazlığı - TTK md. 231",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\04) Kollektif (+)\\04 - Anlaşma Belgesi - (Koll. Şti. Ortağının Rekabet Yasağını İhlalden Doğan Uyuşmazlık) (TTK md. 230).docx",
+      "recordId": "excel-row-118",
+      "subject": "Koll. Şti. Ortağının Rekabet Yasağını İhlalden Doğan Uyuşmazlık - TTK md. 230",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\04) Kollektif (+)\\04 - Anlaşma Belgesi - (Koll. Şti. Ortağının Tasfiye Alacağı Uyuşmazlığı) (TTK md. 300).docx",
+      "recordId": "excel-row-119",
+      "subject": "Koll. Şti. Ortağının Tasfiye Alacağı Uyuşmazlığı - TTK md. 300",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\04) Kollektif (+)\\04 - Anlaşma Belgesi - (Koll. Şti. Ortağının Zarar Payı Uyuşmazlığı) (TTK md. 229).docx",
+      "recordId": "excel-row-120",
+      "subject": "Koll. Şti. Ortağının Zarar Payı Uyuşmazlığı - TTK md. 229",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\04) Kollektif (+)\\04 - Anlaşma Belgesi - (Koll. Şti. Tamamlanmamış İşlerden Kaynaklanan Alacak Uyuşmazlığı) (TTK md. 263).docx",
+      "recordId": "excel-row-121",
+      "subject": "Koll. Şti. Tamamlanmamış İşlerden Kaynaklanan Alacak Uyuşmazlığı - TTK md. 263",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\04) Kollektif (+)\\04 - Anlaşma Belgesi - (Koll. Şti. Tasfiye Memuru Ücret Alacağı Uyuşmazlığı) (TTK md. 284).docx",
+      "recordId": "excel-row-122",
+      "subject": "Koll. Şti. Tasfiye Memuru Ücret Alacağı Uyuşmazlığı - TTK md. 284",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\04) Kollektif (+)\\04 - Anlaşma Belgesi - (Koll. Şti. Tasfiye Memurunun Haksız Fiil Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 280).docx",
+      "recordId": "excel-row-123",
+      "subject": "Koll. Şti. Tasfiye Memurunun Haksız Fiil Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 280",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\04) Kollektif (+)\\04 - Anlaşma Belgesi - (Koll. Şti. Tasfiye Memurunun Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 285).docx",
+      "recordId": "excel-row-124",
+      "subject": "Koll. Şti. Tasfiye Memurunun Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 285",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\04) Kollektif (+)\\04 - Anlaşma Belgesi - (Koll. Şti. Tasfiye Memurunun Yeni İşlemlerinden Doğan Alacak Uyuşmazlığı) (TTK md. 292).docx",
+      "recordId": "excel-row-125",
+      "subject": "Koll. Şti. Tasfiye Memurunun Yeni İşlemlerinden Doğan Alacak Uyuşmazlığı - TTK md. 292",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\04) Kollektif (+)\\04 - Anlaşma Belgesi - (Koll. Şti. Temsilcisinin İşlemlerinden Doğan Uyuşmazlık) (TTK md. 234-1).docx",
+      "recordId": "excel-row-126",
+      "subject": "Koll. Şti. Temsilcisinin İşlemlerinden Doğan Uyuşmazlık - TTK md. 234-1",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\04) Kollektif (+)\\04 - Anlaşma Belgesi - (Koll. Şti. Tescil - Şirket Sözleşmesi Yükümlülüğünün İhlali Uyuşmazlığı) (TTK md. 216).docx",
+      "recordId": "excel-row-127",
+      "subject": "Koll. Şti. Tescil - Şirket Sözleşmesi Yükümlülüğünün İhlali Uyuşmazlığı - TTK md. 216",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Adına İşlemde Bulunan Komanditer Ortağın Tazminat Sorumluluğundan Doğan Uyuşmazlık ) (TTK md. 321-1).docx",
+      "recordId": "excel-row-131",
+      "subject": "Kom. Şti. Adına İşlemde Bulunan Komanditer Ortağın Tazminat Sorumluluğundan Doğan Uyuşmazlık - TTK md. 321-1",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Adına Tescil Öncesi İşlemde Bulunan Komanditer Ortağın Tazminat Sorumluluğundan Doğan Uyuşmazlık ) (TTK md. 321-2).docx",
+      "recordId": "excel-row-130",
+      "subject": "Kom. Şti. Adına Tescil Öncesi İşlemde Bulunan Komanditer Ortağın Tazminat Sorumluluğundan Doğan Uyuşmazlık - TTK md. 321-2",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Ayrılan Ortağın Payına İlişkin Alacak Uyuşmazlığı) (TTK md. 260).docx",
+      "recordId": "excel-row-132",
+      "subject": "Kom. Şti. Ayrılan Ortağın Payına İlişkin Alacak Uyuşmazlığı - TTK md. 260",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Komandite Ortağın Üçüncü Kişilere Sorumluluğundan Doğan Uyuşmazlık) (TTK md. 325).docx",
+      "recordId": "excel-row-133",
+      "subject": "Kom. Şti. Komandite Ortağın Üçüncü Kişilere Sorumluluğundan Doğan Uyuşmazlık - TTK md. 325",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Komanditer Ortağa Yöneltilen Alacak Uyuşmazlığı) (TTK md. 322-3).docx",
+      "recordId": "excel-row-134",
+      "subject": "Kom. Şti. Komanditer Ortağa Yöneltilen Alacak Uyuşmazlığı - TTK md. 322-3",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Komanditer Ortağın Sermayesine Biçilen Değerden Doğan Tazminat Uyuşmazlığı) (TTK md. 321-3).docx",
+      "recordId": "excel-row-135",
+      "subject": "Kom. Şti. Komanditer Ortağın Sermayesine Biçilen Değerden Doğan Tazminat Uyuşmazlığı - TTK md. 321-3",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Komanditer Ortağın Üçüncü Kişilere Sorumluluğundan Doğan Uyuşmazlık) (TTK md. 320).docx",
+      "recordId": "excel-row-136",
+      "subject": "Kom. Şti. Komanditer Ortağın Üçüncü Kişilere Sorumluluğundan Doğan Uyuşmazlık - TTK md. 320",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Komanditer Ortağın Şirkete Ortak Olmadan Önce Doğan Borçlardan Sorumluluk Uyuşmazlığı ) (TTK md. 321-4).docx",
+      "recordId": "excel-row-137",
+      "subject": "Kom. Şti. Komanditer Ortağın Şirkete Ortak Olmadan Önce Doğan Borçlardan Sorumluluk Uyuşmazlığı - TTK md. 321-4",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Komanditer Ortağının Sermaye Koyma Borcu Uyuşmazlığı) (TTK md. 322-1).docx",
+      "recordId": "excel-row-138",
+      "subject": "Kom. Şti. Komanditer Ortağının Sermaye Koyma Borcu Uyuşmazlığı - TTK md. 322-1",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Ortağının Ek Ödeme Uyuşmazlığı) (TTK md. 298).docx",
+      "recordId": "excel-row-139",
+      "subject": "Kom. Şti. Ortağının Ek Ödeme Uyuşmazlığı - TTK md. 298",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Ortağının Haksız Fiilinden Doğan Uyuşmazlık) (TTK md. 234-2).docx",
+      "recordId": "excel-row-140",
+      "subject": "Kom. Şti. Ortağının Haksız Fiilinden Doğan Uyuşmazlık - TTK md. 234-2",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Ortağının Kişisel Sorumluluğundan Doğan Uyuşmazlık) (TTK md. 236).docx",
+      "recordId": "excel-row-141",
+      "subject": "Kom. Şti. Ortağının Kişisel Sorumluluğundan Doğan Uyuşmazlık - TTK md. 236",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Ortağının Tasfiye Alacağı Uyuşmazlığı) (TTK md. 300).docx",
+      "recordId": "excel-row-142",
+      "subject": "Kom. Şti. Ortağının Tasfiye Alacağı Uyuşmazlığı - TTK md. 300",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Ortağının Zarar Payı Uyuşmazlığı) (TTK md. 229).docx",
+      "recordId": "excel-row-143",
+      "subject": "Kom. Şti. Ortağının Zarar Payı Uyuşmazlığı - TTK md. 229",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Sermayenin Azalması Durumunda Komanditer Ortağın Faiz - Kâr Payından Doğan Uyuşmazlık) (TTK md. 323).docx",
+      "recordId": "excel-row-144",
+      "subject": "Kom. Şti. Sermayenin Azalması Durumunda Komanditer Ortağın Faiz - Kâr Payından Doğan Uyuşmazlık - TTK md. 323",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Tamamlanmamış İşlerden Kaynaklanan Alacak Uyuşmazlığı) (TTK md. 263).docx",
+      "recordId": "excel-row-145",
+      "subject": "Kom. Şti. Tamamlanmamış İşlerden Kaynaklanan Alacak Uyuşmazlığı - TTK md. 263",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Tasfiye Memuru Ücret Alacağı Uyuşmazlığı) (TTK md. 284).docx",
+      "recordId": "excel-row-129",
+      "subject": "Kom Şti. Tasfiye Memuru Ücret Alacağı Uyuşmazlığı - TTK md. 284",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Tasfiye Memurunun Haksız Fiil Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 280).docx",
+      "recordId": "excel-row-146",
+      "subject": "Kom. Şti. Tasfiye Memurunun Haksız Fiil Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 280",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Tasfiye Memurunun Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 285).docx",
+      "recordId": "excel-row-147",
+      "subject": "Kom. Şti. Tasfiye Memurunun Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 285",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Tasfiye Memurunun Yeni İşlemlerinden Doğan Alacak Uyuşmazlığı) (TTK md. 292).docx",
+      "recordId": "excel-row-148",
+      "subject": "Kom. Şti. Tasfiye Memurunun Yeni İşlemlerinden Doğan Alacak Uyuşmazlığı - TTK md. 292",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Temsilcisinin İşlemlerinden Doğan Uyuşmazlık) (TTK md. 234-1).docx",
+      "recordId": "excel-row-149",
+      "subject": "Kom. Şti. Temsilcisinin İşlemlerinden Doğan Uyuşmazlık - TTK md. 234-1",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Usulsüz Kâr Payı - Faiz Alacak Uyuşmazlığı) (TTK md. 314).docx",
+      "recordId": "excel-row-150",
+      "subject": "Kom. Şti. Usulsüz Kâr Payı - Faiz Alacak Uyuşmazlığı - TTK md. 314",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Belgelerin ve Beyanların Kanuna Aykırı Olmasından Doğan Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 549) .docx",
+      "recordId": "excel-row-58",
+      "subject": "A.Ş. Belgelerin ve Beyanların Kanuna Aykırı Olmasından Doğan Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 549",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Borsa Şirketince Tanınmayan Pay Sahibinin Tazminat Talebinden Doğan Tazminat Uyuşmazlığı) (TTK md. 497-4).docx",
+      "recordId": "excel-row-59",
+      "subject": "A.Ş. Borsa Şirketince Tanınmayan Pay Sahibinin Tazminat Talebinden Doğan Tazminat Uyuşmazlığı - TTK md. 497-4",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Denetçinin Sır Saklamadan Doğan Sorumluluk Uyuşmazlığı) (TTK md. 404-1).docx",
+      "recordId": "excel-row-60",
+      "subject": "A.Ş. Denetçinin Sır Saklamadan Doğan Sorumluluk Uyuşmazlığı - TTK md. 404-1",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Denetçinin Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 554).docx",
+      "recordId": "excel-row-61",
+      "subject": "A.Ş. Denetçinin Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 554",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Denetçinin Şirket Olması Halinde Sorumluluk Uyuşmazlığı) (TTK md. 404-3).docx",
+      "recordId": "excel-row-62",
+      "subject": "A.Ş. Denetçinin Şirket Olması Halinde Sorumluluk Uyuşmazlığı - TTK md. 404-3",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Değer Biçilmesinde Yolsuzluk Yapılmasından Doğan Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 551).docx",
+      "recordId": "excel-row-63",
+      "subject": "A.Ş. Değer Biçilmesinde Yolsuzluk Yapılmasından Doğan Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 551",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Geçersiz Olarak Çıkarılan Paylardan Doğan Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 476-2).docx",
+      "recordId": "excel-row-64",
+      "subject": "A.Ş. Geçersiz Olarak Çıkarılan Paylardan Doğan Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 476-2",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. GK Kararının İptalinde Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 451).docx",
+      "recordId": "excel-row-65",
+      "subject": "A.Ş. GK Kararının İptalinde Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 451",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Görevden Alınan YK Üyesinin Tazminat Uyuşmazlığı) (TTK md. 364).docx",
+      "recordId": "excel-row-66",
+      "subject": "A.Ş. Görevden Alınan YK Üyesinin Tazminat Uyuşmazlığı - TTK md. 364",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Hamiline Yazılı Pay Senetlerinden Doğan Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 484-2).docx",
+      "recordId": "excel-row-67",
+      "subject": "A.Ş. Hamiline Yazılı Pay Senetlerinden Doğan Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 484-2",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. İflası Halinde Kazanç Payı - Ücret İadesi Uyuşmazlığı) (TTK md. 513).docx",
+      "recordId": "excel-row-99",
+      "subject": "A.Ş. İflası Halinde Kazanç Payı - Ücret İadesi Uyuşmazlığı - TTK md. 513",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. İntifa Hakkı Sahibinin Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 432-2).docx",
+      "recordId": "excel-row-100",
+      "subject": "A.Ş. İntifa Hakkı Sahibinin Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 432-2",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. KTK YK Üyesinin Sorumluluğundan Doğan Uyuşmazlık) (TTK md. 334-3).docx",
+      "recordId": "excel-row-68",
+      "subject": "A.Ş. KTK YK Üyesinin Sorumluluğundan Doğan Uyuşmazlık - TTK md. 334-3",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Kurucu İntifa Senedi Alacağı Uyuşmazlığı) (TTK md. 348).docx",
+      "recordId": "excel-row-69",
+      "subject": "A.Ş. Kurucu İntifa Senedi Alacağı Uyuşmazlığı - TTK md. 348",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Kurucularının Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 553).docx",
+      "recordId": "excel-row-70",
+      "subject": "A.Ş. Kurucularının Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 553",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. nin Tescili Öncesinde Yapılan İşlemlerden  Doğan Uyuşmazlık) (TTK md. 355).docx",
+      "recordId": "excel-row-71",
+      "subject": "A.Ş. nin Tescili Öncesinde Yapılan İşlemlerden  Doğan Uyuşmazlık - TTK md. 355",
+      "score": 0.96
+    },
+    {
+      "status": "new",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Ortağının Hazırlık Dönemi Faizi Alacak Uyuşmazlığı) (TTK md. 510).docx",
+      "subject": "A.Ş. Ortağının Hazırlık Dönemi Faizi Alacak Uyuşmazlığı - TTK md. 510"
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Ortağının Kâr Payı - Hazırlık Dönemi Faizi Alacak Uyuşmazlığı) (TTK md. 512).docx",
+      "recordId": "excel-row-72",
+      "subject": "A.Ş. Ortağının Kâr Payı - Hazırlık Dönemi Faizi Alacak Uyuşmazlığı - TTK md. 512",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Ortağının Kâr Payı - Tasfiye Payı Alacak Uyuşmazlığı) (TTK md. 507).docx",
+      "recordId": "excel-row-73",
+      "subject": "A.Ş. Ortağının Kâr Payı - Tasfiye Payı Alacak Uyuşmazlığı - TTK md. 507",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Pay Bedelinin Ödenmemesinden Kaynaklanan Alacak Sorumluluğu Uyuşmazlığı) (TTK md. 482-1).docx",
+      "recordId": "excel-row-74",
+      "subject": "A.Ş. Pay Bedelinin Ödenmemesinden Kaynaklanan Alacak Sorumluluğu Uyuşmazlığı - TTK md. 482-1",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Pay Bedelinin Ödenmemesinden Kaynaklanan Sözleşme Cezası Alacak Uyuşmazlığı) (TTK md. 482-3).docx",
+      "recordId": "excel-row-75",
+      "subject": "A.Ş. Pay Bedelinin Ödenmemesinden Kaynaklanan Sözleşme Cezası Alacak Uyuşmazlığı - TTK md. 482-3",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Pay Bedelinin Ödenmemesinden Kaynaklanan Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 482-4).docx",
+      "recordId": "excel-row-76",
+      "subject": "A.Ş. Pay Bedelinin Ödenmemesinden Kaynaklanan Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 482-4",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Pay Sahibi Sayısının Bire Düşmesinden Doğan Rücu Uyuşmazlığı) (TTK md. 338).docx",
+      "recordId": "excel-row-77",
+      "subject": "A.Ş. Pay Sahibi Sayısının Bire Düşmesinden Doğan Rücu Uyuşmazlığı - TTK md. 338",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Pay Sahibi Sayısının Bire Düşmesinden Doğan Sorumluluk Uyuşmazlığı) (TTK md. 338).docx",
+      "recordId": "excel-row-78",
+      "subject": "A.Ş. Pay Sahibi Sayısının Bire Düşmesinden Doğan Sorumluluk Uyuşmazlığı - TTK md. 338",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Pay Sahibinin Temsilinde Tazminat Uyuşmazlığı) (TTK md. 427).docx",
+      "recordId": "excel-row-79",
+      "subject": "A.Ş. Pay Sahibinin Temsilinde Tazminat Uyuşmazlığı - TTK md. 427",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Pay Sahibinin Şirkete Borçlanma Yasağının İhlali) (TTK md. 358).docx",
+      "recordId": "excel-row-80",
+      "subject": "A.Ş. Pay Sahibinin Şirkete Borçlanma Yasağının İhlali - TTK md. 358",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Sermaye Hk. Yanlış Beyanlar - Ödeme Yetersizliğinin Bilinmesinden Doğan Tazminat Sorumluluğu Uyuş.) (TTK md 550).docx",
+      "recordId": "excel-row-81",
+      "subject": "A.Ş. Sermaye Hk. Yanlış Beyanlar - Ödeme Yetersizliğinin Bilinmesinden Doğan Tazminat Sorumluluğu Uyuş. - TTK md 550",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Sır Saklama Yükümünün İhlalinden Doğan Tazminat Uyuşmazlığı) (TTK md. 527-1).docx",
+      "recordId": "excel-row-82",
+      "subject": "A.Ş. Sır Saklama Yükümünün İhlalinden Doğan Tazminat Uyuşmazlığı - TTK md. 527-1",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Tasfiye Memurunun Haksız Fiilinden Dolayı Rücuen Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 539-4) .docx",
+      "recordId": "excel-row-83",
+      "subject": "A.Ş. Tasfiye Memurunun Haksız Fiilinden Dolayı Rücuen Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 539-4",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Tasfiye Memurunun Haksız Fiilinden Doğan Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 539-4).docx",
+      "recordId": "excel-row-84",
+      "subject": "A.Ş. Tasfiye Memurunun Haksız Fiilinden Doğan Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 539-4",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Tasfiye Memurunun Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 553).docx",
+      "recordId": "excel-row-85",
+      "subject": "A.Ş. Tasfiye Memurunun Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 553",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Temsilcilerinin İşlemlerinden Kaynaklanan Rücuen Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 371-4).docx",
+      "recordId": "excel-row-86",
+      "subject": "A.Ş. Temsilcilerinin İşlemlerinden Kaynaklanan Rücuen Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 371-4",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Temsilcilerinin İşlemlerinden Kaynaklanan Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 371-4).docx",
+      "recordId": "excel-row-87",
+      "subject": "A.Ş. Temsilcilerinin İşlemlerinden Kaynaklanan Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 371-4",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Tescilden Önce Pay Senedi Çıkarılmasından Doğan Rücuen Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 486-4).docx",
+      "recordId": "excel-row-88",
+      "subject": "A.Ş. Tescilden Önce Pay Senedi Çıkarılmasından Doğan Rücuen Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 486-4",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Tescilden Önce Pay Senedi Çıkarılmasından Doğan Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 486-4).docx",
+      "recordId": "excel-row-89",
+      "subject": "A.Ş. Tescilden Önce Pay Senedi Çıkarılmasından Doğan Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 486-4",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Yeni Pay Sahibinin Pay Bedelini Ödenmemesinden Mütemerrit Pay Sahibinin Alacak Sorumluluğu Uyuşmazlığı) (TTK md. 483-3).docx",
+      "recordId": "excel-row-90",
+      "subject": "A.Ş. Yeni Pay Sahibinin Pay Bedelini Ödenmemesinden Mütemerrit Pay Sahibinin Alacak Sorumluluğu Uyuşmazlığı - TTK md. 483-3",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. YK Üyelerinin Mali Hak Uyuşmazlığı) (TTK md. 394).docx",
+      "recordId": "excel-row-91",
+      "subject": "A.Ş. YK Üyelerinin Mali Hak Uyuşmazlığı - TTK md. 394",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. YK Üyelerinin Şirketle İşlem Yapma Yasağı) (TTK md. 395-1).docx",
+      "recordId": "excel-row-92",
+      "subject": "A.Ş. YK Üyelerinin Şirketle İşlem Yapma Yasağı - TTK md. 395-1",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. YK Üyesinin Kazanç Payı Alacağı Uyuşmazlığı) (TTK md. 512).docx",
+      "recordId": "excel-row-93",
+      "subject": "A.Ş. YK Üyesinin Kazanç Payı Alacağı Uyuşmazlığı - TTK md. 512",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. YK Üyesinin Müzakereye Katılma Yasağından Doğan Sorumluluk Uyuşmazlığı) (TTK md. 393).docx",
+      "recordId": "excel-row-94",
+      "subject": "A.Ş. YK Üyesinin Müzakereye Katılma Yasağından Doğan Sorumluluk Uyuşmazlığı - TTK md. 393",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. YK Üyesinin Rekabet Yasağını İhlalden Doğan Tazminat Uyuşmazlığı) (TTK md. 396).docx",
+      "recordId": "excel-row-95",
+      "subject": "A.Ş. YK Üyesinin Rekabet Yasağını İhlalden Doğan Tazminat Uyuşmazlığı - TTK md. 396",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. YK Üyesinin Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 553).docx",
+      "recordId": "excel-row-96",
+      "subject": "A.Ş. YK Üyesinin Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 553",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. YK Üyesinin Şirkete Borçlanma Yasağının İhlali) (TTK md. 395-2).docx",
+      "recordId": "excel-row-97",
+      "subject": "A.Ş. YK Üyesinin Şirkete Borçlanma Yasağının İhlali - TTK md. 395-2",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Yöneticilerinin Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 553).docx",
+      "recordId": "excel-row-98",
+      "subject": "A.Ş. Yöneticilerinin Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 553",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Ayrılma Akçesinden Doğan Alacak Uyuşmazlığı) (TTK md. 641).docx",
+      "recordId": "excel-row-152",
+      "subject": "LTD Ayrılma Akçesinden Doğan Alacak Uyuşmazlığı - TTK md. 641",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Belgelerin ve Beyanların Kanuna Aykırı Olmasından Doğan Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 549) .docx",
+      "recordId": "excel-row-153",
+      "subject": "LTD Belgelerin ve Beyanların Kanuna Aykırı Olmasından Doğan Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 549",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Denetçinin Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 554).docx",
+      "recordId": "excel-row-154",
+      "subject": "LTD Denetçinin Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 554",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Değer Biçilmesinde Yolsuzluk Yapılmasından Doğan Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 551).docx",
+      "recordId": "excel-row-155",
+      "subject": "LTD Değer Biçilmesinde Yolsuzluk Yapılmasından Doğan Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 551",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Ek Ödeme Yükümlülüğünden Doğan Alacak Uyuşmazlığı) (TTK md. 603).docx",
+      "recordId": "excel-row-156",
+      "subject": "LTD Ek Ödeme Yükümlülüğünden Doğan Alacak Uyuşmazlığı - TTK md. 603",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Ek Ödeme Yükümlülüğünün İadesinden Doğan Alacak Uyuşmazlığı) (TTK md. 605).docx",
+      "recordId": "excel-row-157",
+      "subject": "LTD Ek Ödeme Yükümlülüğünün İadesinden Doğan Alacak Uyuşmazlığı - TTK md. 605",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Görevden Alınan Müdürün Tazminat Hakkı Uyuşmazlığı) (TTK md. 630).docx",
+      "recordId": "excel-row-158",
+      "subject": "LTD Görevden Alınan Müdürün Tazminat Hakkı Uyuşmazlığı - TTK md. 630",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD İntifa Hakkından Doğan Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 600).docx",
+      "recordId": "excel-row-180",
+      "subject": "LTD İntifa Hakkından Doğan Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 600",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Kurucularının Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 553).docx",
+      "recordId": "excel-row-159",
+      "subject": "LTD Kurucularının Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 553",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Müdürünün - Müdürler Kurulu Üyesinin Şirkete Borçlanma Yasağını İhlali) (TTK md. 395-2).docx",
+      "recordId": "excel-row-160",
+      "subject": "LTD Müdürünün - Müdürler Kurulu Üyesinin Şirkete Borçlanma Yasağını İhlali - TTK md. 395-2",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Müdürünün Rekabet Yasağına Aykırılıktan Doğan Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 626).docx",
+      "recordId": "excel-row-161",
+      "subject": "LTD Müdürünün Rekabet Yasağına Aykırılıktan Doğan Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 626",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Ortak Sayısının Bire Düşmesinden Doğan Rücu Uyuşmazlığı) (TTK md. 574).docx",
+      "recordId": "excel-row-162",
+      "subject": "LTD Ortak Sayısının Bire Düşmesinden Doğan Rücu Uyuşmazlığı - TTK md. 574",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Ortak Sayısının Bire Düşmesinden Doğan Sorumluluk Uyuşmazlığı) (TTK md. 574).docx",
+      "recordId": "excel-row-163",
+      "subject": "LTD Ortak Sayısının Bire Düşmesinden Doğan Sorumluluk Uyuşmazlığı - TTK md. 574",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Ortağının - Müdürünün Haksız Aldığı Kâr Payının İadesi Sorumluluğu Uyuşmazlığı) (TTK md. 611.docx",
+      "recordId": "excel-row-164",
+      "subject": "LTD Ortağının - Müdürünün Haksız Aldığı Kâr Payının İadesi Sorumluluğu Uyuşmazlığı",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Ortağının Faiz Yasağından Doğan Alacak Uyuşmazlığı) (TTK md. 609).docx",
+      "recordId": "excel-row-165",
+      "subject": "LTD Ortağının Faiz Yasağından Doğan Alacak Uyuşmazlığı - TTK md. 609",
+      "score": 0.96
+    },
+    {
+      "status": "new",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Ortağının Hazırlık Dönemi Faizi Alacak Uyuşmazlığı) (TTK md. 510).docx",
+      "subject": "LTD Ortağının Hazırlık Dönemi Faizi Alacak Uyuşmazlığı - TTK md. 510"
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Ortağının Kâr Payı Alacak Uyuşmazlığı) (TTK md. 608).docx",
+      "recordId": "excel-row-166",
+      "subject": "LTD Ortağının Kâr Payı Alacak Uyuşmazlığı - TTK md. 608",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Ortağının Rekabet Yasağının İhlali Nedeniyle Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 613).docx",
+      "recordId": "excel-row-167",
+      "subject": "LTD Ortağının Rekabet Yükümlülüğünü İhlali Nedeniyle Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 613",
+      "score": 0.8309
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Ortağının Şirkete Borçlanma Yasağının İhlali) (TTK md. 358).docx",
+      "recordId": "excel-row-168",
+      "subject": "LTD Ortağının Şirkete Borçlanma Yasağını İhlali - TTK md. 358",
+      "score": 0.8529
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Pay Bedelinin Ödenmemesinden Kaynaklanan Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 585).docx",
+      "recordId": "excel-row-169",
+      "subject": "LTD Pay Bedelinin Ödenmemesinden Kaynaklanan Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 585",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Paylı Mülkiyet Durumunda Ek Ödeme Yükümlülüğünden Doğan Alacak Uyuşmazlığı) (TTK md. 599).docx",
+      "recordId": "excel-row-170",
+      "subject": "LTD Paylı Mülkiyet Durumunda Ek Ödeme Yükümlülüğünden Doğan Alacak Uyuşmazlığı - TTK md. 599",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Sermaye Hk. Yanlış Beyanlar - Ödeme Yetersizliğinin Bilinmesinden Doğan Tazminat Sorumluluğu Uyuş.) (TTK md 550).docx",
+      "recordId": "excel-row-171",
+      "subject": "LTD Sermaye Hk. Yanlış Beyanlar - Ödeme Yetersizliğinin Bilinmesinden Doğan Tazminat Sorumluluğu Uyuş. - TTK md 550",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Tasfiye Memurunun Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 553).docx",
+      "recordId": "excel-row-173",
+      "subject": "LTD Tasfiye Memurunun Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 553",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Tescilinden Önceki İşlemlerden Kaynaklanan Alacak ve Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 588).docx",
+      "recordId": "excel-row-174",
+      "subject": "LTD Tescilinden Önceki İşlemlerden Kaynaklanan Alacak ve Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 588",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Yan Edim Yükümlülüğünden Doğan Alacak Uyuşmazlığı) (TTK md. 606).docx",
+      "recordId": "excel-row-175",
+      "subject": "LTD Yan Edim Yükümlülüğünden Doğan Alacak Uyuşmazlığı - TTK md. 606",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Yeni Pay Sahibinin Pay Bedelini Ödenmemesinden Mütemerrit Pay Sahibinin Alacak Sorumluluğu Uyuşmazlığı) (TTK md. 585).docx",
+      "recordId": "excel-row-176",
+      "subject": "LTD Yeni Pay Sahibinin Pay Bedelini Ödenmemesinden Mütemerrit Pay Sahibinin Alacak Sorumluluğu Uyuşmazlığı - TTK md. 585",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Yöneticilerinin Haksız Fiilinden Dolayı Rücuen Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 632).docx",
+      "recordId": "excel-row-177",
+      "subject": "LTD Yöneticilerinin Haksız Fiilinden Dolayı Rücuen Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 632",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Yöneticilerinin Haksız Fiilinden Doğan Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 632).docx",
+      "recordId": "excel-row-178",
+      "subject": "LTD Yöneticilerinin Haksız Fiilinden Doğan Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 632",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Yöneticilerinin Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 553).docx",
+      "recordId": "excel-row-179",
+      "subject": "LTD Yöneticilerinin Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 553",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Şirket Müdürünün - Müdürler Kurulu Üyesinin Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 553).docx",
+      "recordId": "excel-row-181",
+      "subject": "LTD Şirket Müdürünün - Müdürler Kurulu Üyesinin Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 553",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\08) Kıymetli Evrak (+)\\04 - Anlaşma Belgesi - (Bononun Anlaşmaya Aykırı Doldurulduğu İddiasından Doğan Uyuşmazlık).docx",
+      "recordId": "excel-row-102",
+      "subject": "Bononun Anlaşmaya Aykırı Doldurulduğu İddiasından Doğan Uyuşmazlık",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\08) Kıymetli Evrak (+)\\04 - Anlaşma Belgesi - (Bononun Hatır Bonosu Olduğu İddiasından Doğan Uyuşmazlık).docx",
+      "recordId": "excel-row-103",
+      "subject": "Bononun Hatır Bonosu Olduğu İddiasından Doğan Uyuşmazlık",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\08) Kıymetli Evrak (+)\\04 - Anlaşma Belgesi - (Bononun Teminat Bonosu Olduğu İddiasından Doğan Uyuşmazlık).docx",
+      "recordId": "excel-row-104",
+      "subject": "Bononun Teminat Bonosu Olduğu İddiasından Doğan Uyuşmazlık",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\08) Kıymetli Evrak (+)\\04 - Anlaşma Belgesi - (Bononun Ödenmemesinden Doğan Uyuşmazlık).docx",
+      "recordId": "excel-row-105",
+      "subject": "Bononun Ödenmemesinden Doğan Uyuşmazlık",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\08) Kıymetli Evrak (+)\\04 - Anlaşma Belgesi - (Çekin Anlaşmaya Aykırı Doldurulduğu İddiasından Doğan Uyuşmazlık).docx",
+      "recordId": "excel-row-106",
+      "subject": "Çekin Anlaşmaya Aykırı Doldurulduğu İddiasından Doğan Uyuşmazlık",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\08) Kıymetli Evrak (+)\\04 - Anlaşma Belgesi - (Çekin Hatır Çeki Olduğu İddiasından Doğan Uyuşmazlık).docx",
+      "recordId": "excel-row-107",
+      "subject": "Çekin Hatır Çeki Olduğu İddiasından Doğan Uyuşmazlık",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\08) Kıymetli Evrak (+)\\04 - Anlaşma Belgesi - (Çekin Teminat Çeki Olduğu İddiasından Doğan Uyuşmazlık).docx",
+      "recordId": "excel-row-108",
+      "subject": "Çekin Teminat Çeki Olduğu İddiasından Doğan Uyuşmazlık",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\08) Kıymetli Evrak (+)\\04 - Anlaşma Belgesi - (Çekin Ödenmemesinden Doğan Uyuşmazlık).docx",
+      "recordId": "excel-row-109",
+      "subject": "Çekin Ödenmemesinden Doğan Uyuşmazlık",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\09) Sigorta (+)\\04 - Anlaşma Belgesi - (Aşkın Sigorta Uyuşmazlığı) (TTK md. 1463).docx",
+      "recordId": "excel-row-183",
+      "subject": "Aşkın Sigorta Uyuşmazlığı - TTK md. 1463",
+      "score": 0.96
+    },
+    {
+      "status": "matched",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\09) Sigorta (+)\\04 - Anlaşma Belgesi - (Sigorta Hukuku Tazminat).docx",
+      "recordId": "excel-row-184",
+      "subject": "Sigorta Hukuku Tazminat",
+      "score": 0.96
+    }
+  ],
+  "titleAudit": [
+    {
+      "heading": "Antrepo Sözleşmesinden Kaynaklanan Uyuşmazlık (TTK md. 4)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\01) TTK md. 4 ve 5 (+)\\04 - Anlaşma Belgesi - (Antrepo Sözleşmesinden Kaynaklanan Uyuşmazlık) (TTK md. 4).docx",
+      "titleCount": 2,
+      "negotiationOptionCount": 2,
+      "agreementOptionCount": 2,
+      "score": 0.96
+    },
+    {
+      "heading": "Bankacılık İşlemlerinden Kaynaklanan Uyuşmazlık (TTK md. 4)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\01) TTK md. 4 ve 5 (+)\\04 - Anlaşma Belgesi - (Bankacılık İşlemlerinden Kaynaklanan Uyuşmazlık) (TTK md. 4).docx",
+      "titleCount": 2,
+      "negotiationOptionCount": 1,
+      "agreementOptionCount": 2,
+      "score": 0.96
+    },
+    {
+      "heading": "Havale İşleminden Kaynaklanan Uyuşmazlık (TBK md. 555 vd.)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\01) TTK md. 4 ve 5 (+)\\04 - Anlaşma Belgesi - (Havale İşleminden Kaynaklanan Uyuşmazlık  - TBK md. 555 vd.).docx",
+      "titleCount": 2,
+      "negotiationOptionCount": 2,
+      "agreementOptionCount": 2,
+      "score": 0.96
+    },
+    {
+      "heading": "Komisyoncu (TBK md. 532 vd.)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\01) TTK md. 4 ve 5 (+)\\04 - Anlaşma Belgesi - (Komisyoncu) (TBK md. 532 vd.).docx",
+      "titleCount": 2,
+      "negotiationOptionCount": 2,
+      "agreementOptionCount": 2,
+      "score": 0.96
+    },
+    {
+      "heading": "Kredi Mektubundan - Emrinden Kaynaklanan Uyuşmazlık (TBK md. 515 vd.)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\01) TTK md. 4 ve 5 (+)\\04 - Anlaşma Belgesi - (Kredi Mektubundan - Emrinden Kaynaklanan Uyuşmazlık  - TBK md. 515 vd.).docx",
+      "titleCount": 2,
+      "negotiationOptionCount": 1,
+      "agreementOptionCount": 2,
+      "score": 0.96
+    },
+    {
+      "heading": "Pazarlamacılık Sözleşmesi (TBK md 448 vd.)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\01) TTK md. 4 ve 5 (+)\\04 - Anlaşma Belgesi - (Pazarlamacılık Sözleşmesi) (TBK md 448 vd.).docx",
+      "titleCount": 2,
+      "negotiationOptionCount": 1,
+      "agreementOptionCount": 2,
+      "score": 0.96
+    },
+    {
+      "heading": "Rehin Karşılığında Ödünç Verme (TMK md 962 vd.)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\01) TTK md. 4 ve 5 (+)\\04 - Anlaşma Belgesi - (Rehin Karşılığında Ödünç Verme) (TMK md 962 vd.).docx",
+      "titleCount": 3,
+      "negotiationOptionCount": 3,
+      "agreementOptionCount": 3,
+      "score": 0.96
+    },
+    {
+      "heading": "Rekabet Yasağından Kaynaklanan Uyuşmazlık (TBK md. 444 vd.)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\01) TTK md. 4 ve 5 (+)\\04 - Anlaşma Belgesi - (Rekabet Yasağından Kaynaklanan Uyuşmazlık - TBK md. 444 vd.).docx",
+      "titleCount": 2,
+      "negotiationOptionCount": 2,
+      "agreementOptionCount": 2,
+      "score": 0.96
+    },
+    {
+      "heading": "Simsar (TBK md. 520 vd.)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\01) TTK md. 4 ve 5 (+)\\04 - Anlaşma Belgesi - (Simsar) (TBK md. 520 vd.).docx",
+      "titleCount": 2,
+      "negotiationOptionCount": 1,
+      "agreementOptionCount": 2,
+      "score": 0.96
+    },
+    {
+      "heading": "Ticari Temsilci (TBK md. 547 vd.)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\01) TTK md. 4 ve 5 (+)\\04 - Anlaşma Belgesi - (Ticari Temsilci) (TBK md. 547 vd.).docx",
+      "titleCount": 2,
+      "negotiationOptionCount": 1,
+      "agreementOptionCount": 2,
+      "score": 0.96
+    },
+    {
+      "heading": "Ticari Vekil (TBK md. 551 vd.)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\01) TTK md. 4 ve 5 (+)\\04 - Anlaşma Belgesi - (Ticari Vekil) (TBK md. 551 vd.).docx",
+      "titleCount": 2,
+      "negotiationOptionCount": 1,
+      "agreementOptionCount": 2,
+      "score": 0.96
+    },
+    {
+      "heading": "Acente Sözleşmesinden Kaynaklanan Uyuşmazlık (TTK md. 122-123)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\02) Ticari İşletme (+)\\04 - Anlaşma Belgesi - (Acente Sözleşmesinden Kaynaklanan Uyuşmazlık) (TTK md. 122-123).docx",
+      "titleCount": 3,
+      "negotiationOptionCount": 3,
+      "agreementOptionCount": 3,
+      "score": 0.96
+    },
+    {
+      "heading": "Ticaret Siciline Gerçeğe Aykırı Tescilden Doğan Sorumluluk ve Tazminat Uyuşmazlığı (TTK md. 38)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\02) Ticari İşletme (+)\\04 - Anlaşma Belgesi - (Ticaret Siciline Gerçeğe Aykırı Tescilden Doğan Sorumluluk ve Tazminat Uyuşmazlığı) (TTK md. 38).docx",
+      "titleCount": 2,
+      "negotiationOptionCount": 1,
+      "agreementOptionCount": 2,
+      "score": 0.96
+    },
+    {
+      "heading": "Ticari İşletmenin Devrinden Kaynaklanan Uyuşmazlık (TTK md. 11)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\02) Ticari İşletme (+)\\04 - Anlaşma Belgesi - (Ticari İşletmenin Devrinden Kaynaklanan Uyuşmazlık) (TTK md. 11) .docx",
+      "titleCount": 2,
+      "negotiationOptionCount": 2,
+      "agreementOptionCount": 2,
+      "score": 0.96
+    },
+    {
+      "heading": "Birleşmede Şirket Alacaklılarının Alacak Uyuşmazlığı (TTK md. 157)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Birleşmede Şirket Alacaklılarının Alacak Uyuşmazlığı) (TTK md. 157).docx",
+      "titleCount": 2,
+      "negotiationOptionCount": 1,
+      "agreementOptionCount": 2,
+      "score": 0.96
+    },
+    {
+      "heading": "Bölünmede Şirket Alacaklılarının Alacak Uyuşmazlığı (TTK md. 175)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Bölünmede Şirket Alacaklılarının Alacak Uyuşmazlığı) (TTK md. 175).docx",
+      "titleCount": 2,
+      "negotiationOptionCount": 1,
+      "agreementOptionCount": 2,
+      "score": 0.96
+    },
+    {
+      "heading": "Denkleştirme Akçesi Uyuşmazlığı (TTK md. 191)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Denkleştirme Akçesi Uyuşmazlığı) (TTK md. 191).docx",
+      "titleCount": 2,
+      "negotiationOptionCount": 2,
+      "agreementOptionCount": 2,
+      "score": 0.96
+    },
+    {
+      "heading": "Hakimiyetin Hukuka Aykırı Kullanılması Nedeniyle Tazminat Sorumluluğu Uyuşmazlığı (TTK md. 202-1b-c)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Hakimiyetin Hukuka Aykırı Kullanılması Nedeniyle Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 202-1b-c).docx",
+      "titleCount": 2,
+      "negotiationOptionCount": 2,
+      "agreementOptionCount": 2,
+      "score": 0.96
+    },
+    {
+      "heading": "Hakimiyetin Hukuka Aykırı Kullanılması Nedeniyle Tazminat Sorumluluğu Uyuşmazlığı (TTK md. 202-2)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Hakimiyetin Hukuka Aykırı Kullanılması Nedeniyle Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 202-2).docx",
+      "titleCount": 2,
+      "negotiationOptionCount": 2,
+      "agreementOptionCount": 2,
+      "score": 0.96
+    },
+    {
+      "heading": "Koll. Şti. Ortağının Haksız Fiilinden Doğan Uyuşmazlık (TTK md. 234-2)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\04) Kollektif (+)\\04 - Anlaşma Belgesi - (Koll. Şti. Ortağının Haksız Fiilinden Doğan Uyuşmazlık) (TTK md. 234-2).docx",
+      "titleCount": 2,
+      "negotiationOptionCount": 2,
+      "agreementOptionCount": 2,
+      "score": 0.96
+    },
+    {
+      "heading": "Koll. Şti. Ortağının Rekabet Yasağı İhlali Uyuşmazlığı (TTK md. 231)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\04) Kollektif (+)\\04 - Anlaşma Belgesi - (Koll. Şti. Ortağının Rekabet Yasağı İhlali Uyuşmazlığı) (TTK md. 231).docx",
+      "titleCount": 2,
+      "negotiationOptionCount": 1,
+      "agreementOptionCount": 2,
+      "score": 0.96
+    },
+    {
+      "heading": "Koll. Şti. Tamamlanmamış İşlerden Kaynaklanan Alacak Uyuşmazlığı (TTK md. 263)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\04) Kollektif (+)\\04 - Anlaşma Belgesi - (Koll. Şti. Tamamlanmamış İşlerden Kaynaklanan Alacak Uyuşmazlığı) (TTK md. 263).docx",
+      "titleCount": 2,
+      "negotiationOptionCount": 2,
+      "agreementOptionCount": 2,
+      "score": 0.96
+    },
+    {
+      "heading": "Koll. Şti. Tasfiye Memurunun Haksız Fiil Tazminat Sorumluluğu Uyuşmazlığı (TTK md. 280)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\04) Kollektif (+)\\04 - Anlaşma Belgesi - (Koll. Şti. Tasfiye Memurunun Haksız Fiil Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 280).docx",
+      "titleCount": 2,
+      "negotiationOptionCount": 2,
+      "agreementOptionCount": 2,
+      "score": 0.96
+    },
+    {
+      "heading": "Koll. Şti. Tasfiye Memurunun Tazminat Sorumluluğu Uyuşmazlığı (TTK md. 285)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\04) Kollektif (+)\\04 - Anlaşma Belgesi - (Koll. Şti. Tasfiye Memurunun Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 285).docx",
+      "titleCount": 2,
+      "negotiationOptionCount": 2,
+      "agreementOptionCount": 2,
+      "score": 0.96
+    },
+    {
+      "heading": "Kom. Şti. Ortağının Haksız Fiilinden Doğan Uyuşmazlık (TTK md. 234-2)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Ortağının Haksız Fiilinden Doğan Uyuşmazlık) (TTK md. 234-2).docx",
+      "titleCount": 2,
+      "negotiationOptionCount": 2,
+      "agreementOptionCount": 2,
+      "score": 0.96
+    },
+    {
+      "heading": "Kom. Şti. Tamamlanmamış İşlerden Kaynaklanan Alacak Uyuşmazlığı (TTK md. 263)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Tamamlanmamış İşlerden Kaynaklanan Alacak Uyuşmazlığı) (TTK md. 263).docx",
+      "titleCount": 2,
+      "negotiationOptionCount": 2,
+      "agreementOptionCount": 2,
+      "score": 0.96
+    },
+    {
+      "heading": "Kom. Şti. Tasfiye Memurunun Haksız Fiil Tazminat Sorumluluğu Uyuşmazlığı (TTK md. 280)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Tasfiye Memurunun Haksız Fiil Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 280).docx",
+      "titleCount": 2,
+      "negotiationOptionCount": 2,
+      "agreementOptionCount": 2,
+      "score": 0.96
+    },
+    {
+      "heading": "Kom. Şti. Tasfiye Memurunun Tazminat Sorumluluğu Uyuşmazlığı (TTK md. 285)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Tasfiye Memurunun Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 285).docx",
+      "titleCount": 2,
+      "negotiationOptionCount": 2,
+      "agreementOptionCount": 2,
+      "score": 0.96
+    },
+    {
+      "heading": "Kom. Şti. Usulsüz Kâr Payı - Faiz Alacak Uyuşmazlığı (TTK md. 314)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Usulsüz Kâr Payı - Faiz Alacak Uyuşmazlığı) (TTK md. 314).docx",
+      "titleCount": 2,
+      "negotiationOptionCount": 2,
+      "agreementOptionCount": 2,
+      "score": 0.96
+    },
+    {
+      "heading": "A.Ş. KTK YK Üyesinin Sorumluluğundan Doğan Uyuşmazlık (TTK md. 334-3)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. KTK YK Üyesinin Sorumluluğundan Doğan Uyuşmazlık) (TTK md. 334-3).docx",
+      "titleCount": 2,
+      "negotiationOptionCount": 2,
+      "agreementOptionCount": 2,
+      "score": 0.96
+    },
+    {
+      "heading": "A.Ş. Kurucularının Tazminat Sorumluluğu Uyuşmazlığı (TTK md. 553)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Kurucularının Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 553).docx",
+      "titleCount": 2,
+      "negotiationOptionCount": 2,
+      "agreementOptionCount": 2,
+      "score": 0.96
+    },
+    {
+      "heading": "A.Ş. nin Tescili Öncesinde Yapılan İşlemlerden  Doğan Uyuşmazlık (TTK md. 355)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. nin Tescili Öncesinde Yapılan İşlemlerden  Doğan Uyuşmazlık) (TTK md. 355).docx",
+      "titleCount": 3,
+      "negotiationOptionCount": 3,
+      "agreementOptionCount": 3,
+      "score": 0.96
+    },
+    {
+      "heading": "A.Ş. Pay Sahibi Sayısının Bire Düşmesinden Doğan Rücu Uyuşmazlığı (TTK md. 338)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Pay Sahibi Sayısının Bire Düşmesinden Doğan Rücu Uyuşmazlığı) (TTK md. 338).docx",
+      "titleCount": 2,
+      "negotiationOptionCount": 2,
+      "agreementOptionCount": 2,
+      "score": 0.96
+    },
+    {
+      "heading": "A.Ş. Sermaye Hk. Yanlış Beyanlar - Ödeme Yetersizliğinin Bilinmesinden Doğan Tazminat Sorumluluğu Uyuş. (TTK md 550)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Sermaye Hk. Yanlış Beyanlar - Ödeme Yetersizliğinin Bilinmesinden Doğan Tazminat Sorumluluğu Uyuş.) (TTK md 550).docx",
+      "titleCount": 3,
+      "negotiationOptionCount": 3,
+      "agreementOptionCount": 3,
+      "score": 0.96
+    },
+    {
+      "heading": "A.Ş. Tasfiye Memurunun Tazminat Sorumluluğu Uyuşmazlığı (TTK md. 553)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Tasfiye Memurunun Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 553).docx",
+      "titleCount": 2,
+      "negotiationOptionCount": 2,
+      "agreementOptionCount": 2,
+      "score": 0.96
+    },
+    {
+      "heading": "A.Ş. YK Üyesinin Rekabet Yasağını İhlalden Doğan Tazminat Uyuşmazlığı (TTK md. 396)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. YK Üyesinin Rekabet Yasağını İhlalden Doğan Tazminat Uyuşmazlığı) (TTK md. 396).docx",
+      "titleCount": 3,
+      "negotiationOptionCount": 1,
+      "agreementOptionCount": 3,
+      "score": 0.96
+    },
+    {
+      "heading": "A.Ş. YK Üyesinin Şirkete Borçlanma Yasağının İhlali (TTK md. 395-2)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. YK Üyesinin Şirkete Borçlanma Yasağının İhlali) (TTK md. 395-2).docx",
+      "titleCount": 3,
+      "negotiationOptionCount": 3,
+      "agreementOptionCount": 3,
+      "score": 0.96
+    },
+    {
+      "heading": "A.Ş. YK Üyesinin Tazminat Sorumluluğu Uyuşmazlığı (TTK md. 553)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. YK Üyesinin Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 553).docx",
+      "titleCount": 2,
+      "negotiationOptionCount": 2,
+      "agreementOptionCount": 2,
+      "score": 0.96
+    },
+    {
+      "heading": "A.Ş. Yöneticilerinin Tazminat Sorumluluğu Uyuşmazlığı (TTK md. 553)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Yöneticilerinin Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 553).docx",
+      "titleCount": 2,
+      "negotiationOptionCount": 2,
+      "agreementOptionCount": 2,
+      "score": 0.96
+    },
+    {
+      "heading": "Ltd. Şti. Kurucularının Tazminat Sorumluluğu Uyuşmazlığı (TTK md. 553)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Kurucularının Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 553).docx",
+      "titleCount": 2,
+      "negotiationOptionCount": 2,
+      "agreementOptionCount": 2,
+      "score": 0.8414
+    },
+    {
+      "heading": "LTD Müdürünün - Müdürler Kurulu Üyesinin Şirkete Borçlanma Yasağını İhlali (TTK md. 395-2)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Müdürünün - Müdürler Kurulu Üyesinin Şirkete Borçlanma Yasağını İhlali) (TTK md. 395-2).docx",
+      "titleCount": 3,
+      "negotiationOptionCount": 3,
+      "agreementOptionCount": 3,
+      "score": 0.96
+    },
+    {
+      "heading": "LTD Ortak Sayısının Bire Düşmesinden Doğan Rücu Uyuşmazlığı",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Ortak Sayısının Bire Düşmesinden Doğan Rücu Uyuşmazlığı) (TTK md. 574).docx",
+      "titleCount": 2,
+      "negotiationOptionCount": 2,
+      "agreementOptionCount": 2,
+      "score": 0.96
+    },
+    {
+      "heading": "LTD Paylı Mülkiyet Durumunda Ek Ödeme Yükümlülüğünden Doğan Alacak Uyuşmazlığı) (TTK md. 599)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Paylı Mülkiyet Durumunda Ek Ödeme Yükümlülüğünden Doğan Alacak Uyuşmazlığı) (TTK md. 599).docx",
+      "titleCount": 2,
+      "negotiationOptionCount": 2,
+      "agreementOptionCount": 2,
+      "score": 0.96
+    },
+    {
+      "heading": "LTD Sermaye Hk. Yanlış Beyanlar - Ödeme Yetersizliğinin Bilinmesinden Doğan Tazminat Sorumluluğu Uyuş. (TTK md 550)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Sermaye Hk. Yanlış Beyanlar - Ödeme Yetersizliğinin Bilinmesinden Doğan Tazminat Sorumluluğu Uyuş.) (TTK md 550).docx",
+      "titleCount": 3,
+      "negotiationOptionCount": 3,
+      "agreementOptionCount": 3,
+      "score": 0.96
+    },
+    {
+      "heading": "LTD Şirket Müdürünün - Müdürler Kurulu Üyesinin Tazminat Sorumluluğu Uyuşmazlığı (TTK md. 553)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Şirket Müdürünün - Müdürler Kurulu Üyesinin Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 553).docx",
+      "titleCount": 2,
+      "negotiationOptionCount": 2,
+      "agreementOptionCount": 2,
+      "score": 0.96
+    },
+    {
+      "heading": "LTD Tasfiye Memurunun Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 553)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Tasfiye Memurunun Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 553).docx",
+      "titleCount": 2,
+      "negotiationOptionCount": 2,
+      "agreementOptionCount": 2,
+      "score": 0.96
+    },
+    {
+      "heading": "LTD Yöneticilerinin Tazminat Sorumluluğu Uyuşmazlığı (TTK md. 553)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Yöneticilerinin Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 553).docx",
+      "titleCount": 2,
+      "negotiationOptionCount": 2,
+      "agreementOptionCount": 2,
+      "score": 0.96
+    },
+    {
+      "heading": "LTD Tescilinden Önceki İşlemlerden Kaynaklanan Alacak ve Tazminat Sorumluluğu Uyuşmazlığı (TTK md. 588)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Tescilinden Önceki İşlemlerden Kaynaklanan Alacak ve Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 588).docx",
+      "titleCount": 3,
+      "negotiationOptionCount": 3,
+      "agreementOptionCount": 3,
+      "score": 0.96
+    },
+    {
+      "heading": "LTD Yan Edim Yükümlülüğünden Doğan Alacak Uyuşmazlığı) (TTK md. 606)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Yan Edim Yükümlülüğünden Doğan Alacak Uyuşmazlığı) (TTK md. 606).docx",
+      "titleCount": 2,
+      "negotiationOptionCount": 2,
+      "agreementOptionCount": 2,
+      "score": 0.96
+    },
+    {
+      "heading": "Bononun Anlaşmaya Aykırı Doldurulduğu İddiasından Doğan Uyuşmazlık",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\08) Kıymetli Evrak (+)\\04 - Anlaşma Belgesi - (Bononun Anlaşmaya Aykırı Doldurulduğu İddiasından Doğan Uyuşmazlık).docx",
+      "titleCount": 3,
+      "negotiationOptionCount": 1,
+      "agreementOptionCount": 3,
+      "score": 0.96
+    },
+    {
+      "heading": "Bononun Hatır Bonosu Olduğu İddiasından Doğan Uyuşmazlık",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\08) Kıymetli Evrak (+)\\04 - Anlaşma Belgesi - (Bononun Hatır Bonosu Olduğu İddiasından Doğan Uyuşmazlık).docx",
+      "titleCount": 2,
+      "negotiationOptionCount": 1,
+      "agreementOptionCount": 2,
+      "score": 0.96
+    },
+    {
+      "heading": "Bononun Ödenmemesinden Doğan Uyuşmazlık",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\08) Kıymetli Evrak (+)\\04 - Anlaşma Belgesi - (Bononun Ödenmemesinden Doğan Uyuşmazlık).docx",
+      "titleCount": 2,
+      "negotiationOptionCount": 1,
+      "agreementOptionCount": 2,
+      "score": 0.96
+    },
+    {
+      "heading": "Bononun Teminat Bonosu Olduğu İddiasından Doğan Uyuşmazlık",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\08) Kıymetli Evrak (+)\\04 - Anlaşma Belgesi - (Bononun Teminat Bonosu Olduğu İddiasından Doğan Uyuşmazlık).docx",
+      "titleCount": 2,
+      "negotiationOptionCount": 1,
+      "agreementOptionCount": 2,
+      "score": 0.96
+    },
+    {
+      "heading": "Çekin Anlaşmaya Aykırı Doldurulduğu İddiasından Doğan Uyuşmazlık",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\08) Kıymetli Evrak (+)\\04 - Anlaşma Belgesi - (Çekin Anlaşmaya Aykırı Doldurulduğu İddiasından Doğan Uyuşmazlık).docx",
+      "titleCount": 3,
+      "negotiationOptionCount": 1,
+      "agreementOptionCount": 3,
+      "score": 0.96
+    },
+    {
+      "heading": "Çekin Hatır Çeki Olduğu İddiasından Doğan Uyuşmazlık",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\08) Kıymetli Evrak (+)\\04 - Anlaşma Belgesi - (Çekin Hatır Çeki Olduğu İddiasından Doğan Uyuşmazlık).docx",
+      "titleCount": 2,
+      "negotiationOptionCount": 1,
+      "agreementOptionCount": 2,
+      "score": 0.96
+    },
+    {
+      "heading": "Çekin Ödenmemesinden Doğan Uyuşmazlık",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\08) Kıymetli Evrak (+)\\04 - Anlaşma Belgesi - (Çekin Ödenmemesinden Doğan Uyuşmazlık).docx",
+      "titleCount": 2,
+      "negotiationOptionCount": 1,
+      "agreementOptionCount": 2,
+      "score": 0.96
+    },
+    {
+      "heading": "Çekin Teminat Çeki Olduğu İddiasından Doğan Uyuşmazlık",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\08) Kıymetli Evrak (+)\\04 - Anlaşma Belgesi - (Çekin Teminat Çeki Olduğu İddiasından Doğan Uyuşmazlık).docx",
+      "titleCount": 2,
+      "negotiationOptionCount": 1,
+      "agreementOptionCount": 2,
+      "score": 0.96
+    },
+    {
+      "heading": "Aşkın Sigorta Uyuşmazlığı (TTK md. 1463)",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\09) Sigorta (+)\\04 - Anlaşma Belgesi - (Aşkın Sigorta Uyuşmazlığı) (TTK md. 1463).docx",
+      "titleCount": 2,
+      "negotiationOptionCount": 2,
+      "agreementOptionCount": 4,
+      "score": 0.96
+    }
+  ],
+  "changes": [
+    {
+      "recordId": "excel-row-220",
+      "subject": "Antrepo Sözleşmesinden Kaynaklanan Uyuşmazlık - TTK md. 4",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\01) TTK md. 4 ve 5 (+)\\04 - Anlaşma Belgesi - (Antrepo Sözleşmesinden Kaynaklanan Uyuşmazlık) (TTK md. 4).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 2,
+      "newNegotiationCount": 2,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 2
+    },
+    {
+      "recordId": "excel-row-221",
+      "subject": "Bankacılık İşlemlerinden Kaynaklanan Uyuşmazlık - TTK md. 4",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\01) TTK md. 4 ve 5 (+)\\04 - Anlaşma Belgesi - (Bankacılık İşlemlerinden Kaynaklanan Uyuşmazlık) (TTK md. 4).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 2
+    },
+    {
+      "recordId": "excel-row-222",
+      "subject": "Eser Sözleşmesinden Kaynaklanan Uyuşmazlık - TTK md. 4",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\01) TTK md. 4 ve 5 (+)\\04 - Anlaşma Belgesi - (Eser Sözleşmesinden Kaynaklanan Uyuşmazlık) (TTK md. 4).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-223",
+      "subject": "Fikri ve Sınai Haklardan Kaynaklanan Uyuşmazlık - TTK md. 4",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\01) TTK md. 4 ve 5 (+)\\04 - Anlaşma Belgesi - (Fikri ve Sınai Haklardan Kaynaklanan Uyuşmazlık) (TTK md. 4).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-224",
+      "subject": "Havale İşleminden Kaynaklanan Uyuşmazlık  - TBK md. 555 vd.",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\01) TTK md. 4 ve 5 (+)\\04 - Anlaşma Belgesi - (Havale İşleminden Kaynaklanan Uyuşmazlık  - TBK md. 555 vd.).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 2,
+      "newNegotiationCount": 2,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 2
+    },
+    {
+      "recordId": "excel-row-225",
+      "subject": "İşletmenin Birleşmesi - Devralınması Uyuşmazlığı - TBK md. 202-203",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\01) TTK md. 4 ve 5 (+)\\04 - Anlaşma Belgesi - (İşletmenin Birleşmesi - Devralınması Uyuşmazlığı) (TBK md. 202-203).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-226",
+      "subject": "Komisyoncu - TBK md. 532 vd.",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\01) TTK md. 4 ve 5 (+)\\04 - Anlaşma Belgesi - (Komisyoncu) (TBK md. 532 vd.).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": false,
+      "agreementChanged": true,
+      "oldNegotiationCount": 2,
+      "newNegotiationCount": 2,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 2
+    },
+    {
+      "recordId": "excel-row-227",
+      "subject": "Kredi Mektubundan - Emrinden Kaynaklanan Uyuşmazlık  - TBK md. 515 vd.",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\01) TTK md. 4 ve 5 (+)\\04 - Anlaşma Belgesi - (Kredi Mektubundan - Emrinden Kaynaklanan Uyuşmazlık  - TBK md. 515 vd.).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 2
+    },
+    {
+      "recordId": "excel-row-228",
+      "subject": "Pazarlamacı - TBK md 448 vd.",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\01) TTK md. 4 ve 5 (+)\\04 - Anlaşma Belgesi - (Pazarlamacılık Sözleşmesi) (TBK md 448 vd.).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": false,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 2
+    },
+    {
+      "recordId": "excel-row-229",
+      "subject": "Rehin Karşılığında Ödünç Verme - TMK md 962 vd.",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\01) TTK md. 4 ve 5 (+)\\04 - Anlaşma Belgesi - (Rehin Karşılığında Ödünç Verme) (TMK md 962 vd.).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 3,
+      "newNegotiationCount": 3,
+      "oldAgreementCount": 3,
+      "newAgreementCount": 3
+    },
+    {
+      "recordId": "excel-row-230",
+      "subject": "Rekabet Yasağından Kaynaklanan Uyuşmazlık - TBK md. 444 vd.",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\01) TTK md. 4 ve 5 (+)\\04 - Anlaşma Belgesi - (Rekabet Yasağından Kaynaklanan Uyuşmazlık - TBK md. 444 vd.).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 2,
+      "newNegotiationCount": 2,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 2
+    },
+    {
+      "recordId": "excel-row-231",
+      "subject": "Saklama Sözleşmesinden Kaynaklanan Uyuşmazlık - TBK md. 561 vd.",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\01) TTK md. 4 ve 5 (+)\\04 - Anlaşma Belgesi - (Saklama Sözleşmesinden Kaynaklanan Uyuşmazlık - TBK md. 561 vd.).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-232",
+      "subject": "Simsar - TBK md. 520 vd.",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\01) TTK md. 4 ve 5 (+)\\04 - Anlaşma Belgesi - (Simsar) (TBK md. 520 vd.).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": false,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 2
+    },
+    {
+      "recordId": "excel-row-233",
+      "subject": "Ticari Temsilci - TBK md. 547 vd.",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\01) TTK md. 4 ve 5 (+)\\04 - Anlaşma Belgesi - (Ticari Temsilci) (TBK md. 547 vd.).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": false,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 2
+    },
+    {
+      "recordId": "excel-row-234",
+      "subject": "Ticari Vekil - TBK md. 551 vd.",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\01) TTK md. 4 ve 5 (+)\\04 - Anlaşma Belgesi - (Ticari Vekil) (TBK md. 551 vd.).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": false,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 2
+    },
+    {
+      "recordId": "excel-row-235",
+      "subject": "Yayım Sözleşmesinden Kaynaklanan Uyuşmazlık - TBK md. 487",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\01) TTK md. 4 ve 5 (+)\\04 - Anlaşma Belgesi - (Yayım Sözleşmesinden Kaynaklanan Uyuşmazlık - TBK md. 487).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": false,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-210",
+      "subject": "Acente Sözleşmesinden Kaynaklanan Uyuşmazlık - TTK md. 122-123",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\02) Ticari İşletme (+)\\04 - Anlaşma Belgesi - (Acente Sözleşmesinden Kaynaklanan Uyuşmazlık) (TTK md. 122-123).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 3,
+      "newNegotiationCount": 3,
+      "oldAgreementCount": 3,
+      "newAgreementCount": 3
+    },
+    {
+      "recordId": "excel-row-211",
+      "subject": "Cari Hesap Sözleşmesinden Kaynaklanan Uyuşmazlık - TTK md. 89 vd.",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\02) Ticari İşletme (+)\\04 - Anlaşma Belgesi - (Cari Hesap Sözleşmesinden Kaynaklanan Uyuşmazlık) (TTK md. 89 vd.).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": false,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-212",
+      "subject": "Haksız Rekabet - TTK md. 56",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\02) Ticari İşletme (+)\\04 - Anlaşma Belgesi - (Haksız Rekabetten Kaynaklanan Uyuşmazlık) (TTK md. 56).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-218",
+      "subject": "İşletme Adı İşletme Adından Kaynaklanan Uyuşmazlık - TTK md. 53",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\02) Ticari İşletme (+)\\04 - Anlaşma Belgesi - (İşletme Adından Kaynaklanan Uyuşmazlık) (TTK md. 53).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-213",
+      "subject": "Ticaret Siciline Gerçeğe Aykırı Tescilden Doğan Sorumluluk ve Tazminat Uyuşmazlığı - TTK md. 38",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\02) Ticari İşletme (+)\\04 - Anlaşma Belgesi - (Ticaret Siciline Gerçeğe Aykırı Tescilden Doğan Sorumluluk ve Tazminat Uyuşmazlığı) (TTK md. 38).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 2
+    },
+    {
+      "recordId": "excel-row-214",
+      "subject": "Ticaret Ünvanı - TTK md. 52",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\02) Ticari İşletme (+)\\04 - Anlaşma Belgesi - (Ticaret Ünvanı) (TTK md. 52).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-216",
+      "subject": "Ticari İşletmenin Devrinden Kaynaklanan Uyuşmazlık - TTK md. 11",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\02) Ticari İşletme (+)\\04 - Anlaşma Belgesi - (Ticari İşletmenin Devrinden Kaynaklanan Uyuşmazlık) (TTK md. 11) .docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": false,
+      "agreementChanged": true,
+      "oldNegotiationCount": 2,
+      "newNegotiationCount": 2,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 2
+    },
+    {
+      "recordId": "excel-row-217",
+      "subject": "Ticari İşletmenin Rehninden Kaynaklanan Uyuşmazlık",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\02) Ticari İşletme (+)\\04 - Anlaşma Belgesi - (Ticari İşletmenin Rehninden Kaynaklanan Uyuşmazlık).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-215",
+      "subject": "Ticari Satıştan Doğan Tazminat Uyuşmazlığı - TTK md. 23",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\02) Ticari İşletme (+)\\04 - Anlaşma Belgesi - (Ticari Satıştan Doğan Tazminat Uyuşmazlığı ) (TTK md. 23).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-186",
+      "subject": "Ayrılma Akçesi Uyuşmazlığı - TTK md. 141",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Ayrılma Akçesi Uyuşmazlığı) (TTK md. 141).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-187",
+      "subject": "Birleşmede Şirket Alacaklılarının Alacak Uyuşmazlığı - TTK md. 157",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Birleşmede Şirket Alacaklılarının Alacak Uyuşmazlığı) (TTK md. 157).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 2
+    },
+    {
+      "recordId": "excel-row-189",
+      "subject": "Bölünen Şirket İmtiyaz Haklarından Doğan Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 161",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Bölünen Şirket İmtiyaz Haklarından Doğan Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 161).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-190",
+      "subject": "Bölünen Şirket İntifa Senedi Sahibinin Alacak Uyuşmazlığı - TTK md. 161",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Bölünen Şirket İntifa Senedi Sahibinin Alacak Uyuşmazlığı) (TTK md. 161).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": false,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-188",
+      "subject": "Bölünen Şirket Ortağının Tazminat Uyuşmazlığı - TTK md. 161",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Bölünen Şirket Ortağının Tazminat Uyuşmazlığı) (TTK md. 161).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-191",
+      "subject": "Bölünmede Şirket Alacaklılarının Alacak Uyuşmazlığı - TTK md. 175",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Bölünmede Şirket Alacaklılarının Alacak Uyuşmazlığı) (TTK md. 175).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": false,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 2
+    },
+    {
+      "recordId": "excel-row-192",
+      "subject": "Bölünmede Şirket Ortağının Denkleştirme İstemi Uyuşmazlığı - TTK md. 161",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Bölünmede Şirket Ortağının Denkleştirme İstemi Uyuşmazlığı) (TTK md. 161).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-193",
+      "subject": "Denkleştirme Akçesi Uyuşmazlığı - TTK md. 191",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Denkleştirme Akçesi Uyuşmazlığı) (TTK md. 191).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 2,
+      "newNegotiationCount": 2,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 2
+    },
+    {
+      "recordId": "excel-row-196",
+      "subject": "Devrolunan Şirket İmtiyaz Haklarından Doğan Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 140-4",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Devrolunan Şirket İmtiyaz Haklarından Doğan Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 140-4).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-197",
+      "subject": "Devrolunan Şirket İntifa Senedi Sahibinin Alacak Uyuşmazlığı - TTK md. 140-5",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Devrolunan Şirket İntifa Senedi Sahibinin Alacak Uyuşmazlığı) (TTK md. 140-5).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": false,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-194",
+      "subject": "Devrolunan Şirket Ortağının Denkleştirme İstemi Uyuşmazlığı - TTK md. 140-2",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Devrolunan Şirket Ortağının Denkleştirme İstemi Uyuşmazlığı) (TTK md. 140-2).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-195",
+      "subject": "Devrolunan Şirket Ortağının Tazminat Uyuşmazlığı - TTK md. 140-1",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Devrolunan Şirket Ortağının Tazminat Uyuşmazlığı) (TTK md. 140-1).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-198",
+      "subject": "Hakim Şirketin Güvenden Doğan Sorumluluk Uyuşmazlığı - TTK md. 209",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Hakim Şirketin Güvenden Doğan Sorumluluk Uyuşmazlığı) (TTK md. 209).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": false,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-199",
+      "subject": "Hakimiyetin Hukuka Aykırı Kullanılması Nedeniyle Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 202-1b-c",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Hakimiyetin Hukuka Aykırı Kullanılması Nedeniyle Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 202-1b-c).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": false,
+      "agreementChanged": true,
+      "oldNegotiationCount": 2,
+      "newNegotiationCount": 2,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 2
+    },
+    {
+      "recordId": "excel-row-200",
+      "subject": "Hakimiyetin Hukuka Aykırı Kullanılması Nedeniyle Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 202-2",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Hakimiyetin Hukuka Aykırı Kullanılması Nedeniyle Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 202-2).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 2,
+      "newNegotiationCount": 2,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 2
+    },
+    {
+      "recordId": "excel-row-201",
+      "subject": "Hakimiyetin Hukuka Aykırı Kullanılması Nedeniyle Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 202-3",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Hakimiyetin Hukuka Aykırı Kullanılması Nedeniyle Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 202-3).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-202",
+      "subject": "Tam Hakimiyetin Hukuka Aykırı Kullanılması Nedeniyle Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 206",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Tam Hakimiyetin Hukuka Aykırı Kullanılması Nedeniyle Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 206).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": false,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-204",
+      "subject": "Tür Değiştirmede Şirket İmtiyaz Haklarından Doğan Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 183-2",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Tür Değiştirmede Şirket İmtiyaz Haklarından Doğan Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 183-2).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-205",
+      "subject": "Tür Değiştirmede Şirket İntifa Senedi Sahibinin Alacak Uyuşmazlığı - TTK md. 183-3",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Tür Değiştirmede Şirket İntifa Senedi Sahibinin Alacak Uyuşmazlığı) (TTK md. 183-3).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-203",
+      "subject": "Tür Değiştirmede Şirket Ortağının Tazminat Uyuşmazlığı - TTK md. 183-1",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Tür Değiştirmede Şirket Ortağının Tazminat Uyuşmazlığı) (TTK md. 183-1).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-206",
+      "subject": "Şirket Birleşmesinden Doğan Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 193",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Şirket Birleşmesinden Doğan Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 193).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-207",
+      "subject": "Şirket Bölünmesinden Doğan Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 193",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Şirket Bölünmesinden Doğan Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 193) .docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-208",
+      "subject": "Şirket Türünün Değiştirilmesinden Doğan Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 193",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\03) Şirketler Yapısal Değişiklikler (+)\\04 - Anlaşma Belgesi - (Şirket Türünün Değiştirilmesinden Doğan Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 193).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-111",
+      "subject": "Koll. Şti. Ayrılan Ortağın Payına İlişkin Alacak Uyuşmazlığı - TTK md. 260",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\04) Kollektif (+)\\04 - Anlaşma Belgesi - (Koll. Şti. Ayrılan Ortağın Payına İlişkin Alacak Uyuşmazlığı) (TTK md. 260).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": false,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-112",
+      "subject": "Koll. Şti. Ortağının Ek Ödeme Uyuşmazlığı - TTK md. 298",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\04) Kollektif (+)\\04 - Anlaşma Belgesi - (Koll. Şti. Ortağının Ek Ödeme Uyuşmazlığı) (TTK md. 298).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-113",
+      "subject": "Koll. Şti. Ortağının Faiz Verme Uyuşmazlığı - TTK md. 224",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\04) Kollektif (+)\\04 - Anlaşma Belgesi - (Koll. Şti. Ortağının Faiz Verme Uyuşmazlığı) (TTK md. 224).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-114",
+      "subject": "Koll. Şti. Ortağının Haksız Fiilinden Doğan Uyuşmazlık - TTK md. 234-2",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\04) Kollektif (+)\\04 - Anlaşma Belgesi - (Koll. Şti. Ortağının Haksız Fiilinden Doğan Uyuşmazlık) (TTK md. 234-2).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 2,
+      "newNegotiationCount": 2,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 2
+    },
+    {
+      "recordId": "excel-row-115",
+      "subject": "Koll. Şti. Ortağının Kar Payı - Ödünç - Sermaye Faizi - Ücret Uyuşmazlığı - TTK md. 228",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\04) Kollektif (+)\\04 - Anlaşma Belgesi - (Koll. Şti. Ortağının Kar Payı - Ödünç - Sermaye Faizi - Ücret Uyuşmazlığı) (TTK md. 228).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-116",
+      "subject": "Koll. Şti. Ortağının Kişisel Sorumluluğundan Doğan Uyuşmazlık - TTK md. 236",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\04) Kollektif (+)\\04 - Anlaşma Belgesi - (Koll. Şti. Ortağının Kişisel Sorumluluğundan Doğan Uyuşmazlık) (TTK md. 236).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-117",
+      "subject": "Koll. Şti. Ortağının Rekabet Yasağı İhlali Uyuşmazlığı - TTK md. 231",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\04) Kollektif (+)\\04 - Anlaşma Belgesi - (Koll. Şti. Ortağının Rekabet Yasağı İhlali Uyuşmazlığı) (TTK md. 231).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": false,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 2
+    },
+    {
+      "recordId": "excel-row-118",
+      "subject": "Koll. Şti. Ortağının Rekabet Yasağını İhlalden Doğan Uyuşmazlık - TTK md. 230",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\04) Kollektif (+)\\04 - Anlaşma Belgesi - (Koll. Şti. Ortağının Rekabet Yasağını İhlalden Doğan Uyuşmazlık) (TTK md. 230).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-119",
+      "subject": "Koll. Şti. Ortağının Tasfiye Alacağı Uyuşmazlığı - TTK md. 300",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\04) Kollektif (+)\\04 - Anlaşma Belgesi - (Koll. Şti. Ortağının Tasfiye Alacağı Uyuşmazlığı) (TTK md. 300).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": false,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-120",
+      "subject": "Koll. Şti. Ortağının Zarar Payı Uyuşmazlığı - TTK md. 229",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\04) Kollektif (+)\\04 - Anlaşma Belgesi - (Koll. Şti. Ortağının Zarar Payı Uyuşmazlığı) (TTK md. 229).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-121",
+      "subject": "Koll. Şti. Tamamlanmamış İşlerden Kaynaklanan Alacak Uyuşmazlığı - TTK md. 263",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\04) Kollektif (+)\\04 - Anlaşma Belgesi - (Koll. Şti. Tamamlanmamış İşlerden Kaynaklanan Alacak Uyuşmazlığı) (TTK md. 263).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": false,
+      "agreementChanged": true,
+      "oldNegotiationCount": 2,
+      "newNegotiationCount": 2,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 2
+    },
+    {
+      "recordId": "excel-row-122",
+      "subject": "Koll. Şti. Tasfiye Memuru Ücret Alacağı Uyuşmazlığı - TTK md. 284",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\04) Kollektif (+)\\04 - Anlaşma Belgesi - (Koll. Şti. Tasfiye Memuru Ücret Alacağı Uyuşmazlığı) (TTK md. 284).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": false,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-123",
+      "subject": "Koll. Şti. Tasfiye Memurunun Haksız Fiil Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 280",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\04) Kollektif (+)\\04 - Anlaşma Belgesi - (Koll. Şti. Tasfiye Memurunun Haksız Fiil Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 280).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 2,
+      "newNegotiationCount": 2,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 2
+    },
+    {
+      "recordId": "excel-row-124",
+      "subject": "Koll. Şti. Tasfiye Memurunun Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 285",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\04) Kollektif (+)\\04 - Anlaşma Belgesi - (Koll. Şti. Tasfiye Memurunun Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 285).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 2,
+      "newNegotiationCount": 2,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 2
+    },
+    {
+      "recordId": "excel-row-125",
+      "subject": "Koll. Şti. Tasfiye Memurunun Yeni İşlemlerinden Doğan Alacak Uyuşmazlığı - TTK md. 292",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\04) Kollektif (+)\\04 - Anlaşma Belgesi - (Koll. Şti. Tasfiye Memurunun Yeni İşlemlerinden Doğan Alacak Uyuşmazlığı) (TTK md. 292).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-126",
+      "subject": "Koll. Şti. Temsilcisinin İşlemlerinden Doğan Uyuşmazlık - TTK md. 234-1",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\04) Kollektif (+)\\04 - Anlaşma Belgesi - (Koll. Şti. Temsilcisinin İşlemlerinden Doğan Uyuşmazlık) (TTK md. 234-1).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": false,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-127",
+      "subject": "Koll. Şti. Tescil - Şirket Sözleşmesi Yükümlülüğünün İhlali Uyuşmazlığı - TTK md. 216",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\04) Kollektif (+)\\04 - Anlaşma Belgesi - (Koll. Şti. Tescil - Şirket Sözleşmesi Yükümlülüğünün İhlali Uyuşmazlığı) (TTK md. 216).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": false,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-131",
+      "subject": "Kom. Şti. Adına İşlemde Bulunan Komanditer Ortağın Tazminat Sorumluluğundan Doğan Uyuşmazlık - TTK md. 321-1",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Adına İşlemde Bulunan Komanditer Ortağın Tazminat Sorumluluğundan Doğan Uyuşmazlık ) (TTK md. 321-1).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-130",
+      "subject": "Kom. Şti. Adına Tescil Öncesi İşlemde Bulunan Komanditer Ortağın Tazminat Sorumluluğundan Doğan Uyuşmazlık - TTK md. 321-2",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Adına Tescil Öncesi İşlemde Bulunan Komanditer Ortağın Tazminat Sorumluluğundan Doğan Uyuşmazlık ) (TTK md. 321-2).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-132",
+      "subject": "Kom. Şti. Ayrılan Ortağın Payına İlişkin Alacak Uyuşmazlığı - TTK md. 260",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Ayrılan Ortağın Payına İlişkin Alacak Uyuşmazlığı) (TTK md. 260).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-133",
+      "subject": "Kom. Şti. Komandite Ortağın Üçüncü Kişilere Sorumluluğundan Doğan Uyuşmazlık - TTK md. 325",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Komandite Ortağın Üçüncü Kişilere Sorumluluğundan Doğan Uyuşmazlık) (TTK md. 325).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-134",
+      "subject": "Kom. Şti. Komanditer Ortağa Yöneltilen Alacak Uyuşmazlığı - TTK md. 322-3",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Komanditer Ortağa Yöneltilen Alacak Uyuşmazlığı) (TTK md. 322-3).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-135",
+      "subject": "Kom. Şti. Komanditer Ortağın Sermayesine Biçilen Değerden Doğan Tazminat Uyuşmazlığı - TTK md. 321-3",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Komanditer Ortağın Sermayesine Biçilen Değerden Doğan Tazminat Uyuşmazlığı) (TTK md. 321-3).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-136",
+      "subject": "Kom. Şti. Komanditer Ortağın Üçüncü Kişilere Sorumluluğundan Doğan Uyuşmazlık - TTK md. 320",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Komanditer Ortağın Üçüncü Kişilere Sorumluluğundan Doğan Uyuşmazlık) (TTK md. 320).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-137",
+      "subject": "Kom. Şti. Komanditer Ortağın Şirkete Ortak Olmadan Önce Doğan Borçlardan Sorumluluk Uyuşmazlığı - TTK md. 321-4",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Komanditer Ortağın Şirkete Ortak Olmadan Önce Doğan Borçlardan Sorumluluk Uyuşmazlığı ) (TTK md. 321-4).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-138",
+      "subject": "Kom. Şti. Komanditer Ortağının Sermaye Koyma Borcu Uyuşmazlığı - TTK md. 322-1",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Komanditer Ortağının Sermaye Koyma Borcu Uyuşmazlığı) (TTK md. 322-1).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-139",
+      "subject": "Kom. Şti. Ortağının Ek Ödeme Uyuşmazlığı - TTK md. 298",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Ortağının Ek Ödeme Uyuşmazlığı) (TTK md. 298).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-140",
+      "subject": "Kom. Şti. Ortağının Haksız Fiilinden Doğan Uyuşmazlık - TTK md. 234-2",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Ortağının Haksız Fiilinden Doğan Uyuşmazlık) (TTK md. 234-2).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 2,
+      "newNegotiationCount": 2,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 2
+    },
+    {
+      "recordId": "excel-row-141",
+      "subject": "Kom. Şti. Ortağının Kişisel Sorumluluğundan Doğan Uyuşmazlık - TTK md. 236",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Ortağının Kişisel Sorumluluğundan Doğan Uyuşmazlık) (TTK md. 236).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-142",
+      "subject": "Kom. Şti. Ortağının Tasfiye Alacağı Uyuşmazlığı - TTK md. 300",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Ortağının Tasfiye Alacağı Uyuşmazlığı) (TTK md. 300).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": false,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-143",
+      "subject": "Kom. Şti. Ortağının Zarar Payı Uyuşmazlığı - TTK md. 229",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Ortağının Zarar Payı Uyuşmazlığı) (TTK md. 229).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-144",
+      "subject": "Kom. Şti. Sermayenin Azalması Durumunda Komanditer Ortağın Faiz - Kâr Payından Doğan Uyuşmazlık - TTK md. 323",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Sermayenin Azalması Durumunda Komanditer Ortağın Faiz - Kâr Payından Doğan Uyuşmazlık) (TTK md. 323).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-145",
+      "subject": "Kom. Şti. Tamamlanmamış İşlerden Kaynaklanan Alacak Uyuşmazlığı - TTK md. 263",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Tamamlanmamış İşlerden Kaynaklanan Alacak Uyuşmazlığı) (TTK md. 263).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 2,
+      "newNegotiationCount": 2,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 2
+    },
+    {
+      "recordId": "excel-row-129",
+      "subject": "Kom Şti. Tasfiye Memuru Ücret Alacağı Uyuşmazlığı - TTK md. 284",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Tasfiye Memuru Ücret Alacağı Uyuşmazlığı) (TTK md. 284).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-146",
+      "subject": "Kom. Şti. Tasfiye Memurunun Haksız Fiil Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 280",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Tasfiye Memurunun Haksız Fiil Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 280).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 2,
+      "newNegotiationCount": 2,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 2
+    },
+    {
+      "recordId": "excel-row-147",
+      "subject": "Kom. Şti. Tasfiye Memurunun Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 285",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Tasfiye Memurunun Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 285).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 2,
+      "newNegotiationCount": 2,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 2
+    },
+    {
+      "recordId": "excel-row-148",
+      "subject": "Kom. Şti. Tasfiye Memurunun Yeni İşlemlerinden Doğan Alacak Uyuşmazlığı - TTK md. 292",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Tasfiye Memurunun Yeni İşlemlerinden Doğan Alacak Uyuşmazlığı) (TTK md. 292).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": false,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-149",
+      "subject": "Kom. Şti. Temsilcisinin İşlemlerinden Doğan Uyuşmazlık - TTK md. 234-1",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Temsilcisinin İşlemlerinden Doğan Uyuşmazlık) (TTK md. 234-1).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": false,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-150",
+      "subject": "Kom. Şti. Usulsüz Kâr Payı - Faiz Alacak Uyuşmazlığı - TTK md. 314",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\05) Komandit (+)\\04 - Anlaşma Belgesi - (Kom. Şti. Usulsüz Kâr Payı - Faiz Alacak Uyuşmazlığı) (TTK md. 314).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 2,
+      "newNegotiationCount": 2,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 2
+    },
+    {
+      "recordId": "excel-row-58",
+      "subject": "A.Ş. Belgelerin ve Beyanların Kanuna Aykırı Olmasından Doğan Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 549",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Belgelerin ve Beyanların Kanuna Aykırı Olmasından Doğan Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 549) .docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-59",
+      "subject": "A.Ş. Borsa Şirketince Tanınmayan Pay Sahibinin Tazminat Talebinden Doğan Tazminat Uyuşmazlığı - TTK md. 497-4",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Borsa Şirketince Tanınmayan Pay Sahibinin Tazminat Talebinden Doğan Tazminat Uyuşmazlığı) (TTK md. 497-4).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-60",
+      "subject": "A.Ş. Denetçinin Sır Saklamadan Doğan Sorumluluk Uyuşmazlığı - TTK md. 404-1",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Denetçinin Sır Saklamadan Doğan Sorumluluk Uyuşmazlığı) (TTK md. 404-1).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-61",
+      "subject": "A.Ş. Denetçinin Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 554",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Denetçinin Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 554).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-62",
+      "subject": "A.Ş. Denetçinin Şirket Olması Halinde Sorumluluk Uyuşmazlığı - TTK md. 404-3",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Denetçinin Şirket Olması Halinde Sorumluluk Uyuşmazlığı) (TTK md. 404-3).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-63",
+      "subject": "A.Ş. Değer Biçilmesinde Yolsuzluk Yapılmasından Doğan Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 551",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Değer Biçilmesinde Yolsuzluk Yapılmasından Doğan Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 551).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-64",
+      "subject": "A.Ş. Geçersiz Olarak Çıkarılan Paylardan Doğan Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 476-2",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Geçersiz Olarak Çıkarılan Paylardan Doğan Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 476-2).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-65",
+      "subject": "A.Ş. GK Kararının İptalinde Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 451",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. GK Kararının İptalinde Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 451).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-66",
+      "subject": "A.Ş. Görevden Alınan YK Üyesinin Tazminat Uyuşmazlığı - TTK md. 364",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Görevden Alınan YK Üyesinin Tazminat Uyuşmazlığı) (TTK md. 364).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": false,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-67",
+      "subject": "A.Ş. Hamiline Yazılı Pay Senetlerinden Doğan Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 484-2",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Hamiline Yazılı Pay Senetlerinden Doğan Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 484-2).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-99",
+      "subject": "A.Ş. İflası Halinde Kazanç Payı - Ücret İadesi Uyuşmazlığı - TTK md. 513",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. İflası Halinde Kazanç Payı - Ücret İadesi Uyuşmazlığı) (TTK md. 513).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": false,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-100",
+      "subject": "A.Ş. İntifa Hakkı Sahibinin Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 432-2",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. İntifa Hakkı Sahibinin Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 432-2).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": false,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-68",
+      "subject": "A.Ş. KTK YK Üyesinin Sorumluluğundan Doğan Uyuşmazlık - TTK md. 334-3",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. KTK YK Üyesinin Sorumluluğundan Doğan Uyuşmazlık) (TTK md. 334-3).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": false,
+      "agreementChanged": true,
+      "oldNegotiationCount": 2,
+      "newNegotiationCount": 2,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 2
+    },
+    {
+      "recordId": "excel-row-69",
+      "subject": "A.Ş. Kurucu İntifa Senedi Alacağı Uyuşmazlığı - TTK md. 348",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Kurucu İntifa Senedi Alacağı Uyuşmazlığı) (TTK md. 348).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": false,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-70",
+      "subject": "A.Ş. Kurucularının Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 553",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Kurucularının Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 553).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 2,
+      "newNegotiationCount": 2,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 2
+    },
+    {
+      "recordId": "excel-row-71",
+      "subject": "A.Ş. nin Tescili Öncesinde Yapılan İşlemlerden  Doğan Uyuşmazlık - TTK md. 355",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. nin Tescili Öncesinde Yapılan İşlemlerden  Doğan Uyuşmazlık) (TTK md. 355).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": false,
+      "agreementChanged": true,
+      "oldNegotiationCount": 3,
+      "newNegotiationCount": 3,
+      "oldAgreementCount": 3,
+      "newAgreementCount": 3
+    },
+    {
+      "recordId": "docx-update-a-s-ortaginin-hazirlik-donemi-faizi-alacak-uyusmazligi-ttk-md-510",
+      "subject": "A.Ş. Ortağının Hazırlık Dönemi Faizi Alacak Uyuşmazlığı - TTK md. 510",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Ortağının Hazırlık Dönemi Faizi Alacak Uyuşmazlığı) (TTK md. 510).docx",
+      "isNew": true,
+      "disputeTypeChanged": false,
+      "negotiationChanged": false,
+      "agreementChanged": false,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-72",
+      "subject": "A.Ş. Ortağının Kâr Payı - Hazırlık Dönemi Faizi Alacak Uyuşmazlığı - TTK md. 512",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Ortağının Kâr Payı - Hazırlık Dönemi Faizi Alacak Uyuşmazlığı) (TTK md. 512).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-73",
+      "subject": "A.Ş. Ortağının Kâr Payı - Tasfiye Payı Alacak Uyuşmazlığı - TTK md. 507",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Ortağının Kâr Payı - Tasfiye Payı Alacak Uyuşmazlığı) (TTK md. 507).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-74",
+      "subject": "A.Ş. Pay Bedelinin Ödenmemesinden Kaynaklanan Alacak Sorumluluğu Uyuşmazlığı - TTK md. 482-1",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Pay Bedelinin Ödenmemesinden Kaynaklanan Alacak Sorumluluğu Uyuşmazlığı) (TTK md. 482-1).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-75",
+      "subject": "A.Ş. Pay Bedelinin Ödenmemesinden Kaynaklanan Sözleşme Cezası Alacak Uyuşmazlığı - TTK md. 482-3",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Pay Bedelinin Ödenmemesinden Kaynaklanan Sözleşme Cezası Alacak Uyuşmazlığı) (TTK md. 482-3).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": false,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-76",
+      "subject": "A.Ş. Pay Bedelinin Ödenmemesinden Kaynaklanan Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 482-4",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Pay Bedelinin Ödenmemesinden Kaynaklanan Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 482-4).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-77",
+      "subject": "A.Ş. Pay Sahibi Sayısının Bire Düşmesinden Doğan Rücu Uyuşmazlığı - TTK md. 338",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Pay Sahibi Sayısının Bire Düşmesinden Doğan Rücu Uyuşmazlığı) (TTK md. 338).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 2,
+      "newNegotiationCount": 2,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 2
+    },
+    {
+      "recordId": "excel-row-78",
+      "subject": "A.Ş. Pay Sahibi Sayısının Bire Düşmesinden Doğan Sorumluluk Uyuşmazlığı - TTK md. 338",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Pay Sahibi Sayısının Bire Düşmesinden Doğan Sorumluluk Uyuşmazlığı) (TTK md. 338).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": false,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-79",
+      "subject": "A.Ş. Pay Sahibinin Temsilinde Tazminat Uyuşmazlığı - TTK md. 427",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Pay Sahibinin Temsilinde Tazminat Uyuşmazlığı) (TTK md. 427).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-80",
+      "subject": "A.Ş. Pay Sahibinin Şirkete Borçlanma Yasağının İhlali - TTK md. 358",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Pay Sahibinin Şirkete Borçlanma Yasağının İhlali) (TTK md. 358).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-81",
+      "subject": "A.Ş. Sermaye Hk. Yanlış Beyanlar - Ödeme Yetersizliğinin Bilinmesinden Doğan Tazminat Sorumluluğu Uyuş. - TTK md 550",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Sermaye Hk. Yanlış Beyanlar - Ödeme Yetersizliğinin Bilinmesinden Doğan Tazminat Sorumluluğu Uyuş.) (TTK md 550).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 3,
+      "newNegotiationCount": 3,
+      "oldAgreementCount": 3,
+      "newAgreementCount": 3
+    },
+    {
+      "recordId": "excel-row-82",
+      "subject": "A.Ş. Sır Saklama Yükümünün İhlalinden Doğan Tazminat Uyuşmazlığı - TTK md. 527-1",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Sır Saklama Yükümünün İhlalinden Doğan Tazminat Uyuşmazlığı) (TTK md. 527-1).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-83",
+      "subject": "A.Ş. Tasfiye Memurunun Haksız Fiilinden Dolayı Rücuen Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 539-4",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Tasfiye Memurunun Haksız Fiilinden Dolayı Rücuen Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 539-4) .docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-84",
+      "subject": "A.Ş. Tasfiye Memurunun Haksız Fiilinden Doğan Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 539-4",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Tasfiye Memurunun Haksız Fiilinden Doğan Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 539-4).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-85",
+      "subject": "A.Ş. Tasfiye Memurunun Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 553",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Tasfiye Memurunun Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 553).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 2,
+      "newNegotiationCount": 2,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 2
+    },
+    {
+      "recordId": "excel-row-86",
+      "subject": "A.Ş. Temsilcilerinin İşlemlerinden Kaynaklanan Rücuen Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 371-4",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Temsilcilerinin İşlemlerinden Kaynaklanan Rücuen Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 371-4).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-87",
+      "subject": "A.Ş. Temsilcilerinin İşlemlerinden Kaynaklanan Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 371-4",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Temsilcilerinin İşlemlerinden Kaynaklanan Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 371-4).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-88",
+      "subject": "A.Ş. Tescilden Önce Pay Senedi Çıkarılmasından Doğan Rücuen Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 486-4",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Tescilden Önce Pay Senedi Çıkarılmasından Doğan Rücuen Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 486-4).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-89",
+      "subject": "A.Ş. Tescilden Önce Pay Senedi Çıkarılmasından Doğan Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 486-4",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Tescilden Önce Pay Senedi Çıkarılmasından Doğan Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 486-4).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-90",
+      "subject": "A.Ş. Yeni Pay Sahibinin Pay Bedelini Ödenmemesinden Mütemerrit Pay Sahibinin Alacak Sorumluluğu Uyuşmazlığı - TTK md. 483-3",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Yeni Pay Sahibinin Pay Bedelini Ödenmemesinden Mütemerrit Pay Sahibinin Alacak Sorumluluğu Uyuşmazlığı) (TTK md. 483-3).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-91",
+      "subject": "A.Ş. YK Üyelerinin Mali Hak Uyuşmazlığı - TTK md. 394",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. YK Üyelerinin Mali Hak Uyuşmazlığı) (TTK md. 394).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-92",
+      "subject": "A.Ş. YK Üyelerinin Şirketle İşlem Yapma Yasağı - TTK md. 395-1",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. YK Üyelerinin Şirketle İşlem Yapma Yasağı) (TTK md. 395-1).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-93",
+      "subject": "A.Ş. YK Üyesinin Kazanç Payı Alacağı Uyuşmazlığı - TTK md. 512",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. YK Üyesinin Kazanç Payı Alacağı Uyuşmazlığı) (TTK md. 512).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-94",
+      "subject": "A.Ş. YK Üyesinin Müzakereye Katılma Yasağından Doğan Sorumluluk Uyuşmazlığı - TTK md. 393",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. YK Üyesinin Müzakereye Katılma Yasağından Doğan Sorumluluk Uyuşmazlığı) (TTK md. 393).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": false,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-95",
+      "subject": "A.Ş. YK Üyesinin Rekabet Yasağını İhlalden Doğan Tazminat Uyuşmazlığı - TTK md. 396",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. YK Üyesinin Rekabet Yasağını İhlalden Doğan Tazminat Uyuşmazlığı) (TTK md. 396).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": false,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 3,
+      "newAgreementCount": 3
+    },
+    {
+      "recordId": "excel-row-96",
+      "subject": "A.Ş. YK Üyesinin Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 553",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. YK Üyesinin Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 553).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 2,
+      "newNegotiationCount": 2,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 2
+    },
+    {
+      "recordId": "excel-row-97",
+      "subject": "A.Ş. YK Üyesinin Şirkete Borçlanma Yasağının İhlali - TTK md. 395-2",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. YK Üyesinin Şirkete Borçlanma Yasağının İhlali) (TTK md. 395-2).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 3,
+      "newNegotiationCount": 3,
+      "oldAgreementCount": 3,
+      "newAgreementCount": 3
+    },
+    {
+      "recordId": "excel-row-98",
+      "subject": "A.Ş. Yöneticilerinin Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 553",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\06) Anonim (+)\\04 - Anlaşma Belgesi - (A.Ş. Yöneticilerinin Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 553).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 2,
+      "newNegotiationCount": 2,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 2
+    },
+    {
+      "recordId": "excel-row-152",
+      "subject": "LTD Ayrılma Akçesinden Doğan Alacak Uyuşmazlığı - TTK md. 641",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Ayrılma Akçesinden Doğan Alacak Uyuşmazlığı) (TTK md. 641).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": false,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-153",
+      "subject": "LTD Belgelerin ve Beyanların Kanuna Aykırı Olmasından Doğan Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 549",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Belgelerin ve Beyanların Kanuna Aykırı Olmasından Doğan Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 549) .docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-154",
+      "subject": "LTD Denetçinin Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 554",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Denetçinin Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 554).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-155",
+      "subject": "LTD Değer Biçilmesinde Yolsuzluk Yapılmasından Doğan Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 551",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Değer Biçilmesinde Yolsuzluk Yapılmasından Doğan Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 551).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-156",
+      "subject": "LTD Ek Ödeme Yükümlülüğünden Doğan Alacak Uyuşmazlığı - TTK md. 603",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Ek Ödeme Yükümlülüğünden Doğan Alacak Uyuşmazlığı) (TTK md. 603).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-157",
+      "subject": "LTD Ek Ödeme Yükümlülüğünün İadesinden Doğan Alacak Uyuşmazlığı - TTK md. 605",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Ek Ödeme Yükümlülüğünün İadesinden Doğan Alacak Uyuşmazlığı) (TTK md. 605).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": false,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-158",
+      "subject": "LTD Görevden Alınan Müdürün Tazminat Hakkı Uyuşmazlığı - TTK md. 630",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Görevden Alınan Müdürün Tazminat Hakkı Uyuşmazlığı) (TTK md. 630).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-180",
+      "subject": "LTD İntifa Hakkından Doğan Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 600",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD İntifa Hakkından Doğan Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 600).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-159",
+      "subject": "LTD Kurucularının Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 553",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Kurucularının Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 553).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 2,
+      "newNegotiationCount": 2,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 2
+    },
+    {
+      "recordId": "excel-row-160",
+      "subject": "LTD Müdürünün - Müdürler Kurulu Üyesinin Şirkete Borçlanma Yasağını İhlali - TTK md. 395-2",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Müdürünün - Müdürler Kurulu Üyesinin Şirkete Borçlanma Yasağını İhlali) (TTK md. 395-2).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 2,
+      "newNegotiationCount": 3,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 3
+    },
+    {
+      "recordId": "excel-row-161",
+      "subject": "LTD Müdürünün Rekabet Yasağına Aykırılıktan Doğan Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 626",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Müdürünün Rekabet Yasağına Aykırılıktan Doğan Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 626).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-162",
+      "subject": "LTD Ortak Sayısının Bire Düşmesinden Doğan Rücu Uyuşmazlığı - TTK md. 574",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Ortak Sayısının Bire Düşmesinden Doğan Rücu Uyuşmazlığı) (TTK md. 574).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 2,
+      "newNegotiationCount": 2,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 2
+    },
+    {
+      "recordId": "excel-row-163",
+      "subject": "LTD Ortak Sayısının Bire Düşmesinden Doğan Sorumluluk Uyuşmazlığı - TTK md. 574",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Ortak Sayısının Bire Düşmesinden Doğan Sorumluluk Uyuşmazlığı) (TTK md. 574).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-164",
+      "subject": "LTD Ortağının - Müdürünün Haksız Aldığı Kâr Payının İadesi Sorumluluğu Uyuşmazlığı",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Ortağının - Müdürünün Haksız Aldığı Kâr Payının İadesi Sorumluluğu Uyuşmazlığı) (TTK md. 611.docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-165",
+      "subject": "LTD Ortağının Faiz Yasağından Doğan Alacak Uyuşmazlığı - TTK md. 609",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Ortağının Faiz Yasağından Doğan Alacak Uyuşmazlığı) (TTK md. 609).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": false,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "docx-update-ltd-ortaginin-hazirlik-donemi-faizi-alacak-uyusmazligi-ttk-md-510",
+      "subject": "LTD Ortağının Hazırlık Dönemi Faizi Alacak Uyuşmazlığı - TTK md. 510",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Ortağının Hazırlık Dönemi Faizi Alacak Uyuşmazlığı) (TTK md. 510).docx",
+      "isNew": true,
+      "disputeTypeChanged": false,
+      "negotiationChanged": false,
+      "agreementChanged": false,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-166",
+      "subject": "LTD Ortağının Kâr Payı Alacak Uyuşmazlığı - TTK md. 608",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Ortağının Kâr Payı Alacak Uyuşmazlığı) (TTK md. 608).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-167",
+      "subject": "LTD Ortağının Rekabet Yükümlülüğünü İhlali Nedeniyle Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 613",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Ortağının Rekabet Yasağının İhlali Nedeniyle Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 613).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-168",
+      "subject": "LTD Ortağının Şirkete Borçlanma Yasağını İhlali - TTK md. 358",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Ortağının Şirkete Borçlanma Yasağının İhlali) (TTK md. 358).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-169",
+      "subject": "LTD Pay Bedelinin Ödenmemesinden Kaynaklanan Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 585",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Pay Bedelinin Ödenmemesinden Kaynaklanan Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 585).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-170",
+      "subject": "LTD Paylı Mülkiyet Durumunda Ek Ödeme Yükümlülüğünden Doğan Alacak Uyuşmazlığı - TTK md. 599",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Paylı Mülkiyet Durumunda Ek Ödeme Yükümlülüğünden Doğan Alacak Uyuşmazlığı) (TTK md. 599).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 2,
+      "newNegotiationCount": 2,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 2
+    },
+    {
+      "recordId": "excel-row-171",
+      "subject": "LTD Sermaye Hk. Yanlış Beyanlar - Ödeme Yetersizliğinin Bilinmesinden Doğan Tazminat Sorumluluğu Uyuş. - TTK md 550",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Sermaye Hk. Yanlış Beyanlar - Ödeme Yetersizliğinin Bilinmesinden Doğan Tazminat Sorumluluğu Uyuş.) (TTK md 550).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 3,
+      "newNegotiationCount": 3,
+      "oldAgreementCount": 3,
+      "newAgreementCount": 3
+    },
+    {
+      "recordId": "excel-row-173",
+      "subject": "LTD Tasfiye Memurunun Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 553",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Tasfiye Memurunun Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 553).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 2,
+      "newNegotiationCount": 2,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 2
+    },
+    {
+      "recordId": "excel-row-174",
+      "subject": "LTD Tescilinden Önceki İşlemlerden Kaynaklanan Alacak ve Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 588",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Tescilinden Önceki İşlemlerden Kaynaklanan Alacak ve Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 588).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 3,
+      "newNegotiationCount": 3,
+      "oldAgreementCount": 3,
+      "newAgreementCount": 3
+    },
+    {
+      "recordId": "excel-row-175",
+      "subject": "LTD Yan Edim Yükümlülüğünden Doğan Alacak Uyuşmazlığı - TTK md. 606",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Yan Edim Yükümlülüğünden Doğan Alacak Uyuşmazlığı) (TTK md. 606).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 2,
+      "newNegotiationCount": 2,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 2
+    },
+    {
+      "recordId": "excel-row-176",
+      "subject": "LTD Yeni Pay Sahibinin Pay Bedelini Ödenmemesinden Mütemerrit Pay Sahibinin Alacak Sorumluluğu Uyuşmazlığı - TTK md. 585",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Yeni Pay Sahibinin Pay Bedelini Ödenmemesinden Mütemerrit Pay Sahibinin Alacak Sorumluluğu Uyuşmazlığı) (TTK md. 585).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-177",
+      "subject": "LTD Yöneticilerinin Haksız Fiilinden Dolayı Rücuen Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 632",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Yöneticilerinin Haksız Fiilinden Dolayı Rücuen Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 632).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-178",
+      "subject": "LTD Yöneticilerinin Haksız Fiilinden Doğan Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 632",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Yöneticilerinin Haksız Fiilinden Doğan Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 632).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": false,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 1
+    },
+    {
+      "recordId": "excel-row-179",
+      "subject": "LTD Yöneticilerinin Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 553",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Yöneticilerinin Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 553).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 2,
+      "newNegotiationCount": 2,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 2
+    },
+    {
+      "recordId": "excel-row-181",
+      "subject": "LTD Şirket Müdürünün - Müdürler Kurulu Üyesinin Tazminat Sorumluluğu Uyuşmazlığı - TTK md. 553",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\07) Limited (+)\\04 - Anlaşma Belgesi - (LTD Şirket Müdürünün - Müdürler Kurulu Üyesinin Tazminat Sorumluluğu Uyuşmazlığı) (TTK md. 553).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 2,
+      "newNegotiationCount": 2,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 2
+    },
+    {
+      "recordId": "excel-row-102",
+      "subject": "Bononun Anlaşmaya Aykırı Doldurulduğu İddiasından Doğan Uyuşmazlık",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\08) Kıymetli Evrak (+)\\04 - Anlaşma Belgesi - (Bononun Anlaşmaya Aykırı Doldurulduğu İddiasından Doğan Uyuşmazlık).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 3,
+      "newAgreementCount": 3
+    },
+    {
+      "recordId": "excel-row-103",
+      "subject": "Bononun Hatır Bonosu Olduğu İddiasından Doğan Uyuşmazlık",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\08) Kıymetli Evrak (+)\\04 - Anlaşma Belgesi - (Bononun Hatır Bonosu Olduğu İddiasından Doğan Uyuşmazlık).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 2
+    },
+    {
+      "recordId": "excel-row-104",
+      "subject": "Bononun Teminat Bonosu Olduğu İddiasından Doğan Uyuşmazlık",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\08) Kıymetli Evrak (+)\\04 - Anlaşma Belgesi - (Bononun Teminat Bonosu Olduğu İddiasından Doğan Uyuşmazlık).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 2
+    },
+    {
+      "recordId": "excel-row-105",
+      "subject": "Bononun Ödenmemesinden Doğan Uyuşmazlık",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\08) Kıymetli Evrak (+)\\04 - Anlaşma Belgesi - (Bononun Ödenmemesinden Doğan Uyuşmazlık).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 2
+    },
+    {
+      "recordId": "excel-row-106",
+      "subject": "Çekin Anlaşmaya Aykırı Doldurulduğu İddiasından Doğan Uyuşmazlık",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\08) Kıymetli Evrak (+)\\04 - Anlaşma Belgesi - (Çekin Anlaşmaya Aykırı Doldurulduğu İddiasından Doğan Uyuşmazlık).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 3,
+      "newAgreementCount": 3
+    },
+    {
+      "recordId": "excel-row-107",
+      "subject": "Çekin Hatır Çeki Olduğu İddiasından Doğan Uyuşmazlık",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\08) Kıymetli Evrak (+)\\04 - Anlaşma Belgesi - (Çekin Hatır Çeki Olduğu İddiasından Doğan Uyuşmazlık).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 2
+    },
+    {
+      "recordId": "excel-row-108",
+      "subject": "Çekin Teminat Çeki Olduğu İddiasından Doğan Uyuşmazlık",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\08) Kıymetli Evrak (+)\\04 - Anlaşma Belgesi - (Çekin Teminat Çeki Olduğu İddiasından Doğan Uyuşmazlık).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 2
+    },
+    {
+      "recordId": "excel-row-109",
+      "subject": "Çekin Ödenmemesinden Doğan Uyuşmazlık",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\08) Kıymetli Evrak (+)\\04 - Anlaşma Belgesi - (Çekin Ödenmemesinden Doğan Uyuşmazlık).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 2
+    },
+    {
+      "recordId": "excel-row-183",
+      "subject": "Aşkın Sigorta Uyuşmazlığı - TTK md. 1463",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\09) Sigorta (+)\\04 - Anlaşma Belgesi - (Aşkın Sigorta Uyuşmazlığı) (TTK md. 1463).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": true,
+      "agreementChanged": true,
+      "oldNegotiationCount": 2,
+      "newNegotiationCount": 2,
+      "oldAgreementCount": 2,
+      "newAgreementCount": 4
+    },
+    {
+      "recordId": "excel-row-184",
+      "subject": "Sigorta Hukuku Tazminat",
+      "file": "D:\\ArbsysTutanakEditor\\DOCX_Guncelleme\\09) Sigorta (+)\\04 - Anlaşma Belgesi - (Sigorta Hukuku Tazminat).docx",
+      "isNew": false,
+      "disputeTypeChanged": true,
+      "negotiationChanged": false,
+      "agreementChanged": true,
+      "oldNegotiationCount": 1,
+      "newNegotiationCount": 1,
+      "oldAgreementCount": 1,
+      "newAgreementCount": 2
+    }
+  ]
+}
