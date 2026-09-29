@@ -8148,4 +8148,86 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         v28EnsureStructureModal=function(){v29EnsureStructureModalBase();v29InstallStructurePalette();};
         v29InstallStructurePalette();
     </script>
+    <style id="v30-fullscreen-structure-editor-styles">
+        #v28StructureModal{padding:0!important;background:#263242!important}
+        #v28StructureModal .v28-structure-dialog{width:100vw!important;max-width:none!important;height:100vh!important;max-height:none!important;margin:0!important;border:0!important;border-radius:0!important;background:#eef2f7!important}
+        #v28StructureModal .modal-header{min-height:58px;padding:10px 18px;background:#fff;border-bottom:1px solid #d8e0e9}
+        #v28StructureModal .v28-structure-body{display:block!important;padding:18px 340px 90px 18px!important;overflow:auto!important;background:#dfe5ec!important}
+        #v28StructureModal .v28-structure-body>.v28-structure-pane:first-child,
+        #v28StructureModal .v28-structure-body>.v28-structure-pane:last-child{display:none!important}
+        #v28StructureModal .v28-preview-wrap{display:block!important;width:min(920px,100%)!important;min-height:calc(100vh - 185px)!important;margin:0 auto!important;padding:34px 42px!important;border:0!important;border-radius:4px!important;background:#fff!important;box-shadow:0 8px 30px rgba(15,23,42,.18)!important;overflow:visible!important}
+        #v28StructurePreview table{table-layout:fixed}
+        #v28StructurePreview td{outline:none}
+        #v28StructurePreview [contenteditable="true"]{cursor:text}
+        #v28StructurePreview [contenteditable="true"]:focus{outline:2px solid #2583c5!important;outline-offset:-2px;background:#f3f9ff!important}
+        #v28StructurePreview [data-arbsys-preserve="true"]{position:relative;margin-top:10px;padding:7px 8px;border:1px dashed #0f8a72;border-radius:6px;background:#effbf7}
+        #v28StructurePreview [data-arbsys-preserve="true"]::before{content:'Doldururken korunur';display:block;margin-bottom:4px;color:#08715d;font-size:9px;font-weight:800;letter-spacing:.04em;text-transform:uppercase}
+        #v30StructureToolbar{position:fixed;z-index:1310;right:18px;bottom:76px;width:300px;max-height:calc(100vh - 152px);overflow:auto;padding:13px;border:1px solid #cfd8e3;border-radius:14px;background:#fff;box-shadow:0 12px 34px rgba(15,23,42,.22)}
+        #v30StructureToolbar h3{margin:0 0 4px;color:#172033;font-size:13px}
+        #v30StructureToolbar p{margin:0 0 10px;color:#64748b;font-size:10px;line-height:1.45}
+        #v30StructureToolbar .v29-block-tools{margin:0;padding:0;border:0}
+        #v30StructureToolbar .v30-toolbar-actions{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid #e1e7ef}
+        #v30StructureToolbar .v30-toolbar-actions button{min-height:36px;padding:6px;border:1px solid #cbd6e2;border-radius:8px;background:#fff;color:#334155;font-size:10px;font-weight:800;cursor:pointer}
+        #v30StructureToolbar .v30-toolbar-actions .wide{grid-column:1/-1}
+        #v30StructureToolbar .v30-toolbar-actions .protect{border-color:#86cfbe;background:#effbf7;color:#08715d}
+        #v30StructureToolbar .v30-toolbar-actions .update{border-color:#2f78b7;background:#2f78b7;color:#fff}
+        #v30StructureStatus{min-height:18px;margin-top:8px;color:#08715d;font-size:10px;font-weight:700}
+        #v28StructureModal .v28-structure-footer{position:fixed;z-index:1311;right:0;bottom:0;left:0;min-height:58px;padding:9px 18px;box-shadow:0 -4px 16px rgba(15,23,42,.08)}
+        @media(max-width:1050px){#v28StructureModal .v28-structure-body{padding-right:18px!important;padding-bottom:360px!important}#v30StructureToolbar{right:18px;bottom:70px;left:18px;width:auto;max-height:275px}#v28StructureModal .v28-preview-wrap{padding:24px}}
+    </style>
+    <script id="v30-fullscreen-structure-editor-script">
+        // ==== v30: tam ekran doğrudan belge düzenleme ve korumalı paragraflar ====
+        const V30_ABSENCE_TEMPLATE='Son Tutanak - Görüşme Yapılmadan Anlaşamama - Boş.arbsys';
+        const V30_ABSENCE_PARAGRAPH='(Belirlenen ilk toplantıya karşı taraf …………………. yi temsilen hiç kimse katılmamış, mazeret de bildirmemiş olduğu için uyuşmazlık konuları taraflar arasında müzakere edilememiştir.)';
+        let v30ActiveEditable=null;
+
+        function v30EditableTargets(){
+            if(!v28StructureTable)return [];
+            return Array.from(v28StructureTable.querySelectorAll('.label-cell>span,.content-cell,.fr-content,.sig-box,.title-text-row>td'));
+        }
+        function v30PrepareDirectEditing(){
+            if(!v28StructureTable)return;
+            v30EditableTargets().forEach(function(node){node.setAttribute('contenteditable','true');node.setAttribute('spellcheck','true');});
+            v28StructureRows().forEach(function(row,index){
+                row.onclick=function(event){event.stopPropagation();v28StructureRowIndex=index;v28StructureRows().forEach(function(item,itemIndex){item.classList.toggle('v28-selected-row',itemIndex===index);});var editable=event.target.closest('[contenteditable="true"]');if(editable)v30ActiveEditable=editable;v30RefreshProtectButton();};
+            });
+            v28StructureTable.onfocusin=function(event){var editable=event.target.closest('[contenteditable="true"]');if(editable){v30ActiveEditable=editable;var row=editable.closest('.title-wrapper-row')||editable.closest('tr');var rows=v28StructureRows(),index=rows.indexOf(row);if(index>=0)v28StructureRowIndex=index;v30RefreshProtectButton();}};
+            v30InstallToolbar();
+        }
+        function v30InstallToolbar(){
+            var modal=document.getElementById('v28StructureModal');if(!modal)return;var toolbar=document.getElementById('v30StructureToolbar');if(!toolbar){toolbar=document.createElement('aside');toolbar.id='v30StructureToolbar';toolbar.innerHTML='<h3>Belge Yapısı Araçları</h3><p>Metni doğrudan belge üzerinde düzenleyin. Yeni öğe, seçili satırın altına eklenir.</p><div id="v30BlockTools"></div><div class="v30-toolbar-actions"><button type="button" onclick="v28MoveStructureRow(-1)">Yukarı Taşı</button><button type="button" onclick="v28MoveStructureRow(1)">Aşağı Taşı</button><button class="wide protect" id="v30ProtectBtn" type="button" onclick="v30ToggleProtectedParagraph()">Seçili Paragrafı Koru</button><button class="wide protect" type="button" onclick="v30AddProtectedParagraph()">Korumalı Paragraf Ekle</button><button class="wide update" type="button" onclick="v30CommitSelectedArea()">Seçili Alanı Güncelle</button><button class="wide" style="border-color:#fecaca;color:#b42318" type="button" onclick="v28DeleteStructureRow()">Seçili Satırı Sil</button></div><div id="v30StructureStatus"></div>';modal.querySelector('.v28-structure-dialog')?.appendChild(toolbar);}
+            var palette=document.getElementById('v29StructurePalette');if(palette&&palette.parentElement!==document.getElementById('v30BlockTools'))document.getElementById('v30BlockTools').appendChild(palette);v30RefreshProtectButton();
+        }
+        function v30SelectedParagraph(){
+            if(!v30ActiveEditable)return null;if(v30ActiveEditable.matches('[data-arbsys-preserve="true"]'))return v30ActiveEditable;
+            var selection=window.getSelection(),node=selection?.anchorNode;if(node&&node.nodeType===Node.TEXT_NODE)node=node.parentElement;var paragraph=node?.closest('div,p');if(paragraph&&v30ActiveEditable.contains(paragraph))return paragraph;
+            return v30ActiveEditable.closest('div,p')||v30ActiveEditable;
+        }
+        function v30RefreshProtectButton(){var button=document.getElementById('v30ProtectBtn'),node=v30SelectedParagraph(),protectedNode=node?.closest?.('[data-arbsys-preserve="true"]')||(node?.matches?.('[data-arbsys-preserve="true"]')?node:null);if(button)button.textContent=protectedNode?'Paragraf Korumasını Kaldır':'Seçili Paragrafı Koru';}
+        async function v30ToggleProtectedParagraph(){
+            var node=v30SelectedParagraph();if(!node){await appAlert('Önce belge üzerinde korunacak paragrafın içine tıklayın.','Paragraf Seçilmedi');return;}
+            var protectedNode=node.closest?.('[data-arbsys-preserve="true"]')||(node.matches?.('[data-arbsys-preserve="true"]')?node:null);if(protectedNode)protectedNode.removeAttribute('data-arbsys-preserve');else node.setAttribute('data-arbsys-preserve','true');v30RefreshProtectButton();v30SetStructureStatus(protectedNode?'Paragraf koruması kaldırıldı.':'Paragraf doldurma işleminde korunacak.');
+        }
+        async function v30AddProtectedParagraph(){
+            var cell=v30ActiveEditable?.closest('.content-cell')||(v30ActiveEditable?.classList?.contains('content-cell')?v30ActiveEditable:null);if(!cell){await appAlert('Korumalı paragraf eklemek için belge üzerindeki bir içerik alanına tıklayın.','İçerik Alanı Seçilmedi');return;}
+            var paragraph=document.createElement('div');paragraph.setAttribute('data-arbsys-preserve','true');paragraph.setAttribute('contenteditable','true');paragraph.textContent='Doldururken korunacak metni buraya yazın.';cell.appendChild(paragraph);v30ActiveEditable=paragraph;paragraph.focus();v30SetStructureStatus('Korumalı paragraf eklendi; metni doğrudan belge üzerinde yazabilirsiniz.');
+        }
+        function v30CommitSelectedArea(){if(!v30ActiveEditable){v30SetStructureStatus('Önce belge üzerinde bir alan seçin.');return;}v30ActiveEditable.blur();v30SetStructureStatus('Seçili alandaki değişiklik yapıya uygulandı.');}
+        function v30SetStructureStatus(message){var status=document.getElementById('v30StructureStatus');if(status)status.textContent=message;}
+
+        var v30RenderStructureEditorBase=v28RenderStructureEditor;
+        v28RenderStructureEditor=function(){v30RenderStructureEditorBase();v30PrepareDirectEditing();};
+        var v30OpenStructureEditorBase=v28OpenStructureEditor;
+        v28OpenStructureEditor=function(fileName){v30ActiveEditable=null;v30OpenStructureEditorBase(fileName);v30PrepareDirectEditing();};
+        var v30CloseStructureEditorBase=v28CloseStructureEditor;
+        v28CloseStructureEditor=function(){v30ActiveEditable=null;v30CloseStructureEditorBase();};
+        var v30SaveStructureTemplateBase=v28SaveStructureTemplate;
+        v28SaveStructureTemplate=async function(){if(v28StructureTable)v28StructureTable.querySelectorAll('[contenteditable]').forEach(function(node){node.removeAttribute('contenteditable');node.removeAttribute('spellcheck');});await v30SaveStructureTemplateBase();};
+
+        var v30WritePlainTextBase=ioGuidedWritePlainText;
+        ioGuidedWritePlainText=function(cell,value){
+            if(!cell)return;var preserved=Array.from(cell.querySelectorAll('[data-arbsys-preserve="true"]')).map(function(node){return node.cloneNode(true);});v30WritePlainTextBase(cell,value);preserved.forEach(function(node){node.removeAttribute('contenteditable');node.removeAttribute('spellcheck');cell.appendChild(node);});
+        };
+        v30InstallToolbar();
+    </script>
 </body></html>
