@@ -8061,4 +8061,87 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         setDocumentSourceInfo=function(info){v28SetDocumentSourceInfoBase(info);v28EnsureStructureButton();v28RefreshStructureButton();};
         v28EnsureStructureModal();v28EnsureStructureButton();v28RefreshStructureButton();
     </script>
+    <style id="v29-subject-and-structure-tools-styles">
+        .v28-subject-name-section{display:none!important}
+        .v29-record-title-row{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:2px}
+        .v29-record-title-row .dashboard-record-heading{flex:1;min-width:0;margin:0}
+        .v29-title-edit-btn,.v29-title-save-btn,.v29-title-cancel-btn{flex:none;min-height:32px;padding:6px 11px;border-radius:8px;font-size:11px;font-weight:800;cursor:pointer}
+        .v29-title-edit-btn{border:1px solid #9bb9d9;background:#fff;color:#185a90}
+        .v29-title-edit-area{display:none;grid-template-columns:minmax(0,1fr) auto auto;gap:7px;align-items:center;width:100%}
+        .v29-record-title-row.editing .dashboard-record-heading,.v29-record-title-row.editing .v29-title-edit-btn{display:none}
+        .v29-record-title-row.editing .v29-title-edit-area{display:grid}
+        .v29-title-edit-area .dashboard-input{min-height:36px;font-size:15px;font-weight:800;color:#172033}
+        .v29-title-save-btn{border:1px solid #0f766e;background:#0f766e;color:#fff}
+        .v29-title-cancel-btn{border:1px solid #cbd5e1;background:#fff;color:#475569}
+        .v29-block-tools{margin:12px 0;padding-top:12px;border-top:1px solid #e1e7ef}
+        .v29-block-tools-title{margin-bottom:7px;color:#475569;font-size:11px;font-weight:800}
+        .v29-block-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+        .v29-block-tool{display:flex;min-width:0;min-height:55px;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:5px 3px;border:1px solid #cbd6e2;border-radius:8px;background:#fff;color:#334155;font-size:9px;font-weight:700;line-height:1.15;text-align:center;cursor:pointer}
+        .v29-block-tool:hover{border-color:#2f78b7;background:#eef7ff;color:#185a90}
+        .v29-block-tool .material-icons{font-size:18px}
+        .v29-legacy-add-field{display:none!important}
+        @media(max-width:760px){.v29-title-edit-area{grid-template-columns:1fr 1fr}.v29-title-edit-area .dashboard-input{grid-column:1/-1}}
+    </style>
+    <script id="v29-subject-and-structure-tools-script">
+        // ==== v29: başlık üstünden ad düzenleme ve tam yapı bloğu paleti ====
+        function v29SyncSubjectName(record,nextName){
+            record.selection.subject=nextName;
+            record.updatedAt=new Date().toISOString();
+            v28SyncRenamedSubject(record);
+            ioPersistGuidedData();dashboardRefreshRecordMap();ioResetGuidedSelection();dashboardRenderList();
+            if(document.getElementById('documentSourceCard')?.dataset.recordId===record.id)restoreDocumentSourceInfo();
+            dashboardSetStorageStatus('Uyuşmazlık adı otomatik kaydedildi.');
+        }
+        function v29CancelSubjectEdit(row){
+            if(!row)return;var record=ioGuidedRecordMap[row.dataset.recordId];var input=row.querySelector('.v29-title-input');if(input&&record)input.value=record.selection?.subject||'';row.classList.remove('editing');
+        }
+        async function v29SaveSubjectEdit(row){
+            if(!row)return;var record=ioGuidedRecordMap[row.dataset.recordId],input=row.querySelector('.v29-title-input'),nextName=input?.value.trim()||'';
+            if(!record)return;if(!nextName){await appAlert('Soldaki listede görünecek uyuşmazlık adı boş bırakılamaz.','Eksik Uyuşmazlık Adı');input?.focus();return;}
+            v29SyncSubjectName(record,nextName);dashboardOpenRecord(record.id);
+        }
+        function v29StartSubjectEdit(row){
+            if(!row)return;row.classList.add('editing');var input=row.querySelector('.v29-title-input');input?.focus();input?.select();
+        }
+        function v29InstallTitleEditor(record){
+            document.querySelector('.v28-subject-name-section')?.remove();
+            var editor=document.getElementById('dashboardEditor'),heading=editor?.querySelector(':scope > .dashboard-record-heading');if(!editor||!heading||heading.closest('.v29-record-title-row'))return;
+            var row=document.createElement('div');row.className='v29-record-title-row';row.dataset.recordId=record.id;heading.insertAdjacentElement('beforebegin',row);row.appendChild(heading);
+            var edit=document.createElement('button');edit.type='button';edit.className='v29-title-edit-btn';edit.textContent='Düzenle';edit.onclick=function(){v29StartSubjectEdit(row);};row.appendChild(edit);
+            var area=document.createElement('div');area.className='v29-title-edit-area';
+            var input=document.createElement('input');input.type='text';input.className='dashboard-input v29-title-input';input.value=record.selection?.subject||'';input.setAttribute('aria-label','Listede görünen uyuşmazlık adı');input.onkeydown=function(event){if(event.key==='Enter'){event.preventDefault();v29SaveSubjectEdit(row);}else if(event.key==='Escape'){event.preventDefault();v29CancelSubjectEdit(row);}};
+            var save=document.createElement('button');save.type='button';save.className='v29-title-save-btn';save.textContent='Kaydet';save.onclick=function(){v29SaveSubjectEdit(row);};
+            var cancel=document.createElement('button');cancel.type='button';cancel.className='v29-title-cancel-btn';cancel.textContent='İptal';cancel.onclick=function(){v29CancelSubjectEdit(row);};
+            area.appendChild(input);area.appendChild(save);area.appendChild(cancel);row.appendChild(area);
+        }
+        var v29DashboardOpenRecordBase=dashboardOpenRecord;
+        dashboardOpenRecord=function(recordId){v29DashboardOpenRecordBase(recordId);var record=ioGuidedRecordMap[recordId];if(record)v29InstallTitleEditor(record);};
+
+        function v29StructureBlockMarkup(type){
+            if(type==='single')return {className:'single-row',html:'<td class="label-cell"><span>BAŞLIK</span></td><td class="colon-cell">:</td><td class="content-cell">Detay yazısı...</td>'};
+            if(type==='full')return {className:'full-row',html:'<td colspan="3"><div class="fr-content">Tam genişlikte metin bloğu...</div></td>'};
+            if(type==='madde')return {className:'full-row',html:'<td colspan="3"><div class="fr-content madde-row"><span class="word-tab" style="display:inline-block; width:1.25cm;" contenteditable="false">&nbsp;</span><b>X)</b>&nbsp;Maddeyi buraya ekleyin...</div></td>'};
+            if(type==='empty')return {className:'empty-row',html:'<td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td>'};
+            if(type==='sig3')return {className:'single-row',html:'<td colspan="3"><div class="sig-grid"><div class="sig-box"><span class="sig-title">TARAF</span><div><b>İsim Soyisim</b></div></div><div class="sig-box"><span class="sig-title">ARABULUCU</span><div><b>Arb. Av. </b></div><div>(ADB Sicil No: XXXX)</div></div><div class="sig-box"><span class="sig-title">TARAF</span><div><b>İsim Soyisim</b></div></div></div></td>'};
+            if(type==='sig2')return {className:'single-row',html:'<td colspan="3"><div class="sig-grid"><div class="sig-box"><span class="sig-title">TARAF</span><div><b>İsim Soyisim</b></div></div><div class="sig-box"><span class="sig-title">ARABULUCU</span><div><b>Arb. Av. </b></div><div>(ADB Sicil No: XXXX)</div></div></div></td>'};
+            if(type==='sig1')return {className:'single-row',html:'<td colspan="3"><div class="sig-grid" style="justify-content:center;"><div class="sig-box" style="max-width:250px;"><div class="sig-title">ARABULUCU</div><div><b>Arb. Av.</b></div><div>(ADB Sicil No: XXXX)</div></div></div></td>'};
+            if(type==='title')return {className:'title-wrapper-row',html:'<td class="title-cell" colspan="3"><table class="title-table title-inner"><tbody><tr class="title-blank-row"><td>&nbsp;</td></tr><tr class="title-text-row"><td>BAŞLIK EKLE</td></tr><tr class="title-text-row"><td>(Açıklama Ekle)</td></tr><tr class="title-blank-row"><td>&nbsp;</td></tr><tr class="title-blank-row"><td>&nbsp;</td></tr></tbody></table></td>'};
+            return null;
+        }
+        function v29AddStructureBlock(type){
+            if(!v28StructureTable)return;var spec=v29StructureBlockMarkup(type);if(!spec)return;var body=v28StructureTable.tBodies[0]||v28StructureTable.appendChild(document.createElement('tbody')),row=document.createElement('tr');row.className=spec.className;row.innerHTML=spec.html;
+            var selected=v28StructureRows()[v28StructureRowIndex];if(selected)selected.insertAdjacentElement('afterend',row);else body.appendChild(row);v28StructureRowIndex=v28StructureRows().indexOf(row);v28RenderStructureEditor();
+        }
+        function v29InstallStructurePalette(){
+            var inspector=document.querySelector('#v28StructureModal .v28-inspector');if(!inspector||document.getElementById('v29StructurePalette'))return;
+            var oldAdd=Array.from(inspector.querySelectorAll('.v28-row-actions button')).find(function(button){return button.textContent.trim()==='Yeni Alan Ekle';});oldAdd?.classList.add('v29-legacy-add-field');
+            var tools=document.createElement('section');tools.id='v29StructurePalette';tools.className='v29-block-tools';tools.innerHTML='<div class="v29-block-tools-title">Yeni içerik ekle</div><div class="v29-block-grid"></div>';
+            var grid=tools.querySelector('.v29-block-grid'),items=[['title','title','Başlık'],['sig1','person','Tekli İmza'],['sig2','people','2’li İmza'],['sig3','groups','3’lü İmza'],['madde','list','Madde'],['full','segment','Tam Metin'],['empty','space_bar','Boş Satır'],['single','short_text','Alan Satırı']];
+            items.forEach(function(item){var button=document.createElement('button');button.type='button';button.className='v29-block-tool';button.title=item[2]+' ekle';button.innerHTML='<span class="material-icons">'+item[1]+'</span><span>'+item[2]+'</span>';button.onclick=function(){v29AddStructureBlock(item[0]);};grid.appendChild(button);});
+            inspector.querySelector('.v28-row-actions')?.insertAdjacentElement('beforebegin',tools);
+        }
+        var v29EnsureStructureModalBase=v28EnsureStructureModal;
+        v28EnsureStructureModal=function(){v29EnsureStructureModalBase();v29InstallStructurePalette();};
+        v29InstallStructurePalette();
+    </script>
 </body></html>
