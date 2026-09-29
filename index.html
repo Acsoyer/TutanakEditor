@@ -7794,9 +7794,13 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 else setDisabledField(subtype,!type);
                 var templateName=card?.dataset.templateName||'',templateFile=card?.dataset.templateFile||'';
                 var fromTemplate=!!templateFile || (!!templateName && !/Editör Başlangıç İçeriği/i.test(templateName));
-                var agreementExists=typeof ioGuidedFindCurrentContentCell==='function'&&!!ioGuidedFindCurrentContentCell('VARILAN ANLAŞMA');
-                if(fromTemplate&&!agreementExists)setDisabledField(subject,true,'Bu şablonda Varılan Anlaşma alanı yok');
-                else subject?.closest('label,.io-field')?.classList.toggle('v26-disabled-field',!!subject.disabled);
+                var negotiationExists=typeof ioGuidedFindCurrentContentCell==='function'&&!!ioGuidedFindCurrentContentCell('UYUŞMAZLIK KONUSU (Talep Konusu)');
+                if(fromTemplate&&!negotiationExists)setDisabledField(subject,true,'Bu şablonda Uyuşmazlık Konusu alanı yok');
+                else if(fromTemplate&&negotiationExists&&type){
+                    var subtypeValue=subtype?.value||'',needsSubtype=hasRealSubtypes(type);
+                    if(!needsSubtype||subtypeValue)setDisabledField(subject,false);
+                }
+                subject?.closest('label,.io-field')?.classList.toggle('v26-disabled-field',!!subject.disabled);
             }
             if(typeof v16SyncSourceFillPanel==='function'){
                 var baseSync=v16SyncSourceFillPanel;
@@ -7815,8 +7819,8 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 v16FillActiveDocument=async function(){
                     var card=document.getElementById('documentSourceCard'),subject=document.getElementById('documentSourceFillSubject');
                     var templateName=card?.dataset.templateName||'',templateFile=card?.dataset.templateFile||'',fromTemplate=!!templateFile|| (!!templateName&&!/Editör Başlangıç İçeriği/i.test(templateName));
-                    var agreementExists=typeof ioGuidedFindCurrentContentCell==='function'&&!!ioGuidedFindCurrentContentCell('VARILAN ANLAŞMA');
-                    if(fromTemplate&&!agreementExists&&subject?.disabled){
+                    var negotiationExists=typeof ioGuidedFindCurrentContentCell==='function'&&!!ioGuidedFindCurrentContentCell('UYUŞMAZLIK KONUSU (Talep Konusu)');
+                    if(fromTemplate&&!negotiationExists&&subject?.disabled){
                         var type=document.getElementById('documentSourceFillType')?.value||'',subtype=document.getElementById('documentSourceFillSubtype')?.value||'';
                         if(!type||(hasRealSubtypes(type)&&!subtype)){await appAlert('Uyuşmazlık türünü ve varsa alt türünü seçin.','Eksik Seçim');return;}
                         var typeNode=typeof ioGuidedFindType==='function'?ioGuidedFindType(type):null,subtypeNode=(typeNode?.subtypes||[]).find(function(item){return item.name===subtype;})||(typeNode?.subtypes||[]).find(function(item){return item.isPlaceholder;});
@@ -7824,7 +7828,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                         var disputeCell=ioGuidedFindCurrentContentCell('UYUŞMAZLIK TÜRÜ');if(disputeCell)ioGuidedWritePlainText(disputeCell,disputeText);
                         setDocumentSourceInfo({templateName:templateName||templateFile||'Aktif Belge',templateFileName:templateFile,disputeType:type,subtype:subtype,subject:'',recordId:''});
                         document.getElementById('documentSourceFillPanel')?.classList.remove('open');if(typeof v20SetFilledState==='function')v20SetFilledState(true);applyEditable();
-                        await appAlert('Belgedeki uyuşmazlık türü bilgisi güncellendi. Bu şablonda Varılan Anlaşma alanı olmadığı için uyuşmazlık konusu seçimi kullanılmadı.','Belge Dolduruldu');return;
+                        await appAlert('Belgedeki uyuşmazlık türü bilgisi güncellendi. Bu şablonda Uyuşmazlık Konusu (Talep Konusu) alanı olmadığı için uyuşmazlık konusu seçimi kullanılmadı.','Belge Dolduruldu');return;
                     }
                     return baseFillActiveDocument();
                 };
