@@ -8410,4 +8410,31 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         v32EnsureCustomCatalog();v31EnsureData(true);v32BuildBlankChoices();v31RenderDocumentList();
         setTimeout(function(){v32BuildBlankChoices();v32RelabelBlankSelectors();},0);
     </script>
+    <style id="v33-layout-fixes-styles">
+        /* ==== v33: sekme, kapatma düğmesi ve boş belge alt alanı ==== */
+        #dashboardBlankOptionsTab:not(.active){background:#fff!important;color:#075985!important;border:1px solid #7dd3fc!important;box-shadow:none!important}
+        #dashboardBlankOptionsTab:not(.active):hover{background:#f0f9ff!important;color:#0c4a6e!important;border-color:#38bdf8!important}
+        #dataDashboardModal .modal-header .close-btn{display:inline-flex!important;align-items:center!important;justify-content:center!important;flex:0 0 46px!important;width:46px!important;height:46px!important;padding:0!important;border:2px solid #cbd5e1!important;border-radius:12px!important;background:#fff!important;color:#334155!important;font-size:34px!important;font-weight:400!important;line-height:1!important;box-shadow:0 3px 10px rgba(15,23,42,.10)!important}
+        #dataDashboardModal .modal-header .close-btn:hover{border-color:#fca5a5!important;background:#fff1f2!important;color:#be123c!important}
+        #ioDocumentPanel .v18-open-row{grid-template-columns:minmax(0,1fr) 260px!important;min-height:92px!important;align-items:center!important}
+        #ioDocumentPanel .v18-open-summary{display:block!important;min-width:0!important}
+        #ioDocumentPanel #v31BlankTemplateInfo{display:none!important}
+        .v33-open-template{display:flex;align-items:center;gap:7px;min-width:0;margin-top:8px;padding-top:7px;border-top:1px solid #e2e8f0;color:#075985;font-size:10px;line-height:1.35}
+        .v33-open-template-label{flex:none;font-weight:800}.v33-open-template-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:700}
+        .v33-open-template-edit{display:inline-flex;align-items:center;justify-content:center;flex:0 0 25px;width:25px;height:25px;padding:0;border:1px solid #7dd3fc;border-radius:7px;background:#f0f9ff;color:#0369a1;cursor:pointer}
+        .v33-open-template-edit:hover{background:#e0f2fe;border-color:#38bdf8}.v33-open-template-edit .material-icons{font-size:15px!important}
+        @media(max-width:860px){#ioDocumentPanel .v18-open-row{grid-template-columns:1fr!important}.v33-open-template-name{white-space:normal}}
+    </style>
+    <script id="v33-layout-fixes-script">
+        // ==== v33: sade şablon adları ve ilgili eşleştirmeye geçiş ==== 
+        function v33TemplateDisplayName(template){if(!template)return 'Şablon bulunamadı';var manifest=v15TemplateManifest(template.fileName);return String(manifest.displayName||template.fileName.replace(/\.arbsys$/i,'')).trim();}
+
+        v32MappingHtml=function(item){var scope=item.type?(item.type+' › '+(item.subtype||'Bütün alt türler')):'Bütün türler › Bütün alt türler';return '<div class="v32-mapping"><div><strong>'+v31Escape(scope)+'</strong><small>'+(item.id==='general'?'Genel boş belge':'Özel boş belge seçeneği')+'</small></div><div class="v32-mapping-template">'+v31Escape(v33TemplateDisplayName(item.template))+'</div><div><button class="v31-action" type="button" onclick="v32EditMapping(\''+item.id+'\')">Düzenle</button>'+(item.id==='general'?'':' <button class="v31-action danger" type="button" onclick="v31DeleteRule(\''+item.id+'\')">Sil</button>')+'</div></div>';};
+
+        v32UpdateBlankAvailability=function(){var button=document.getElementById('ioDocumentOpenBtn'),summary=document.getElementById('v18BlankSummary'),legacy=document.getElementById('v31BlankTemplateInfo');if(legacy)legacy.style.display='none';if(!button||!summary||!v18BlankSelection)return;var type=document.getElementById('v18BlankType')?.value||'',subtype=document.getElementById('v18BlankSubtype')?.value||'',key=v32DefinitionByName(v18BlankSelection)?.key||v31CurrentDocumentKey(v18BlankSelection,document.getElementById('v18BlankVariant')?.value||'0'),match=v31MatchDocument(key,{type:type,subtype:subtype,subject:''});button.disabled=!match;var info=match?'<div class="v33-open-template"><span class="v33-open-template-label">Açılacak belge:</span><span class="v33-open-template-name" title="'+v31Escape(v33TemplateDisplayName(match.template))+'">'+v31Escape(v33TemplateDisplayName(match.template))+'</span>'+(v32DefinitionByName(v18BlankSelection)?'<button class="v33-open-template-edit" type="button" title="Boş belge eşleştirmesini düzenle" aria-label="Boş belge eşleştirmesini düzenle" onclick="event.stopPropagation();v33OpenCurrentBlankOption()"><span class="material-icons">edit</span></button>':'')+'</div>':'<div class="v33-open-template"><span class="v33-open-template-label">Açılacak belge:</span><span class="v33-open-template-name">Şablon atanmamış</span>'+(v32DefinitionByName(v18BlankSelection)?'<button class="v33-open-template-edit" type="button" title="Boş belge eşleştirmesi ekle" aria-label="Boş belge eşleştirmesi ekle" onclick="event.stopPropagation();v33OpenCurrentBlankOption()"><span class="material-icons">edit</span></button>':'')+'</div>';summary.innerHTML='<strong>'+v31Escape(v18BlankSelection)+'</strong>'+v31Escape((type||'Bütün türler')+' › '+(subtype||'Bütün alt türler'))+info;};
+
+        function v33OpenCurrentBlankOption(){var def=v32DefinitionByName(v18BlankSelection);if(!def)return;document.getElementById('ioModal')?.classList.remove('open');openDataDashboard();dashboardSetMode('blankOptions');v31OpenDocument(def.key);}
+
+        setTimeout(function(){v32UpdateBlankAvailability();},0);
+    </script>
 </body></html>
