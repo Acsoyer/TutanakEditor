@@ -69,7 +69,7 @@ CM_TO_PT = 28.3464567
 
 LEFT_MARGIN_CM = 1.75
 RIGHT_MARGIN_CM = 1.25
-TOP_HEADER_AREA_CM = 3.0      # sayfa ustunden ayrilan toplam header alani
+TOP_HEADER_AREA_CM = 4.0      # sayfa ustunden ayrilan toplam header alani
                     # (0.5cm ust bosluk + 2cm logo + cizgi icin pay)
 BOTTOM_FOOTER_AREA_CM = 2.0   # sayfa altindan ayrilan toplam footer alani
 
@@ -145,8 +145,8 @@ CONTENT_WIDTH_PT = A4_WIDTH_PT - LEFT_MARGIN_PT - RIGHT_MARGIN_PT
 #   - Kenardan > Ust Yazi / Alt Yazi <-> pageFormat headerFOffset / footerFOffset (point)
 # Kullanicinin son talebi: Kenarlar > Ust=3cm, Alt=2.1cm; Kenardan > Ust
 # Yazi=0, Alt Yazi=0 (bu ikincisi zaten dogruydu).
-TOP_MARGIN_CM = 3.0
-BOTTOM_MARGIN_CM = 1.4   # (v34.1: 2.1 -> 1.4, kullanici talebi; footer daha yukari)
+TOP_MARGIN_CM = 4.0
+BOTTOM_MARGIN_CM = 2.0
 TOP_MARGIN_PT = TOP_MARGIN_CM * CM_TO_PT
 BOTTOM_MARGIN_PT = BOTTOM_MARGIN_CM * CM_TO_PT
 
@@ -172,7 +172,7 @@ TAB_LENGTH_XML = (
 )
 
 
-def _page_format_xml():
+def _page_format_xml(reserve_header_footer: bool = True):
     # KRITIK DUZELTME (kullanici geri bildirimi, 3 asama):
     # 1) topMargin/bottomMargin eskiden header/footer paragraflarimizin
     #    SpaceAbove/SpaceBelow ile CAKISIYORDU - 0 yapilinca duzeldi.
@@ -187,11 +187,15 @@ def _page_format_xml():
     #    alanlarina tasindi. build_header_xml / build_footer_xml icinde
     #    SpaceAbove/SpaceBelow SIFIRLANDI (cift sayimi/cakismayi onlemek icin).
     #    topMargin/bottomMargin DEGISMEDI -> govde ayni yerde kalir.
+    top_margin = TOP_MARGIN_PT if reserve_header_footer else 1.25 * CM_TO_PT
+    bottom_margin = BOTTOM_MARGIN_PT if reserve_header_footer else 1.25 * CM_TO_PT
+    header_offset = HEADER_FOFFSET_PT if reserve_header_footer else 0.0
+    footer_offset = FOOTER_FOFFSET_PT if reserve_header_footer else 0.0
     return (
         f'<pageFormat mediaSizeName="1" leftMargin="{LEFT_MARGIN_PT:.4f}" '
-        f'rightMargin="{RIGHT_MARGIN_PT:.4f}" topMargin="{TOP_MARGIN_PT:.4f}" '
-        f'bottomMargin="{BOTTOM_MARGIN_PT:.4f}" paperOrientation="1" '
-        f'headerFOffset="{HEADER_FOFFSET_PT:.4f}" footerFOffset="{FOOTER_FOFFSET_PT:.4f}" />'
+        f'rightMargin="{RIGHT_MARGIN_PT:.4f}" topMargin="{top_margin:.4f}" '
+        f'bottomMargin="{bottom_margin:.4f}" paperOrientation="1" '
+        f'headerFOffset="{header_offset:.4f}" footerFOffset="{footer_offset:.4f}" />'
     )
 
 
@@ -225,8 +229,8 @@ FONT_SIZE = "10"
 # EMPTY_LINESPACING : bos paragraflar (= 1.00 satir; nitelik yazilmaz)
 # Bu iki sabiti degistirerek davranisi kolayca ayarlayabilirsiniz. Ornegin
 # bos satirlari da tekrar 1.25 yapmak isterseniz EMPTY_LINESPACING = "0.25".
-BODY_LINESPACING = "0.25"   # 1.25 satir araligi (metin paragraflari)
-EMPTY_LINESPACING = None    # None => nitelik hic yazilmaz => 1.00 satir araligi
+BODY_LINESPACING = "0.30"   # 1.30 satir araligi (tum formatlarla ortak)
+EMPTY_LINESPACING = "0.30"  # bos satir da gercek bir 1.30 satirdir
 
 
 def _linespacing_attr(is_empty_paragraph: bool) -> str:
@@ -343,7 +347,7 @@ EMPTY_ROW_HEIGHT = "485"
 #   uretilip KULLANILMAMASI.)
 #
 # Sorun cikarsa False yapip eski cok-satirli davranisa donebilirsin.
-SIGGRID_SINGLE_ROW = True
+SIGGRID_SINGLE_ROW = False
 
 
 def esc_xml(s: str) -> str:
@@ -590,11 +594,11 @@ def build_labeled_row(cb: ContentBuilder, label: str, colon: str, content_paragr
     colon_tag = run_tag(cb, colon or ":", bold=True) if colon else ""
 
     label_para = (
-        f'<paragraph {TABSET_ATTR}Alignment="0" LineSpacing="0.25" family="{FONT_FAMILY}" size="{FONT_SIZE}" SpaceBelow="0.08">'
+        f'<paragraph {TABSET_ATTR}Alignment="0" LineSpacing="0.30" family="{FONT_FAMILY}" size="{FONT_SIZE}" SpaceBelow="0.1058">'
         f"{label_tag}</paragraph>"
     )
     colon_para = (
-        f'<paragraph {TABSET_ATTR}Alignment="0" LineSpacing="0.25" family="{FONT_FAMILY}" size="{FONT_SIZE}" SpaceBelow="0.08">'
+        f'<paragraph {TABSET_ATTR}Alignment="0" LineSpacing="0.30" family="{FONT_FAMILY}" size="{FONT_SIZE}" SpaceBelow="0.1058">'
         f"{colon_tag}</paragraph>"
     )
 
@@ -606,10 +610,10 @@ def build_labeled_row(cb: ContentBuilder, label: str, colon: str, content_paragr
     for index, para in enumerate(content_paragraphs):
         # Hücre içindeki yalnızca son paragrafın altında nefes payı bırak;
         # çok paragraflı metinlerin kendi satır aralıklarını büyütme.
-        extra = ' SpaceBelow="0.08"' if index == len(content_paragraphs) - 1 else ""
+        extra = ' SpaceBelow="0.1058"' if index == len(content_paragraphs) - 1 else ""
         content_inner += paragraph_xml(cb, para, extra_para_attrs=extra, force_content=True)
     if not content_paragraphs:
-        content_inner = paragraph_xml(cb, {"align": "left", "runs": []}, extra_para_attrs=' SpaceBelow="0.08"', force_content=True)
+        content_inner = paragraph_xml(cb, {"align": "left", "runs": []}, extra_para_attrs=' SpaceBelow="0.1058"', force_content=True)
 
     row = (
         '<row rowName="rowX" rowType="dataRow" border="borderNone" borderWidth="0.5">'
@@ -719,7 +723,6 @@ def build_siggrid_row(cb: ContentBuilder, boxes):
         return (
             f'<table tableName="{table_name}" columnCount="{n}" border="borderNone" borderSpec="31" '
             f'borderColor="-16777216" borderStyle="borderStyle-plain" borderWidth="1.0" '
-            f'keepTogether="true" '
             f'columnSpans="{col_spans}">{row_xml}</table>'
         )
     # === /v34.2 ; asagisi eski cok-satirli davranis (SIGGRID_SINGLE_ROW=False) ===
@@ -795,7 +798,6 @@ def build_siggrid_row(cb: ContentBuilder, boxes):
     table = (
         f'<table tableName="{table_name}" columnCount="{n}" border="borderNone" borderSpec="31" '
         f'borderColor="-16777216" borderStyle="borderStyle-plain" borderWidth="1.0" '
-        f'keepTogether="true" '
         f'columnSpans="{col_spans}">{rows_xml}</table>'
     )
     return table
@@ -1041,12 +1043,12 @@ def build_udf_content_xml(data: dict) -> str:
     # sekilde) ile daraltildi. NOT: UYAP ondalikli punto degerlerini
     # (9.8, 9.6 vb.) reddedip 12'ye yuvarladigi test edildiginden
     # (kullanici kaniti), burada TAM SAYI bir deger (3) kullaniliyor.
-    title_xml = paragraph_xml(cb, {"align": "center", "runs": []}, size="3")  # baslik ONCESI kucuk bosluk
+    # v11: Başlık artık belge satırlarının parçasıdır. UDF'ye özel küçük üst
+    # boşluk ve iki otomatik alt boşluk kaldırıldı. Eski istemciler halen
+    # `title` gönderirse yalnızca gerçek başlık paragrafları korunur.
+    title_xml = ""
     for para in data.get("title", []):
         title_xml += paragraph_xml(cb, para, align_map={"left": "0", "center": "1", "right": "2", "justify": "3"})
-    # basliktan SONRA 2 bos paragraf
-    title_xml += paragraph_xml(cb, {"align": "center", "runs": []})
-    title_xml += paragraph_xml(cb, {"align": "center", "runs": []})
 
     # --- ana tablo satirlari ---
     # sig-grid varsa ana tablo kapatilip ayri bir imza tablosu eklenir,
@@ -1110,7 +1112,7 @@ def build_udf_content_xml(data: dict) -> str:
         # araligi 1.0 (EMPTY_LINESPACING). Kullanicinin BOS-1 testiyle
         # dogrulanan davranis: bos satirlarda LineSpacing niteligi yazilmaz.
         return (
-            f'<paragraph {TABSET_ATTR}Alignment="0" {_linespacing_attr(True)}'
+            f'<paragraph {TABSET_ATTR}Alignment="0" LineSpacing="0.30" '
             f'family="{FONT_FAMILY}" size="{EMPTY_SPACER_FONT_SIZE}" '
             f'SpaceAbove="0.0" SpaceBelow="0.0">{nl_tag}</paragraph>'
         )
@@ -1210,7 +1212,7 @@ def build_udf_content_xml(data: dict) -> str:
         '<?xml version="1.0" encoding="UTF-8" ?> \n\n'
         '<template format_id="1.8" >\n'
         f"<content><![CDATA[{safe_text}]]></content>"
-        f"<properties>{PAGE_FORMAT}</properties>\n"
+        f"<properties>{_page_format_xml(bool((data.get('layout') or {}).get('reserveHeaderFooter', True)))}</properties>\n"
         f"{elements_xml}\n"
         f"{STYLES_XML}\n"
         f"{TAB_LENGTH_XML}"

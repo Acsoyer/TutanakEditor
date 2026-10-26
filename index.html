@@ -32,7 +32,7 @@
                fonksiyonu print oncesi row-hovered class'ini DOM'dan
                tamamen kaldiriyor (asagida bkz). */
             tr.row-hovered > td::after { content: none !important; display: none !important; }
-            .fixed-print-header { display: block !important; position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; height: 3.5cm !important; padding: 0.6cm 1.25cm 0 1.75cm !important; box-sizing: border-box !important; background: #fff !important; z-index: 999; }
+            .fixed-print-header { display: block !important; position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; height: 4cm !important; padding: 0.6cm 1.25cm 0 1.75cm !important; box-sizing: border-box !important; background: #fff !important; z-index: 999; }
             .fixed-print-footer { display: flex !important; position: fixed !important; bottom: 0 !important; left: 0 !important; right: 0 !important; height: 2.0cm !important; padding: 0 1.25cm 0.5cm 1.75cm !important; box-sizing: border-box !important; background: #fff !important; flex-direction: column !important; justify-content: space-between !important; z-index: 999; }
             body.no-print-hf .fixed-print-header, body.no-print-hf .fixed-print-footer, body.no-print-hf .print-space-head, body.no-print-hf .print-space-foot { display: none !important; }
             body.no-print-hf .print-content-wrapper { padding-top: 1.25cm !important; padding-bottom: 1.25cm !important; }
@@ -40,7 +40,7 @@
             .print-space-head { display: table-header-group !important; }
             .print-space-foot { display: table-footer-group !important; }
             tr, td, p, div { page-break-inside: auto !important; break-inside: auto !important; }
-            .sig-grid { page-break-inside: avoid !important; break-inside: avoid !important; }
+            .sig-grid { page-break-inside: auto !important; break-inside: auto !important; }
             .print-content-wrapper { padding: 0 1.25cm 0 1.75cm !important; box-sizing: border-box !important; }
             .label-cell, .colon-cell, .content-cell { color: #000 !important; margin: 0 !important; padding-top: 2px !important; padding-bottom: 2px !important; }
             .sig-title { text-decoration: underline !important; font-weight: bold !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
@@ -77,7 +77,7 @@
         .title-inner { width:100%; border-collapse:collapse; table-layout:fixed; }
         .title-blank-row td { height:1.5em; line-height:1.5em; font-size:10pt; padding:0; }
         .title-text-row td { text-align:center; font-weight:bold; font-size:10pt; font-family:Arial,sans-serif; line-height:1.5; padding-bottom:0px; }
-        .sig-grid { display:flex; justify-content:space-between; text-align:center; padding:15px 0.15cm; width:100%; box-sizing:border-box; page-break-inside: avoid; break-inside: avoid; }
+        .sig-grid { display:flex; justify-content:space-between; text-align:center; padding:0 0.15cm; width:100%; box-sizing:border-box; page-break-inside:auto; break-inside:auto; }
         .sig-box { flex:1; font-size:10pt; line-height:1.3; min-width:120px; padding:0 5px; font-weight: normal; font-style: normal; text-decoration: none; }
         .sig-box *:not(.sig-title) { font-weight: normal; font-style: normal; text-decoration: none !important; }
         .sig-box b, .sig-box strong { font-weight: bold !important; }
@@ -1155,7 +1155,7 @@
                 </colgroup>
 
                 <thead class="print-space-head">
-                    <tr><td colspan="3" style="padding:0; border:none;"><div style="height: 3.5cm;"></div></td></tr>
+                    <tr><td colspan="3" style="padding:0; border:none;"><div style="height: 4cm;"></div></td></tr>
                 </thead>
 
                 <tbody><tr class="title-wrapper-row"><td class="title-cell" colspan="3"><table class="title-table title-inner"><tbody><tr class="title-blank-row"><td>&nbsp;</td></tr><tr class="title-text-row"><td>ARABULUCULUK İLK TOPLANTI TUTANAĞI</td></tr><tr class="title-text-row"><td>(Görüşme Yapıldıktan Sonra Erteleme)</td></tr><tr class="title-blank-row"><td>&nbsp;</td></tr><tr class="title-blank-row"><td>&nbsp;</td></tr></tbody></table></td></tr><tr class="single-row"><td class="label-cell"><span>ARB. BÜROSU</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell">İzmir Arabuluculuk Bürosu</td></tr><tr class="single-row"><td class="label-cell"><span>BAŞVURU DOSYA NO</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell">2026/12345</td></tr><tr class="single-row"><td class="label-cell"><span>ARB. DOSYA NO</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell">2026/4567</td></tr><tr class="empty-row"><td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td></tr><tr class="single-row"><td class="label-cell"><span>TARAFLAR</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell"><br></td><td class="content-cell"><br></td></tr><tr class="single-row"><td class="label-cell"><span>BAŞVURUCU</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell"><b>Zehir Civata Tic. ve San. A.Ş. (Mersis No: 08888052800016)</b><br>(Çiğli V.D. 88880528) A.O.S.B. 10088 Sk. No:88 Çiğli / İZMİR - 0232 555 45 65&nbsp;</td></tr><tr class="empty-row"><td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td></tr><tr class="single-row"><td class="label-cell"><span>YETKİLİSİ</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell"><b>Ziya Zemberek (T.C. Kimlik No: 371788886)</b><div>A.O.S.B. 10002 Sk. No:12 Çiğli / İZMİR - ziya@zehircivata.com</div></td></tr><tr class="empty-row"><td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td></tr><tr class="single-row"><td class="label-cell"><span>DİĞER TARAF</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell"><b>Abdullah Ablak (T.C. Kimlik No: 10128888)</b><br><div>Mahalleler Mh. Caddeler Cd. Siteler Sitesi No:22A D:2 Konak / İZMİR</div></td></tr><tr class="empty-row"><td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td></tr><tr class="single-row"><td class="label-cell"><span>VEKİLİ</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell"><b>Av Saul Goodman (T.C. Kimlik No: 123456789123)</b><br><div>0555 545 45 45 - saulgoodman@goodmanhukuk.com</div></td></tr><tr class="empty-row"><td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td></tr><tr class="single-row"><td class="label-cell"><span>UYUŞMAZLIK TÜRÜ</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell">İşçi – işveren uyuşmazlığı (İşçilik alacakları ve tazminatları hk.)</td></tr><tr class="empty-row"><td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td></tr><tr class="single-row"><td class="label-cell"><span>TOPLANTI YERİ</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell">AOSB Toplantı Salonu Çiğli / İZMİR</td></tr><tr class="empty-row"><td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td></tr><tr class="single-row"><td class="label-cell"><span>BAŞVURU TARİHİ</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell">10.01.2026</td></tr><tr class="single-row"><td class="label-cell"><span>GÖREVİ KABUL TARİHİ</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell">11.01.2026</td></tr><tr class="single-row"><td class="label-cell"><span>İLK TOPLANTI TARİHİ</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell">20.01.2026</td></tr><tr class="single-row"><td class="label-cell"><span>TOPLANTI BAŞL. SAATİ</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell">11:00</td></tr><tr class="single-row"><td class="label-cell"><span>TOPLANTI BİTİŞ SAATİ</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell">11:45</td></tr><tr class="empty-row"><td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td></tr><tr class="single-row row-hovered"><td class="label-cell"><span>UYUŞMAZLIK KONUSU <br> (Talep Konusu)</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell"><div>Taraflar arasındaki iş sözleşmesinin geçerli bir sebeple sona erip 
@@ -3704,8 +3704,8 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             Array.prototype.forEach.call(clone.children, function(el) {
                 if (el.tagName === 'TR') lines.push('    ' + el.outerHTML);
             });
-            var payload = '<!-- ' + ARBSYS_MARKER + ' v1 -->\n' +
-                '<table>\n  <tbody>\n' + lines.join('\n') + '\n  </tbody>\n</table>\n';
+            var payload = '<!-- ' + ARBSYS_MARKER + ' v2 -->\n' +
+                '<table data-arbsys-schema="2">\n  <tbody>\n' + lines.join('\n') + '\n  </tbody>\n</table>\n';
             var safeName = (fileName || getFileName() || 'arbsys_sablon')
                 .replace(/[\r\n]+/g, ' ').replace(/[\\/:*?"<>|]/g, '').trim() || 'arbsys_sablon';
             downloadBlob(new Blob([payload], { type: 'text/html;charset=utf-8' }), safeName + '.arbsys');
@@ -3728,6 +3728,8 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             catch (err) { document.getElementById('ioImportStatus').textContent = 'Dosya çözümlenemedi.'; return; }
             // guvenlik: script'leri at
             doc.querySelectorAll('script').forEach(function(s) { s.remove(); });
+            var importedTable = doc.querySelector('body > table') || doc.querySelector('#docTable');
+            if (importedTable) v11NormalizeArbsysTable(importedTable);
 
             // Yalniz UST DUZEY satirlari al (ic ice title-table satirlari haric).
             // .children + TR filtresi ic tablolarin satirlarini disarida birakir.
@@ -4533,8 +4535,8 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             const url = URL.createObjectURL(blob); 
             const a = document.createElement('a'); 
             a.href = url; a.download = name; 
-            document.body.appendChild(a); a.click(); 
-            document.body.removeChild(a); URL.revokeObjectURL(url); 
+            document.body.appendChild(a); a.click();
+            document.body.removeChild(a); setTimeout(function(){ URL.revokeObjectURL(url); }, 30000);
         }
 
         // ====
@@ -4646,6 +4648,15 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             if (panelEl) panelEl.classList.remove('visible');
             if (deletePanelEl) deletePanelEl.classList.remove('visible');
 
+            // v11: PDF'yi ham, kesintisiz tablodan değil; her kayıtta yeniden
+            // hesaplanan sayfalı önizlemeden yazdır. Böylece uzun bir satır
+            // bölündüğünde dahi her sayfada 4 cm header ve 2 cm footer korunur.
+            // Bu işlem belgeye kalıcı sayfa sonu eklemez.
+            if (typeof window.v23RefreshPreview === 'function') {
+                window.v23RefreshPreview();
+                document.body.classList.add('v11-print-preview');
+            }
+
             // NOT (Turkce karakter sorunu - "AnlaÅma" gibi bozuk isimler):
             // Chrome'un "Yazdir > PDF olarak kaydet" penceresi document.title'i
             // dosya adi onerisine cevirirken bozuyor. Bu SAYFADAN KONTROL
@@ -4668,6 +4679,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
 
             setTimeout(function() {
                 document.title = old;
+                document.body.classList.remove('v11-print-preview');
                 if (ignoreHF) document.body.classList.remove('no-print-hf');
             }, 300);
         }
@@ -4684,14 +4696,14 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             var footerChecked = !ignoreHF && document.getElementById('footerCheck').checked;
 
             function esc(value) { return String(value == null ? '' : value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
-            function makeParagraph(text, align) { var r = text ? '<w:r><w:t xml:space="preserve">' + esc(text) + '</w:t></w:r>' : ''; return '<w:p><w:pPr><w:jc w:val="' + align + '"/><w:spacing w:before="0" w:after="0" w:line="255" w:lineRule="atLeast"/></w:pPr>' + r + '</w:p>'; }
+            function makeParagraph(text, align) { var r = text ? '<w:r><w:t xml:space="preserve">' + esc(text) + '</w:t></w:r>' : ''; return '<w:p><w:pPr><w:jc w:val="' + align + '"/><w:spacing w:before="0" w:after="0" w:line="260" w:lineRule="atLeast"/></w:pPr>' + r + '</w:p>'; }
 
             function cellToOoxml(node, defaultAlign) {
                 var xml = ''; var currentRuns = '';
                 var getAlignVal = function(el, fallback) { if (el && el.style && el.style.textAlign) { var ta = el.style.textAlign; if (ta === 'justify') return 'both'; if (ta === 'center') return 'center'; if (ta === 'right') return 'right'; if (ta === 'left') return 'left'; } return fallback; };
                 var rootAlign = getAlignVal(node, defaultAlign); var currentPAlign = rootAlign;
 
-                function flushParagraph() { if (currentRuns !== '') { xml += '<w:p><w:pPr><w:jc w:val="' + currentPAlign + '"/><w:spacing w:before="0" w:after="0" w:line="255" w:lineRule="atLeast"/></w:pPr>' + currentRuns + '</w:p>'; currentRuns = ''; } }
+                function flushParagraph() { if (currentRuns !== '') { xml += '<w:p><w:pPr><w:jc w:val="' + currentPAlign + '"/><w:spacing w:before="0" w:after="0" w:line="260" w:lineRule="atLeast"/></w:pPr>' + currentRuns + '</w:p>'; currentRuns = ''; } }
 
                 function processNode(n, styles) {
                     if (!n) return;
@@ -4746,11 +4758,10 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 sigBoxes = sigBoxes || []; var sigCount = sigBoxes.length || 1; var sigColW = Math.floor(10206 / sigCount); var tableWidth = 10206; var tbl = '';
                 tbl += '<w:tbl><w:tblPr><w:tblW w:w="' + tableWidth + '" w:type="dxa"/><w:tblCellMar><w:top w:w="11" w:type="dxa"/><w:bottom w:w="11" w:type="dxa"/></w:tblCellMar><w:tblBorders><w:top w:val="none"/><w:bottom w:val="none"/><w:left w:val="none"/><w:right w:val="none"/><w:insideH w:val="none"/><w:insideV w:val="none"/></w:tblBorders><w:tblLook w:val="0000"/></w:tblPr><w:tblGrid>';
                 for (var i = 0; i < sigCount; i++) tbl += '<w:gridCol w:w="' + sigColW + '"/>';
-                // w:cantSplit: imza satirinin sayfa arasinda bolunmesini
-                // engeller (bir kutunun ortasindan kesilip ikinci sayfaya
-                // tasmasi onlenir). Tek satirlik tablo oldugu icin bu,
-                // tum imza blogunun tek parca halinde kalmasini saglar.
-                tbl += '</w:tblGrid><w:tr><w:trPr><w:cantSplit/></w:trPr>';
+                // İmza satırı bilinçli olarak bölünebilir bırakılır. UYAP imza
+                // tablosunu sayfa sonunda satır satır bölebildiği için DOCX ve
+                // PDF de aynı beklenebilir davranışı kullanır.
+                tbl += '</w:tblGrid><w:tr>';
                 sigBoxes.forEach(function (box) { tbl += '<w:tc><w:tcPr><w:tcW w:w="' + sigColW + '" w:type="dxa"/><w:tcBorders><w:top w:val="none"/><w:bottom w:val="none"/><w:left w:val="none"/><w:right w:val="none"/></w:tcBorders></w:tcPr>' + cellToOoxml(box, 'center') + '</w:tc>'; });
                 tbl += '</w:tr></w:tbl>';
                 return tbl;
@@ -4801,9 +4812,9 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                         var labelTxt = esc(((labelTd.querySelector('span') || labelTd).textContent || '').trim());
                         var colonTxt = esc((colonTd.textContent || '').trim());
                         bodyXml += '<w:tr>';
-                        bodyXml += '<w:tc><w:tcPr><w:tcW w:w="' + colW1 + '" w:type="dxa"/><w:tcMar><w:top w:w="11" w:type="dxa"/><w:left w:w="11" w:type="dxa"/><w:bottom w:w="80" w:type="dxa"/><w:right w:w="11" w:type="dxa"/></w:tcMar><w:tcBorders><w:top w:val="none"/><w:bottom w:val="none"/><w:left w:val="none"/><w:right w:val="none"/></w:tcBorders></w:tcPr><w:p><w:pPr><w:jc w:val="left"/><w:spacing w:before="0" w:after="0" w:line="240" w:lineRule="atLeast"/></w:pPr><w:r><w:rPr><w:b w:val="on"/></w:rPr><w:t>' + labelTxt + '</w:t></w:r></w:p></w:tc>';
-                        bodyXml += '<w:tc><w:tcPr><w:tcW w:w="' + colW2 + '" w:type="dxa"/><w:tcMar><w:top w:w="11" w:type="dxa"/><w:left w:w="11" w:type="dxa"/><w:bottom w:w="80" w:type="dxa"/><w:right w:w="11" w:type="dxa"/></w:tcMar><w:tcBorders><w:top w:val="none"/><w:bottom w:val="none"/><w:left w:val="none"/><w:right w:val="none"/></w:tcBorders></w:tcPr><w:p><w:pPr><w:jc w:val="center"/><w:spacing w:before="0" w:after="0" w:line="240" w:lineRule="atLeast"/></w:pPr><w:r><w:rPr><w:b/></w:rPr><w:t>' + colonTxt + '</w:t></w:r></w:p></w:tc>';
-                        bodyXml += '<w:tc><w:tcPr><w:tcW w:w="' + colW3 + '" w:type="dxa"/><w:tcMar><w:top w:w="11" w:type="dxa"/><w:left w:w="11" w:type="dxa"/><w:bottom w:w="80" w:type="dxa"/><w:right w:w="11" w:type="dxa"/></w:tcMar><w:tcBorders><w:top w:val="none"/><w:bottom w:val="none"/><w:left w:val="none"/><w:right w:val="none"/></w:tcBorders></w:tcPr>' + cellToOoxml(contentTd, 'both') + '</w:tc>';
+                        bodyXml += '<w:tc><w:tcPr><w:tcW w:w="' + colW1 + '" w:type="dxa"/><w:tcMar><w:top w:w="11" w:type="dxa"/><w:left w:w="11" w:type="dxa"/><w:bottom w:w="60" w:type="dxa"/><w:right w:w="11" w:type="dxa"/></w:tcMar><w:tcBorders><w:top w:val="none"/><w:bottom w:val="none"/><w:left w:val="none"/><w:right w:val="none"/></w:tcBorders></w:tcPr><w:p><w:pPr><w:jc w:val="left"/><w:spacing w:before="0" w:after="0" w:line="260" w:lineRule="atLeast"/></w:pPr><w:r><w:rPr><w:b w:val="on"/></w:rPr><w:t>' + labelTxt + '</w:t></w:r></w:p></w:tc>';
+                        bodyXml += '<w:tc><w:tcPr><w:tcW w:w="' + colW2 + '" w:type="dxa"/><w:tcMar><w:top w:w="11" w:type="dxa"/><w:left w:w="11" w:type="dxa"/><w:bottom w:w="60" w:type="dxa"/><w:right w:w="11" w:type="dxa"/></w:tcMar><w:tcBorders><w:top w:val="none"/><w:bottom w:val="none"/><w:left w:val="none"/><w:right w:val="none"/></w:tcBorders></w:tcPr><w:p><w:pPr><w:jc w:val="center"/><w:spacing w:before="0" w:after="0" w:line="260" w:lineRule="atLeast"/></w:pPr><w:r><w:rPr><w:b/></w:rPr><w:t>' + colonTxt + '</w:t></w:r></w:p></w:tc>';
+                        bodyXml += '<w:tc><w:tcPr><w:tcW w:w="' + colW3 + '" w:type="dxa"/><w:tcMar><w:top w:w="11" w:type="dxa"/><w:left w:w="11" w:type="dxa"/><w:bottom w:w="60" w:type="dxa"/><w:right w:w="11" w:type="dxa"/></w:tcMar><w:tcBorders><w:top w:val="none"/><w:bottom w:val="none"/><w:left w:val="none"/><w:right w:val="none"/></w:tcBorders></w:tcPr>' + cellToOoxml(contentTd, 'both') + '</w:tc>';
                         bodyXml += '</w:tr>';
                     }
                 });
@@ -4828,8 +4839,8 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             } else { footerXml += '<w:p/>'; }
             footerXml += '</w:ftr>';
 
-            var topMargin    = (headerChecked && uploadedLogoBase64) ? 1984 : 1134; 
-            var bottomMargin = 1134; 
+            var topMargin    = ignoreHF ? 709 : 2268;
+            var bottomMargin = ignoreHF ? 709 : 1134;
             var leftMargin   = 992;  
             var rightMargin  = 709;  
             var headerDist   = 340;  
@@ -5027,6 +5038,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
 
             var result = {
                 fileName: fileName,
+                layout: { reserveHeaderFooter: !ignoreHF },
                 header: {
                     enabled: headerChecked,
                     logoBase64: headerChecked ? (uploadedLogoBase64 || '') : ''
@@ -6003,7 +6015,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             clone.querySelectorAll('[contenteditable]').forEach(function(element) { element.removeAttribute('contenteditable'); });
             clone.querySelectorAll('tr.row-hovered,tr.row-delete-preview,tr.row-dragging,tr.v34-selected,tr.v34-new-row').forEach(function(row) { row.classList.remove('row-hovered','row-delete-preview','row-dragging','v34-selected','v34-new-row'); });
             var rows = Array.from(clone.children).filter(function(element) { return element.tagName === 'TR'; }).map(function(element) { return '    ' + element.outerHTML; });
-            return '<!-- ' + ARBSYS_MARKER + ' v1 -->\n<table>\n  <tbody>\n' + rows.join('\n') + '\n  </tbody>\n</table>\n';
+            return '<!-- ' + ARBSYS_MARKER + ' v2 -->\n<table data-arbsys-schema="2">\n  <tbody>\n' + rows.join('\n') + '\n  </tbody>\n</table>\n';
         }
 
         async function v15Hash(content) {
@@ -7283,14 +7295,14 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             font-size:10pt; line-height:1.2;
         }
         /* Bu ölçüler @media print içindeki gerçek PDF alanlarının birebir karşılığıdır. */
-        .v23-preview-page-header { position:absolute; top:0; left:0; right:0; height:3.5cm; padding:.6cm 1.25cm 0 1.75cm; box-sizing:border-box; background:#fff; }
+        .v23-preview-page-header { position:absolute; top:0; left:0; right:0; height:4cm; padding:.6cm 1.25cm 0 1.75cm; box-sizing:border-box; background:#fff; }
         .v23-preview-page-footer { position:absolute; bottom:0; left:0; right:0; height:2cm; padding:0 1.25cm .5cm 1.75cm; box-sizing:border-box; display:flex; flex-direction:column; justify-content:space-between; background:#fff; }
         .v23-preview-page-header .logo-container-print { margin:0 auto; width:8cm; height:2cm; }
         .v23-preview-page-header .header-line-print { border-top:1px solid #808080; margin-top:.4cm; margin-bottom:.5cm; }
         .v23-preview-page-footer .footer-line-print { border-top:1px solid #808080; margin-bottom:.5cm; }
         .v23-preview-page-footer .footer-text-print { font-size:9pt; line-height:1.5; }
         .v23-preview-page-body { position:absolute; left:1.75cm; right:1.25cm; top:1.25cm; bottom:1.25cm; overflow:hidden; }
-        .v23-preview-page.has-hf .v23-preview-page-body { top:3.5cm; bottom:2cm; }
+        .v23-preview-page.has-hf .v23-preview-page-body { top:4cm; bottom:2cm; }
         .v23-preview-page table { width:100%; border-collapse:collapse; table-layout:fixed; }
         .v23-preview-page .label-cell, .v23-preview-page .colon-cell,
         .v23-preview-page .content-cell, .v23-preview-page .title-text-row td,
@@ -7303,7 +7315,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
            10px yerine 14px yukseklikte olculuyordu; asagidaki kural onu PDF ile ayni sekilde geri aliyor. */
         .v23-preview-page .empty-row td { padding:0 !important; height:10px !important; line-height:10px !important; }
         .v23-preview-page tr, .v23-preview-page td, .v23-preview-page p, .v23-preview-page div { break-inside:auto; page-break-inside:auto; }
-        .v23-preview-page .sig-grid { break-inside:avoid !important; page-break-inside:avoid !important; }
+        .v23-preview-page .sig-grid { break-inside:auto !important; page-break-inside:auto !important; }
         .v23-preview-page .lbl-dd-btn, .v23-preview-page button, .v23-preview-page input,
         .v23-preview-page select, .v23-preview-page textarea { display:none !important; }
         .v23-preview-page [contenteditable] { outline:none !important; }
@@ -7474,6 +7486,9 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 while(low<=high){const middle=Math.floor((low+high)/2),candidate=rowFragment(row,0,middle,false);record.tbody.appendChild(candidate);const fits=pageFits(record);candidate.remove();if(fits){best=middle;low=middle+1;}else high=middle-1;}
                 return best;
             }
+            function signatureLineCount(row){return Math.max(1,...Array.from(row.querySelectorAll('.sig-box')).map(function(box){return box.children.length||1;}));}
+            function signatureFragment(row,start,end){var copy=row.cloneNode(true),sourceBoxes=Array.from(row.querySelectorAll('.sig-box')),copyBoxes=Array.from(copy.querySelectorAll('.sig-box'));copyBoxes.forEach(function(box,index){var source=sourceBoxes[index],parts=source?Array.from(source.children):[];box.replaceChildren(...parts.slice(start,end).map(function(part){return part.cloneNode(true);}));});return copy;}
+            function largestFittingSignatureEnd(record,row,start,count){let low=start+1,high=count,best=start;while(low<=high){const middle=Math.floor((low+high)/2),candidate=signatureFragment(row,start,middle);record.tbody.appendChild(candidate);const fits=pageFits(record);candidate.remove();if(fits){best=middle;low=middle+1;}else high=middle-1;}return best;}
             function refreshPreview(){
                 if(refreshing)return;refreshing=true;
                 try{
@@ -7488,7 +7503,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                             record.tbody.appendChild(remainder);
                             if(pageFits(record)){remainder=null;break;}
                             remainder.remove();
-                            if(remainder.querySelector('.sig-grid')){if(record.tbody.children.length)nextPage();record.tbody.appendChild(remainder);remainder=null;break;}
+                            if(remainder.querySelector('.sig-grid')){var count=signatureLineCount(remainder),start=0;while(start<count){var end=largestFittingSignatureEnd(record,remainder,start,count);if(end===start&&record.tbody.children.length){nextPage();continue;}if(end===start)end=Math.min(count,start+1);record.tbody.appendChild(signatureFragment(remainder,start,end));start=end;if(start<count)nextPage();}remainder=null;break;}
                             let splitAt=largestFittingPrefix(record,remainder),length=splitPositions(remainder).text.length;
                             if(splitAt<=0){
                                 if(record.tbody.children.length){nextPage();continue;}
@@ -8040,7 +8055,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         }
         function v28OpenStructureEditor(fileName){
             v28EnsureStructureModal();ioLoadGuidedTemplateData();var template=ioGuidedTemplateMap[fileName];if(!template){appAlert('Bu belge seçeneğine bağlı şablon bulunamadı.','Belge Şablonu Bulunamadı');return;}
-            var parsed=new DOMParser().parseFromString(template.content||'','text/html'),table=parsed.body.querySelector('table');if(!table){appAlert('Bu şablonda düzenlenebilir belge tablosu bulunamadı.','Belge Yapısı Açılamadı');return;}
+            var parsed=new DOMParser().parseFromString(template.content||'','text/html'),table=parsed.body.querySelector('table');if(!table){appAlert('Bu şablonda düzenlenebilir belge tablosu bulunamadı.','Belge Yapısı Açılamadı');return;}v11NormalizeArbsysTable(table);
             v28StructureFile=fileName;v28StructureTable=document.importNode(table,true);v28StructureTable.querySelectorAll('[contenteditable]').forEach(function(node){node.removeAttribute('contenteditable');});v28StructureRowIndex=-1;
             document.getElementById('v28StructureFileLabel').textContent=fileName.replace(/\.arbsys$/i,'');document.getElementById('v28StructureModal').classList.add('open');v28RenderStructureEditor();
         }
@@ -8051,7 +8066,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             var resultRow=v28StructureRows().find(function(row){return v28EscapeText(row.querySelector('.label-cell')?.textContent).toLocaleUpperCase('tr-TR')==='SONUÇ';});
             if(!resultRow&&v20InferResultGroup(v28StructureFile)){await appAlert('Bu belge seçeneği ortak SONUÇ şablonunu kullanıyor. Kaydetmek için SONUÇ alanı belgede bulunmalıdır.','SONUÇ Alanı Eksik');return;}
             v28StructureTable.querySelectorAll('tr').forEach(function(row){row.classList.remove('v28-selected-row');row.removeAttribute('onclick');});
-            var content='<!-- ARBSYS-CONTENT v1 -->\n'+v28StructureTable.outerHTML;template.content=content;
+            v28StructureTable.setAttribute('data-arbsys-schema','2');var content='<!-- ARBSYS-CONTENT v2 -->\n'+v28StructureTable.outerHTML;template.content=content;
             try{var hash=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(content));template.sha256=Array.from(new Uint8Array(hash)).map(function(value){return value.toString(16).padStart(2,'0');}).join('');}catch(error){template.sha256='';}
             var manifest=v15TemplateManifest(v28StructureFile);manifest.updatedAt=new Date().toISOString();ioPersistGuidedTemplateData();ioPersistGuidedData();dashboardRenderTemplates();var savedFile=v28StructureFile;v28CloseStructureEditor();await appAlert('“'+savedFile.replace(/\.arbsys$/i,'')+'” belge yapısı kaydedildi. Bu yapı yalnızca bu belge seçeneğinde kullanılacaktır; SONUÇ metni mevcut ortak sonuç şablonundan gelmeye devam eder.','Belge Yapısı Kaydedildi');
         }
@@ -8440,7 +8455,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         /* ==== v34: ekle / taşı / sil modu ve eşit satır boşlukları ==== */
         #docTable>tbody>tr.single-row>td.label-cell,
         #docTable>tbody>tr.single-row>td.colon-cell,
-        #docTable>tbody>tr.single-row>td.content-cell{padding-bottom:5px!important}
+        #docTable>tbody>tr.single-row>td.content-cell{padding-bottom:4px!important}
         #docTable>tbody>tr.empty-row>td{height:1.3em!important;min-height:1.3em!important;line-height:1.3em!important;padding:0!important}
         .v23-preview-page .empty-row td{height:1.3em!important;line-height:1.3em!important}
         .v34-title-text-row>td{padding:1.5px 0!important;text-align:center!important;text-align-last:center!important;font-weight:normal!important}
@@ -8480,7 +8495,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         #docTable>tbody>tr.v34-new-row>td{animation:v34NewRow 2.2s ease-out}
         @keyframes v34NewRow{0%,55%{background:#dcfce7;box-shadow:inset 0 0 0 9999px rgba(34,197,94,.05)}100%{background:transparent;box-shadow:none}}
         @media(max-width:980px){.v34-addbar{justify-content:flex-start;overflow-x:auto}.v34-addbar-label{display:none}.v34-addbar button{white-space:nowrap}}
-        @media print{#docTable>tbody>tr.single-row>td.label-cell,#docTable>tbody>tr.single-row>td.colon-cell,#docTable>tbody>tr.single-row>td.content-cell{padding-bottom:4px!important}#docTable>tbody>tr.empty-row>td{height:1.3em!important;line-height:1.3em!important}.v34-addbar{display:none!important}}
+        @media print{#docTable>tbody>tr.single-row>td.label-cell,#docTable>tbody>tr.single-row>td.colon-cell,#docTable>tbody>tr.single-row>td.content-cell{padding-bottom:4px!important}#docTable>tbody>tr.empty-row>td{height:1.3em!important;line-height:1.3em!important}.sig-grid{display:table!important;table-layout:fixed!important}.sig-box{display:table-cell!important;vertical-align:top!important}.v34-addbar{display:none!important}}
     </style>
     <script id="v34-structure-mode-script">
         // ==== v34: belge üzerinde seçili satırın altına ekleme ve bağımsız başlık satırları ==== 
@@ -8495,7 +8510,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         function v34InsertTitle(refRow){var rows=[v34RowHtml('empty',''),v34RowHtml('text','BAŞLIK EKLE'),v34RowHtml('text','(Açıklama Ekle)'),v34RowHtml('empty',''),v34RowHtml('empty','')],cursor=refRow;rows.forEach(function(row){cursor.insertAdjacentElement('afterend',row);cursor=row;v34FlashRow(row);});injectLabelDropdowns();applyEditable();v34SelectRow(rows[1]);return rows;}
         function v34FlashRow(row){row.classList.add('v34-new-row');clearTimeout(v34NewTimer);v34NewTimer=setTimeout(function(){document.querySelectorAll('.v34-new-row').forEach(function(item){item.classList.remove('v34-new-row');});},2300);}
         var v34AddBlockBase=addBlock;
-        addBlock=function(refRow,type){if(!refRow)return null;if(type==='title')return v34InsertTitle(refRow);v34AddBlockBase(refRow,type);var inserted=refRow.nextElementSibling;if(inserted){v34FlashRow(inserted);v34SelectRow(inserted);}return inserted;};
+        addBlock=function(refRow,type){if(!refRow)return null;if(type==='title')return v34InsertTitle(refRow);if(/^sig[123]$/.test(type)){var gap=v34RowHtml('empty','');gap.classList.add('v11-signature-gap');refRow.insertAdjacentElement('afterend',gap);v34AddBlockBase(gap,type);var signature=gap.nextElementSibling;v34FlashRow(gap);if(signature){v34FlashRow(signature);v34SelectRow(signature);}return signature;}v34AddBlockBase(refRow,type);var inserted=refRow.nextElementSibling;if(inserted){v34FlashRow(inserted);v34SelectRow(inserted);}return inserted;};
         async function v34AddSelected(type){if(!v34SelectedRow||!v34SelectedRow.isConnected){await appAlert('Yeni alanın ekleneceği yeri belirlemek için önce belge üzerinde bir satıra tıklayın.','Ekleme Yeri Seçilmedi');return;}addBlock(v34SelectedRow,type);}
         function v34InstallToolbar(){
             document.querySelectorAll('.toolbar-left .tb-btn').forEach(function(button){var title=button.getAttribute('data-title')||'';if(title==='Vurgula'||title==='Vurgu Sil')button.remove();});
@@ -8508,5 +8523,35 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         var v34RemoveBlockBase=removeBlock;
         removeBlock=function(row){var next=row?.nextElementSibling||row?.previousElementSibling||null;v34RemoveBlockBase(row);if(row===v34SelectedRow){v34SelectedRow=null;if(next&&next.isConnected)v34SelectRow(next);}};
         v34InstallToolbar();
+    </script>
+    <style id="v11-print-parity-styles">
+        @media print{
+            body.v11-print-preview{display:block!important;padding:0!important;margin:0!important;background:#fff!important}
+            body.v11-print-preview>*:not(#v23PreviewPanel){display:none!important}
+            body.v11-print-preview #v23PreviewPanel{display:block!important;visibility:visible!important;position:static!important;inset:auto!important;width:210mm!important;height:auto!important;border:0!important;box-shadow:none!important;background:#fff!important;transform:none!important}
+            body.v11-print-preview #v23PreviewPanel>.v23-preview-head,
+            body.v11-print-preview #v23PreviewPanel>.v23-preview-tools,
+            body.v11-print-preview #v23PreviewPanel>#v25PreviewSaveModal{display:none!important}
+            body.v11-print-preview #v23PreviewViewport{display:block!important;overflow:visible!important;padding:0!important;margin:0!important}
+            body.v11-print-preview #v23PreviewPages{display:block!important;width:210mm!important;margin:0!important}
+            body.v11-print-preview .v23-preview-page-shell{display:block!important;width:210mm!important;height:297mm!important;margin:0!important;box-shadow:none!important;overflow:hidden!important;break-after:page!important;page-break-after:always!important}
+            body.v11-print-preview .v23-preview-page-shell:last-child{break-after:auto!important;page-break-after:auto!important}
+            body.v11-print-preview .v23-preview-page{position:relative!important;inset:auto!important;width:210mm!important;height:297mm!important;transform:none!important}
+        }
+    </style>
+    <script id="v11-layout-migration-script">
+        // v11: Eski .arbsys başlık/imza yapısını düzenlenebilir gerçek satırlara çevirir.
+        function v11CreateEmptyRow(){var row=document.createElement('tr');row.className='empty-row';row.innerHTML='<td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td>';return row;}
+        function v11CreateTitleTextRow(cell){var row=document.createElement('tr');row.className='full-row v34-title-text-row v34-title-part';var td=document.createElement('td');td.colSpan=3;var content=document.createElement('div');content.className='fr-content';content.style.textAlign='center';content.style.textAlignLast='center';content.innerHTML=cell.innerHTML;td.appendChild(content);row.appendChild(td);return row;}
+        function v11NormalizeArbsysTable(table){
+            if(!table)return table;var legacy=table.getAttribute('data-arbsys-schema')!=='2';var body=table.tBodies?.[0]||table.querySelector('tbody');if(!body)return table;
+            if(legacy){
+                Array.from(body.children).filter(function(row){return row.matches('tr.title-wrapper-row');}).forEach(function(wrapper){var nested=wrapper.querySelector('.title-table tbody');if(!nested)return;Array.from(nested.children).forEach(function(part){var next;if(part.classList.contains('title-blank-row')){next=v11CreateEmptyRow();next.classList.add('v34-title-part');}else{var cell=part.querySelector('td');if(cell)next=v11CreateTitleTextRow(cell);}if(next)wrapper.parentElement.insertBefore(next,wrapper);});wrapper.remove();});
+                Array.from(body.children).filter(function(row){return !!row.querySelector('.sig-grid');}).forEach(function(signature){var after=signature.nextElementSibling;if(after?.classList.contains('empty-row'))after.remove();var before=signature.previousElementSibling;if(!before?.classList.contains('empty-row')){before=v11CreateEmptyRow();signature.parentElement.insertBefore(before,signature);}before.classList.add('v11-signature-gap');});
+            }
+            table.setAttribute('data-arbsys-schema','2');return table;
+        }
+        v11NormalizeArbsysTable(document.getElementById('docTable'));
+        injectLabelDropdowns();applyEditable();
     </script>
 </body></html>
