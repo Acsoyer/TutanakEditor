@@ -3692,8 +3692,8 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             if (!tbody) return;
             var clone = tbody.cloneNode(true);
             // gecici etkilesim class'larini temizle
-            clone.querySelectorAll('tr.row-hovered, tr.row-delete-preview').forEach(function(tr) {
-                tr.classList.remove('row-hovered'); tr.classList.remove('row-delete-preview');
+            clone.querySelectorAll('tr.row-hovered, tr.row-delete-preview, tr.row-dragging, tr.v34-selected, tr.v34-new-row').forEach(function(tr) {
+                tr.classList.remove('row-hovered','row-delete-preview','row-dragging','v34-selected','v34-new-row');
             });
             // dropdown butonlari ice aktarimda yeniden uretilir
             clone.querySelectorAll('.lbl-dd-btn').forEach(function(b) { b.remove(); });
@@ -3965,8 +3965,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 if (!rows.length) { appAlert('Bu dosyada içe aktarılacak içerik bulunamadı.', 'Boş Şablon'); return; }
                 ioDropRows = rows.map(function(r) {
                     var node = document.importNode(r, true);
-                    node.classList.remove('row-hovered');
-                    node.classList.remove('row-delete-preview');
+                    node.classList.remove('row-hovered','row-delete-preview','row-dragging','v34-selected','v34-new-row');
                     node.querySelectorAll('.lbl-dd-btn').forEach(function(b) { b.remove(); });
                     return node;
                 });
@@ -4187,7 +4186,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             }
             
             // YENİ SIRALAMALI KISAYOL LİSTESİ (1'den 8'e kadar, Tarayıcı sekme geçişlerini de önler)
-            const blockMap = { '1': 'single', '2': 'empty', '3': 'full', '4': 'madde', '5': 'sig3', '6': 'sig2', '7': 'sig1', '8': 'title' };
+            const blockMap = { '1': 'single', '2': 'empty', '3': 'full', '5': 'sig3', '6': 'sig2', '7': 'sig1', '8': 'title' };
             if (blockMap[e.key]) { 
                 e.preventDefault(); 
                 const refRow = getRefRowForShortcut(); 
@@ -4780,7 +4779,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 tbody.querySelectorAll('tr').forEach(function(tr) {
                     if (tr.classList.contains('print-space-head') || tr.classList.contains('print-space-foot') || tr.classList.contains('title-wrapper-row')) return;
                     if (tr.classList.contains('empty-row')) {
-                        bodyXml += '<w:tr><w:trPr><w:trHeight w:val="220" w:hRule="exact"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="' + colWFull + '" w:type="dxa"/><w:gridSpan w:val="3"/><w:tcBorders><w:top w:val="none"/><w:bottom w:val="none"/><w:left w:val="none"/><w:right w:val="none"/></w:tcBorders></w:tcPr><w:p><w:pPr><w:jc w:val="both"/><w:spacing w:before="0" w:after="0" w:line="180" w:lineRule="exact"/></w:pPr></w:p></w:tc></w:tr>';
+                        bodyXml += '<w:tr><w:trPr><w:trHeight w:val="260" w:hRule="exact"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="' + colWFull + '" w:type="dxa"/><w:gridSpan w:val="3"/><w:tcBorders><w:top w:val="none"/><w:bottom w:val="none"/><w:left w:val="none"/><w:right w:val="none"/></w:tcBorders></w:tcPr><w:p><w:pPr><w:jc w:val="both"/><w:spacing w:before="0" w:after="0" w:line="260" w:lineRule="exact"/></w:pPr></w:p></w:tc></w:tr>';
                         return;
                     }
 
@@ -4802,9 +4801,9 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                         var labelTxt = esc(((labelTd.querySelector('span') || labelTd).textContent || '').trim());
                         var colonTxt = esc((colonTd.textContent || '').trim());
                         bodyXml += '<w:tr>';
-                        bodyXml += '<w:tc><w:tcPr><w:tcW w:w="' + colW1 + '" w:type="dxa"/><w:tcMar><w:top w:w="11" w:type="dxa"/><w:left w:w="11" w:type="dxa"/><w:bottom w:w="34" w:type="dxa"/><w:right w:w="11" w:type="dxa"/></w:tcMar><w:tcBorders><w:top w:val="none"/><w:bottom w:val="none"/><w:left w:val="none"/><w:right w:val="none"/></w:tcBorders></w:tcPr><w:p><w:pPr><w:jc w:val="left"/><w:spacing w:before="0" w:after="0" w:line="240" w:lineRule="atLeast"/></w:pPr><w:r><w:rPr><w:b w:val="on"/></w:rPr><w:t>' + labelTxt + '</w:t></w:r></w:p></w:tc>';
-                        bodyXml += '<w:tc><w:tcPr><w:tcW w:w="' + colW2 + '" w:type="dxa"/><w:tcMar><w:top w:w="11" w:type="dxa"/><w:left w:w="11" w:type="dxa"/><w:bottom w:w="34" w:type="dxa"/><w:right w:w="11" w:type="dxa"/></w:tcMar><w:tcBorders><w:top w:val="none"/><w:bottom w:val="none"/><w:left w:val="none"/><w:right w:val="none"/></w:tcBorders></w:tcPr><w:p><w:pPr><w:jc w:val="center"/><w:spacing w:before="0" w:after="0" w:line="240" w:lineRule="atLeast"/></w:pPr><w:r><w:rPr><w:b/></w:rPr><w:t>' + colonTxt + '</w:t></w:r></w:p></w:tc>';
-                        bodyXml += '<w:tc><w:tcPr><w:tcW w:w="' + colW3 + '" w:type="dxa"/><w:tcMar><w:top w:w="11" w:type="dxa"/><w:left w:w="11" w:type="dxa"/><w:bottom w:w="34" w:type="dxa"/><w:right w:w="11" w:type="dxa"/></w:tcMar><w:tcBorders><w:top w:val="none"/><w:bottom w:val="none"/><w:left w:val="none"/><w:right w:val="none"/></w:tcBorders></w:tcPr>' + cellToOoxml(contentTd, 'both') + '</w:tc>';
+                        bodyXml += '<w:tc><w:tcPr><w:tcW w:w="' + colW1 + '" w:type="dxa"/><w:tcMar><w:top w:w="11" w:type="dxa"/><w:left w:w="11" w:type="dxa"/><w:bottom w:w="80" w:type="dxa"/><w:right w:w="11" w:type="dxa"/></w:tcMar><w:tcBorders><w:top w:val="none"/><w:bottom w:val="none"/><w:left w:val="none"/><w:right w:val="none"/></w:tcBorders></w:tcPr><w:p><w:pPr><w:jc w:val="left"/><w:spacing w:before="0" w:after="0" w:line="240" w:lineRule="atLeast"/></w:pPr><w:r><w:rPr><w:b w:val="on"/></w:rPr><w:t>' + labelTxt + '</w:t></w:r></w:p></w:tc>';
+                        bodyXml += '<w:tc><w:tcPr><w:tcW w:w="' + colW2 + '" w:type="dxa"/><w:tcMar><w:top w:w="11" w:type="dxa"/><w:left w:w="11" w:type="dxa"/><w:bottom w:w="80" w:type="dxa"/><w:right w:w="11" w:type="dxa"/></w:tcMar><w:tcBorders><w:top w:val="none"/><w:bottom w:val="none"/><w:left w:val="none"/><w:right w:val="none"/></w:tcBorders></w:tcPr><w:p><w:pPr><w:jc w:val="center"/><w:spacing w:before="0" w:after="0" w:line="240" w:lineRule="atLeast"/></w:pPr><w:r><w:rPr><w:b/></w:rPr><w:t>' + colonTxt + '</w:t></w:r></w:p></w:tc>';
+                        bodyXml += '<w:tc><w:tcPr><w:tcW w:w="' + colW3 + '" w:type="dxa"/><w:tcMar><w:top w:w="11" w:type="dxa"/><w:left w:w="11" w:type="dxa"/><w:bottom w:w="80" w:type="dxa"/><w:right w:w="11" w:type="dxa"/></w:tcMar><w:tcBorders><w:top w:val="none"/><w:bottom w:val="none"/><w:left w:val="none"/><w:right w:val="none"/></w:tcBorders></w:tcPr>' + cellToOoxml(contentTd, 'both') + '</w:tc>';
                         bodyXml += '</w:tr>';
                     }
                 });
@@ -6002,7 +6001,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             var clone = tbody.cloneNode(true);
             clone.querySelectorAll('.lbl-dd-btn').forEach(function(button) { button.remove(); });
             clone.querySelectorAll('[contenteditable]').forEach(function(element) { element.removeAttribute('contenteditable'); });
-            clone.querySelectorAll('tr.row-hovered,tr.row-delete-preview').forEach(function(row) { row.classList.remove('row-hovered','row-delete-preview'); });
+            clone.querySelectorAll('tr.row-hovered,tr.row-delete-preview,tr.row-dragging,tr.v34-selected,tr.v34-new-row').forEach(function(row) { row.classList.remove('row-hovered','row-delete-preview','row-dragging','v34-selected','v34-new-row'); });
             var rows = Array.from(clone.children).filter(function(element) { return element.tagName === 'TR'; }).map(function(element) { return '    ' + element.outerHTML; });
             return '<!-- ' + ARBSYS_MARKER + ' v1 -->\n<table>\n  <tbody>\n' + rows.join('\n') + '\n  </tbody>\n</table>\n';
         }
@@ -7402,10 +7401,10 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
 
             function clonePrintableRow(row){
                 const copy=row.cloneNode(true);
-                copy.classList.remove('row-hovered','row-delete-preview','row-dragging');
+                copy.classList.remove('row-hovered','row-delete-preview','row-dragging','v34-selected','v34-new-row');
                 copy.querySelectorAll('button,input,select,textarea,.lbl-dd-btn,[data-no-print]').forEach(function(node){node.remove();});
                 copy.querySelectorAll('[contenteditable]').forEach(function(node){node.removeAttribute('contenteditable');});
-                copy.querySelectorAll('.selected,.hover,.drag-over,.row-hovered,.row-delete-preview,.row-dragging').forEach(function(node){node.classList.remove('selected','hover','drag-over','row-hovered','row-delete-preview','row-dragging');});
+                copy.querySelectorAll('.selected,.hover,.drag-over,.row-hovered,.row-delete-preview,.row-dragging,.v34-selected,.v34-new-row').forEach(function(node){node.classList.remove('selected','hover','drag-over','row-hovered','row-delete-preview','row-dragging','v34-selected','v34-new-row');});
                 return copy;
             }
             function buildPage(){
@@ -8436,5 +8435,78 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         function v33OpenCurrentBlankOption(){var def=v32DefinitionByName(v18BlankSelection);if(!def)return;document.getElementById('ioModal')?.classList.remove('open');openDataDashboard();dashboardSetMode('blankOptions');v31OpenDocument(def.key);}
 
         setTimeout(function(){v32UpdateBlankAvailability();},0);
+    </script>
+    <style id="v34-structure-mode-styles">
+        /* ==== v34: ekle / taşı / sil modu ve eşit satır boşlukları ==== */
+        #docTable>tbody>tr.single-row>td.label-cell,
+        #docTable>tbody>tr.single-row>td.colon-cell,
+        #docTable>tbody>tr.single-row>td.content-cell{padding-bottom:5px!important}
+        #docTable>tbody>tr.empty-row>td{height:1.3em!important;min-height:1.3em!important;line-height:1.3em!important;padding:0!important}
+        .v23-preview-page .empty-row td{height:1.3em!important;line-height:1.3em!important}
+        .v34-title-text-row>td{padding:1.5px 0!important;text-align:center!important;text-align-last:center!important;font-weight:normal!important}
+        .v34-title-text-row .fr-content{text-align:center!important;text-align-last:center!important;font-weight:normal!important}
+
+        #v34StructureToggle{border-color:#0f766e;background:#f0fdfa;color:#0f766e}
+        #v34StructureToggle.active{background:#0f766e!important;border-color:#0f766e!important;color:#fff!important;box-shadow:0 4px 12px rgba(15,118,110,.24)}
+        .v34-addbar{display:none;position:absolute;top:54px;left:0;right:0;min-height:49px;padding:7px 18px;border-top:1px solid #dbe4ec;border-bottom:1px solid #a9c9ed;background:#eef5ff;box-shadow:0 5px 13px rgba(15,23,42,.10);box-sizing:border-box;align-items:center;justify-content:center;gap:8px}
+        .v34-addbar.open{display:flex}.v34-addbar-label{margin-right:10px;color:#334155;font-size:11px;font-weight:800}
+        .v34-addbar button{display:inline-flex;align-items:center;gap:5px;min-height:34px;padding:6px 10px;border:1px solid #c4d4e6;border-radius:9px;background:#fff;color:#334155;font-size:10px;font-weight:800;cursor:pointer}
+        .v34-addbar button:hover{border-color:#2563eb;background:#eff6ff;color:#1d4ed8}.v34-addbar .material-icons{font-size:16px}
+        body.v34-structure-mode{padding-top:130px}
+        body.v34-structure-mode>.toolbar{height:104px!important;align-items:flex-start!important;padding-top:7px!important;overflow:visible!important}
+        body.v34-structure-mode>.toolbar .toolbar-brand{top:27px!important}
+        body.v34-structure-mode .document-source-card{top:120px}
+        body:not(.v34-structure-mode) #floatPanel,
+        body:not(.v34-structure-mode) #floatDeletePanel,
+        body:not(.v34-structure-mode) #floatMenu{display:none!important}
+        body.v34-structure-mode #floatMenu,
+        body.v34-structure-mode #floatPlus{display:none!important}
+        body.v34-structure-mode #floatPanel,
+        body.v34-structure-mode #floatDeletePanel{display:flex!important;width:40px!important;pointer-events:none}
+        body.v34-structure-mode #floatPanel.visible,
+        body.v34-structure-mode #floatDeletePanel.visible{pointer-events:auto}
+        body.v34-structure-mode #floatPanel .drag-btn{display:flex!important;align-items:center;justify-content:center;width:100%;height:100%;min-height:38px;flex:1;border:1px solid #cbd5e1;border-radius:10px;background:#fff;color:#2563eb;box-shadow:0 5px 14px rgba(15,23,42,.12)}
+        body.v34-structure-mode #floatDeletePanel .delete-btn{height:100%;min-height:38px;max-height:none;border-radius:10px;background:#fff;color:#dc2626;border-color:#fecaca}
+        body.v34-structure-mode #floatDeletePanel .delete-btn:hover{background:#dc2626;color:#fff;border-color:#dc2626}
+        body.v34-structure-mode #docTable>tbody>tr.row-hovered>td{background:#eaf2ff!important;box-shadow:inset 0 0 0 9999px rgba(37,99,235,.035)}
+        body.v34-structure-mode #docTable>tbody>tr.row-hovered>td::after{display:none!important}
+        body.v34-structure-mode #docTable>tbody>tr.v34-selected>td::after{content:''!important;display:block!important;position:absolute;z-index:4;left:0;right:0;bottom:-1px;height:3px;background:#2563eb;pointer-events:none}
+        body.v34-structure-mode #docTable>tbody>tr.row-delete-preview>td{background:#fee2e2!important;box-shadow:inset 0 0 0 9999px rgba(220,38,38,.04)!important}
+        body.v34-structure-mode #docTable>tbody>tr.row-delete-preview>td::after{display:none!important}
+        body:not(.v34-structure-mode) #docTable>tbody>tr.row-hovered>td,
+        body:not(.v34-structure-mode) #docTable>tbody>tr.v34-selected>td{background:inherit!important;box-shadow:none!important}
+        body:not(.v34-structure-mode) #docTable>tbody>tr.row-hovered>td::after,
+        body:not(.v34-structure-mode) #docTable>tbody>tr.v34-selected>td::after{display:none!important}
+        #docTable>tbody>tr.v34-new-row>td{animation:v34NewRow 2.2s ease-out}
+        @keyframes v34NewRow{0%,55%{background:#dcfce7;box-shadow:inset 0 0 0 9999px rgba(34,197,94,.05)}100%{background:transparent;box-shadow:none}}
+        @media(max-width:980px){.v34-addbar{justify-content:flex-start;overflow-x:auto}.v34-addbar-label{display:none}.v34-addbar button{white-space:nowrap}}
+        @media print{#docTable>tbody>tr.single-row>td.label-cell,#docTable>tbody>tr.single-row>td.colon-cell,#docTable>tbody>tr.single-row>td.content-cell{padding-bottom:4px!important}#docTable>tbody>tr.empty-row>td{height:1.3em!important;line-height:1.3em!important}.v34-addbar{display:none!important}}
+    </style>
+    <script id="v34-structure-mode-script">
+        // ==== v34: belge üzerinde seçili satırın altına ekleme ve bağımsız başlık satırları ==== 
+        let v34SelectedRow=null;
+        let v34NewTimer=null;
+
+        function v34IsMode(){return document.body.classList.contains('v34-structure-mode');}
+        function v34SelectRow(row){if(!row||!row.matches('#docTable>tbody>tr'))return;if(v34SelectedRow&&v34SelectedRow!==row)v34SelectedRow.classList.remove('v34-selected');v34SelectedRow=row;row.classList.add('v34-selected');floatActiveRow=row;}
+        function v34ClearTransient(){document.querySelectorAll('#docTable>tbody>tr').forEach(function(row){row.classList.remove('row-hovered','row-delete-preview','row-dragging');});document.getElementById('floatPanel')?.classList.remove('visible');document.getElementById('floatDeletePanel')?.classList.remove('visible');document.getElementById('floatMenu')?.classList.remove('open');}
+        function v34ToggleStructureMode(force){var opening=typeof force==='boolean'?force:!v34IsMode();document.body.classList.toggle('v34-structure-mode',opening);document.getElementById('v34StructureToggle')?.classList.toggle('active',opening);document.getElementById('v34AddBar')?.classList.toggle('open',opening);if(!opening){v34ClearTransient();if(v34SelectedRow)v34SelectedRow.classList.remove('v34-selected');v34SelectedRow=null;floatActiveRow=null;}else if(!v34SelectedRow){var focused=getRefRowForShortcut();if(focused)v34SelectRow(focused);} }
+        function v34RowHtml(kind,text){var row=document.createElement('tr');if(kind==='empty'){row.className='empty-row v34-title-part';row.innerHTML='<td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td>';}else{row.className='full-row v34-title-text-row v34-title-part';row.innerHTML='<td colspan="3"><div class="fr-content" style="text-align:center;text-align-last:center">'+v31Escape(text)+'</div></td>';}return row;}
+        function v34InsertTitle(refRow){var rows=[v34RowHtml('empty',''),v34RowHtml('text','BAŞLIK EKLE'),v34RowHtml('text','(Açıklama Ekle)'),v34RowHtml('empty',''),v34RowHtml('empty','')],cursor=refRow;rows.forEach(function(row){cursor.insertAdjacentElement('afterend',row);cursor=row;v34FlashRow(row);});injectLabelDropdowns();applyEditable();v34SelectRow(rows[1]);return rows;}
+        function v34FlashRow(row){row.classList.add('v34-new-row');clearTimeout(v34NewTimer);v34NewTimer=setTimeout(function(){document.querySelectorAll('.v34-new-row').forEach(function(item){item.classList.remove('v34-new-row');});},2300);}
+        var v34AddBlockBase=addBlock;
+        addBlock=function(refRow,type){if(!refRow)return null;if(type==='title')return v34InsertTitle(refRow);v34AddBlockBase(refRow,type);var inserted=refRow.nextElementSibling;if(inserted){v34FlashRow(inserted);v34SelectRow(inserted);}return inserted;};
+        async function v34AddSelected(type){if(!v34SelectedRow||!v34SelectedRow.isConnected){await appAlert('Yeni alanın ekleneceği yeri belirlemek için önce belge üzerinde bir satıra tıklayın.','Ekleme Yeri Seçilmedi');return;}addBlock(v34SelectedRow,type);}
+        function v34InstallToolbar(){
+            document.querySelectorAll('.toolbar-left .tb-btn').forEach(function(button){var title=button.getAttribute('data-title')||'';if(title==='Vurgula'||title==='Vurgu Sil')button.remove();});
+            var right=document.querySelector('.toolbar-right'),udf=document.getElementById('udfViewerToggleBtn');if(right&&!document.getElementById('v34StructureToggle')){var toggle=document.createElement('button');toggle.id='v34StructureToggle';toggle.type='button';toggle.className='tb-btn tb-btn-wide';toggle.setAttribute('data-title','Belge alanlarını ekle, taşı veya sil');toggle.innerHTML='<span class="material-icons" style="font-size:17px">open_with</span> Ekle / Taşı / Sil';toggle.onclick=function(){v34ToggleStructureMode();};right.insertBefore(toggle,udf);}
+            var toolbar=document.querySelector('.toolbar');if(toolbar&&!document.getElementById('v34AddBar')){var bar=document.createElement('div');bar.id='v34AddBar';bar.className='v34-addbar';bar.innerHTML='<span class="v34-addbar-label">Ekle:</span><button type="button" onclick="v34AddSelected(\'title\')"><span class="material-icons">title</span>Başlık</button><button type="button" onclick="v34AddSelected(\'single\')"><span class="material-icons">short_text</span>Yeni Alan</button><button type="button" onclick="v34AddSelected(\'full\')"><span class="material-icons">segment</span>Tam Metin</button><button type="button" onclick="v34AddSelected(\'empty\')"><span class="material-icons">space_bar</span>Boş Satır</button><button type="button" onclick="v34AddSelected(\'sig1\')"><span class="material-icons">person</span>Tekli İmza</button><button type="button" onclick="v34AddSelected(\'sig2\')"><span class="material-icons">people</span>İkili İmza</button><button type="button" onclick="v34AddSelected(\'sig3\')"><span class="material-icons">groups</span>Üçlü İmza</button>';toolbar.appendChild(bar);}
+            var panel=document.getElementById('floatPanel'),deletePanel=document.getElementById('floatDeletePanel'),drag=deletePanel?.querySelector('.drag-btn');if(panel&&drag&&drag.parentElement!==panel)panel.appendChild(drag);document.querySelector('#floatMenu [data-action="madde"]')?.remove();
+        }
+        document.getElementById('docTable')?.addEventListener('click',function(event){if(!v34IsMode())return;var row=event.target.closest('#docTable>tbody>tr');if(row){event.stopPropagation();v34SelectRow(row);}},true);
+        document.addEventListener('keydown',function(event){if(event.key==='Escape'&&v34IsMode())v34ToggleStructureMode(false);},true);
+        var v34RemoveBlockBase=removeBlock;
+        removeBlock=function(row){var next=row?.nextElementSibling||row?.previousElementSibling||null;v34RemoveBlockBase(row);if(row===v34SelectedRow){v34SelectedRow=null;if(next&&next.isConnected)v34SelectRow(next);}};
+        v34InstallToolbar();
     </script>
 </body></html>

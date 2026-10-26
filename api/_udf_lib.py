@@ -590,11 +590,11 @@ def build_labeled_row(cb: ContentBuilder, label: str, colon: str, content_paragr
     colon_tag = run_tag(cb, colon or ":", bold=True) if colon else ""
 
     label_para = (
-        f'<paragraph {TABSET_ATTR}Alignment="0" LineSpacing="0.25" family="{FONT_FAMILY}" size="{FONT_SIZE}">'
+        f'<paragraph {TABSET_ATTR}Alignment="0" LineSpacing="0.25" family="{FONT_FAMILY}" size="{FONT_SIZE}" SpaceBelow="0.08">'
         f"{label_tag}</paragraph>"
     )
     colon_para = (
-        f'<paragraph {TABSET_ATTR}Alignment="0" LineSpacing="0.25" family="{FONT_FAMILY}" size="{FONT_SIZE}">'
+        f'<paragraph {TABSET_ATTR}Alignment="0" LineSpacing="0.25" family="{FONT_FAMILY}" size="{FONT_SIZE}" SpaceBelow="0.08">'
         f"{colon_tag}</paragraph>"
     )
 
@@ -603,10 +603,13 @@ def build_labeled_row(cb: ContentBuilder, label: str, colon: str, content_paragr
     # olabiliyor (varsayilan hizalama 'justify') ve kullanici buraya da
     # "Satir Basi" ile nbsp ekleyebilir - ayni <space>-tablo-genisligi
     # sorununa karsi ayni onlem burada da uygulanir (bkz. build_full_row).
-    for para in content_paragraphs:
-        content_inner += paragraph_xml(cb, para, force_content=True)
+    for index, para in enumerate(content_paragraphs):
+        # Hücre içindeki yalnızca son paragrafın altında nefes payı bırak;
+        # çok paragraflı metinlerin kendi satır aralıklarını büyütme.
+        extra = ' SpaceBelow="0.08"' if index == len(content_paragraphs) - 1 else ""
+        content_inner += paragraph_xml(cb, para, extra_para_attrs=extra, force_content=True)
     if not content_paragraphs:
-        content_inner = paragraph_xml(cb, {"align": "left", "runs": []}, force_content=True)
+        content_inner = paragraph_xml(cb, {"align": "left", "runs": []}, extra_para_attrs=' SpaceBelow="0.08"', force_content=True)
 
     row = (
         '<row rowName="rowX" rowType="dataRow" border="borderNone" borderWidth="0.5">'
@@ -1096,7 +1099,9 @@ def build_udf_content_xml(data: dict) -> str:
     # 2) Cok sayida ardisik kucuk tabloya bolunmenin (her empty-row'da
     #    tablo kapanip yeniden aciliyor) UYAP'ta gorsel/performans yan
     #    etkisi olup olmadigi.
-    EMPTY_SPACER_FONT_SIZE = "8"
+    # Menüden eklenen boş satır, içerikte Enter ile oluşturulan boş paragrafla
+    # aynı normal metin puntosunu ve aynı 1.0 satır aralığını kullanır.
+    EMPTY_SPACER_FONT_SIZE = FONT_SIZE
 
     def build_spacer_paragraph(cb: ContentBuilder) -> str:
         """Empty-row yerine gecen, tablonun DISINDA duran kucuk bosluk paragrafi."""
