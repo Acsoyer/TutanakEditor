@@ -1443,6 +1443,16 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                             <input id="dashboardImportInput" type="file" accept=".json,.zip,application/json,application/zip" style="display:none;" onchange="dashboardImportData(this)">
                         </div>
                     </section>
+                    <section class="dashboard-data-card v16-code-editor-card">
+                        <h3>Tüm Veri Kodlarını Düzenle</h3>
+                        <p>Uyuşmazlık ve belge şablonu verilerinin tamamını JSON olarak görüntüleyebilir; yazım hatalarını elle düzelterek doğrulayıp kaydedebilirsiniz.</p>
+                        <div class="v16-code-actions">
+                            <button type="button" onclick="v16RefreshDataCodeEditor()">Güncel Kodları Göster</button>
+                            <button class="primary" type="button" onclick="v16ApplyDataCodeEditor()">Kodları Uygula ve Kaydet</button>
+                        </div>
+                        <textarea id="v16AllDataCode" class="v16-all-data-code" spellcheck="false" aria-label="Tüm şablon verileri JSON kodu" placeholder="Güncel Kodları Göster düğmesine basın."></textarea>
+                        <small>Geçersiz JSON veya eksik temel alanlar kaydedilmez. Kaydetmeden önce mevcut verilerin yedeğini almanız önerilir.</small>
+                    </section>
                 </div>
             </div>
         </div>
@@ -1686,6 +1696,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 input.placeholder = options.placeholder || '';
             }
             if (cancel) cancel.style.display = appDialogMode === 'alert' ? 'none' : '';
+            if (cancel) cancel.textContent = options.cancelText || 'Vazgeç';
             if (confirmButton) confirmButton.textContent = options.confirmText || 'Tamam';
             if (modal) modal.classList.add('open');
             return new Promise(function(resolve) {
@@ -1712,12 +1723,13 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             return appDialogOpen({ mode: 'alert', title: title || 'Bilgi', message: String(message || '') });
         }
 
-        function appConfirm(message, title, confirmText) {
+        function appConfirm(message, title, confirmText, cancelText) {
             return appDialogOpen({
                 mode: 'confirm',
                 title: title || 'Onay',
                 message: String(message || ''),
-                confirmText: confirmText || 'Devam Et'
+                confirmText: confirmText || 'Devam Et',
+                cancelText: cancelText || 'Vazgeç'
             });
         }
 
@@ -8656,4 +8668,126 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         #saveModal .v15-save-format-buttons small{margin-top:3px;color:#6b7a89;font-size:10px;font-weight:600}
         .v25-preview-format-buttons button[data-format="arbsys"] img{width:38px;height:38px;object-fit:contain;padding:7px;border-radius:10px;background:#e4edf4;box-sizing:border-box}
     </style>
+    <style id="v16-data-safety-styles">
+        #dashboardDataPanel .dashboard-data-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+        .v16-code-editor-card{grid-column:1/-1}
+        .v16-code-actions{display:flex;gap:8px;margin:10px 0}
+        .v16-code-actions button{min-height:36px;padding:8px 12px;border:1px solid #cbd5e1;border-radius:9px;background:#fff;color:#334155;font-weight:800;cursor:pointer}
+        .v16-code-actions button.primary{border-color:#0f766e;background:#0f766e;color:#fff}
+        .v16-all-data-code{display:block;width:100%;min-height:340px;resize:vertical;box-sizing:border-box;border:1px solid #cbd5e1;border-radius:10px;padding:12px;background:#0f172a;color:#e2e8f0;font:12px/1.5 Consolas,"Courier New",monospace;tab-size:2}
+        .v16-all-data-code:focus{outline:2px solid #38bdf8;outline-offset:1px}
+        #dataDashboardModal.v16-has-unsaved .modal-header{box-shadow:inset 0 -3px 0 #f59e0b}
+        #dataDashboardModal.v16-has-unsaved .dashboard-storage-status{color:#a16207!important;background:#fef3c7}
+        @media(max-width:850px){#dashboardDataPanel .dashboard-data-grid{grid-template-columns:1fr}.v16-code-editor-card{grid-column:auto}}
+    </style>
+    <script id="v16-data-safety-script">
+        // ==== v16: kaydedilmemiş veri koruması, ham JSON düzenleyici ve başlangıç şablonu ====
+        let v16DashboardDirty=false;
+        let v16DashboardGuardBusy=false;
+
+        function v16SetDashboardDirty(dirty){
+            v16DashboardDirty=!!dirty;
+            document.getElementById('dataDashboardModal')?.classList.toggle('v16-has-unsaved',v16DashboardDirty);
+            if(v16DashboardDirty)dashboardSetStorageStatus('Belge içinde kaydedilmemiş veriler var.');
+        }
+        async function v16MayLeaveDashboard(){
+            if(!v16DashboardDirty)return true;
+            if(v16DashboardGuardBusy)return false;
+            v16DashboardGuardBusy=true;
+            try{
+                var discard=await appConfirm('Belge içinde kaydedilmemiş veriler var. Kaydetmeden ayrılmak istiyor musunuz?','Kaydedilmemiş Veriler','Kaydetmeden Kapat','Sayfaya Dön');
+                if(discard)v16SetDashboardDirty(false);
+                return discard;
+            }finally{v16DashboardGuardBusy=false;}
+        }
+        function v16IsEditableDashboardTarget(target){
+            if(!target?.closest?.('#dataDashboardModal'))return false;
+            if(target.matches('#dashboardSearch,#dashboardTemplateSearch,#supabaseEmailInput,input[type="file"]'))return false;
+            return target.matches('input:not([type="button"]):not([type="submit"]),textarea,select,[contenteditable="true"]');
+        }
+        document.getElementById('dataDashboardModal')?.addEventListener('input',function(event){if(v16IsEditableDashboardTarget(event.target))v16SetDashboardDirty(true);},true);
+        document.getElementById('dataDashboardModal')?.addEventListener('change',function(event){if(v16IsEditableDashboardTarget(event.target))v16SetDashboardDirty(true);},true);
+
+        var v16DashboardSetModeBase=dashboardSetMode;
+        dashboardSetMode=function(mode){
+            var active=document.querySelector('#dataDashboardModal .dashboard-tab.active');
+            var wanted=mode==='records'?'dashboardRecordsTab':mode==='templates'?'dashboardTemplatesTab':mode==='data'?'dashboardDataTab':mode==='results'?'dashboardResultsTab':mode==='blankOptions'?'dashboardBlankOptionsTab':'';
+            function apply(){v16DashboardSetModeBase(mode);if(mode==='data')v16RefreshDataCodeEditor(false);}
+            if(!v16DashboardDirty||!active||!wanted||active.id===wanted){apply();return;}
+            return v16MayLeaveDashboard().then(function(canLeave){if(canLeave)apply();});
+        };
+        var v16DashboardOpenRecordBase=dashboardOpenRecord;
+        dashboardOpenRecord=function(recordId){
+            if(!v16DashboardDirty||!dashboardActiveRecordId||dashboardActiveRecordId===recordId)return v16DashboardOpenRecordBase(recordId);
+            return v16MayLeaveDashboard().then(function(canLeave){if(canLeave)return v16DashboardOpenRecordBase(recordId);});
+        };
+        closeDataDashboard=async function(event){
+            if(event&&event.target!==event.currentTarget&&!event.target.classList.contains('close-btn'))return;
+            if(!(await v16MayLeaveDashboard()))return;
+            document.getElementById('dataDashboardModal')?.classList.remove('open');
+        };
+        backToTemplateLoader=async function(){
+            if(!(await v16MayLeaveDashboard()))return;
+            document.getElementById('dataDashboardModal')?.classList.remove('open');
+            document.getElementById('ioModal')?.classList.add('open');
+        };
+
+        var v16SaveRecordBase=dashboardSaveActiveRecord;
+        dashboardSaveActiveRecord=async function(){
+            var beforeId=dashboardActiveRecordId,beforeUpdated=ioGuidedRecordMap[beforeId]?.updatedAt||'',wasCreating=dashboardCreatingRecord;
+            var result=await v16SaveRecordBase();
+            var saved=ioGuidedRecordMap[dashboardActiveRecordId];
+            if(saved&&((saved.updatedAt||'')!==beforeUpdated||(wasCreating&&!dashboardCreatingRecord)))v16SetDashboardDirty(false);
+            return result;
+        };
+        if(typeof v18SaveResultOptions==='function'){var v16SaveResultsBase=v18SaveResultOptions;v18SaveResultOptions=async function(){var result=await v16SaveResultsBase();v16SetDashboardDirty(false);return result;};}
+        if(typeof v15SaveTemplateMetadata==='function'){var v16SaveTemplateMetadataBase=v15SaveTemplateMetadata;v15SaveTemplateMetadata=function(){var result=v16SaveTemplateMetadataBase.apply(this,arguments);v16SetDashboardDirty(false);return result;};}
+        if(typeof v29SaveSubjectEdit==='function'){var v16SaveSubjectBase=v29SaveSubjectEdit;v29SaveSubjectEdit=async function(){var result=await v16SaveSubjectBase.apply(this,arguments);v16SetDashboardDirty(false);return result;};}
+        if(typeof v32SaveMapping==='function'){var v16SaveMappingBase=v32SaveMapping;v32SaveMapping=async function(){var result=await v16SaveMappingBase.apply(this,arguments);v16SetDashboardDirty(false);return result;};}
+        if(typeof v31SaveDefault==='function'){var v16SaveDefaultBase=v31SaveDefault;v31SaveDefault=async function(){var result=await v16SaveDefaultBase.apply(this,arguments);v16SetDashboardDirty(false);return result;};}
+
+        function v16RefreshDataCodeEditor(preserveDirty){
+            ioLoadGuidedData();ioLoadGuidedTemplateData();
+            var editor=document.getElementById('v16AllDataCode');if(!editor)return;
+            editor.value=JSON.stringify({disputeData:ioGuidedData,templateData:ioGuidedTemplateData},null,2);
+            if(preserveDirty!==true)v16SetDashboardDirty(false);
+        }
+        async function v16ApplyDataCodeEditor(){
+            var editor=document.getElementById('v16AllDataCode');if(!editor)return;
+            try{
+                var parsed=JSON.parse(editor.value);
+                var dispute=parsed.disputeData||parsed.dispute||null,templates=parsed.templateData||parsed.templates||null;
+                if(!dispute||!Array.isArray(dispute.records)||!Array.isArray(dispute.hierarchy))throw new Error('disputeData içinde records ve hierarchy dizileri bulunmalıdır.');
+                if(!templates||!Array.isArray(templates.templates))throw new Error('templateData içinde templates dizisi bulunmalıdır.');
+                ioGuidedData=dispute;ioGuidedTemplateData=templates;dashboardRefreshRecordMap();ioGuidedTemplateMap={};
+                ioGuidedTemplateData.templates.forEach(function(template){ioGuidedTemplateMap[template.fileName]=template;});
+                ioPersistGuidedData();ioPersistGuidedTemplateData();ioResetGuidedSelection();dashboardActiveRecordId='';dashboardActiveTemplateFile='';
+                dashboardRenderList();dashboardRenderTemplates();v16RefreshDataCodeEditor(false);dashboardSetStorageStatus('Elle düzenlenen veri kodları doğrulandı ve kaydedildi.');
+                await appAlert('Tüm veri kodları doğrulandı; tarayıcı yedeğine ve bağlıysa Supabase veritabanına kaydedildi.','Veri Kodları Kaydedildi');
+            }catch(error){await appAlert('Kodlar uygulanamadı: '+error.message,'Geçersiz Veri Kodu');editor.focus();}
+        }
+
+        window.addEventListener('beforeunload',function(event){if(!v16DashboardDirty)return;event.preventDefault();event.returnValue='';});
+
+        let v16StartupTemplateLoaded=false;
+        async function v16LoadEditorStartupTemplate(){
+            if(v16StartupTemplateLoaded)return true;
+            var source=document.getElementById('documentSourceCard');
+            var currentName=source?.dataset.templateName||document.getElementById('documentSourceTemplate')?.textContent||'';
+            if(currentName&&!/Editör Başlangıç İçeriği/i.test(currentName))return false;
+            ioLoadGuidedData();ioLoadGuidedTemplateData();
+            var manifests=ioGuidedData?.templates||[];
+            var manifest=manifests.find(function(item){return String(item.displayName||'').trim()==='Editör Başlangıç İçeriği';})||manifests.find(function(item){return /^Editör Başlangıç İçeriği(?:\.arbsys)?$/i.test(item.fileName||'');});
+            var fileName=manifest?.fileName||'';
+            if(!fileName||!ioGuidedTemplateMap[fileName]?.content)return false;
+            await ioOpenTemplateDirect(fileName);
+            setDocumentSourceInfo({templateName:'Editör Başlangıç İçeriği',templateFileName:fileName,disputeType:manifest.disputeType||'',subtype:manifest.subtype||'',subject:manifest.subject||'',recordId:manifest.recordId||''});
+            var card=document.getElementById('documentSourceCard');if(card)card.dataset.templateFile=fileName;
+            v16StartupTemplateLoaded=true;
+            return true;
+        }
+        var v16ApplyRemoteDatasetBase=supabaseApplyRemoteDataset;
+        supabaseApplyRemoteDataset=function(row){v16ApplyRemoteDatasetBase(row);setTimeout(function(){v16LoadEditorStartupTemplate();},0);};
+        setTimeout(function(){v16LoadEditorStartupTemplate();},60);
+    </script>
 </body></html>
