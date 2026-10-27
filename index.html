@@ -36,13 +36,17 @@
             .fixed-print-footer { display: flex !important; position: fixed !important; bottom: 0 !important; left: 0 !important; right: 0 !important; height: 2.0cm !important; padding: 0 1.25cm 0.5cm 1.75cm !important; box-sizing: border-box !important; background: #fff !important; flex-direction: column !important; justify-content: space-between !important; z-index: 999; }
             body.no-print-hf .fixed-print-header, body.no-print-hf .fixed-print-footer, body.no-print-hf .print-space-head, body.no-print-hf .print-space-foot { display: none !important; }
             body.no-print-hf .print-content-wrapper { padding-top: 1.25cm !important; padding-bottom: 1.25cm !important; }
-            .main-container { width: 18cm !important; margin-left: auto; margin-right: auto; border-collapse: collapse; table-layout: fixed; page-break-inside: auto !important; }
+            /* Chromium/Arial, Word ve UYAP'a gore ayni nominal genislikte
+               daha fazla kelime sigdiriyor. PDF inceleme ciktisini 4 mm
+               daraltmak satir kirilimlarini DOCX/UDF ile esler. */
+            .main-container { width: 17.6cm !important; margin-left: auto; margin-right: auto; border-collapse: collapse; table-layout: fixed; page-break-inside: auto !important; }
             .print-space-head { display: table-header-group !important; }
             .print-space-foot { display: table-footer-group !important; }
             tr, td, p, div { page-break-inside: auto !important; break-inside: auto !important; }
             .sig-grid { page-break-inside: auto !important; break-inside: auto !important; }
             .print-content-wrapper { padding: 0 1.25cm 0 1.75cm !important; box-sizing: border-box !important; }
             .label-cell, .colon-cell, .content-cell { color: #000 !important; margin: 0 !important; padding-top: 2px !important; padding-bottom: 2px !important; }
+            .content-cell { padding-right:.2cm !important; }
             .sig-title { text-decoration: underline !important; font-weight: bold !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
         }
 
@@ -51,7 +55,7 @@
            ==== */
         body { font-family: Arial, sans-serif; background-color: #f0f2f5; display: flex; flex-direction: column; align-items: center; padding: 80px 20px 20px 20px; margin: 0; }
         .a4-page { width: 210mm; max-width: 100%; min-height: 297mm; padding: 0; background: white; box-shadow: 0 0 15px rgba(0,0,0,0.1); box-sizing: border-box; position: relative; margin-bottom: 20px; font-size: 10pt; line-height: 1.2; z-index: 1; }
-        .print-content-wrapper { padding: 3.5cm 1.25cm 2cm 1.75cm; box-sizing: border-box; }
+        .print-content-wrapper { padding: 4cm 1.25cm 2cm 1.75cm; box-sizing: border-box; }
         .logo-container-print { margin-top: 0; margin-left: auto; margin-right: auto; width: 8cm; height: 2cm; display: flex; align-items: center; justify-content: center; }
         .logo-container-print img { width: 100%; height: 100%; object-fit: contain; }
         .header-line-print { width: 100%; border-top: 1px solid #808080; margin-top: 0.4cm; margin-bottom: 0.5cm; }
@@ -7304,11 +7308,13 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         .v23-preview-page-body { position:absolute; left:1.75cm; right:1.25cm; top:1.25cm; bottom:1.25cm; overflow:hidden; }
         .v23-preview-page.has-hf .v23-preview-page-body { top:4cm; bottom:2cm; }
         .v23-preview-page table { width:100%; border-collapse:collapse; table-layout:fixed; }
+        .v23-preview-page .main-container { width:17.6cm; margin-left:auto; margin-right:auto; }
         .v23-preview-page .label-cell, .v23-preview-page .colon-cell,
         .v23-preview-page .content-cell, .v23-preview-page .title-text-row td,
         .v23-preview-page .sig-title { color:#000 !important; }
         .v23-preview-page .label-cell, .v23-preview-page .colon-cell,
         .v23-preview-page .content-cell { margin:0 !important; padding-top:2px !important; padding-bottom:2px !important; }
+        .v23-preview-page .content-cell { padding-right:.2cm !important; }
         /* PDF'de .empty-row td{padding:0} kurali .label-cell/.colon-cell/.content-cell
            genel kuralindan daha yuksek ozguldugu icin kazaniyor (bir class+bir type > iki class).
            Onizlemede ".v23-preview-page" on eki eklendigi icin bu sira bozuluyor ve bos satirlar
@@ -7416,6 +7422,18 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 copy.classList.remove('row-hovered','row-delete-preview','row-dragging','v34-selected','v34-new-row');
                 copy.querySelectorAll('button,input,select,textarea,.lbl-dd-btn,[data-no-print]').forEach(function(node){node.remove();});
                 copy.querySelectorAll('[contenteditable]').forEach(function(node){node.removeAttribute('contenteditable');});
+                /* Word ve UYAP, sonuc metninin sonundaki kalin tarihi bu
+                   uzun metinlerde ayri satira tasiyor. Chromium'un farkli
+                   kelime olcumu tarihi onceki satira cekmesin: yalnizca
+                   baski/onizleme kopyasinda, son anlamli kalin tarih
+                   kosusundan once gercek bir satir sonu koy. */
+                copy.querySelectorAll('.content-cell').forEach(function(cell){
+                    const bolds=Array.from(cell.querySelectorAll('b,strong'));
+                    const lastMeaningful=bolds.reverse().find(function(node){return (node.textContent||'').replace(/\u00a0/g,' ').trim();});
+                    if(lastMeaningful&&/^\d{2}\.\d{2}\.\d{4}$/.test((lastMeaningful.textContent||'').trim())){
+                        const br=document.createElement('br');br.setAttribute('data-v23-date-break','true');lastMeaningful.before(br);
+                    }
+                });
                 copy.querySelectorAll('.selected,.hover,.drag-over,.row-hovered,.row-delete-preview,.row-dragging,.v34-selected,.v34-new-row').forEach(function(node){node.classList.remove('selected','hover','drag-over','row-hovered','row-delete-preview','row-dragging','v34-selected','v34-new-row');});
                 return copy;
             }

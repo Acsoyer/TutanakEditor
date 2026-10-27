@@ -464,6 +464,17 @@ def run_tag(cb: ContentBuilder, text: str, bold=False, italic=False,
     return f'<{tag} {attrs} startOffset="{start}" length="{length}" />'
 
 
+def hf_run_tag(cb: ContentBuilder, text: str, family=None, size=None,
+               bold=False, italic=False, underline=False):
+    """UYAP'in kendi ekledigi ust/alt yazi kosulariyla ayni metadata'yi uretir."""
+    return run_tag(
+        cb, text, bold=bold, italic=italic, underline=underline,
+        family=family, size=size,
+        extra_attrs='name="hvl-default" description="G\u00f6vde"',
+        force_content=True,
+    )
+
+
 def paragraph_xml(cb: ContentBuilder, para, align_map=None, extra_para_attrs="", size=None, force_content=False):
     """
     JSON'daki bir paragraf objesini ({align, runs:[...]}) UDF <paragraph>
@@ -881,8 +892,8 @@ def build_header_xml(cb: ContentBuilder, header_data):
     logo_b64_raw = header_data.get("logoBase64") or ""
 
     if not enabled:
-        nl_tag = run_tag(cb, "\n")
-        return f'<header><paragraph name="hvl-default">{nl_tag}</paragraph></header>'
+        nl_tag = hf_run_tag(cb, "  \n")
+        return f'<header><paragraph name="hvl-default" family="{FONT_FAMILY}" size="{FONT_SIZE}" description="G\u00f6vde">{nl_tag}</paragraph></header>'
 
     parts = []
 
@@ -899,19 +910,19 @@ def build_header_xml(cb: ContentBuilder, header_data):
         # "yer tutucu" content ekleniyor (offset+1). Content akisina da
         # gercekten 1 karakter (bosluk/newline) ekliyoruz ki offset defteri
         # tutarli kalsin.
-        placeholder_tag = run_tag(cb, "\n")
+        placeholder_tag = hf_run_tag(cb, "\n")
         # v34: SpaceAbove KALDIRILDI. Ust bosluk artik headerFOffset'tan
         # (sayfa yapisi) geliyor. Burada tekrar verirsek bosluk cift sayilir.
         parts.append(
-            f'<paragraph name="hvl-default" Alignment="1" family="{FONT_FAMILY}" size="{FONT_SIZE}" foreground="-1" SpaceAbove="0.0" SpaceBelow="0.0">'
+            f'<paragraph name="hvl-default" Alignment="1" family="{FONT_FAMILY}" size="{FONT_SIZE}" description="G\u00f6vde" foreground="-1" SpaceAbove="0.0" SpaceBelow="0.0">'
             f'<image imageData="{logo_b64_flat}" width="{w_pt:.2f}" height="{h_pt:.2f}" '
             f'startOffset="{image_offset}" length="1" />{placeholder_tag}</paragraph>'
         )
     else:
         # v34: SpaceAbove KALDIRILDI (bkz. yukaridaki not).
-        nl_tag = run_tag(cb, "\n")
+        nl_tag = hf_run_tag(cb, "  \n")
         parts.append(
-            f'<paragraph name="hvl-default" Alignment="1" SpaceAbove="0.0">'
+            f'<paragraph name="hvl-default" Alignment="1" family="{FONT_FAMILY}" size="{FONT_SIZE}" description="G\u00f6vde" SpaceAbove="0.0">'
             f"{nl_tag}</paragraph>"
         )
 
@@ -921,9 +932,9 @@ def build_header_xml(cb: ContentBuilder, header_data):
     # satiri kadar gizli bosluk rezerve edilir)
     sep_flat = wrap_base64(SEP_LINE_2PX_B64)
     sep_offset = cb.offset
-    nl_tag2 = run_tag(cb, "\n")
+    nl_tag2 = hf_run_tag(cb, "\n", size=SEP_LINE_FONT_SIZE)
     parts.append(
-        f'<paragraph name="hvl-default" Alignment="1" family="{FONT_FAMILY}" size="{SEP_LINE_FONT_SIZE}" foreground="-1" SpaceAbove="0.0" SpaceBelow="0.0">'
+        f'<paragraph name="hvl-default" Alignment="1" family="{FONT_FAMILY}" size="{SEP_LINE_FONT_SIZE}" description="G\u00f6vde" foreground="-1" SpaceAbove="0.0" SpaceBelow="0.0">'
         f'<image imageData="{sep_flat}" width="{CONTENT_WIDTH_PT:.2f}" height="2.0" '
         f'startOffset="{sep_offset}" length="1" />{nl_tag2}</paragraph>'
     )
@@ -955,8 +966,8 @@ def build_footer_xml(cb: ContentBuilder, footer_data):
     text2 = (footer_data.get("text2") or "").strip()
 
     if not enabled:
-        nl_tag = run_tag(cb, "\n")
-        return f'<footer><paragraph name="hvl-default">{nl_tag}</paragraph></footer>'
+        nl_tag = hf_run_tag(cb, "  \n")
+        return f'<footer><paragraph name="hvl-default" family="{FONT_FAMILY}" size="{FONT_SIZE}" description="G\u00f6vde">{nl_tag}</paragraph></footer>'
 
     parts = []
 
@@ -968,9 +979,9 @@ def build_footer_xml(cb: ContentBuilder, footer_data):
     # DEGISMEDI (orada bu bosluk isteniyor).
     sep_flat = wrap_base64(SEP_LINE_2PX_B64)
     sep_offset = cb.offset
-    nl_tag = run_tag(cb, "\n", size=FOOTER_SEP_CONTENT_SIZE)
+    nl_tag = hf_run_tag(cb, "\n", size=FOOTER_SEP_CONTENT_SIZE)
     parts.append(
-        f'<paragraph name="hvl-default" Alignment="1" LineSpacing="{FOOTER_SEP_LINESPACING}" family="{FONT_FAMILY}" size="{SEP_LINE_FONT_SIZE}" foreground="-1" SpaceAbove="0.0" SpaceBelow="0.0">'
+        f'<paragraph name="hvl-default" Alignment="1" LineSpacing="{FOOTER_SEP_LINESPACING}" family="{FONT_FAMILY}" size="{SEP_LINE_FONT_SIZE}" description="G\u00f6vde" foreground="-1" SpaceAbove="0.0" SpaceBelow="0.0">'
         f'<image imageData="{sep_flat}" width="{CONTENT_WIDTH_PT:.2f}" height="2.0" '
         f'startOffset="{sep_offset}" length="1" />{nl_tag}</paragraph>'
     )
@@ -980,7 +991,7 @@ def build_footer_xml(cb: ContentBuilder, footer_data):
     if lines:
         for i, txt in enumerate(lines):
             is_last = (i == len(lines) - 1)
-            t_tag = run_tag(cb, txt, family="Palatino Linotype", size="9")
+            t_tag = hf_run_tag(cb, txt, family="Palatino Linotype", size="9")
             # v34: son satirdaki SpaceBelow KALDIRILDI. Alt bosluk artik
             # footerFOffset'tan (sayfa yapisi) geliyor. Burada tekrar
             # verirsek bosluk cift sayilir ve footer govdeye dogru buyur.
@@ -992,7 +1003,7 @@ def build_footer_xml(cb: ContentBuilder, footer_data):
     else:
         # metin yoksa: cizgiden sonra bos paragraf (v34: SpaceBelow YOK;
         # alt bosluk footerFOffset'tan geliyor)
-        nl_tag2 = run_tag(cb, "\n")
+        nl_tag2 = hf_run_tag(cb, "  \n")
         parts.append(
             f'<paragraph name="hvl-default" Alignment="1">'
             f"{nl_tag2}</paragraph>"
@@ -1107,7 +1118,10 @@ def build_udf_content_xml(data: dict) -> str:
 
     def build_spacer_paragraph(cb: ContentBuilder) -> str:
         """Empty-row yerine gecen, tablonun DISINDA duran kucuk bosluk paragrafi."""
-        nl_tag = run_tag(cb, "\n")
+        # UYAP ard arda gelen yalnizca-newline paragraflarini gorsel olarak
+        # cokertiyor. NBSP + newline, metin gostermeden gercek bir satir
+        # kutusu olusturur; baslik altindaki iki bos satir da korunur.
+        nl_tag = run_tag(cb, "\u00a0\n", force_content=True)
         # Bu paragraf "empty-row" yerine gecen bir BOS satirdir -> satir
         # araligi 1.0 (EMPTY_LINESPACING). Kullanicinin BOS-1 testiyle
         # dogrulanan davranis: bos satirlarda LineSpacing niteligi yazilmaz.
