@@ -97,7 +97,7 @@ BOTTOM_FOOTER_AREA_CM = 2.0   # sayfa altindan ayrilan toplam footer alani
 #   icin BIREBIR ayni kalir. Logoyu da birebir ayni tutmak istersen
 #   HEADER_FOFFSET_CM'yi 0.4 yap.
 HEADER_FOFFSET_CM = 0.5      # <-- Kenardan > Ust Yazi (headerFOffset). Ayarlanabilir.
-FOOTER_FOFFSET_CM = 0.3      # <-- Kenardan > Alt Yazi (footerFOffset). (v34.1: 0.5 -> 0.3)
+FOOTER_FOFFSET_CM = 0.5      # <-- DOCX ile ayni: alt yazi sayfa altindan 0.5cm uzakta.
 
 HEADER_TOP_GAP_CM = 0.4      # (v34: ARTIK KULLANILMIYOR - bosluk headerFOffset'a tasindi)
 LOGO_HEIGHT_CM = 2.0
