@@ -1021,9 +1021,9 @@
         </a>
         <div class="toolbar-inner">
             <div class="toolbar-left">
-                <button class="tb-btn" onclick="document.execCommand('bold')" data-title="Kalın (Ctrl+B)"><span class="material-icons">format_bold</span></button>
-                <button class="tb-btn" onclick="applySigTitle()" data-title="İmza Başlığı (Ctrl+U)"><span class="material-icons">format_underlined</span></button>
-                <button class="tb-btn" onclick="document.execCommand('italic')" data-title="İtalik (Ctrl+I)"><span class="material-icons">format_italic</span></button>
+                <button class="tb-btn" onclick="applyBoldFormat()" data-title="Kalın (Ctrl+B)"><strong>K</strong></button>
+                <button class="tb-btn" onclick="applySigTitle()" data-title="Altı Çizgili (Ctrl+U)"><u>A</u></button>
+                <button class="tb-btn" onclick="applyItalicFormat()" data-title="İtalik (Ctrl+I)"><em>İ</em></button>
                 
                 <button class="tb-btn" onclick="document.execCommand('hiliteColor',false,'#fff9c4')" data-title="Vurgula"><span class="material-icons">border_color</span></button>
                 <button class="tb-btn" onclick="document.execCommand('hiliteColor',false,'transparent')" data-title="Vurgu Sil"><span class="material-icons">format_color_reset</span></button>
@@ -1492,8 +1492,8 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                     </div>
                     <div id="pdfRightGapValue" class="output-layout-value">Sağ boşluk: 2 mm</div>
                 </section>
-                <div class="settings-hint">Soldaki metin seçim listesinde görünür; sağdaki metin belgeye yazılır. Eklediğiniz seçenekler, <b>-versiyon-</b> bağlantısıyla kaydettiğiniz editörün içinde kalır.</div>
-                <div class="settings-table">
+                <label class="title-dropdown-setting"><input id="titleDropdownEnabled" type="checkbox" onchange="setTitleDropdownEnabled(this.checked)"><span>Başlıklarda Dropdown Özelliğini Aktif Et</span></label>
+                <div id="titleDropdownSettings" class="settings-table">
                     <div class="settings-head"><span>Listede Görünen İsim</span><span>Sayfaya Yazılacak Metin</span><span></span></div>
                     <div id="settingsList" class="settings-list"></div>
                     <div class="settings-add-wrap">
@@ -4256,12 +4256,12 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             
             if (key === 'b') { 
                 e.preventDefault(); 
-                document.execCommand('bold'); 
+                applyBoldFormat(); 
                 return; 
             }
             if (key === 'i') { 
                 e.preventDefault(); 
-                document.execCommand('italic'); 
+                applyItalicFormat(); 
                 return; 
             }
             if (key === 'u') { 
@@ -4556,6 +4556,27 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 } 
             }); 
         }
+        function applySemanticInlineFormat(tagName) {
+            const selection = window.getSelection();
+            if (!selection || !selection.rangeCount || selection.isCollapsed) return;
+            const range = selection.getRangeAt(0);
+            let root = range.commonAncestorContainer;
+            if (root.nodeType === Node.TEXT_NODE) root = root.parentNode;
+            if (!root || !root.closest || !root.closest('[contenteditable="true"]')) return;
+            const element = document.createElement(tagName);
+            try {
+                element.appendChild(range.extractContents());
+                range.insertNode(element);
+                const selected = document.createRange();
+                selected.selectNodeContents(element);
+                selection.removeAllRanges();
+                selection.addRange(selected);
+            } catch (error) {
+                document.execCommand(tagName === 'b' ? 'bold' : 'italic');
+            }
+        }
+        function applyBoldFormat() { applySemanticInlineFormat('b'); }
+        function applyItalicFormat() { applySemanticInlineFormat('i'); }
         function applySigTitle() { 
             const sel = window.getSelection(); 
             if (!sel.rangeCount || sel.isCollapsed) return; 
@@ -5257,6 +5278,23 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             CUSTOM_LABEL_PRESETS.splice(index, 1);
             refreshLabelPresets();
         }
+        const TITLE_DROPDOWN_ENABLED_KEY = 'arbsys-title-dropdown-enabled';
+        function isTitleDropdownEnabled() {
+            return localStorage.getItem(TITLE_DROPDOWN_ENABLED_KEY) !== 'false';
+        }
+        function syncTitleDropdownSetting() {
+            const enabled = isTitleDropdownEnabled();
+            document.body.classList.toggle('title-dropdown-disabled', !enabled);
+            const checkbox = document.getElementById('titleDropdownEnabled');
+            const settings = document.getElementById('titleDropdownSettings');
+            if (checkbox) checkbox.checked = enabled;
+            if (settings) settings.hidden = !enabled;
+            if (!enabled) document.getElementById('lblDropdown')?.classList.remove('open');
+        }
+        function setTitleDropdownEnabled(enabled) {
+            localStorage.setItem(TITLE_DROPDOWN_ENABLED_KEY, enabled ? 'true' : 'false');
+            syncTitleDropdownSetting();
+        }
         function injectLabelDropdowns() {
             document.querySelectorAll('#docTable .single-row .label-cell').forEach(function(td) {
                 if (!td.querySelector('.lbl-dd-btn')) {
@@ -5270,6 +5308,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             });
         }
         injectLabelDropdowns();
+        syncTitleDropdownSetting();
         applyEditable();
 
         (function() {
@@ -5314,6 +5353,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             });
             
             function openDropdown(btn) {
+                if (!isTitleDropdownEnabled()) return;
                 activeSpan = btn.closest('.label-cell').querySelector('span[contenteditable]');
                 const rect = btn.getBoundingClientRect();
                 const menuH = Math.min(280, LABEL_PRESETS.length * 31 + 44);
@@ -5333,7 +5373,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             
             document.addEventListener('click', function(e) {
                 const btn = e.target.closest('.lbl-dd-btn'); 
-                if (btn) { e.stopPropagation(); openDropdown(btn); return; }
+                if (btn) { e.stopPropagation(); if (isTitleDropdownEnabled()) openDropdown(btn); return; }
                 const opt = e.target.closest('.lbl-opt'); 
                 if (opt && activeSpan) { activeSpan.innerHTML = opt.dataset.value; dropdown.classList.remove('open'); activeSpan = null; return; }
                 if (!dropdown.contains(e.target)) dropdown.classList.remove('open');
@@ -7886,13 +7926,27 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 return String(value||'').replace(/\s+/g,' ').replace(/^\(|\)$/g,'').trim();
             }
             function titleCaseTr(value){
-                return cleanTitle(value).toLocaleLowerCase('tr-TR').replace(/(^|[\s-])([a-zçğıöşü])/g,function(_match,space,letter){return space+letter.toLocaleUpperCase('tr-TR');});
+                return cleanTitle(value).toLocaleLowerCase('tr-TR').replace(/(^|[\s\-–—/])([a-zçğıöşü])/g,function(_match,space,letter){return space+letter.toLocaleUpperCase('tr-TR');});
+            }
+            function withoutTrailingDates(value){
+                return cleanTitle(value).replace(/(?:\s*-\s*\d{2}[.\/-]\d{2}[.\/-]\d{4})+\s*$/g,'').trim();
+            }
+            function documentTitleParts(){
+                var nodes=Array.from(document.querySelectorAll('#docTable .title-text-row td, #docTable .v34-title-text-row .fr-content'));
+                var seen=new Set();
+                return nodes.map(function(node){return cleanTitle(node.textContent);}).filter(function(text){
+                    if(!text || /^(BAŞLIK EKLE|Açıklama Ekle)$/i.test(text))return false;
+                    var key=text.toLocaleLowerCase('tr-TR');
+                    if(seen.has(key))return false;
+                    seen.add(key);return true;
+                });
             }
             window.v26SuggestedFileName=function(){
-                var title=Array.from(document.querySelectorAll('#docTable .title-text-row td')).map(function(cell){return cleanTitle(cell.textContent);}).find(function(text){return text && !/^\(/.test(text);});
-                if(!title)title=document.getElementById('fileNameInput')?.value || document.getElementById('documentSourceTemplate')?.textContent || 'Arabuluculuk Belgesi';
+                var parts=documentTitleParts();
+                var title=parts.length?parts.map(titleCaseTr).join(' - '):'';
+                if(!title)title=withoutTrailingDates(document.getElementById('fileNameInput')?.value || document.getElementById('documentSourceTemplate')?.textContent || 'Arabuluculuk Belgesi');
                 var now=new Date(),date=[String(now.getDate()).padStart(2,'0'),String(now.getMonth()+1).padStart(2,'0'),now.getFullYear()].join('-');
-                return cleanTitle(title)+' - '+date;
+                return withoutTrailingDates(title)+' - '+date;
             };
 
             function setDisabledField(select,disabled,message){
@@ -8624,7 +8678,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             var toolbar=document.querySelector('.toolbar');if(toolbar&&!document.getElementById('v34AddBar')){var bar=document.createElement('div');bar.id='v34AddBar';bar.className='v34-addbar';bar.innerHTML='<span class="v34-addbar-label">Ekle:</span><button type="button" onclick="v34AddSelected(\'title\')"><span class="material-icons">title</span>Başlık</button><button type="button" onclick="v34AddSelected(\'single\')"><span class="material-icons">short_text</span>Yeni Alan</button><button type="button" onclick="v34AddSelected(\'full\')"><span class="material-icons">segment</span>Tam Metin</button><button type="button" onclick="v34AddSelected(\'empty\')"><span class="material-icons">space_bar</span>Boş Satır</button><button type="button" onclick="v34AddSelected(\'sig1\')"><span class="material-icons">person</span>Tekli İmza</button><button type="button" onclick="v34AddSelected(\'sig2\')"><span class="material-icons">people</span>İkili İmza</button><button type="button" onclick="v34AddSelected(\'sig3\')"><span class="material-icons">groups</span>Üçlü İmza</button>';toolbar.appendChild(bar);}
             var panel=document.getElementById('floatPanel'),deletePanel=document.getElementById('floatDeletePanel'),drag=deletePanel?.querySelector('.drag-btn');if(panel&&drag&&drag.parentElement!==panel)panel.appendChild(drag);document.querySelector('#floatMenu [data-action="madde"]')?.remove();
         }
-        document.getElementById('docTable')?.addEventListener('click',function(event){if(!v34IsMode())return;var row=event.target.closest('#docTable>tbody>tr');if(row){event.stopPropagation();v34SelectRow(row);}},true);
+        document.getElementById('docTable')?.addEventListener('click',function(event){if(!v34IsMode()||event.target.closest('.lbl-dd-btn'))return;var row=event.target.closest('#docTable>tbody>tr');if(row){event.stopPropagation();v34SelectRow(row);}},true);
         document.addEventListener('keydown',function(event){if(event.key==='Escape'&&v34IsMode())v34ToggleStructureMode(false);},true);
         var v34RemoveBlockBase=removeBlock;
         removeBlock=function(row){var next=row?.nextElementSibling||row?.previousElementSibling||null;v34RemoveBlockBase(row);if(row===v34SelectedRow){v34SelectedRow=null;if(next&&next.isConnected)v34SelectRow(next);}};
@@ -8813,6 +8867,10 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         #docTable u,#docTable .text-underline{text-decoration:underline!important;text-decoration-thickness:auto;text-underline-offset:auto}
         /* İmza başlığının mevcut alt boşluğu korunur. */
         #docTable .sig-box .sig-title{display:block!important;margin-bottom:5px!important;text-decoration:underline!important}
+        .title-dropdown-setting{display:flex;align-items:center;gap:10px;padding:12px 14px;border:1px solid #c7d2fe;border-radius:10px;background:#eef2ff;color:#312e81;font-size:12px;font-weight:800;cursor:pointer;user-select:none}
+        .title-dropdown-setting input{width:18px;height:18px;accent-color:#4338ca;cursor:pointer}
+        #titleDropdownSettings[hidden]{display:none!important}
+        body.title-dropdown-disabled #docTable .lbl-dd-btn{display:none!important;pointer-events:none!important}
         /* Yeni satır tabanlı ana belge başlıkları .arbsys açılışında da kalındır. */
     </style>
 </body></html>
