@@ -183,7 +183,22 @@
     }
 
     const attrs = resolvedAttributes(node, context.styleMap);
-    const text = tag === 'tab' ? '\t' : slicePool(context.pool, node);
+    let text = tag === 'tab' ? '\t' : slicePool(context.pool, node);
+    if (tag === 'field' && context.dataFields) {
+      const fieldName = node.getAttribute('fieldName') || '';
+      if (fieldName) {
+        const values = context.dataFields.get(fieldName) || [];
+        const used = context.fieldUse.get(fieldName) || 0;
+        if (values.length) {
+          text = values[Math.min(used, values.length - 1)];
+          context.fieldUse.set(fieldName, used + 1);
+        } else {
+          // Veri bölümü bulunan resmi UYAP formlarında değer verilmeyen
+          // alan adını yer tutucu olarak göstermeyiz; alan gerçekten boştur.
+          text = '';
+        }
+      }
+    }
     const fragment = document.createDocumentFragment();
     text.split('\t').forEach((part, index) => {
       if (index > 0) {
@@ -359,6 +374,27 @@
     return raw.replace(/\s+/g, ' ').trim();
   }
 
+  function parseDataFields(root) {
+    const data = directChild(root, 'data');
+    if (!data) return null;
+    const fields = new Map();
+    data.querySelectorAll('*').forEach(node => {
+      if (node.children.length) return;
+      const name = node.tagName;
+      let value = node.textContent || '';
+      // Bazı resmi UYAP alanları (özellikle imza) escaped HTML taşır.
+      // Etiketleri çalıştırmadan yalnızca okunabilir metne dönüştür.
+      if (/<\/?[a-z][\s\S]*>/i.test(value)) {
+        const parsed = new DOMParser().parseFromString(value, 'text/html');
+        value = parsed.body.textContent || '';
+      }
+      value = value.replace(/\r/g, '').replace(/[ \t]+\n/g, '\n').trim();
+      if (!fields.has(name)) fields.set(name, []);
+      fields.get(name).push(value);
+    });
+    return fields;
+  }
+
   async function parseDocumentProperties(zip) {
     const entry = zip.file('documentproperties.xml');
     if (!entry) return {};
@@ -418,7 +454,8 @@
     const styleMap = parseStyles(root);
     const documentProperties = await parseDocumentProperties(zip);
     const arbsysGenerated = isArbsysGeneratedUdf(root, elements);
-    const context = { pool, styleMap, inFooter: false, arbsysGenerated };
+    const dataFields = parseDataFields(root);
+    const context = { pool, styleMap, inFooter: false, arbsysGenerated, dataFields, fieldUse: new Map() };
     const blocks = [];
     let footerNode = null;
     let headerNode = null;

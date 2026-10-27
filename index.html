@@ -1197,6 +1197,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         <div class="modal-content" onclick="event.stopPropagation()" style="width:560px;">
             <div class="modal-header">
                 Belgeyi Kaydet
+                <button class="save-preview-shortcut" type="button" onclick="openPreviewFromSaveModal()"><span class="material-icons">preview</span>Belge PDF Önizleme</button>
                 <button class="close-btn" onclick="closeSaveModal(event)">×</button>
             </div>
             <div class="modal-body">
@@ -1208,18 +1209,18 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                     </div>
                 </div>
                 
-                <div class="save-buttons-row">
+                <div class="save-buttons-row v15-save-format-buttons">
                     <button class="tb-btn tb-btn-wide arbsys-save-btn" onclick="executeSave('arbsys')">
-                        <img src="Arbsys_Logo_SVG.svg" alt=""> Arbsys Şablon
+                        <img src="Arbsys_Logo_SVG.svg" alt=""><span><strong>Arbsys Şablon</strong><small>Düzenlenebilir şablon olarak kaydet</small></span>
                     </button>
                     <button class="tb-btn tb-btn-wide accent-red" onclick="executeSave('pdf')">
-                        <span class="material-icons" style="font-size:16px;">picture_as_pdf</span> PDF
+                        <span class="material-icons">picture_as_pdf</span><span><strong>PDF</strong><small>Yazdırma düzeninde kaydet</small></span>
                     </button>
                     <button class="tb-btn tb-btn-wide accent-bluedoc" onclick="executeSave('docx')">
-                        <span class="material-icons" style="font-size:16px;">description</span> DOCX
+                        <span class="material-icons">description</span><span><strong>DOCX</strong><small>Word belgesi olarak kaydet</small></span>
                     </button>
                     <button class="tb-btn tb-btn-wide accent-purple" onclick="executeSave('udfjson')">
-                        <span class="material-icons" style="font-size:16px;">gavel</span> UDF
+                        <span class="material-icons">gavel</span><span><strong>UDF</strong><small>UYAP belgesi olarak kaydet</small></span>
                     </button>
                 </div>
                 
@@ -1536,8 +1537,17 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         let floatActiveRow = null;
         let uploadedLogoBase64 = "";
 
-        function openSaveModal() { document.getElementById('saveModal').classList.add('open'); }
+        function openSaveModal() {
+            var input = document.getElementById('fileNameInput');
+            if (input && typeof window.v26SuggestedFileName === 'function') input.value = window.v26SuggestedFileName();
+            document.getElementById('saveModal').classList.add('open');
+            setTimeout(function(){ if(input){ input.focus(); input.select(); } }, 0);
+        }
         function closeSaveModal(e) { if(e) e.preventDefault(); document.getElementById('saveModal').classList.remove('open'); }
+        function openPreviewFromSaveModal() {
+            closeSaveModal();
+            if (typeof window.v23OpenPreview === 'function') window.v23OpenPreview();
+        }
         function openSettingsModal() {
             document.getElementById('saveModal').classList.remove('open');
             renderSettingsList();
@@ -7462,6 +7472,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                     <button type="button" data-format="pdf"><span class="material-icons">picture_as_pdf</span><span><strong>PDF</strong><small>Yazdırma düzeninde kaydet</small></span></button>
                     <button type="button" data-format="docx"><span class="material-icons">description</span><span><strong>DOCX</strong><small>Word belgesi olarak kaydet</small></span></button>
                     <button type="button" data-format="udf"><span class="material-icons">gavel</span><span><strong>UDF</strong><small>UYAP belgesi olarak kaydet</small></span></button>
+                    <button type="button" data-format="arbsys"><img src="Arbsys_Logo_SVG.svg" alt=""><span><strong>Arbsys Şablon</strong><small>Düzenlenebilir şablon olarak kaydet</small></span></button>
                 </div>
             </div>
         </div>
@@ -7627,7 +7638,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             function saveFromPreview(format){
                 var input=document.getElementById('v25PreviewFileName'),clean=String(input.value||'Arabuluculuk Belgesi').replace(/[\\/:*?"<>|]/g,'').trim()||'Arabuluculuk Belgesi';
                 var mainName=document.getElementById('fileNameInput');if(mainName)mainName.value=clean;
-                closeSaveDialog();closePreview();setTimeout(function(){if(format==='pdf')saveAsPdf();else if(format==='docx')exportToDocx();else if(format==='udf')exportToUdfJson();},120);
+                closeSaveDialog();closePreview();setTimeout(function(){if(format==='pdf')saveAsPdf();else if(format==='docx')exportToDocx();else if(format==='udf')exportToUdfJson();else if(format==='arbsys')exportArbsys(getFileName());},120);
             }
             function openPreview(){
                 if(document.body.classList.contains('udf-view-open')&&typeof toggleUdfViewer==='function')toggleUdfViewer(false);
@@ -7635,7 +7646,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 closeSaveDialog();
                 const fit=Math.max(.5,Math.min(.8,(panel.clientWidth-58)/PAGE_WIDTH));const nearest=ZOOMS.reduce(function(a,b){return Math.abs(b-fit)<Math.abs(a-fit)?b:a;},ZOOMS[0]);updateScale(nearest);refreshPreview();
             }
-            window.v23ClosePreview=closePreview;window.v23RefreshPreview=refreshPreview;
+            window.v23ClosePreview=closePreview;window.v23RefreshPreview=refreshPreview;window.v23OpenPreview=openPreview;
             document.getElementById('v23PreviewToggle').onclick=function(){panel.classList.contains('open')?closePreview():openPreview();};
             document.getElementById('v23PreviewClose').onclick=closePreview;document.getElementById('v23PreviewRefresh').onclick=refreshPreview;
             document.getElementById('v25PreviewSave').onclick=openSaveDialog;document.getElementById('v25PreviewSaveClose').onclick=closeSaveDialog;
@@ -7862,7 +7873,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 var title=Array.from(document.querySelectorAll('#docTable .title-text-row td')).map(function(cell){return cleanTitle(cell.textContent);}).find(function(text){return text && !/^\(/.test(text);});
                 if(!title)title=document.getElementById('fileNameInput')?.value || document.getElementById('documentSourceTemplate')?.textContent || 'Arabuluculuk Belgesi';
                 var now=new Date(),date=[String(now.getDate()).padStart(2,'0'),String(now.getMonth()+1).padStart(2,'0'),now.getFullYear()].join('-');
-                return titleCaseTr(title)+' - '+date;
+                return cleanTitle(title)+' - '+date;
             };
 
             function setDisabledField(select,disabled,message){
@@ -8630,4 +8641,19 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         v11NormalizeArbsysTable(document.getElementById('docTable'));
         injectLabelDropdowns();applyEditable();
     </script>
+    <style id="v15-save-parity-styles">
+        #saveModal .modal-header{justify-content:flex-start;gap:10px}
+        #saveModal .modal-header>.close-btn{margin-left:0}
+        .save-preview-shortcut{margin-left:auto;display:inline-flex;align-items:center;gap:6px;min-height:34px;padding:6px 11px;border:1px solid #bfdbfe;border-radius:9px;background:#eff6ff;color:#1d4ed8;font:800 11px/1 Arial,sans-serif;cursor:pointer}
+        .save-preview-shortcut:hover{background:#dbeafe;border-color:#93c5fd}
+        .save-preview-shortcut .material-icons{font-size:18px}
+        #saveModal .v15-save-format-buttons{display:grid;grid-template-columns:1fr;gap:9px;margin-top:16px}
+        #saveModal .v15-save-format-buttons button{display:grid;grid-template-columns:42px 1fr;align-items:center;justify-content:start;gap:10px;width:100%;min-height:62px;height:auto;padding:9px 12px;border:1px solid #dce3eb;border-radius:12px;background:#f8fafc;color:#25384a;text-align:left;font-size:13px;cursor:pointer}
+        #saveModal .v15-save-format-buttons button:hover{border-color:#93b7d2;background:#eef5f9;transform:translateY(-1px)}
+        #saveModal .v15-save-format-buttons .material-icons,#saveModal .v15-save-format-buttons img{display:grid;place-items:center;width:38px;height:38px;object-fit:contain;border-radius:10px;padding:7px;box-sizing:border-box;background:#e4edf4;color:#245a7a;font-size:22px}
+        #saveModal .v15-save-format-buttons strong,#saveModal .v15-save-format-buttons small{display:block}
+        #saveModal .v15-save-format-buttons strong{font-size:13px}
+        #saveModal .v15-save-format-buttons small{margin-top:3px;color:#6b7a89;font-size:10px;font-weight:600}
+        .v25-preview-format-buttons button[data-format="arbsys"] img{width:38px;height:38px;object-fit:contain;padding:7px;border-radius:10px;background:#e4edf4;box-sizing:border-box}
+    </style>
 </body></html>

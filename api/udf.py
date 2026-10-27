@@ -25,7 +25,7 @@ import zipfile
 # Bu iki satir her iki modu da calisir tutar.
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from _udf_lib import build_udf_content_xml, _has_header_footer
+from _udf_lib import build_udf_content_xml
 
 MAX_BODY = 20 * 1024 * 1024  # 20 MB (base64 logo payload'i icin bol bol yeter)
 
@@ -44,9 +44,9 @@ def safe_filename(data: dict) -> str:
     for ch in '\\/:*?"<>|\r\n':
         base = base.replace(ch, "")
     base = base.strip() or "Arabuluculuk_Tutanak"
-    # Yerel scriptteki adlandirma kuralini koru
-    suffix = "_ile_header_footer" if _has_header_footer(data) else "_header_footer_yok"
-    return base + suffix + ".udf"
+    # Kullanıcının yazdığı adı değiştirme. Üst/alt bilginin bulunması dosya
+    # adına teknik bir ek getirmemelidir.
+    return base + ".udf"
 
 
 class handler(BaseHTTPRequestHandler):
