@@ -46,7 +46,7 @@
             .sig-grid { page-break-inside: auto !important; break-inside: auto !important; }
             .print-content-wrapper { padding: 0 1.25cm 0 1.75cm !important; box-sizing: border-box !important; }
             .label-cell, .colon-cell, .content-cell { color: #000 !important; margin: 0 !important; padding-top: 2px !important; padding-bottom: 2px !important; }
-            .content-cell { padding-right:.2cm !important; }
+            .content-cell { padding-right:var(--arbsys-pdf-right-gap, 2mm) !important; }
             .sig-title { text-decoration: underline !important; font-weight: bold !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
         }
 
@@ -71,7 +71,7 @@
         td { padding: 1.5px 0 1.5px 0.2cm; vertical-align:top; font-size:10pt; line-height:1.3; position:relative; box-sizing:border-box; word-wrap: break-word; }
         .label-cell { text-align:left; text-align-last:left; font-weight:bold; color:#3c40c6; text-transform:uppercase; padding-left:0.15cm; }
         .colon-cell { font-weight:bold; text-align:left; padding-left:0; padding-right:0; color:#000; }
-        .content-cell { text-align:justify; text-align-last:left; text-justify:inter-word; padding-left:0.15cm; }
+        .content-cell { text-align:justify; text-align-last:left; text-justify:inter-word; padding-left:0.15cm; padding-right:var(--arbsys-pdf-right-gap, 2mm); }
         .full-row td { text-align:justify; text-align-last:left; text-justify:inter-word; }
         .empty-row td { height: 10px; line-height: 10px; padding: 0 !important; }
         /* Ortak icerik siniflari (inline stiller yerine merkezi) */
@@ -270,6 +270,16 @@
         .settings-plus:hover { background:#272365; color:#fff; }
         .settings-add-confirm { width:30px; height:30px; border:0; border-radius:50%; background:#272365; color:#fff; cursor:pointer; }
         .settings-hint { font-size:11px; line-height:1.45; color:#777; margin-top:-6px; }
+        .output-layout-settings { margin-bottom:16px; padding:14px; border:1px solid #dbe4f0; border-radius:10px; background:#f8fbff; }
+        .output-layout-settings h3 { margin:0 0 6px; color:#272365; font-size:13px; }
+        .output-layout-settings p { margin:0 0 12px; color:#64748b; font-size:11px; line-height:1.45; }
+        .output-layout-control { display:grid; grid-template-columns:minmax(0,1fr) 92px 38px; gap:10px; align-items:center; }
+        .output-layout-control input[type="range"] { width:100%; accent-color:#4f46e5; }
+        .output-layout-number { display:flex; align-items:center; gap:5px; border:1px solid #cbd5e1; border-radius:8px; padding:0 8px; background:#fff; }
+        .output-layout-number input { width:54px; height:34px; border:0; outline:0; font-size:12px; text-align:right; }
+        .output-layout-number span { color:#64748b; font-size:11px; }
+        .output-layout-reset { height:34px; border:1px solid #cbd5e1; border-radius:8px; background:#fff; color:#475569; cursor:pointer; }
+        .output-layout-value { margin-top:8px; color:#4338ca; font-size:11px; font-weight:700; }
 
         /* ====
            7. İÇE / DIŞA AKTAR MODAL
@@ -1457,10 +1467,20 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
     <div id="settingsModal" class="modal-overlay" onclick="closeSettingsModal(event)">
         <div class="modal-content" onclick="event.stopPropagation()" style="width:660px;">
             <div class="modal-header">
-                Başlık Dropdown Ayarları
+                Ayarlar
                 <button class="close-btn" onclick="closeSettingsModal(event)">×</button>
             </div>
             <div class="modal-body">
+                <section class="output-layout-settings">
+                    <h3>PDF / editör sağ metin boşluğu</h3>
+                    <p>Değeri artırdığınızda metin alanı sağdan daralır ve son kelimeler daha erken alt satıra geçer. Değişiklik editörde ve PDF önizlemesinde anında görünür; DOCX ve UDF etkilenmez.</p>
+                    <div class="output-layout-control">
+                        <input id="pdfRightGapRange" type="range" min="0" max="30" step="0.5" value="2" oninput="setPdfRightGap(this.value, true)">
+                        <label class="output-layout-number"><input id="pdfRightGapNumber" type="number" min="0" max="30" step="0.5" value="2" oninput="setPdfRightGap(this.value, true)"><span>mm</span></label>
+                        <button class="output-layout-reset" type="button" onclick="resetPdfRightGap()" title="Varsayılan değere dön">↺</button>
+                    </div>
+                    <div id="pdfRightGapValue" class="output-layout-value">Sağ boşluk: 2 mm</div>
+                </section>
                 <div class="settings-hint">Soldaki metin seçim listesinde görünür; sağdaki metin belgeye yazılır. Eklediğiniz seçenekler, <b>-versiyon-</b> bağlantısıyla kaydettiğiniz editörün içinde kalır.</div>
                 <div class="settings-table">
                     <div class="settings-head"><span>Listede Görünen İsim</span><span>Sayfaya Yazılacak Metin</span><span></span></div>
@@ -1521,6 +1541,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         function openSettingsModal() {
             document.getElementById('saveModal').classList.remove('open');
             renderSettingsList();
+            syncPdfRightGapControls();
             document.getElementById('settingsModal').classList.add('open');
         }
         function closeSettingsModal(e) {
@@ -1531,6 +1552,43 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             if (addRow) addRow.classList.remove('open');
             if (plusBtn) plusBtn.style.display = '';
         }
+
+        var PDF_RIGHT_GAP_DEFAULT_MM = 2;
+        var PDF_RIGHT_GAP_STORAGE_KEY = 'arbsys-pdf-right-gap-mm';
+        function normalizePdfRightGap(value) {
+            var parsed = Number(value);
+            if (!Number.isFinite(parsed)) parsed = PDF_RIGHT_GAP_DEFAULT_MM;
+            return Math.min(30, Math.max(0, Math.round(parsed * 2) / 2));
+        }
+        function readPdfRightGap() {
+            try {
+                var saved = localStorage.getItem(PDF_RIGHT_GAP_STORAGE_KEY);
+                return saved === null ? PDF_RIGHT_GAP_DEFAULT_MM : normalizePdfRightGap(saved);
+            } catch (_error) { return PDF_RIGHT_GAP_DEFAULT_MM; }
+        }
+        function syncPdfRightGapControls(value) {
+            var gap = value === undefined ? readPdfRightGap() : normalizePdfRightGap(value);
+            var range = document.getElementById('pdfRightGapRange');
+            var number = document.getElementById('pdfRightGapNumber');
+            var label = document.getElementById('pdfRightGapValue');
+            if (range) range.value = String(gap);
+            if (number) number.value = String(gap);
+            if (label) label.textContent = 'Sağ boşluk: ' + String(gap).replace('.', ',') + ' mm';
+            return gap;
+        }
+        function setPdfRightGap(value, persist) {
+            var gap = normalizePdfRightGap(value);
+            document.documentElement.style.setProperty('--arbsys-pdf-right-gap', gap + 'mm');
+            if (persist) {
+                try { localStorage.setItem(PDF_RIGHT_GAP_STORAGE_KEY, String(gap)); } catch (_error) {}
+            }
+            syncPdfRightGapControls(gap);
+            if (typeof window.v23RefreshPreview === 'function' && document.getElementById('v23PreviewPanel')?.classList.contains('open')) {
+                window.v23RefreshPreview();
+            }
+        }
+        function resetPdfRightGap() { setPdfRightGap(PDF_RIGHT_GAP_DEFAULT_MM, true); }
+        setPdfRightGap(readPdfRightGap(), false);
 
         // ====
         //  DUZENLENEBILIRLIK (contenteditable) YONETIMI
@@ -7314,7 +7372,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         .v23-preview-page .sig-title { color:#000 !important; }
         .v23-preview-page .label-cell, .v23-preview-page .colon-cell,
         .v23-preview-page .content-cell { margin:0 !important; padding-top:2px !important; padding-bottom:2px !important; }
-        .v23-preview-page .content-cell { padding-right:.2cm !important; }
+        .v23-preview-page .content-cell { padding-right:var(--arbsys-pdf-right-gap, 2mm) !important; }
         /* PDF'de .empty-row td{padding:0} kurali .label-cell/.colon-cell/.content-cell
            genel kuralindan daha yuksek ozguldugu icin kazaniyor (bir class+bir type > iki class).
            Onizlemede ".v23-preview-page" on eki eklendigi icin bu sira bozuluyor ve bos satirlar
@@ -8473,7 +8531,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         /* ==== v34: ekle / taşı / sil modu ve eşit satır boşlukları ==== */
         #docTable>tbody>tr.single-row>td.label-cell,
         #docTable>tbody>tr.single-row>td.colon-cell,
-        #docTable>tbody>tr.single-row>td.content-cell{padding-bottom:4px!important}
+        #docTable>tbody>tr.single-row>td.content-cell{padding-bottom:4px!important;padding-right:var(--arbsys-pdf-right-gap,2mm)!important}
         #docTable>tbody>tr.empty-row>td{height:1.3em!important;min-height:1.3em!important;line-height:1.3em!important;padding:0!important}
         .v23-preview-page .empty-row td{height:1.3em!important;line-height:1.3em!important}
         .v34-title-text-row>td{padding:1.5px 0!important;text-align:center!important;text-align-last:center!important;font-weight:normal!important}

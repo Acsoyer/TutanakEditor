@@ -986,6 +986,16 @@ def build_footer_xml(cb: ContentBuilder, footer_data):
         f'startOffset="{sep_offset}" length="1" />{nl_tag}</paragraph>'
     )
 
+    # DOCX footer'inda ayirici cizgi ile ilk metin arasinda bir gercek satir
+    # bulunur. UYAP'ta yalnizca newline olan paragraflar cokebildigi icin
+    # NBSP + newline kullanilir; bu satir footer yuksekligi hesabina da girer.
+    footer_gap = hf_run_tag(cb, "\u00a0\n", family=FONT_FAMILY, size=FONT_SIZE)
+    parts.append(
+        f'<paragraph name="hvl-default" Alignment="1" LineSpacing="0.30" '
+        f'family="{FONT_FAMILY}" size="{FONT_SIZE}" description="G\u00f6vde" '
+        f'SpaceAbove="0.0" SpaceBelow="0.0">{footer_gap}</paragraph>'
+    )
+
     lines = [t for t in (text1, text2) if t]
 
     if lines:
