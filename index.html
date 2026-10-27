@@ -4558,10 +4558,14 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         }
         function applySigTitle() { 
             const sel = window.getSelection(); 
-            if (!sel.rangeCount) return; 
+            if (!sel.rangeCount || sel.isCollapsed) return; 
             const range = sel.getRangeAt(0); 
-            const span  = document.createElement('span'); 
-            span.className = 'sig-title'; 
+            let node = range.commonAncestorContainer;
+            if (node && node.nodeType === Node.TEXT_NODE) node = node.parentNode;
+            const inSignature = !!(node && node.closest && node.closest('.sig-box'));
+            const span  = document.createElement(inSignature ? 'span' : 'u'); 
+            if (inSignature) span.className = 'sig-title';
+            else span.className = 'text-underline';
             try { 
                 span.appendChild(range.extractContents()); 
                 range.insertNode(span); 
@@ -4818,6 +4822,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                             if (tag === 'b' || tag === 'strong') newStyles.b = true;
                             if (tag === 'i' || tag === 'em') newStyles.i = true;
                             if (tag === 'span' && n.classList.contains('sig-title')) { newStyles.b = true; newStyles.u = true; }
+                            if (tag === 'u' || (tag === 'span' && n.classList.contains('text-underline')) || /underline/i.test(n.style?.textDecoration || n.style?.textDecorationLine || '')) newStyles.u = true;
                             
                             if (tag === 'span' && n.classList.contains('word-tab')) { currentRuns += '<w:r><w:tab/></w:r>'; } 
                             else if (tag === 'span' && n.classList.contains('madde-marker')) {
@@ -5039,6 +5044,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                             if (tag === 'b' || tag === 'strong') newStyles.b = true;
                             if (tag === 'i' || tag === 'em') newStyles.i = true;
                             if (tag === 'span' && n.classList.contains('sig-title')) { newStyles.b = true; newStyles.u = true; }
+                            if (tag === 'u' || (tag === 'span' && n.classList.contains('text-underline')) || /underline/i.test(n.style?.textDecoration || n.style?.textDecorationLine || '')) newStyles.u = true;
 
                             if (tag === 'span' && n.classList.contains('word-tab')) {
                                 currentRuns.push({ text: '\t', bold: !!newStyles.b, italic: !!newStyles.i, underline: !!newStyles.u, isTab: true });
@@ -8790,4 +8796,15 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         supabaseApplyRemoteDataset=function(row){v16ApplyRemoteDatasetBase(row);setTimeout(function(){v16LoadEditorStartupTemplate();},0);};
         setTimeout(function(){v16LoadEditorStartupTemplate();},60);
     </script>
+    <style id="v17-format-consistency-styles">
+        /* Seçim oku görünür olduğunda tablo satırının yüksekliğini değiştirmez. */
+        #docTable .label-cell>.lbl-dd-btn{position:absolute!important;z-index:5;top:50%;right:-2px;transform:translateY(-50%);margin:0!important}
+        /* U düğmesiyle üretilen standart alt çizgi bütün alanlarda görünür. */
+        #docTable u,#docTable .text-underline{text-decoration:underline!important;text-decoration-thickness:auto;text-underline-offset:auto}
+        /* İmza başlığının mevcut alt boşluğu korunur. */
+        #docTable .sig-box .sig-title{display:block!important;margin-bottom:5px!important;text-decoration:underline!important}
+        /* Yeni satır tabanlı ana belge başlıkları .arbsys açılışında da kalındır. */
+        #docTable .v34-title-text-row>td,#docTable .v34-title-text-row .fr-content{font-weight:700!important}
+        .v23-preview-page .v34-title-text-row>td,.v23-preview-page .v34-title-text-row .fr-content{font-weight:700!important}
+    </style>
 </body></html>
