@@ -6100,6 +6100,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         function v15CurrentTemplateContent() {
             var tbody = document.querySelector('#docTable > tbody');
             if (!tbody) return '';
+            if (typeof v18EnsureTitleBold === 'function') v18EnsureTitleBold(document.getElementById('docTable'));
             var clone = tbody.cloneNode(true);
             clone.querySelectorAll('.lbl-dd-btn').forEach(function(button) { button.remove(); });
             clone.querySelectorAll('[contenteditable]').forEach(function(element) { element.removeAttribute('contenteditable'); });
@@ -8611,7 +8612,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         function v34SelectRow(row){if(!row||!row.matches('#docTable>tbody>tr'))return;if(v34SelectedRow&&v34SelectedRow!==row)v34SelectedRow.classList.remove('v34-selected');v34SelectedRow=row;row.classList.add('v34-selected');floatActiveRow=row;}
         function v34ClearTransient(){document.querySelectorAll('#docTable>tbody>tr').forEach(function(row){row.classList.remove('row-hovered','row-delete-preview','row-dragging');});document.getElementById('floatPanel')?.classList.remove('visible');document.getElementById('floatDeletePanel')?.classList.remove('visible');document.getElementById('floatMenu')?.classList.remove('open');}
         function v34ToggleStructureMode(force){var opening=typeof force==='boolean'?force:!v34IsMode();document.body.classList.toggle('v34-structure-mode',opening);document.getElementById('v34StructureToggle')?.classList.toggle('active',opening);document.getElementById('v34AddBar')?.classList.toggle('open',opening);if(!opening){v34ClearTransient();if(v34SelectedRow)v34SelectedRow.classList.remove('v34-selected');v34SelectedRow=null;floatActiveRow=null;}else if(!v34SelectedRow){var focused=getRefRowForShortcut();if(focused)v34SelectRow(focused);} }
-        function v34RowHtml(kind,text){var row=document.createElement('tr');if(kind==='empty'){row.className='empty-row v34-title-part';row.innerHTML='<td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td>';}else{row.className='full-row v34-title-text-row v34-title-part';row.innerHTML='<td colspan="3"><div class="fr-content" style="text-align:center;text-align-last:center">'+v31Escape(text)+'</div></td>';}return row;}
+        function v34RowHtml(kind,text){var row=document.createElement('tr');if(kind==='empty'){row.className='empty-row v34-title-part';row.innerHTML='<td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td>';}else{row.className='full-row v34-title-text-row v34-title-part';row.innerHTML='<td colspan="3"><div class="fr-content" style="text-align:center;text-align-last:center"><b>'+v31Escape(text)+'</b></div></td>';}return row;}
         function v34InsertTitle(refRow){var rows=[v34RowHtml('empty',''),v34RowHtml('text','BAŞLIK EKLE'),v34RowHtml('text','(Açıklama Ekle)'),v34RowHtml('empty',''),v34RowHtml('empty','')],cursor=refRow;rows.forEach(function(row){cursor.insertAdjacentElement('afterend',row);cursor=row;v34FlashRow(row);});injectLabelDropdowns();applyEditable();v34SelectRow(rows[1]);return rows;}
         function v34FlashRow(row){row.classList.add('v34-new-row');clearTimeout(v34NewTimer);v34NewTimer=setTimeout(function(){document.querySelectorAll('.v34-new-row').forEach(function(item){item.classList.remove('v34-new-row');});},2300);}
         var v34AddBlockBase=addBlock;
@@ -8647,14 +8648,23 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
     <script id="v11-layout-migration-script">
         // v11: Eski .arbsys başlık/imza yapısını düzenlenebilir gerçek satırlara çevirir.
         function v11CreateEmptyRow(){var row=document.createElement('tr');row.className='empty-row';row.innerHTML='<td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td>';return row;}
-        function v11CreateTitleTextRow(cell){var row=document.createElement('tr');row.className='full-row v34-title-text-row v34-title-part';var td=document.createElement('td');td.colSpan=3;var content=document.createElement('div');content.className='fr-content';content.style.textAlign='center';content.style.textAlignLast='center';content.innerHTML=cell.innerHTML;td.appendChild(content);row.appendChild(td);return row;}
+        function v11CreateTitleTextRow(cell){var row=document.createElement('tr');row.className='full-row v34-title-text-row v34-title-part';var td=document.createElement('td');td.colSpan=3;var content=document.createElement('div');content.className='fr-content';content.style.textAlign='center';content.style.textAlignLast='center';var bold=document.createElement('b');bold.innerHTML=cell.innerHTML;content.appendChild(bold);td.appendChild(content);row.appendChild(td);return row;}
+        function v18EnsureTitleBold(table){
+            if(!table)return table;
+            table.querySelectorAll('.v34-title-text-row .fr-content').forEach(function(content){
+                var meaningful=Array.from(content.childNodes).filter(function(node){return node.nodeType!==Node.TEXT_NODE||node.textContent.trim();});
+                if(meaningful.length===1&&meaningful[0].nodeType===Node.ELEMENT_NODE&&/^(B|STRONG)$/.test(meaningful[0].tagName))return;
+                var bold=document.createElement('b');while(content.firstChild)bold.appendChild(content.firstChild);content.appendChild(bold);
+            });
+            return table;
+        }
         function v11NormalizeArbsysTable(table){
             if(!table)return table;var legacy=table.getAttribute('data-arbsys-schema')!=='2';var body=table.tBodies?.[0]||table.querySelector('tbody');if(!body)return table;
             if(legacy){
                 Array.from(body.children).filter(function(row){return row.matches('tr.title-wrapper-row');}).forEach(function(wrapper){var nested=wrapper.querySelector('.title-table tbody');if(!nested)return;Array.from(nested.children).forEach(function(part){var next;if(part.classList.contains('title-blank-row')){next=v11CreateEmptyRow();next.classList.add('v34-title-part');}else{var cell=part.querySelector('td');if(cell)next=v11CreateTitleTextRow(cell);}if(next)wrapper.parentElement.insertBefore(next,wrapper);});wrapper.remove();});
                 Array.from(body.children).filter(function(row){return !!row.querySelector('.sig-grid');}).forEach(function(signature){var after=signature.nextElementSibling;if(after?.classList.contains('empty-row'))after.remove();var before=signature.previousElementSibling;if(!before?.classList.contains('empty-row')){before=v11CreateEmptyRow();signature.parentElement.insertBefore(before,signature);}before.classList.add('v11-signature-gap');});
             }
-            table.setAttribute('data-arbsys-schema','2');return table;
+            v18EnsureTitleBold(table);table.setAttribute('data-arbsys-schema','2');return table;
         }
         v11NormalizeArbsysTable(document.getElementById('docTable'));
         injectLabelDropdowns();applyEditable();
@@ -8804,7 +8814,5 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         /* İmza başlığının mevcut alt boşluğu korunur. */
         #docTable .sig-box .sig-title{display:block!important;margin-bottom:5px!important;text-decoration:underline!important}
         /* Yeni satır tabanlı ana belge başlıkları .arbsys açılışında da kalındır. */
-        #docTable .v34-title-text-row>td,#docTable .v34-title-text-row .fr-content{font-weight:700!important}
-        .v23-preview-page .v34-title-text-row>td,.v23-preview-page .v34-title-text-row .fr-content{font-weight:700!important}
     </style>
 </body></html>
