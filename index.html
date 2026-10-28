@@ -8675,7 +8675,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         function v34InstallToolbar(){
             document.querySelectorAll('.toolbar-left .tb-btn').forEach(function(button){var title=button.getAttribute('data-title')||'';if(title==='Vurgula'||title==='Vurgu Sil')button.remove();});
             var right=document.querySelector('.toolbar-right'),udf=document.getElementById('udfViewerToggleBtn');if(right&&!document.getElementById('v34StructureToggle')){var toggle=document.createElement('button');toggle.id='v34StructureToggle';toggle.type='button';toggle.className='tb-btn tb-btn-wide';toggle.setAttribute('data-title','Belge alanlarını ekle, taşı veya sil');toggle.innerHTML='<span class="material-icons" style="font-size:17px">open_with</span> Ekle / Taşı / Sil';toggle.onclick=function(){v34ToggleStructureMode();};right.insertBefore(toggle,udf);}
-            var toolbar=document.querySelector('.toolbar');if(toolbar&&!document.getElementById('v34AddBar')){var bar=document.createElement('div');bar.id='v34AddBar';bar.className='v34-addbar';bar.innerHTML='<span class="v34-addbar-label">Ekle:</span><button type="button" onclick="v34AddSelected(\'title\')"><span class="material-icons">title</span>Başlık</button><button type="button" onclick="v34AddSelected(\'single\')"><span class="material-icons">short_text</span>Yeni Alan</button><button type="button" onclick="v34AddSelected(\'full\')"><span class="material-icons">segment</span>Tam Metin</button><button type="button" onclick="v34AddSelected(\'empty\')"><span class="material-icons">space_bar</span>Boş Satır</button><button type="button" onclick="v34AddSelected(\'sig1\')"><span class="material-icons">person</span>Tekli İmza</button><button type="button" onclick="v34AddSelected(\'sig2\')"><span class="material-icons">people</span>İkili İmza</button><button type="button" onclick="v34AddSelected(\'sig3\')"><span class="material-icons">groups</span>Üçlü İmza</button>';toolbar.appendChild(bar);}
+            var toolbar=document.querySelector('.toolbar');if(toolbar&&!document.getElementById('v34AddBar')){var bar=document.createElement('div');bar.id='v34AddBar';bar.className='v34-addbar';bar.innerHTML='<button class="v20-smart-add" type="button" onclick="v20OpenSmartText()"><span class="material-icons">auto_fix_high</span>Akıllı Metin Ekleme</button><span class="v34-addbar-label">Ekle:</span><button type="button" onclick="v34AddSelected(\'title\')"><span class="material-icons">title</span>Başlık</button><button type="button" onclick="v34AddSelected(\'single\')"><span class="material-icons">short_text</span>Yeni Alan</button><button type="button" onclick="v34AddSelected(\'full\')"><span class="material-icons">segment</span>Tam Metin</button><button type="button" onclick="v34AddSelected(\'empty\')"><span class="material-icons">space_bar</span>Boş Satır</button><button type="button" onclick="v34AddSelected(\'sig1\')"><span class="material-icons">person</span>Tekli İmza</button><button type="button" onclick="v34AddSelected(\'sig2\')"><span class="material-icons">people</span>İkili İmza</button><button type="button" onclick="v34AddSelected(\'sig3\')"><span class="material-icons">groups</span>Üçlü İmza</button>';toolbar.appendChild(bar);}
             var panel=document.getElementById('floatPanel'),deletePanel=document.getElementById('floatDeletePanel'),drag=deletePanel?.querySelector('.drag-btn');if(panel&&drag&&drag.parentElement!==panel)panel.appendChild(drag);document.querySelector('#floatMenu [data-action="madde"]')?.remove();
         }
         document.getElementById('docTable')?.addEventListener('click',function(event){if(!v34IsMode()||event.target.closest('.lbl-dd-btn'))return;var row=event.target.closest('#docTable>tbody>tr');if(row){event.stopPropagation();v34SelectRow(row);}},true);
@@ -8683,6 +8683,114 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         var v34RemoveBlockBase=removeBlock;
         removeBlock=function(row){var next=row?.nextElementSibling||row?.previousElementSibling||null;v34RemoveBlockBase(row);if(row===v34SelectedRow){v34SelectedRow=null;if(next&&next.isConnected)v34SelectRow(next);}};
         v34InstallToolbar();
+    </script>
+    <style id="v20-smart-text-styles">
+        #v34AddBar .v20-smart-add{margin-right:auto;border-color:#7c3aed;background:#f5f3ff;color:#6d28d9}
+        #v34AddBar .v20-smart-add:hover{border-color:#6d28d9;background:#6d28d9;color:#fff}
+        .v20-smart-modal{position:fixed;inset:0;z-index:1450;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(15,23,42,.55);backdrop-filter:blur(4px)}
+        .v20-smart-modal.open{display:flex}
+        .v20-smart-dialog{display:flex;flex-direction:column;width:min(1180px,96vw);height:min(780px,92vh);overflow:hidden;border-radius:16px;background:#f8fafc;box-shadow:0 24px 70px rgba(15,23,42,.35)}
+        .v20-smart-head{display:flex;align-items:center;justify-content:space-between;padding:15px 18px;border-bottom:1px solid #dbe4ee;background:#fff}
+        .v20-smart-head h2{margin:0;color:#172033;font-size:18px}.v20-smart-head p{margin:3px 0 0;color:#64748b;font-size:10px}
+        .v20-smart-close{width:38px;height:38px;border:1px solid #cbd5e1;border-radius:10px;background:#fff;color:#475569;font-size:25px;cursor:pointer}
+        .v20-smart-body{display:grid;grid-template-columns:minmax(320px,.9fr) minmax(450px,1.35fr);gap:14px;min-height:0;flex:1;padding:14px}
+        .v20-smart-pane{display:flex;min-height:0;flex-direction:column;border:1px solid #dbe4ee;border-radius:12px;background:#fff;overflow:hidden}
+        .v20-smart-pane-title{padding:10px 12px;border-bottom:1px solid #e5eaf0;color:#334155;font-size:11px;font-weight:800}
+        #v20SmartRaw{min-height:0;flex:1;resize:none;border:0;padding:14px;outline:0;color:#172033;font:13px/1.55 Arial,sans-serif;white-space:pre-wrap}
+        #v20SmartRows{min-height:0;flex:1;overflow:auto;padding:9px}
+        .v20-smart-row{display:grid;grid-template-columns:62px 150px minmax(0,1fr);gap:7px;align-items:start;margin-bottom:7px;padding:8px;border:1px solid #e2e8f0;border-radius:9px;background:#fff}
+        .v20-smart-marker{padding-top:9px;color:#4338ca;font-size:11px;font-weight:800;text-align:center}
+        .v20-smart-row select,.v20-smart-row textarea{box-sizing:border-box;width:100%;border:1px solid #cbd5e1;border-radius:7px;background:#fff;color:#334155;font-size:10px}
+        .v20-smart-row select{height:34px;padding:5px}.v20-smart-row textarea{min-height:52px;resize:vertical;padding:7px;line-height:1.4}
+        .v20-smart-empty{padding:35px 18px;color:#64748b;text-align:center;font-size:11px}
+        .v20-smart-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 15px;border-top:1px solid #dbe4ee;background:#fff}
+        .v20-smart-note{color:#64748b;font-size:10px;line-height:1.4}.v20-smart-actions{display:flex;gap:8px}
+        .v20-smart-actions button{min-height:38px;padding:8px 14px;border:1px solid #cbd5e1;border-radius:9px;background:#fff;color:#475569;font-weight:800;cursor:pointer}
+        .v20-smart-actions .primary{border-color:#0f766e;background:#0f766e;color:#fff}
+        @media(max-width:850px){.v20-smart-body{grid-template-columns:1fr}.v20-smart-dialog{height:95vh}.v20-smart-row{grid-template-columns:52px 125px minmax(0,1fr)}}
+    </style>
+    <script id="v20-smart-text-script">
+        // Ctrl+B, tarayıcının CSS tabanlı kalınlaştırmasına düşmeden K düğmesiyle aynı yolu kullanır.
+        document.addEventListener('keydown',function(event){
+            if(!(event.ctrlKey||event.metaKey)||event.altKey||String(event.key).toLocaleLowerCase('tr-TR')!=='b')return;
+            var selection=window.getSelection();
+            if(!selection||!selection.rangeCount)return;
+            var node=selection.anchorNode;if(node&&node.nodeType===Node.TEXT_NODE)node=node.parentNode;
+            if(!node?.closest?.('#docTable [contenteditable="true"]'))return;
+            event.preventDefault();event.stopImmediatePropagation();applyBoldFormat();
+        },true);
+
+        var v20SmartRows=[];
+        function v20SmartNormalizeText(value){return String(value||'').replace(/\u00a0/g,' ').replace(/[\t ]+/g,' ').trim();}
+        function v20SmartParse(){
+            var raw=document.getElementById('v20SmartRaw')?.value||'';
+            var lines=raw.replace(/\r\n?/g,'\n').split('\n');
+            v20SmartRows=[];
+            lines.forEach(function(line){
+                var text=v20SmartNormalizeText(line);if(!text)return;
+                var match=text.match(/^(\d+)\s*([.)])\s*(.*)$/);
+                if(match){v20SmartRows.push({kind:'number',start:Number(match[1])||1,suffix:match[2],text:v20SmartNormalizeText(match[3])});return;}
+                match=text.match(/^([A-Za-zÇĞİÖŞÜçğıöşü])\s*([.)])\s*(.*)$/);
+                if(match){var upper=match[1]===match[1].toLocaleUpperCase('tr-TR');v20SmartRows.push({kind:upper?'upper':'lower',start:match[1],suffix:match[2],text:v20SmartNormalizeText(match[3])});return;}
+                match=text.match(/^[•●▪◦\-*–—]\s*(.*)$/);
+                if(match){v20SmartRows.push({kind:'bullet',start:'',suffix:'',text:v20SmartNormalizeText(match[1])});return;}
+                v20SmartRows.push({kind:'normal',start:'',suffix:'',text:text});
+            });
+            v20SmartRender();
+        }
+        function v20SmartLetterNumber(value,upper){
+            var alphabet=upper?'ABCÇDEFGĞHIİJKLMNOÖPRSŞTUÜVYZ':'abcçdefgğhıijklmnoöprsştuüvyz';
+            var index=alphabet.indexOf(String(value||''));return index<0?0:index;
+        }
+        function v20SmartLetter(index,upper){var alphabet=upper?'ABCÇDEFGĞHIİJKLMNOÖPRSŞTUÜVYZ':'abcçdefgğhıijklmnoöprsştuüvyz';return alphabet[Math.max(0,index)%alphabet.length];}
+        function v20SmartMarkers(){
+            var result=[],state=null;
+            v20SmartRows.forEach(function(row){
+                if(row.kind==='continue'){result.push('');return;}
+                if(row.kind==='normal'){state=null;result.push('');return;}
+                if(row.kind==='bullet'){state={kind:'bullet'};result.push('•');return;}
+                if(!state||state.kind!==row.kind){state={kind:row.kind,value:row.kind==='number'?(Number(row.start)||1):v20SmartLetterNumber(row.start,row.kind==='upper')};}
+                else state.value++;
+                result.push(row.kind==='number'?String(state.value)+(row.suffix||')'):v20SmartLetter(state.value,row.kind==='upper')+(row.suffix||')'));
+            });return result;
+        }
+        function v20SmartRender(){
+            var host=document.getElementById('v20SmartRows');if(!host)return;host.innerHTML='';
+            if(!v20SmartRows.length){host.innerHTML='<div class="v20-smart-empty">Metni sol alana yapıştırdığınızda paragraflar ve madde işaretleri burada düzenlenebilir şekilde gösterilir.</div>';return;}
+            var markers=v20SmartMarkers();
+            v20SmartRows.forEach(function(row,index){
+                var item=document.createElement('div');item.className='v20-smart-row';
+                var marker=document.createElement('div');marker.className='v20-smart-marker';marker.textContent=markers[index]||'—';
+                var select=document.createElement('select');
+                [['normal','Normal paragraf'],['continue','Önceki maddenin devamı'],['number','1) 2) 3)'],['upper','A) B) C)'],['lower','a) b) c)'],['bullet','• Madde işareti']].forEach(function(option){var el=document.createElement('option');el.value=option[0];el.textContent=option[1];el.selected=row.kind===option[0];select.appendChild(el);});
+                select.onchange=function(){row.kind=this.value;if(row.kind==='number'&&!row.start)row.start=1;if((row.kind==='upper'||row.kind==='lower')&&!row.start)row.start=row.kind==='upper'?'A':'a';v20SmartRender();};
+                var editor=document.createElement('textarea');editor.value=row.text;editor.oninput=function(){row.text=v20SmartNormalizeText(this.value);};
+                item.append(marker,select,editor);host.appendChild(item);
+            });
+        }
+        function v20InstallSmartModal(){
+            if(document.getElementById('v20SmartModal'))return;
+            var modal=document.createElement('div');modal.id='v20SmartModal';modal.className='v20-smart-modal';modal.innerHTML='<div class="v20-smart-dialog" onclick="event.stopPropagation()"><div class="v20-smart-head"><div><h2>Akıllı Metin Ekleme</h2><p>Biçimler temizlenir; paragraflar ve sıralama işaretleri düzenli editör satırlarına dönüştürülür.</p></div><button class="v20-smart-close" type="button" onclick="v20CloseSmartText()">×</button></div><div class="v20-smart-body"><section class="v20-smart-pane"><div class="v20-smart-pane-title">Metnin tamamını buraya yapıştırın</div><textarea id="v20SmartRaw" placeholder="Word veya başka bir kaynaktan aldığınız metni yapıştırın…"></textarea></section><section class="v20-smart-pane"><div class="v20-smart-pane-title">Algılanan paragraflar ve sıralama</div><div id="v20SmartRows"></div></section></div><div class="v20-smart-foot"><div class="v20-smart-note">Kalın madde işaretinden sonra bir boşluk bırakılır. Eklenen paragrafların arasında bir boş satır oluşturulur.</div><div class="v20-smart-actions"><button type="button" onclick="v20CloseSmartText()">Vazgeç</button><button class="primary" type="button" onclick="v20InsertSmartText()">Seçili Alanın Altına Ekle</button></div></div></div>';
+            modal.onclick=function(event){if(event.target===modal)v20CloseSmartText();};document.body.appendChild(modal);
+            var timer=null;document.getElementById('v20SmartRaw').addEventListener('input',function(){clearTimeout(timer);timer=setTimeout(v20SmartParse,120);});v20SmartRender();
+        }
+        function v20OpenSmartText(){
+            if(!v34SelectedRow||!v34SelectedRow.isConnected){appAlert('Metnin ekleneceği yeri belirlemek için önce belge üzerinde bir satıra tıklayın.','Ekleme Yeri Seçilmedi');return;}
+            v20InstallSmartModal();document.getElementById('v20SmartModal').classList.add('open');setTimeout(function(){document.getElementById('v20SmartRaw').focus();},0);
+        }
+        function v20CloseSmartText(){document.getElementById('v20SmartModal')?.classList.remove('open');}
+        function v20CreateSmartParagraph(text,marker){
+            var row=document.createElement('tr');row.className='full-row';var cell=document.createElement('td');cell.colSpan=3;var content=document.createElement('div');content.className='fr-content';content.style.textAlign='justify';content.style.textAlignLast='left';
+            if(marker){var bold=document.createElement('b');bold.textContent=marker;content.appendChild(bold);content.appendChild(document.createTextNode(' '));}
+            content.appendChild(document.createTextNode(text));cell.appendChild(content);row.appendChild(cell);return row;
+        }
+        function v20CreateSmartGap(){var row=document.createElement('tr');row.className='empty-row';row.innerHTML='<td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td>';return row;}
+        function v20InsertSmartText(){
+            v20SmartRows.forEach(function(row){row.text=v20SmartNormalizeText(row.text);});var usable=v20SmartRows.filter(function(row){return row.text;});if(!usable.length){appAlert('Eklenecek bir metin bulunamadı.','Metin Bulunamadı');return;}
+            var markers=v20SmartMarkers(),cursor=v34SelectedRow,last=null;
+            v20SmartRows.forEach(function(item,index){if(!item.text)return;var paragraph=v20CreateSmartParagraph(item.text,markers[index]);cursor.insertAdjacentElement('afterend',paragraph);cursor=paragraph;v34FlashRow(paragraph);last=paragraph;var remaining=v20SmartRows.slice(index+1).some(function(next){return !!next.text;});if(remaining){var gap=v20CreateSmartGap();cursor.insertAdjacentElement('afterend',gap);cursor=gap;v34FlashRow(gap);}});
+            applyEditable();injectLabelDropdowns();if(last)v34SelectRow(last);v20CloseSmartText();document.getElementById('v20SmartRaw').value='';v20SmartRows=[];v20SmartRender();
+        }
     </script>
     <style id="v11-print-parity-styles">
         @media print{
