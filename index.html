@@ -1037,7 +1037,7 @@
                         <button class="tb-btn" onclick="setContentAlign('justify')" data-title="İki Yana Yasla"><span class="material-icons">format_align_justify</span></button>
                     </div>
                 </div>
-                <button class="tb-btn" onclick="insertTabSpace()" data-title="Satır Başı (Tab)"><span class="material-icons">keyboard_tab</span></button>
+                <button class="tb-btn" onclick="insertTabSpace()" data-title="Satır Başı (Ctrl+Q)"><span class="material-icons">keyboard_tab</span></button>
                 <button class="tb-btn accent-red" onclick="clearFormatting()" data-title="Format Temizle"><span class="material-icons">format_clear</span></button>
             </div>
 
@@ -4253,6 +4253,11 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             
             // Tarayıcı eylemlerini baskılamak için tuşu algıla ve varsayılan davranışı durdur (preventDefault)
             const key = e.key.toLowerCase();
+            if (key === 'q') {
+                const target = e.target.closest('[contenteditable="true"]');
+                if (target) { e.preventDefault(); e.stopImmediatePropagation(); insertTabSpace(); }
+                return;
+            }
             
             if (key === 'i') { 
                 e.preventDefault(); 
@@ -4616,6 +4621,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             range.setEndAfter(span);
             sel.removeAllRanges();
             sel.addRange(range);
+            target.dispatchEvent(new InputEvent('input', { bubbles:true, inputType:'insertText', data:'\t' }));
         }
 
         function toggleAlignMenu(e) {
@@ -8865,7 +8871,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         document.getElementById('docTable')?.addEventListener('keydown',function(event){
             if(event.key!=='Enter'||event.ctrlKey||event.metaKey||event.altKey)return;var content=event.target?.closest?.('tr[data-smart-group] .fr-content');if(!content)return;
             event.preventDefault();event.stopImmediatePropagation();var selection=window.getSelection();if(!selection||!selection.rangeCount)return;var range=selection.getRangeAt(0);range.deleteContents();
-            var br=document.createElement('br'),tab=v24CreateWordTab(),fragment=document.createDocumentFragment();fragment.append(br,tab);range.insertNode(fragment);range.setStartAfter(tab);range.collapse(true);selection.removeAllRanges();selection.addRange(range);
+            var br=document.createElement('br');range.insertNode(br);range.setStartAfter(br);range.collapse(true);selection.removeAllRanges();selection.addRange(range);
             content.dispatchEvent(new InputEvent('input',{bubbles:true,inputType:'insertParagraph',data:null}));
         },true);
         document.getElementById('docTable')?.addEventListener('input',function(event){var content=event.target?.closest?.('tr[data-smart-group] .fr-content');if(content)queueMicrotask(function(){v24RepairSmartParagraph(content);});},true);
