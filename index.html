@@ -924,7 +924,7 @@
         .document-source-fill-panel.open { display:block; }
         .document-source-fill-panel label { display:grid; gap:3px; margin-bottom:7px; color:#52636d; font-size:8px; font-weight:800; }
         .document-source-fill-panel select { width:100%; min-height:31px; box-sizing:border-box; border:1px solid #cbd7df; border-radius:7px; padding:5px 7px; background:#fff; color:#23343d; font-size:9px; }
-        .document-source-fill-submit { width:100%; min-height:34px; border:0; border-radius:8px; background:#7c3aed; color:#fff; font-size:9px; font-weight:900; cursor:pointer; }
+        .document-source-fill-submit { width:100%; min-height:34px; border:0; border-radius:8px; background:#7c3aed; color:#fff; font-size:9px; font-weight:800; cursor:pointer; }
         .document-source-save-btn { border:0; color:#fff; }
         .document-source-save-btn:first-child { background:#07979a; }
         .document-source-save-btn:last-child { background:#d97706; }
@@ -966,7 +966,7 @@
         .dashboard-folder-icon { color:#d97706; font-size:19px !important; }
         .dashboard-folder-name { color:#24343d; font-size:10.5px; }
         .dashboard-folder-count { border-radius:999px; padding:3px 7px; background:#eef3f6; color:#64748b; font-size:8px; font-weight:800; }
-        .dashboard-folder-drop-hint { display:none; margin-left:auto; border-radius:7px; padding:5px 8px; background:#dcfce7; color:#15803d; font-size:8px; font-weight:900; }
+        .dashboard-folder-drop-hint { display:none; margin-left:auto; border-radius:7px; padding:5px 8px; background:#dcfce7; color:#15803d; font-size:8px; font-weight:800; }
         body.template-dragging .dashboard-folder-drop-hint { display:inline-flex; }
         body.template-dragging .dashboard-folder > summary { outline:1px dashed #94a3b8; outline-offset:-4px; }
         .dashboard-folder > summary.drop-candidate { outline:2px solid #07979a !important; outline-offset:-3px; background:#ecfeff; box-shadow:0 0 0 4px rgba(7,151,154,.12); }
@@ -4254,11 +4254,6 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             // Tarayıcı eylemlerini baskılamak için tuşu algıla ve varsayılan davranışı durdur (preventDefault)
             const key = e.key.toLowerCase();
             
-            if (key === 'b') { 
-                e.preventDefault(); 
-                applyBoldFormat(); 
-                return; 
-            }
             if (key === 'i') { 
                 e.preventDefault(); 
                 applyItalicFormat(); 
@@ -7885,7 +7880,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         .dashboard-missing-badges { margin-top:6px; }
         .dashboard-record.dashboard-record-missing { border:1px solid #ef4444 !important; border-left-width:3px !important; }
         .dashboard-record.dashboard-record-missing.active { border-color:#dc2626 !important; box-shadow:0 0 0 2px rgba(220,38,38,.12); }
-        .dashboard-tree-missing-count { margin-left:auto; color:#dc2626; font-size:10px; font-weight:900; }
+        .dashboard-tree-missing-count { margin-left:auto; color:#dc2626; font-size:10px; font-weight:800; }
         .dashboard-tree-missing-count + .dashboard-tree-count { margin-left:0; }
         .dashboard-tree-count { font-size:9.5px; }
 
@@ -8693,6 +8688,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         #v34AddBar .v20-smart-add:hover{border-color:#6d28d9;background:#6d28d9;color:#fff}
         .v21-add-center{display:flex;align-items:center;justify-content:center;gap:8px}.v21-add-balance{display:block}
         #docTable .v21-smart-control{display:none!important}
+        #docTable b,#docTable strong{font-weight:700!important}
         .v20-smart-modal{position:fixed;inset:0;z-index:1450;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(15,23,42,.55);backdrop-filter:blur(4px)}
         .v20-smart-modal.open{display:flex}
         .v20-smart-dialog{display:flex;flex-direction:column;width:min(1180px,96vw);height:min(780px,92vh);overflow:hidden;border-radius:16px;background:#f8fafc;box-shadow:0 24px 70px rgba(15,23,42,.35)}
@@ -8709,8 +8705,10 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         .v20-smart-row textarea{box-sizing:border-box;width:100%;border:1px solid #cbd5e1;border-radius:7px;background:#fff;color:#334155;font-size:10px;min-height:52px;resize:vertical;padding:7px;line-height:1.4}
         .v22-smart-kind{position:relative;width:28px;height:34px;padding-top:6px;box-sizing:border-box}
         .v22-smart-kind-dot{display:flex;align-items:center;justify-content:center;width:22px;height:22px;margin:auto;border:1px solid #c7d2fe;border-radius:50%;background:#eef2ff;color:#4338ca;font-size:18px;line-height:1;cursor:pointer}
-        .v22-smart-kind select{position:absolute;z-index:20;display:none;top:2px;left:27px;width:155px;height:32px;box-sizing:border-box;border:1px solid #818cf8;border-radius:8px;padding:4px 7px;background:#fff;color:#334155;font-size:10px;box-shadow:0 8px 22px rgba(15,23,42,.18)}
-        .v22-smart-kind:hover select,.v22-smart-kind:focus-within select{display:block}
+        .v23-smart-kind-panel{position:absolute;z-index:20;display:none;align-items:center;gap:6px;top:2px;left:27px;width:270px;min-height:34px;box-sizing:border-box;border:1px solid #818cf8;border-radius:8px;padding:4px 6px;background:#fff;box-shadow:0 8px 22px rgba(15,23,42,.18)}
+        .v22-smart-kind:hover .v23-smart-kind-panel,.v22-smart-kind:focus-within .v23-smart-kind-panel{display:flex}
+        .v23-smart-kind-panel select{min-width:165px;height:26px;border:0;background:#fff;color:#334155;font-size:10px;outline:0}
+        .v23-smart-start{width:78px;height:26px;box-sizing:border-box;border:1px solid #c7d2fe;border-radius:6px;padding:3px 6px;color:#334155;font-size:10px;outline:0}
         .v20-smart-empty{padding:35px 18px;color:#64748b;text-align:center;font-size:11px}
         .v20-smart-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 15px;border-top:1px solid #dbe4ee;background:#fff}
         .v20-smart-note{color:#64748b;font-size:10px;line-height:1.4}.v20-smart-actions{display:flex;gap:8px}
@@ -8721,14 +8719,27 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
     </style>
     <script id="v20-smart-text-script">
         // Ctrl+B, tarayıcının CSS tabanlı kalınlaştırmasına düşmeden K düğmesiyle aynı yolu kullanır.
+        var v23BoldShortcutHandled=false;
         document.addEventListener('keydown',function(event){
             if(!(event.ctrlKey||event.metaKey)||event.altKey||String(event.key).toLocaleLowerCase('tr-TR')!=='b')return;
             var selection=window.getSelection();
             if(!selection||!selection.rangeCount)return;
             var node=selection.anchorNode;if(node&&node.nodeType===Node.TEXT_NODE)node=node.parentNode;
             if(!node?.closest?.('#docTable [contenteditable="true"]'))return;
-            event.preventDefault();event.stopImmediatePropagation();applyBoldFormat();
+            event.preventDefault();event.stopImmediatePropagation();if(event.repeat)return;v23BoldShortcutHandled=true;applyBoldFormat();setTimeout(function(){v23BoldShortcutHandled=false;v23NormalizeBoldMarkup();},0);
         },true);
+        document.addEventListener('beforeinput',function(event){
+            if(event.inputType!=='formatBold')return;var target=event.target?.closest?.('#docTable [contenteditable="true"]');if(!target)return;
+            event.preventDefault();event.stopImmediatePropagation();if(!v23BoldShortcutHandled)applyBoldFormat();setTimeout(v23NormalizeBoldMarkup,0);
+        },true);
+        function v23NormalizeBoldMarkup(root){
+            (root||document.getElementById('docTable'))?.querySelectorAll?.('[style*="font-weight"]')?.forEach(function(node){
+                var weight=String(node.style.fontWeight||'').toLocaleLowerCase('tr-TR'),number=parseInt(weight,10);if(!(weight==='bold'||weight==='bolder'||number>=600))return;
+                if(/^(SPAN|FONT)$/.test(node.tagName)){var bold=document.createElement('b');while(node.firstChild)bold.appendChild(node.firstChild);node.style.removeProperty('font-weight');if(node.getAttribute('style'))bold.setAttribute('style',node.getAttribute('style'));node.replaceWith(bold);}else node.style.fontWeight='700';
+            });
+            (root||document.getElementById('docTable'))?.querySelectorAll?.('b b,b strong,strong b,strong strong')?.forEach(function(nested){nested.replaceWith(...nested.childNodes);});
+        }
+        document.getElementById('docTable')?.addEventListener('input',function(){queueMicrotask(v23NormalizeBoldMarkup);},true);setTimeout(v23NormalizeBoldMarkup,0);
 
         var v20SmartRows=[];
         function v20SmartNormalizeText(value){return String(value||'').replace(/\u00a0/g,' ').replace(/[\t ]+/g,' ').trim();}
@@ -8760,6 +8771,9 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             var index=alphabet.indexOf(String(value||''));return index<0?0:index;
         }
         function v20SmartLetter(index,upper){var alphabet=upper?'ABCÇDEFGĞHIİJKLMNOÖPRSŞTUÜVYZ':'abcçdefgğhıijklmnoöprsştuüvyz';return alphabet[Math.max(0,index)%alphabet.length];}
+        function v23PreviousDocumentNumber(){
+            var row=v34SelectedRow;while(row){var marker=row.querySelector?.('.v21-smart-marker')?.textContent||'',match=marker.match(/^(\d+)[.)]$/);if(!match){var text=(row.textContent||'').replace(/\u00a0/g,' ').trim();match=text.match(/^(\d+)[.)](?:\s|$)/);}if(match)return Number(match[1])||0;row=row.previousElementSibling;}return 0;
+        }
         function v20SmartMarkers(){
             var result=[],state=null;
             v20SmartRows.forEach(function(row){
@@ -8779,9 +8793,11 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 var item=document.createElement('div');item.className='v20-smart-row';
                 var marker=document.createElement('div');marker.className='v20-smart-marker';marker.textContent=markers[index]||'—';
                 var select=document.createElement('select');
-                [['normal','Normal paragraf'],['continue','Önceki maddenin devamı'],['number','1) 2) 3)'],['upper','A) B) C)'],['lower','a) b) c)'],['bullet','• Madde işareti']].forEach(function(option){var el=document.createElement('option');el.value=option[0];el.textContent=option[1];el.selected=row.kind===option[0];select.appendChild(el);});
-                select.onchange=function(){row.kind=this.value;if(row.kind==='number'&&!row.start)row.start=1;if((row.kind==='upper'||row.kind==='lower')&&!row.start)row.start=row.kind==='upper'?'A':'a';v20SmartRender();};
-                var kindControl=document.createElement('div');kindControl.className='v22-smart-kind';kindControl.title='Paragraf türünü görüntüle veya değiştir';var dot=document.createElement('button');dot.type='button';dot.className='v22-smart-kind-dot';dot.textContent='•';dot.onclick=function(){select.focus();};kindControl.append(dot,select);
+                [['normal','Normal paragraf'],['continue','Önceki maddenin devamı'],['number','1) 2) 3)'],['numberPrevious','Önceki numaradan devam et'],['upper','A) B) C)'],['lower','a) b) c)'],['bullet','• Madde işareti']].forEach(function(option){var el=document.createElement('option');el.value=option[0];el.textContent=option[1];el.selected=row.kind===option[0];select.appendChild(el);});
+                var start=document.createElement('input');start.className='v23-smart-start';start.type='text';start.value=row.start||'';start.placeholder='Başlangıç';start.title='İlk madde değerini değiştirin';start.style.display=/^(number|upper|lower)$/.test(row.kind)?'':'none';
+                select.onchange=function(){if(this.value==='numberPrevious'){row.kind='number';row.start=v23PreviousDocumentNumber()+1;}else{row.kind=this.value;if(row.kind==='number'&&!row.start)row.start=1;if((row.kind==='upper'||row.kind==='lower')&&!row.start)row.start=row.kind==='upper'?'A':'a';}v20SmartRender();};
+                start.onchange=function(){row.start=v20SmartNormalizeText(this.value)||(row.kind==='number'?1:row.kind==='upper'?'A':'a');v20SmartRender();};
+                var kindControl=document.createElement('div');kindControl.className='v22-smart-kind';kindControl.title='Paragraf türünü veya başlangıç değerini değiştir';var dot=document.createElement('button');dot.type='button';dot.className='v22-smart-kind-dot';dot.textContent='•';var panel=document.createElement('div');panel.className='v23-smart-kind-panel';panel.append(select,start);dot.onclick=function(){select.focus();};kindControl.append(dot,panel);
                 var editor=document.createElement('textarea');editor.value=row.text;editor.oninput=function(){row.text=v20SmartNormalizeText(this.value);};
                 item.append(marker,kindControl,editor);host.appendChild(item);
             });
