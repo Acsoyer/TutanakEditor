@@ -4607,6 +4607,12 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
 
             const range = sel.getRangeAt(0);
             range.deleteContents();
+            const smartLine = node && node.closest ? node.closest('.v26-smart-line') : null;
+            if (smartLine && smartLine.childNodes.length === 1 && smartLine.firstChild.nodeName === 'BR') {
+                smartLine.firstChild.remove();
+                range.setStart(smartLine, 0);
+                range.collapse(true);
+            }
 
             const span = document.createElement('span');
             span.className = 'word-tab';
@@ -4616,6 +4622,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             span.innerHTML = '&nbsp;'; 
             
             range.insertNode(span);
+            if (smartLine && !smartLine.querySelector('br') && !smartLine.textContent.replace(/\u00a0/g, '').trim()) smartLine.appendChild(document.createElement('br'));
             
             range.setStartAfter(span);
             range.setEndAfter(span);
@@ -8822,9 +8829,9 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         function v20CreateSmartParagraph(text,marker,item,group){
             var row=document.createElement('tr');row.className='full-row';row.dataset.smartGroup=group;row.dataset.smartKind=item.kind;row.dataset.smartStart=item.start||'';row.dataset.smartSuffix=item.suffix||')';
             var cell=document.createElement('td');cell.colSpan=3;var content=document.createElement('div');content.className='fr-content';content.style.textAlign='justify';content.style.textAlignLast='left';
-            var tab=document.createElement('span');tab.className='word-tab';tab.style.display='inline-block';tab.style.width='1.25cm';tab.contentEditable='false';tab.innerHTML='&nbsp;';content.appendChild(tab);
-            if(marker){var bold=document.createElement('b');bold.className='v21-smart-marker';bold.textContent=marker;content.appendChild(bold);content.appendChild(document.createTextNode(' '));}
-            var body=document.createElement('span');body.className='v21-smart-text';body.textContent=text;content.appendChild(body);cell.appendChild(content);row.appendChild(cell);return row;
+            var line=document.createElement('div');line.className='v26-smart-line';var tab=document.createElement('span');tab.className='word-tab';tab.style.display='inline-block';tab.style.width='1.25cm';tab.contentEditable='false';tab.innerHTML='&nbsp;';line.appendChild(tab);
+            if(marker){var bold=document.createElement('b');bold.className='v21-smart-marker';bold.textContent=marker;line.appendChild(bold);line.appendChild(document.createTextNode(' '));}
+            line.appendChild(document.createTextNode(text));content.appendChild(line);cell.appendChild(content);row.appendChild(cell);return row;
         }
         function v20CreateSmartGap(){var row=document.createElement('tr');row.className='empty-row';row.innerHTML='<td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td>';return row;}
         function v20InsertSmartText(){
@@ -8857,7 +8864,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         function v24CreateWordTab(){var tab=document.createElement('span');tab.className='word-tab';tab.style.display='inline-block';tab.style.width='1.25cm';tab.contentEditable='false';tab.innerHTML='&nbsp;';return tab;}
         function v24RepairSmartParagraph(content){
             if(!content?.closest?.('tr[data-smart-group]'))return;
-            var directDivs=Array.from(content.children).filter(function(child){return child.tagName==='DIV';});if(!directDivs.length)return;
+            var directDivs=Array.from(content.children).filter(function(child){return child.tagName==='DIV'&&!child.classList.contains('v26-smart-line');});if(!directDivs.length)return;
             var anchor=content.querySelector(':scope > .word-tab');
             directDivs.forEach(function(block,index){
                 var fragment=document.createDocumentFragment(),hasText=(block.textContent||'').replace(/\u00a0/g,' ').trim()!=='';
@@ -8867,14 +8874,35 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             });
             if(anchor&&anchor.nextElementSibling?.tagName==='BR')anchor.nextElementSibling.remove();
         }
-        function v24RepairAllSmartParagraphs(root){(root||document).querySelectorAll?.('#docTable tr[data-smart-group] .fr-content')?.forEach(v24RepairSmartParagraph);}
+        function v26EnsureSmartLines(content){
+            if(!content?.closest?.('tr[data-smart-group]'))return;v24RepairSmartParagraph(content);
+            content.querySelectorAll('.v21-smart-text').forEach(function(span){span.replaceWith(...span.childNodes);});
+            if(content.querySelector(':scope > .v26-smart-line'))return;
+            var groups=[[]];Array.from(content.childNodes).forEach(function(node){if(node.nodeName==='BR')groups.push([]);else groups[groups.length-1].push(node);});content.replaceChildren();
+            groups.forEach(function(nodes){var line=document.createElement('div');line.className='v26-smart-line';nodes.forEach(function(node){line.appendChild(node);});if(!line.childNodes.length)line.appendChild(document.createElement('br'));content.appendChild(line);});
+        }
+        function v24RepairAllSmartParagraphs(root){(root||document).querySelectorAll?.('#docTable tr[data-smart-group] .fr-content')?.forEach(v26EnsureSmartLines);}
+        function v26SetCaret(container,offset){var selection=window.getSelection(),range=document.createRange();range.setStart(container,offset);range.collapse(true);selection.removeAllRanges();selection.addRange(range);}
+        function v26PreviousCaretNode(line,container,offset){
+            if(container===line)return offset>0?line.childNodes[offset-1]:null;
+            if(container.nodeType===Node.TEXT_NODE&&offset>0)return null;
+            var node=container;while(node&&node!==line){if(node.previousSibling){node=node.previousSibling;while(node.lastChild)node=node.lastChild;return node;}node=node.parentNode;}return null;
+        }
+        function v26InsertLine(event,content){
+            v26EnsureSmartLines(content);var selection=window.getSelection();if(!selection||!selection.rangeCount)return;var range=selection.getRangeAt(0),line=(range.startContainer.nodeType===1?range.startContainer:range.startContainer.parentElement)?.closest?.('.v26-smart-line');if(!line)return;
+            event.preventDefault();event.stopImmediatePropagation();range.deleteContents();var tailRange=document.createRange();tailRange.selectNodeContents(line);tailRange.setStart(range.startContainer,range.startOffset);var tail=tailRange.extractContents(),next=document.createElement('div');next.className='v26-smart-line';
+            if(tail.childNodes.length)next.appendChild(tail);if(!next.childNodes.length||(!(next.textContent||'').replace(/\u00a0/g,'').trim()&&!next.querySelector('.word-tab')))next.replaceChildren(document.createElement('br'));line.insertAdjacentElement('afterend',next);v26SetCaret(next,0);content.dispatchEvent(new InputEvent('input',{bubbles:true,inputType:'insertParagraph',data:null}));
+        }
+        function v26HandleBackspace(event,content){
+            v26EnsureSmartLines(content);var selection=window.getSelection();if(!selection||!selection.rangeCount||!selection.isCollapsed)return;var range=selection.getRangeAt(0),line=(range.startContainer.nodeType===1?range.startContainer:range.startContainer.parentElement)?.closest?.('.v26-smart-line');if(!line)return;
+            var previousNode=v26PreviousCaretNode(line,range.startContainer,range.startOffset);if(previousNode?.nodeType===1&&previousNode.classList.contains('word-tab')){event.preventDefault();event.stopImmediatePropagation();var parent=previousNode.parentNode,index=Array.prototype.indexOf.call(parent.childNodes,previousNode);previousNode.remove();v26SetCaret(parent,index);content.dispatchEvent(new InputEvent('input',{bubbles:true,inputType:'deleteContentBackward',data:null}));return;}
+            var before=document.createRange();before.selectNodeContents(line);before.setEnd(range.startContainer,range.startOffset);if(before.toString().replace(/[\u00a0\u200b]/g,'').length)return;var previous=line.previousElementSibling;if(!previous?.classList.contains('v26-smart-line'))return;
+            event.preventDefault();event.stopImmediatePropagation();if(previous.lastChild?.nodeName==='BR')previous.lastChild.remove();var joinOffset=previous.childNodes.length;if(!(line.childNodes.length===1&&line.firstChild.nodeName==='BR'))while(line.firstChild)previous.appendChild(line.firstChild);line.remove();v26SetCaret(previous,joinOffset);content.dispatchEvent(new InputEvent('input',{bubbles:true,inputType:'deleteContentBackward',data:null}));
+        }
         document.getElementById('docTable')?.addEventListener('keydown',function(event){
-            if(event.key!=='Enter'||event.ctrlKey||event.metaKey||event.altKey)return;var content=event.target?.closest?.('tr[data-smart-group] .fr-content');if(!content)return;
-            event.preventDefault();event.stopImmediatePropagation();var selection=window.getSelection();if(!selection||!selection.rangeCount)return;var range=selection.getRangeAt(0);range.deleteContents();
-            var br=document.createElement('br');range.insertNode(br);range.setStartAfter(br);range.collapse(true);selection.removeAllRanges();selection.addRange(range);
-            content.dispatchEvent(new InputEvent('input',{bubbles:true,inputType:'insertParagraph',data:null}));
+            var content=event.target?.closest?.('tr[data-smart-group] .fr-content');if(!content)return;if(event.key==='Enter'&&!event.ctrlKey&&!event.metaKey&&!event.altKey){v26InsertLine(event,content);return;}if(event.key==='Backspace')v26HandleBackspace(event,content);
         },true);
-        document.getElementById('docTable')?.addEventListener('input',function(event){var content=event.target?.closest?.('tr[data-smart-group] .fr-content');if(content)queueMicrotask(function(){v24RepairSmartParagraph(content);});},true);
+        document.getElementById('docTable')?.addEventListener('input',function(event){var content=event.target?.closest?.('tr[data-smart-group] .fr-content');if(content)queueMicrotask(function(){v26EnsureSmartLines(content);});},true);
         var v24SmartRepairObserver=new MutationObserver(function(records){if(records.some(function(record){return Array.from(record.addedNodes||[]).some(function(node){return node.nodeType===1&&(node.matches?.('tr[data-smart-group],table')||node.querySelector?.('tr[data-smart-group]'));});}))queueMicrotask(v24RepairAllSmartParagraphs);});v24SmartRepairObserver.observe(document.getElementById('docTable'),{childList:true,subtree:true});setTimeout(v24RepairAllSmartParagraphs,0);
     </script>
     <style id="v11-print-parity-styles">
