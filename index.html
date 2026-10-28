@@ -3780,7 +3780,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 tr.classList.remove('row-hovered','row-delete-preview','row-dragging','v34-selected','v34-new-row');
             });
             // dropdown butonlari ice aktarimda yeniden uretilir
-            clone.querySelectorAll('.lbl-dd-btn').forEach(function(b) { b.remove(); });
+            clone.querySelectorAll('.lbl-dd-btn,.v21-smart-control').forEach(function(b) { b.remove(); });
             // contenteditable'i CIKAR: cikti temiz ve tasinabilir kalsin
             clone.querySelectorAll('[contenteditable]').forEach(function(el) { el.removeAttribute('contenteditable'); });
             // her ust duzey satiri kendi satirinda, girintili yaz
@@ -4827,6 +4827,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                             currentRuns += '<w:r>' + rPrStr + '<w:t xml:space="preserve">' + esc(txt) + '</w:t></w:r>';
                         }
                     } else if (n.nodeType === Node.ELEMENT_NODE) {
+                        if (n.classList && n.classList.contains('v21-smart-control')) return;
                         var tag = n.tagName.toLowerCase();
                         if (tag === 'br') {
                             if (currentRuns === '') { xml += '<w:p><w:pPr><w:jc w:val="' + currentPAlign + '"/><w:spacing w:before="0" w:after="0" w:line="260" w:lineRule="atLeast"/></w:pPr></w:p>'; } 
@@ -5035,6 +5036,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                         var txt = n.textContent || '';
                         if (txt !== '') pushText(txt, styles);
                     } else if (n.nodeType === Node.ELEMENT_NODE) {
+                        if (n.classList && n.classList.contains('v21-smart-control')) return;
                         var tag = n.tagName.toLowerCase();
                         if (tag === 'br') {
                             // DUZELTME (bosluk/bos-satir kaybi): DOCX ciktisiyla
@@ -6142,7 +6144,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             if (!tbody) return '';
             if (typeof v18EnsureTitleBold === 'function') v18EnsureTitleBold(document.getElementById('docTable'));
             var clone = tbody.cloneNode(true);
-            clone.querySelectorAll('.lbl-dd-btn').forEach(function(button) { button.remove(); });
+            clone.querySelectorAll('.lbl-dd-btn,.v21-smart-control').forEach(function(button) { button.remove(); });
             clone.querySelectorAll('[contenteditable]').forEach(function(element) { element.removeAttribute('contenteditable'); });
             clone.querySelectorAll('tr.row-hovered,tr.row-delete-preview,tr.row-dragging,tr.v34-selected,tr.v34-new-row').forEach(function(row) { row.classList.remove('row-hovered','row-delete-preview','row-dragging','v34-selected','v34-new-row'); });
             var rows = Array.from(clone.children).filter(function(element) { return element.tagName === 'TR'; }).map(function(element) { return '    ' + element.outerHTML; });
@@ -8665,7 +8667,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         function v34IsMode(){return document.body.classList.contains('v34-structure-mode');}
         function v34SelectRow(row){if(!row||!row.matches('#docTable>tbody>tr'))return;if(v34SelectedRow&&v34SelectedRow!==row)v34SelectedRow.classList.remove('v34-selected');v34SelectedRow=row;row.classList.add('v34-selected');floatActiveRow=row;}
         function v34ClearTransient(){document.querySelectorAll('#docTable>tbody>tr').forEach(function(row){row.classList.remove('row-hovered','row-delete-preview','row-dragging');});document.getElementById('floatPanel')?.classList.remove('visible');document.getElementById('floatDeletePanel')?.classList.remove('visible');document.getElementById('floatMenu')?.classList.remove('open');}
-        function v34ToggleStructureMode(force){var opening=typeof force==='boolean'?force:!v34IsMode();document.body.classList.toggle('v34-structure-mode',opening);document.getElementById('v34StructureToggle')?.classList.toggle('active',opening);document.getElementById('v34AddBar')?.classList.toggle('open',opening);if(!opening){v34ClearTransient();if(v34SelectedRow)v34SelectedRow.classList.remove('v34-selected');v34SelectedRow=null;floatActiveRow=null;}else if(!v34SelectedRow){var focused=getRefRowForShortcut();if(focused)v34SelectRow(focused);} }
+        function v34ToggleStructureMode(force){var opening=typeof force==='boolean'?force:!v34IsMode();if(opening){var preview=document.getElementById('v23PreviewPanel');preview?.classList.remove('open');preview?.setAttribute('aria-hidden','true');document.getElementById('v23PreviewToggle')?.setAttribute('aria-expanded','false');}document.body.classList.toggle('v34-structure-mode',opening);document.getElementById('v34StructureToggle')?.classList.toggle('active',opening);document.getElementById('v34AddBar')?.classList.toggle('open',opening);if(!opening){v34ClearTransient();if(v34SelectedRow)v34SelectedRow.classList.remove('v34-selected');v34SelectedRow=null;floatActiveRow=null;}else if(!v34SelectedRow){var focused=getRefRowForShortcut();if(focused)v34SelectRow(focused);} }
         function v34RowHtml(kind,text){var row=document.createElement('tr');if(kind==='empty'){row.className='empty-row v34-title-part';row.innerHTML='<td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td>';}else{row.className='full-row v34-title-text-row v34-title-part';row.innerHTML='<td colspan="3"><div class="fr-content" style="text-align:center;text-align-last:center"><b>'+v31Escape(text)+'</b></div></td>';}return row;}
         function v34InsertTitle(refRow){var rows=[v34RowHtml('empty',''),v34RowHtml('text','BAŞLIK EKLE'),v34RowHtml('text','(Açıklama Ekle)'),v34RowHtml('empty',''),v34RowHtml('empty','')],cursor=refRow;rows.forEach(function(row){cursor.insertAdjacentElement('afterend',row);cursor=row;v34FlashRow(row);});injectLabelDropdowns();applyEditable();v34SelectRow(rows[1]);return rows;}
         function v34FlashRow(row){row.classList.add('v34-new-row');clearTimeout(v34NewTimer);v34NewTimer=setTimeout(function(){document.querySelectorAll('.v34-new-row').forEach(function(item){item.classList.remove('v34-new-row');});},2300);}
@@ -8675,18 +8677,28 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         function v34InstallToolbar(){
             document.querySelectorAll('.toolbar-left .tb-btn').forEach(function(button){var title=button.getAttribute('data-title')||'';if(title==='Vurgula'||title==='Vurgu Sil')button.remove();});
             var right=document.querySelector('.toolbar-right'),udf=document.getElementById('udfViewerToggleBtn');if(right&&!document.getElementById('v34StructureToggle')){var toggle=document.createElement('button');toggle.id='v34StructureToggle';toggle.type='button';toggle.className='tb-btn tb-btn-wide';toggle.setAttribute('data-title','Belge alanlarını ekle, taşı veya sil');toggle.innerHTML='<span class="material-icons" style="font-size:17px">open_with</span> Ekle / Taşı / Sil';toggle.onclick=function(){v34ToggleStructureMode();};right.insertBefore(toggle,udf);}
-            var toolbar=document.querySelector('.toolbar');if(toolbar&&!document.getElementById('v34AddBar')){var bar=document.createElement('div');bar.id='v34AddBar';bar.className='v34-addbar';bar.innerHTML='<button class="v20-smart-add" type="button" onclick="v20OpenSmartText()"><span class="material-icons">auto_fix_high</span>Akıllı Metin Ekleme</button><span class="v34-addbar-label">Ekle:</span><button type="button" onclick="v34AddSelected(\'title\')"><span class="material-icons">title</span>Başlık</button><button type="button" onclick="v34AddSelected(\'single\')"><span class="material-icons">short_text</span>Yeni Alan</button><button type="button" onclick="v34AddSelected(\'full\')"><span class="material-icons">segment</span>Tam Metin</button><button type="button" onclick="v34AddSelected(\'empty\')"><span class="material-icons">space_bar</span>Boş Satır</button><button type="button" onclick="v34AddSelected(\'sig1\')"><span class="material-icons">person</span>Tekli İmza</button><button type="button" onclick="v34AddSelected(\'sig2\')"><span class="material-icons">people</span>İkili İmza</button><button type="button" onclick="v34AddSelected(\'sig3\')"><span class="material-icons">groups</span>Üçlü İmza</button>';toolbar.appendChild(bar);}
+            var toolbar=document.querySelector('.toolbar');if(toolbar&&!document.getElementById('v34AddBar')){var bar=document.createElement('div');bar.id='v34AddBar';bar.className='v34-addbar';bar.innerHTML='<button class="v20-smart-add" type="button" onclick="v20OpenSmartText()"><span class="material-icons">auto_fix_high</span>Akıllı Metin Ekleme</button><div class="v21-add-center"><span class="v34-addbar-label">Ekle:</span><button type="button" onclick="v34AddSelected(\'title\')"><span class="material-icons">title</span>Başlık</button><button type="button" onclick="v34AddSelected(\'single\')"><span class="material-icons">short_text</span>Yeni Alan</button><button type="button" onclick="v34AddSelected(\'full\')"><span class="material-icons">segment</span>Tam Metin</button><button type="button" onclick="v34AddSelected(\'empty\')"><span class="material-icons">space_bar</span>Boş Satır</button><button type="button" onclick="v34AddSelected(\'sig1\')"><span class="material-icons">person</span>Tekli İmza</button><button type="button" onclick="v34AddSelected(\'sig2\')"><span class="material-icons">people</span>İkili İmza</button><button type="button" onclick="v34AddSelected(\'sig3\')"><span class="material-icons">groups</span>Üçlü İmza</button></div><span class="v21-add-balance" aria-hidden="true"></span>';toolbar.appendChild(bar);}
             var panel=document.getElementById('floatPanel'),deletePanel=document.getElementById('floatDeletePanel'),drag=deletePanel?.querySelector('.drag-btn');if(panel&&drag&&drag.parentElement!==panel)panel.appendChild(drag);document.querySelector('#floatMenu [data-action="madde"]')?.remove();
         }
-        document.getElementById('docTable')?.addEventListener('click',function(event){if(!v34IsMode()||event.target.closest('.lbl-dd-btn'))return;var row=event.target.closest('#docTable>tbody>tr');if(row){event.stopPropagation();v34SelectRow(row);}},true);
+        document.getElementById('docTable')?.addEventListener('click',function(event){if(!v34IsMode()||event.target.closest('.lbl-dd-btn,.v21-smart-control'))return;var row=event.target.closest('#docTable>tbody>tr');if(row){event.stopPropagation();v34SelectRow(row);}},true);
         document.addEventListener('keydown',function(event){if(event.key==='Escape'&&v34IsMode())v34ToggleStructureMode(false);},true);
         var v34RemoveBlockBase=removeBlock;
         removeBlock=function(row){var next=row?.nextElementSibling||row?.previousElementSibling||null;v34RemoveBlockBase(row);if(row===v34SelectedRow){v34SelectedRow=null;if(next&&next.isConnected)v34SelectRow(next);}};
         v34InstallToolbar();
     </script>
     <style id="v20-smart-text-styles">
-        #v34AddBar .v20-smart-add{margin-right:auto;border-color:#7c3aed;background:#f5f3ff;color:#6d28d9}
+        #v34AddBar{display:none;grid-template-columns:1fr auto 1fr!important;justify-content:stretch!important}
+        #v34AddBar.open{display:grid!important}
+        #v34AddBar .v20-smart-add{justify-self:start;border-color:#7c3aed;background:#f5f3ff;color:#6d28d9}
         #v34AddBar .v20-smart-add:hover{border-color:#6d28d9;background:#6d28d9;color:#fff}
+        .v21-add-center{display:flex;align-items:center;justify-content:center;gap:8px}.v21-add-balance{display:block}
+        #docTable>tbody>tr[data-smart-group]>td{position:relative}
+        .v21-smart-control{position:absolute;z-index:12;top:2px;left:-26px;width:21px;height:21px}
+        .v21-smart-dot{display:flex;align-items:center;justify-content:center;width:21px;height:21px;border:1px solid transparent;border-radius:50%;background:transparent;color:#64748b;font-size:17px;line-height:1;cursor:pointer}
+        .v21-smart-control:hover .v21-smart-dot,.v21-smart-control:focus-within .v21-smart-dot{border-color:#a5b4fc;background:#eef2ff;color:#4338ca}
+        .v21-smart-choice{position:absolute;display:none;top:-4px;left:25px;width:145px;height:30px;border:1px solid #a5b4fc;border-radius:8px;padding:4px 6px;background:#fff;color:#334155;font-size:10px;box-shadow:0 7px 20px rgba(15,23,42,.16)}
+        .v21-smart-control:hover .v21-smart-choice,.v21-smart-control:focus-within .v21-smart-choice{display:block}
+        @media print{.v21-smart-control{display:none!important}}
         .v20-smart-modal{position:fixed;inset:0;z-index:1450;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(15,23,42,.55);backdrop-filter:blur(4px)}
         .v20-smart-modal.open{display:flex}
         .v20-smart-dialog{display:flex;flex-direction:column;width:min(1180px,96vw);height:min(780px,92vh);overflow:hidden;border-radius:16px;background:#f8fafc;box-shadow:0 24px 70px rgba(15,23,42,.35)}
@@ -8707,6 +8719,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         .v20-smart-note{color:#64748b;font-size:10px;line-height:1.4}.v20-smart-actions{display:flex;gap:8px}
         .v20-smart-actions button{min-height:38px;padding:8px 14px;border:1px solid #cbd5e1;border-radius:9px;background:#fff;color:#475569;font-weight:800;cursor:pointer}
         .v20-smart-actions .primary{border-color:#0f766e;background:#0f766e;color:#fff}
+        @media(max-width:1100px){#v34AddBar{grid-template-columns:auto 1fr!important;overflow-x:auto}.v21-add-center{justify-content:flex-start}.v21-add-balance{display:none}}
         @media(max-width:850px){.v20-smart-body{grid-template-columns:1fr}.v20-smart-dialog{height:95vh}.v20-smart-row{grid-template-columns:52px 125px minmax(0,1fr)}}
     </style>
     <script id="v20-smart-text-script">
@@ -8724,7 +8737,14 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         function v20SmartNormalizeText(value){return String(value||'').replace(/\u00a0/g,' ').replace(/[\t ]+/g,' ').trim();}
         function v20SmartParse(){
             var raw=document.getElementById('v20SmartRaw')?.value||'';
-            var lines=raw.replace(/\r\n?/g,'\n').split('\n');
+            var normalized=raw.replace(/\r\n?/g,'\n');
+            var hasBlankParagraphs=/\n\s*\n/.test(normalized),lines=[];
+            if(hasBlankParagraphs){normalized.split(/\n\s*\n+/).forEach(function(block){
+                var current='';block.split('\n').map(v20SmartNormalizeText).filter(Boolean).forEach(function(line){
+                    var startsItem=/^(?:\d+|[A-Za-zÇĞİÖŞÜçğıöşü])\s*[.)]\s*|^[•●▪◦\-*–—]\s*/.test(line);
+                    if(startsItem&&current){lines.push(current);current=line;}else current=current?current+' '+line:line;
+                });if(current)lines.push(current);
+            });}else lines=normalized.split('\n');
             v20SmartRows=[];
             lines.forEach(function(line){
                 var text=v20SmartNormalizeText(line);if(!text)return;
@@ -8779,18 +8799,47 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             v20InstallSmartModal();document.getElementById('v20SmartModal').classList.add('open');setTimeout(function(){document.getElementById('v20SmartRaw').focus();},0);
         }
         function v20CloseSmartText(){document.getElementById('v20SmartModal')?.classList.remove('open');}
-        function v20CreateSmartParagraph(text,marker){
-            var row=document.createElement('tr');row.className='full-row';var cell=document.createElement('td');cell.colSpan=3;var content=document.createElement('div');content.className='fr-content';content.style.textAlign='justify';content.style.textAlignLast='left';
-            if(marker){var bold=document.createElement('b');bold.textContent=marker;content.appendChild(bold);content.appendChild(document.createTextNode(' '));}
-            content.appendChild(document.createTextNode(text));cell.appendChild(content);row.appendChild(cell);return row;
+        function v20CreateSmartParagraph(text,marker,item,group){
+            var row=document.createElement('tr');row.className='full-row';row.dataset.smartGroup=group;row.dataset.smartKind=item.kind;row.dataset.smartStart=item.start||'';row.dataset.smartSuffix=item.suffix||')';
+            var cell=document.createElement('td');cell.colSpan=3;var content=document.createElement('div');content.className='fr-content';content.style.textAlign='justify';content.style.textAlignLast='left';
+            var tab=document.createElement('span');tab.className='word-tab';tab.style.display='inline-block';tab.style.width='1.25cm';tab.contentEditable='false';tab.innerHTML='&nbsp;';content.appendChild(tab);
+            if(marker){var bold=document.createElement('b');bold.className='v21-smart-marker';bold.textContent=marker;content.appendChild(bold);content.appendChild(document.createTextNode(' '));}
+            var body=document.createElement('span');body.className='v21-smart-text';body.textContent=text;content.appendChild(body);cell.appendChild(content);row.appendChild(cell);return row;
         }
         function v20CreateSmartGap(){var row=document.createElement('tr');row.className='empty-row';row.innerHTML='<td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td>';return row;}
         function v20InsertSmartText(){
             v20SmartRows.forEach(function(row){row.text=v20SmartNormalizeText(row.text);});var usable=v20SmartRows.filter(function(row){return row.text;});if(!usable.length){appAlert('Eklenecek bir metin bulunamadı.','Metin Bulunamadı');return;}
-            var markers=v20SmartMarkers(),cursor=v34SelectedRow,last=null;
-            v20SmartRows.forEach(function(item,index){if(!item.text)return;var paragraph=v20CreateSmartParagraph(item.text,markers[index]);cursor.insertAdjacentElement('afterend',paragraph);cursor=paragraph;v34FlashRow(paragraph);last=paragraph;var remaining=v20SmartRows.slice(index+1).some(function(next){return !!next.text;});if(remaining){var gap=v20CreateSmartGap();cursor.insertAdjacentElement('afterend',gap);cursor=gap;v34FlashRow(gap);}});
-            applyEditable();injectLabelDropdowns();if(last)v34SelectRow(last);v20CloseSmartText();document.getElementById('v20SmartRaw').value='';v20SmartRows=[];v20SmartRender();
+            var markers=v20SmartMarkers(),cursor=v34SelectedRow,last=null,group='smart-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,7);
+            v20SmartRows.forEach(function(item,index){if(!item.text)return;var paragraph=v20CreateSmartParagraph(item.text,markers[index],item,group);cursor.insertAdjacentElement('afterend',paragraph);cursor=paragraph;v34FlashRow(paragraph);last=paragraph;var remaining=v20SmartRows.slice(index+1).some(function(next){return !!next.text;});if(remaining){var gap=v20CreateSmartGap();gap.dataset.smartGap=group;cursor.insertAdjacentElement('afterend',gap);cursor=gap;v34FlashRow(gap);}});
+            applyEditable();injectLabelDropdowns();v21InstallSmartControls();if(last)v34SelectRow(last);v20CloseSmartText();document.getElementById('v20SmartRaw').value='';v20SmartRows=[];v20SmartRender();
         }
+
+        function v21SmartKindLabel(kind){return {normal:'Normal paragraf',continue:'Önceki maddenin devamı',number:'1) 2) 3)',upper:'A) B) C)',lower:'a) b) c)',bullet:'• Madde işareti'}[kind]||'Normal paragraf';}
+        function v21SmartGroupRows(group){return Array.from(document.querySelectorAll('#docTable>tbody>tr[data-smart-group="'+CSS.escape(group)+'"]'));}
+        function v21SmartRenumber(group){
+            var state=null;v21SmartGroupRows(group).forEach(function(row){
+                var kind=row.dataset.smartKind||'normal',marker='';
+                if(kind==='continue'){/* Önceki sıra korunur. */}
+                else if(kind==='normal')state=null;
+                else if(kind==='bullet'){state={kind:'bullet'};marker='•';}
+                else{if(!state||state.kind!==kind)state={kind:kind,value:kind==='number'?(Number(row.dataset.smartStart)||1):v20SmartLetterNumber(row.dataset.smartStart,kind==='upper')};else state.value++;marker=kind==='number'?String(state.value)+(row.dataset.smartSuffix||')'):v20SmartLetter(state.value,kind==='upper')+(row.dataset.smartSuffix||')');}
+                var content=row.querySelector('.fr-content'),old=row.querySelector('.v21-smart-marker');if(!content)return;
+                if(old){var next=old.nextSibling;if(next&&next.nodeType===Node.TEXT_NODE&&/^\s*$/.test(next.textContent||''))next.remove();old.remove();}
+                if(marker){var tab=content.querySelector('.word-tab'),bold=document.createElement('b');bold.className='v21-smart-marker';bold.textContent=marker;tab?.insertAdjacentElement('afterend',bold);bold.insertAdjacentText('afterend',' ');}
+                var select=row.querySelector('.v21-smart-choice');if(select){select.value=kind;select.title=v21SmartKindLabel(kind);}
+            });
+        }
+        function v21InstallSmartControls(root){
+            (root||document).querySelectorAll?.('#docTable>tbody>tr[data-smart-group]')?.forEach(function(row){
+                if(row.querySelector('.v21-smart-control'))return;var cell=row.querySelector('td');if(!cell)return;
+                var control=document.createElement('div');control.className='v21-smart-control';control.contentEditable='false';
+                var dot=document.createElement('button');dot.type='button';dot.className='v21-smart-dot';dot.textContent='•';dot.title='Paragraf sıralamasını düzenle';
+                var select=document.createElement('select');select.className='v21-smart-choice';[['normal','Normal paragraf'],['continue','Önceki maddenin devamı'],['number','1) 2) 3)'],['upper','A) B) C)'],['lower','a) b) c)'],['bullet','• Madde işareti']].forEach(function(item){var option=document.createElement('option');option.value=item[0];option.textContent=item[1];select.appendChild(option);});select.value=row.dataset.smartKind||'normal';select.title=v21SmartKindLabel(select.value);
+                select.onchange=function(event){event.stopPropagation();row.dataset.smartKind=this.value;if(this.value==='number'&&!row.dataset.smartStart)row.dataset.smartStart='1';if(this.value==='upper'&&!row.dataset.smartStart)row.dataset.smartStart='A';if(this.value==='lower'&&!row.dataset.smartStart)row.dataset.smartStart='a';v21SmartRenumber(row.dataset.smartGroup);};
+                dot.onclick=function(event){event.stopPropagation();select.focus();};control.append(dot,select);cell.insertBefore(control,cell.firstChild);
+            });
+        }
+        var v21SmartObserver=new MutationObserver(function(){v21InstallSmartControls();});v21SmartObserver.observe(document.getElementById('docTable'),{childList:true,subtree:true});v21InstallSmartControls();
     </script>
     <style id="v11-print-parity-styles">
         @media print{
