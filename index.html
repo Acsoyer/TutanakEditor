@@ -8692,13 +8692,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         #v34AddBar .v20-smart-add{justify-self:start;border-color:#7c3aed;background:#f5f3ff;color:#6d28d9}
         #v34AddBar .v20-smart-add:hover{border-color:#6d28d9;background:#6d28d9;color:#fff}
         .v21-add-center{display:flex;align-items:center;justify-content:center;gap:8px}.v21-add-balance{display:block}
-        #docTable>tbody>tr[data-smart-group]>td{position:relative}
-        .v21-smart-control{position:absolute;z-index:12;top:2px;left:-26px;width:21px;height:21px}
-        .v21-smart-dot{display:flex;align-items:center;justify-content:center;width:21px;height:21px;border:1px solid transparent;border-radius:50%;background:transparent;color:#64748b;font-size:17px;line-height:1;cursor:pointer}
-        .v21-smart-control:hover .v21-smart-dot,.v21-smart-control:focus-within .v21-smart-dot{border-color:#a5b4fc;background:#eef2ff;color:#4338ca}
-        .v21-smart-choice{position:absolute;display:none;top:-4px;left:25px;width:145px;height:30px;border:1px solid #a5b4fc;border-radius:8px;padding:4px 6px;background:#fff;color:#334155;font-size:10px;box-shadow:0 7px 20px rgba(15,23,42,.16)}
-        .v21-smart-control:hover .v21-smart-choice,.v21-smart-control:focus-within .v21-smart-choice{display:block}
-        @media print{.v21-smart-control{display:none!important}}
+        #docTable .v21-smart-control{display:none!important}
         .v20-smart-modal{position:fixed;inset:0;z-index:1450;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(15,23,42,.55);backdrop-filter:blur(4px)}
         .v20-smart-modal.open{display:flex}
         .v20-smart-dialog{display:flex;flex-direction:column;width:min(1180px,96vw);height:min(780px,92vh);overflow:hidden;border-radius:16px;background:#f8fafc;box-shadow:0 24px 70px rgba(15,23,42,.35)}
@@ -8710,17 +8704,20 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         .v20-smart-pane-title{padding:10px 12px;border-bottom:1px solid #e5eaf0;color:#334155;font-size:11px;font-weight:800}
         #v20SmartRaw{min-height:0;flex:1;resize:none;border:0;padding:14px;outline:0;color:#172033;font:13px/1.55 Arial,sans-serif;white-space:pre-wrap}
         #v20SmartRows{min-height:0;flex:1;overflow:auto;padding:9px}
-        .v20-smart-row{display:grid;grid-template-columns:62px 150px minmax(0,1fr);gap:7px;align-items:start;margin-bottom:7px;padding:8px;border:1px solid #e2e8f0;border-radius:9px;background:#fff}
+        .v20-smart-row{display:grid;grid-template-columns:54px 28px minmax(0,1fr);gap:7px;align-items:start;margin-bottom:7px;padding:8px;border:1px solid #e2e8f0;border-radius:9px;background:#fff}
         .v20-smart-marker{padding-top:9px;color:#4338ca;font-size:11px;font-weight:800;text-align:center}
-        .v20-smart-row select,.v20-smart-row textarea{box-sizing:border-box;width:100%;border:1px solid #cbd5e1;border-radius:7px;background:#fff;color:#334155;font-size:10px}
-        .v20-smart-row select{height:34px;padding:5px}.v20-smart-row textarea{min-height:52px;resize:vertical;padding:7px;line-height:1.4}
+        .v20-smart-row textarea{box-sizing:border-box;width:100%;border:1px solid #cbd5e1;border-radius:7px;background:#fff;color:#334155;font-size:10px;min-height:52px;resize:vertical;padding:7px;line-height:1.4}
+        .v22-smart-kind{position:relative;width:28px;height:34px;padding-top:6px;box-sizing:border-box}
+        .v22-smart-kind-dot{display:flex;align-items:center;justify-content:center;width:22px;height:22px;margin:auto;border:1px solid #c7d2fe;border-radius:50%;background:#eef2ff;color:#4338ca;font-size:18px;line-height:1;cursor:pointer}
+        .v22-smart-kind select{position:absolute;z-index:20;display:none;top:2px;left:27px;width:155px;height:32px;box-sizing:border-box;border:1px solid #818cf8;border-radius:8px;padding:4px 7px;background:#fff;color:#334155;font-size:10px;box-shadow:0 8px 22px rgba(15,23,42,.18)}
+        .v22-smart-kind:hover select,.v22-smart-kind:focus-within select{display:block}
         .v20-smart-empty{padding:35px 18px;color:#64748b;text-align:center;font-size:11px}
         .v20-smart-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 15px;border-top:1px solid #dbe4ee;background:#fff}
         .v20-smart-note{color:#64748b;font-size:10px;line-height:1.4}.v20-smart-actions{display:flex;gap:8px}
         .v20-smart-actions button{min-height:38px;padding:8px 14px;border:1px solid #cbd5e1;border-radius:9px;background:#fff;color:#475569;font-weight:800;cursor:pointer}
         .v20-smart-actions .primary{border-color:#0f766e;background:#0f766e;color:#fff}
         @media(max-width:1100px){#v34AddBar{grid-template-columns:auto 1fr!important;overflow-x:auto}.v21-add-center{justify-content:flex-start}.v21-add-balance{display:none}}
-        @media(max-width:850px){.v20-smart-body{grid-template-columns:1fr}.v20-smart-dialog{height:95vh}.v20-smart-row{grid-template-columns:52px 125px minmax(0,1fr)}}
+        @media(max-width:850px){.v20-smart-body{grid-template-columns:1fr}.v20-smart-dialog{height:95vh}.v20-smart-row{grid-template-columns:44px 28px minmax(0,1fr)}}
     </style>
     <script id="v20-smart-text-script">
         // Ctrl+B, tarayıcının CSS tabanlı kalınlaştırmasına düşmeden K düğmesiyle aynı yolu kullanır.
@@ -8784,8 +8781,9 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 var select=document.createElement('select');
                 [['normal','Normal paragraf'],['continue','Önceki maddenin devamı'],['number','1) 2) 3)'],['upper','A) B) C)'],['lower','a) b) c)'],['bullet','• Madde işareti']].forEach(function(option){var el=document.createElement('option');el.value=option[0];el.textContent=option[1];el.selected=row.kind===option[0];select.appendChild(el);});
                 select.onchange=function(){row.kind=this.value;if(row.kind==='number'&&!row.start)row.start=1;if((row.kind==='upper'||row.kind==='lower')&&!row.start)row.start=row.kind==='upper'?'A':'a';v20SmartRender();};
+                var kindControl=document.createElement('div');kindControl.className='v22-smart-kind';kindControl.title='Paragraf türünü görüntüle veya değiştir';var dot=document.createElement('button');dot.type='button';dot.className='v22-smart-kind-dot';dot.textContent='•';dot.onclick=function(){select.focus();};kindControl.append(dot,select);
                 var editor=document.createElement('textarea');editor.value=row.text;editor.oninput=function(){row.text=v20SmartNormalizeText(this.value);};
-                item.append(marker,select,editor);host.appendChild(item);
+                item.append(marker,kindControl,editor);host.appendChild(item);
             });
         }
         function v20InstallSmartModal(){
@@ -8830,16 +8828,9 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             });
         }
         function v21InstallSmartControls(root){
-            (root||document).querySelectorAll?.('#docTable>tbody>tr[data-smart-group]')?.forEach(function(row){
-                if(row.querySelector('.v21-smart-control'))return;var cell=row.querySelector('td');if(!cell)return;
-                var control=document.createElement('div');control.className='v21-smart-control';control.contentEditable='false';
-                var dot=document.createElement('button');dot.type='button';dot.className='v21-smart-dot';dot.textContent='•';dot.title='Paragraf sıralamasını düzenle';
-                var select=document.createElement('select');select.className='v21-smart-choice';[['normal','Normal paragraf'],['continue','Önceki maddenin devamı'],['number','1) 2) 3)'],['upper','A) B) C)'],['lower','a) b) c)'],['bullet','• Madde işareti']].forEach(function(item){var option=document.createElement('option');option.value=item[0];option.textContent=item[1];select.appendChild(option);});select.value=row.dataset.smartKind||'normal';select.title=v21SmartKindLabel(select.value);
-                select.onchange=function(event){event.stopPropagation();row.dataset.smartKind=this.value;if(this.value==='number'&&!row.dataset.smartStart)row.dataset.smartStart='1';if(this.value==='upper'&&!row.dataset.smartStart)row.dataset.smartStart='A';if(this.value==='lower'&&!row.dataset.smartStart)row.dataset.smartStart='a';v21SmartRenumber(row.dataset.smartGroup);};
-                dot.onclick=function(event){event.stopPropagation();select.focus();};control.append(dot,select);cell.insertBefore(control,cell.firstChild);
-            });
+            (root||document).querySelectorAll?.('.v21-smart-control')?.forEach(function(control){control.remove();});
         }
-        var v21SmartObserver=new MutationObserver(function(){v21InstallSmartControls();});v21SmartObserver.observe(document.getElementById('docTable'),{childList:true,subtree:true});v21InstallSmartControls();
+        v21InstallSmartControls();
     </script>
     <style id="v11-print-parity-styles">
         @media print{
