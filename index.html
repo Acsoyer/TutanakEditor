@@ -9164,18 +9164,18 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             line-height: 13pt;
         }
         /*
-         * PDF sayfalama kalibrasyonu: onaylanan ince ayar testindeki 17.05 px,
-         * UDF ve DOCX'teki sayfa kirilimi ile eslesir. Bu kural yalnizca PDF
-         * onizleme/sayfalama kopyasina uygulanir.
+         * PDF sayfalama kalibrasyonu: 25 px footer guvenlik alani korunurken
+         * DOCX'teki 51 satirlik govde kapasitesini yakalamak icin satir adimi
+         * 16.70 px'tir. Bu kural yalnizca PDF onizleme/sayfalama kopyasina uygulanir.
          * Header 4 cm kalir; footer cizgi-yazi boslugu 0.30 cm ve rezervi 1.85 cm'dir.
          */
         .v23-preview-page tbody > tr.single-row > td:not([colspan]),
         .v23-preview-page tbody > tr.full-row:not(.v34-title-text-row) > td,
         .v23-preview-page tbody > tr.empty-row > td {
-            line-height: 17.05px !important;
-            min-height: 17.05px !important;
+            line-height: 16.70px !important;
+            min-height: 16.70px !important;
         }
-        .v23-preview-page tbody > tr.empty-row > td { height: 17.05px !important; }
+        .v23-preview-page tbody > tr.empty-row > td { height: 16.70px !important; }
         #docTable > tbody > tr.single-row > td.label-cell > .lbl-dd-btn {
             display: block;
             visibility: hidden;
