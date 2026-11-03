@@ -33,7 +33,7 @@
                tamamen kaldiriyor (asagida bkz). */
             tr.row-hovered > td::after { content: none !important; display: none !important; }
             .fixed-print-header { display: block !important; position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; height: 4cm !important; padding: 0.6cm 1.25cm 0 1.75cm !important; box-sizing: border-box !important; background: #fff !important; z-index: 999; }
-            .fixed-print-footer { display: flex !important; position: fixed !important; bottom: 0 !important; left: 0 !important; right: 0 !important; height: 1.85cm !important; padding: 0 1.25cm 0.5cm 1.75cm !important; box-sizing: border-box !important; background: #fff !important; flex-direction: column !important; justify-content: space-between !important; z-index: 999; }
+            .fixed-print-footer { display: flex !important; position: fixed !important; bottom: 0 !important; left: 0 !important; right: 0 !important; height: 1.85cm !important; padding: 0 1.25cm 0.5cm 1.75cm !important; box-sizing: border-box !important; background: #fff !important; flex-direction: column !important; justify-content: flex-start !important; z-index: 999; }
             body.no-print-hf .fixed-print-header, body.no-print-hf .fixed-print-footer, body.no-print-hf .print-space-head, body.no-print-hf .print-space-foot { display: none !important; }
             body.no-print-hf .print-content-wrapper { padding-top: 1.25cm !important; padding-bottom: 1.25cm !important; }
             /* Chromium/Arial, Word ve UYAP'a gore ayni nominal genislikte
@@ -7415,7 +7415,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         }
         /* Bu ölçüler @media print içindeki gerçek PDF alanlarının birebir karşılığıdır. */
         .v23-preview-page-header { position:absolute; top:0; left:0; right:0; height:4cm; padding:.6cm 1.25cm 0 1.75cm; box-sizing:border-box; background:#fff; }
-        .v23-preview-page-footer { position:absolute; bottom:0; left:0; right:0; height:1.85cm; padding:0 1.25cm .5cm 1.75cm; box-sizing:border-box; display:flex; flex-direction:column; justify-content:space-between; background:#fff; }
+        .v23-preview-page-footer { position:absolute; bottom:0; left:0; right:0; height:1.85cm; padding:0 1.25cm .5cm 1.75cm; box-sizing:border-box; display:flex; flex-direction:column; justify-content:flex-start; background:#fff; }
         .v23-preview-page-header .logo-container-print { margin:0 auto; width:8cm; height:2cm; }
         .v23-preview-page-header .header-line-print { border-top:1px solid #808080; margin-top:.4cm; margin-bottom:.5cm; }
         .v23-preview-page-footer .footer-line-print { border-top:1px solid #808080; margin-bottom:.30cm; }
@@ -9116,18 +9116,18 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             line-height: 13pt;
         }
         /*
-         * PDF sayfalama kalibrasyonu: gercek belge testinde 17.5 px ile 47 satir
-         * sigdi. 47/50 oranina gore 16.45 px, UDF ve DOCX'teki 50 satirlik
-         * govdeyle eslesir. Bu kural yalnizca PDF onizleme/sayfalama kopyasina uygulanir.
+         * PDF sayfalama kalibrasyonu: onaylanan PDF Satir 03 testindeki 16.90 px,
+         * UDF ve DOCX'teki sayfa kirilimi ile eslesir. Bu kural yalnizca PDF
+         * onizleme/sayfalama kopyasina uygulanir.
          * Header 4 cm kalir; footer cizgi-yazi boslugu 0.30 cm ve rezervi 1.85 cm'dir.
          */
         .v23-preview-page tbody > tr.single-row > td:not([colspan]),
         .v23-preview-page tbody > tr.full-row:not(.v34-title-text-row) > td,
         .v23-preview-page tbody > tr.empty-row > td {
-            line-height: 16.45px !important;
-            min-height: 16.45px !important;
+            line-height: 16.90px !important;
+            min-height: 16.90px !important;
         }
-        .v23-preview-page tbody > tr.empty-row > td { height: 16.45px !important; }
+        .v23-preview-page tbody > tr.empty-row > td { height: 16.90px !important; }
         #docTable > tbody > tr.single-row > td.label-cell > .lbl-dd-btn {
             display: block;
             visibility: hidden;
