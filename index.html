@@ -7567,12 +7567,16 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 if(hf){const footer=document.createElement('div');footer.className='v23-preview-page-footer';footer.innerHTML=document.querySelector('.fixed-print-footer')?.innerHTML||'';footer.querySelectorAll('[id]').forEach(function(node){node.removeAttribute('id');});page.appendChild(footer);}
                 shell.appendChild(page);return {shell:shell,page:page,body:body,table:table,tbody:tbody};
             }
-            // Chrome baski asamasinda metni cok az yeniden akitabilir. Tam sinira
-            // kadar doldurmak sonraki sayfalarda son satirin footer arkasinda
-            // kalmasina yol aciyordu. Olcumle dogrulanan 12 px guvenli alan,
-            // onaylanan ilk sayfa kirilimini degistirmeden bu tasmayi engeller.
-            const PDF_PAGE_BOTTOM_SAFETY_PX=12;
-            function pageFits(record){return record.table.getBoundingClientRect().height<=record.body.clientHeight-PDF_PAGE_BOTTOM_SAFETY_PX;}
+            // Ilk sayfadaki baslik/paragraf yapisi ile devam sayfalarindaki bolunmus
+            // paragraflar ayni esikte farkli davranir. Gercek PDF-DOCX-UDF testiyle
+            // ilk sayfa icin 8 px, devam sayfalari icin 24 px guvenli alt sinir
+            // dogrulandi. Boylece kirilimlar eslesir ve footer arkasinda metin kalmaz.
+            const PDF_FIRST_PAGE_BOTTOM_SAFETY_PX=8;
+            const PDF_LATER_PAGE_BOTTOM_SAFETY_PX=24;
+            function pageFits(record){
+                const safety=record.pageNumber===1?PDF_FIRST_PAGE_BOTTOM_SAFETY_PX:PDF_LATER_PAGE_BOTTOM_SAFETY_PX;
+                return record.table.getBoundingClientRect().height<=record.body.clientHeight-safety;
+            }
             function splitTarget(row){
                 const cells=Array.from(row.children).filter(function(cell){return cell.tagName==='TD';});
                 const preferred=row.querySelector('.content-cell');
@@ -7621,8 +7625,8 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 try{
                     const sourceRows=Array.from(document.querySelectorAll('#docTable > tbody > tr'));
                     const measure=document.getElementById('v23PreviewMeasure');measure.innerHTML='';pages.innerHTML='';
-                    let record=buildPage();measure.appendChild(record.shell);let pageRecords=[];
-                    function nextPage(){pageRecords.push(record);record=buildPage();measure.appendChild(record.shell);}
+                    let record=buildPage();record.pageNumber=1;measure.appendChild(record.shell);let pageRecords=[];
+                    function nextPage(){pageRecords.push(record);record=buildPage();record.pageNumber=pageRecords.length+1;measure.appendChild(record.shell);}
                     if(!sourceRows.length)pageRecords.push(record);
                     sourceRows.forEach(function(row){
                         let remainder=clonePrintableRow(row),continuation=false,safety=0;
@@ -9121,7 +9125,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             line-height: 13pt;
         }
         /*
-         * PDF sayfalama kalibrasyonu: onaylanan PDF Satir 03 testindeki 16.90 px,
+         * PDF sayfalama kalibrasyonu: onaylanan ince ayar testindeki 17.05 px,
          * UDF ve DOCX'teki sayfa kirilimi ile eslesir. Bu kural yalnizca PDF
          * onizleme/sayfalama kopyasina uygulanir.
          * Header 4 cm kalir; footer cizgi-yazi boslugu 0.30 cm ve rezervi 1.85 cm'dir.
@@ -9129,10 +9133,10 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         .v23-preview-page tbody > tr.single-row > td:not([colspan]),
         .v23-preview-page tbody > tr.full-row:not(.v34-title-text-row) > td,
         .v23-preview-page tbody > tr.empty-row > td {
-            line-height: 16.90px !important;
-            min-height: 16.90px !important;
+            line-height: 17.05px !important;
+            min-height: 17.05px !important;
         }
-        .v23-preview-page tbody > tr.empty-row > td { height: 16.90px !important; }
+        .v23-preview-page tbody > tr.empty-row > td { height: 17.05px !important; }
         #docTable > tbody > tr.single-row > td.label-cell > .lbl-dd-btn {
             display: block;
             visibility: hidden;
