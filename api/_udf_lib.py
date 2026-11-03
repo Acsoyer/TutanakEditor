@@ -69,9 +69,9 @@ CM_TO_PT = 28.3464567
 
 LEFT_MARGIN_CM = 1.75
 RIGHT_MARGIN_CM = 1.25
-TOP_HEADER_AREA_CM = 4.0      # sayfa ustunden ayrilan toplam header alani
-                    # (0.5cm ust bosluk + 2cm logo + cizgi icin pay)
-BOTTOM_FOOTER_AREA_CM = 2.0   # sayfa altindan ayrilan toplam footer alani
+TOP_HEADER_AREA_CM = 3.0      # sayfa ustunden ayrilan toplam header alani
+                    # (0.3cm ust bosluk + 2cm logo + cizgi icin pay)
+BOTTOM_FOOTER_AREA_CM = 1.3   # sayfa altindan ayrilan toplam footer alani
 
 # ----
 # v34 DEGISIKLIGI - HEADER/FOOTER UST-ALT BOSLUGU ARTIK "SAYFA YAPISINDAN"
@@ -90,14 +90,10 @@ BOTTOM_FOOTER_AREA_CM = 2.0   # sayfa altindan ayrilan toplam footer alani
 #   asar -> govdeyle CAKISIR -> layout bozulur (v33 oncesi yasanan sorun).
 #   Bu yuzden asagida SpaceAbove/SpaceBelow TAMAMEN kaldirildi.
 #
-# GEOMETRI KORUNUMU: topMargin (3.0cm) ve bottomMargin (2.1cm) DEGISMEDI;
-#   govde metni ayni yerde baslar/biter. Sadece "ust/alt bosluk" mekanizmasi
-#   sahte (paragraf) yerine gercek (sayfa offset) hale getirildi. Logo, ust
-#   bosluk 0.4->0.5 yapildigi icin 0.1cm asagi kayar; footer 0.5->0.5 oldugu
-#   icin BIREBIR ayni kalir. Logoyu da birebir ayni tutmak istersen
-#   HEADER_FOFFSET_CM'yi 0.4 yap.
-HEADER_FOFFSET_CM = 0.5      # <-- Kenardan > Ust Yazi (headerFOffset). Ayarlanabilir.
-FOOTER_FOFFSET_CM = 0.5      # <-- DOCX ile ayni: alt yazi sayfa altindan 0.5cm uzakta.
+# 99 satirlik UYAP/DOCX/PDF karsilastirmasinda dogrulanan nihai geometri:
+#   ust=3.0cm, alt=1.3cm, ust yazi=0.3cm, alt yazi=0.3cm.
+HEADER_FOFFSET_CM = 0.3      # UYAP Sayfa Duzenleme > Kenardan > Ust Yazi
+FOOTER_FOFFSET_CM = 0.3      # UYAP Sayfa Duzenleme > Kenardan > Alt Yazi
 
 HEADER_TOP_GAP_CM = 0.4      # (v34: ARTIK KULLANILMIYOR - bosluk headerFOffset'a tasindi)
 LOGO_HEIGHT_CM = 2.0
@@ -143,10 +139,9 @@ CONTENT_WIDTH_PT = A4_WIDTH_PT - LEFT_MARGIN_PT - RIGHT_MARGIN_PT
 # tespit edildi):
 #   - Kenarlar > Ust/Alt   <-> pageFormat topMargin / bottomMargin (point)
 #   - Kenardan > Ust Yazi / Alt Yazi <-> pageFormat headerFOffset / footerFOffset (point)
-# Kullanicinin son talebi: Kenarlar > Ust=3cm, Alt=2.1cm; Kenardan > Ust
-# Yazi=0, Alt Yazi=0 (bu ikincisi zaten dogruydu).
-TOP_MARGIN_CM = 4.0
-BOTTOM_MARGIN_CM = 2.0
+# UYAP Sayfa Duzenleme ekraninda dogrulanan degerler.
+TOP_MARGIN_CM = 3.0
+BOTTOM_MARGIN_CM = 1.3
 TOP_MARGIN_PT = TOP_MARGIN_CM * CM_TO_PT
 BOTTOM_MARGIN_PT = BOTTOM_MARGIN_CM * CM_TO_PT
 
@@ -605,11 +600,11 @@ def build_labeled_row(cb: ContentBuilder, label: str, colon: str, content_paragr
     colon_tag = run_tag(cb, colon or ":", bold=True) if colon else ""
 
     label_para = (
-        f'<paragraph {TABSET_ATTR}Alignment="0" LineSpacing="0.30" family="{FONT_FAMILY}" size="{FONT_SIZE}" SpaceBelow="0.1058">'
+        f'<paragraph {TABSET_ATTR}Alignment="0" LineSpacing="0.30" family="{FONT_FAMILY}" size="{FONT_SIZE}">'
         f"{label_tag}</paragraph>"
     )
     colon_para = (
-        f'<paragraph {TABSET_ATTR}Alignment="0" LineSpacing="0.30" family="{FONT_FAMILY}" size="{FONT_SIZE}" SpaceBelow="0.1058">'
+        f'<paragraph {TABSET_ATTR}Alignment="0" LineSpacing="0.30" family="{FONT_FAMILY}" size="{FONT_SIZE}">'
         f"{colon_tag}</paragraph>"
     )
 
@@ -618,13 +613,10 @@ def build_labeled_row(cb: ContentBuilder, label: str, colon: str, content_paragr
     # olabiliyor (varsayilan hizalama 'justify') ve kullanici buraya da
     # "Satir Basi" ile nbsp ekleyebilir - ayni <space>-tablo-genisligi
     # sorununa karsi ayni onlem burada da uygulanir (bkz. build_full_row).
-    for index, para in enumerate(content_paragraphs):
-        # Hücre içindeki yalnızca son paragrafın altında nefes payı bırak;
-        # çok paragraflı metinlerin kendi satır aralıklarını büyütme.
-        extra = ' SpaceBelow="0.1058"' if index == len(content_paragraphs) - 1 else ""
-        content_inner += paragraph_xml(cb, para, extra_para_attrs=extra, force_content=True)
+    for para in content_paragraphs:
+        content_inner += paragraph_xml(cb, para, force_content=True)
     if not content_paragraphs:
-        content_inner = paragraph_xml(cb, {"align": "left", "runs": []}, extra_para_attrs=' SpaceBelow="0.1058"', force_content=True)
+        content_inner = paragraph_xml(cb, {"align": "left", "runs": []}, force_content=True)
 
     row = (
         '<row rowName="rowX" rowType="dataRow" border="borderNone" borderWidth="0.5">'
@@ -958,8 +950,11 @@ def build_footer_xml(cb: ContentBuilder, footer_data):
     Simdi:
       - footer TAMAMEN duz <paragraph name="hvl-default"> elemanlarindan
         olusuyor (tablo YOK).
-      - Sirasiyla: govde genisliginde ayirici cizgi paragrafi, sonra footer
-        metin satir(lar)i, en sonda 0.6cm SpaceBelow'lu (bos) bir paragraf.
+      - Sirasiyla: govde genisliginde ayirici cizgi paragrafi ve footer
+        metin satir(lar)i. Ayirici ile metin arasinda gorunmeyen ek paragraf
+        uretilmez; UYAP bu paragrafi sayfa govdesinden bir tam satir duserek
+        hesapladigi icin 99 satirlik karsilastirma belgesinde sayfa eslesmesini
+        bozuyordu.
     """
     enabled = footer_data.get("enabled")
     text1 = (footer_data.get("text1") or "").strip()
@@ -984,16 +979,6 @@ def build_footer_xml(cb: ContentBuilder, footer_data):
         f'<paragraph name="hvl-default" Alignment="1" LineSpacing="{FOOTER_SEP_LINESPACING}" family="{FONT_FAMILY}" size="{SEP_LINE_FONT_SIZE}" description="G\u00f6vde" foreground="-1" SpaceAbove="0.0" SpaceBelow="0.0">'
         f'<image imageData="{sep_flat}" width="{CONTENT_WIDTH_PT:.2f}" height="2.0" '
         f'startOffset="{sep_offset}" length="1" />{nl_tag}</paragraph>'
-    )
-
-    # DOCX footer'inda ayirici cizgi ile ilk metin arasinda bir gercek satir
-    # bulunur. UYAP'ta yalnizca newline olan paragraflar cokebildigi icin
-    # NBSP + newline kullanilir; bu satir footer yuksekligi hesabina da girer.
-    footer_gap = hf_run_tag(cb, "\u00a0\n", family=FONT_FAMILY, size=FONT_SIZE)
-    parts.append(
-        f'<paragraph name="hvl-default" Alignment="1" LineSpacing="0.30" '
-        f'family="{FONT_FAMILY}" size="{FONT_SIZE}" description="G\u00f6vde" '
-        f'SpaceAbove="0.0" SpaceBelow="0.0">{footer_gap}</paragraph>'
     )
 
     lines = [t for t in (text1, text2) if t]
@@ -1203,7 +1188,6 @@ def build_udf_content_xml(data: dict) -> str:
                 body_xml += paragraph_xml(cb, {"align": "justify", "runs": []}, force_content=True)
         elif rtype == "siggrid":
             flush_main_table()
-            # araya kucuk bosluk paragrafi
             body_xml += paragraph_xml(cb, {"align": "left", "runs": []})
             body_xml += build_siggrid_row(cb, row.get("boxes", []))
             body_xml += paragraph_xml(cb, {"align": "left", "runs": []})
