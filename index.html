@@ -7567,15 +7567,11 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 if(hf){const footer=document.createElement('div');footer.className='v23-preview-page-footer';footer.innerHTML=document.querySelector('.fixed-print-footer')?.innerHTML||'';footer.querySelectorAll('[id]').forEach(function(node){node.removeAttribute('id');});page.appendChild(footer);}
                 shell.appendChild(page);return {shell:shell,page:page,body:body,table:table,tbody:tbody};
             }
-            // Ilk sayfadaki baslik/paragraf yapisi ile devam sayfalarindaki bolunmus
-            // paragraflar ayni esikte farkli davranir. Gercek PDF-DOCX-UDF testiyle
-            // ilk sayfa icin 8 px, devam sayfalari icin 24 px guvenli alt sinir
-            // dogrulandi. Boylece kirilimlar eslesir ve footer arkasinda metin kalmaz.
-            const PDF_FIRST_PAGE_BOTTOM_SAFETY_PX=8;
-            const PDF_LATER_PAGE_BOTTOM_SAFETY_PX=24;
+            // Gercek PDF-DOCX-UDF testinde butun sayfalarda ayni 8 px guvenli alt
+            // sinir, satir kapasitesini eslerken footer arkasina metin tasmasini engeller.
+            const PDF_PAGE_BOTTOM_SAFETY_PX=8;
             function pageFits(record){
-                const safety=record.pageNumber===1?PDF_FIRST_PAGE_BOTTOM_SAFETY_PX:PDF_LATER_PAGE_BOTTOM_SAFETY_PX;
-                return record.table.getBoundingClientRect().height<=record.body.clientHeight-safety;
+                return record.table.getBoundingClientRect().height<=record.body.clientHeight-PDF_PAGE_BOTTOM_SAFETY_PX;
             }
             function splitTarget(row){
                 const cells=Array.from(row.children).filter(function(cell){return cell.tagName==='TD';});
