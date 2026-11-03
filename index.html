@@ -9157,17 +9157,18 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             line-height: 13pt;
         }
         /*
-         * DOCX Normal stili w:line="260" ve w:lineRule="atLeast" kullanir:
-         * 260 twip = 13 pt. PDF de ayni fiziksel satir adimini kullanir.
-         * Header 4 cm, govde alt siniri 2 cm'dir; DOCX/UDF degistirilmez.
+         * Son gercek cikti karsilastirmasinda 13 pt ile PDF, DOCX'ten sayfa
+         * basina iki satir eksik kaldi. Tarayici/Word metrik farkini telafi
+         * etmek icin PDF adimi 13 * 50 / 52 = 12.5 pt olarak kalibre edilir.
+         * Header/footer ve DOCX/UDF uretimi degistirilmez.
          */
         .v23-preview-page tbody > tr.single-row > td:not([colspan]),
         .v23-preview-page tbody > tr.full-row:not(.v34-title-text-row) > td,
         .v23-preview-page tbody > tr.empty-row > td {
-            line-height: 13pt !important;
-            min-height: 13pt !important;
+            line-height: 12.5pt !important;
+            min-height: 12.5pt !important;
         }
-        .v23-preview-page tbody > tr.empty-row > td { height: 13pt !important; }
+        .v23-preview-page tbody > tr.empty-row > td { height: 12.5pt !important; }
         #docTable > tbody > tr.single-row > td.label-cell > .lbl-dd-btn {
             display: block;
             visibility: hidden;
