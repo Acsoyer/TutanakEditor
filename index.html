@@ -7567,7 +7567,12 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 if(hf){const footer=document.createElement('div');footer.className='v23-preview-page-footer';footer.innerHTML=document.querySelector('.fixed-print-footer')?.innerHTML||'';footer.querySelectorAll('[id]').forEach(function(node){node.removeAttribute('id');});page.appendChild(footer);}
                 shell.appendChild(page);return {shell:shell,page:page,body:body,table:table,tbody:tbody};
             }
-            function pageFits(record){return record.table.getBoundingClientRect().height<=record.body.clientHeight+.5;}
+            // Chrome baski asamasinda metni cok az yeniden akitabilir. Tam sinira
+            // kadar doldurmak sonraki sayfalarda son satirin footer arkasinda
+            // kalmasina yol aciyordu. Olcumle dogrulanan 12 px guvenli alan,
+            // onaylanan ilk sayfa kirilimini degistirmeden bu tasmayi engeller.
+            const PDF_PAGE_BOTTOM_SAFETY_PX=12;
+            function pageFits(record){return record.table.getBoundingClientRect().height<=record.body.clientHeight-PDF_PAGE_BOTTOM_SAFETY_PX;}
             function splitTarget(row){
                 const cells=Array.from(row.children).filter(function(cell){return cell.tagName==='TD';});
                 const preferred=row.querySelector('.content-cell');
