@@ -47,7 +47,7 @@
             .print-content-wrapper { padding: 0 1.25cm 0 1.75cm !important; box-sizing: border-box !important; }
             .label-cell, .colon-cell, .content-cell { color: #000 !important; margin: 0 !important; padding-top: 2px !important; padding-bottom: 2px !important; }
             .content-cell { padding-right:var(--arbsys-pdf-right-gap, 2mm) !important; }
-            .sig-title { text-decoration: underline !important; font-weight: bold !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            .sig-title { text-decoration: underline !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
         }
 
         /* ====
@@ -83,10 +83,9 @@
         .title-text-row td { text-align:center; font-weight:bold; font-size:10pt; font-family:Arial,sans-serif; line-height:1.5; padding-bottom:0px; }
         .sig-grid { display:flex; justify-content:space-between; text-align:center; padding:0 0.15cm; width:100%; box-sizing:border-box; page-break-inside:auto; break-inside:auto; }
         .sig-box { flex:1; font-size:10pt; line-height:1.3; min-width:120px; padding:0 5px; font-weight: normal; font-style: normal; text-decoration: none; }
-        .sig-box *:not(.sig-title) { font-weight: normal; font-style: normal; text-decoration: none !important; }
         .sig-box b, .sig-box strong { font-weight: bold !important; }
         .sig-box i, .sig-box em { font-style: italic !important; }
-        .sig-title { font-weight:bold !important; text-decoration:underline !important; display:block; margin-bottom:5px; }
+        .sig-title, .sig-box u { text-decoration:underline !important; display:block; margin-bottom:5px; }
 
         /* ====
            4. EDİTÖR ARAÇLARI (BROWSER UI, TOOLBAR)
@@ -1021,9 +1020,9 @@
         </a>
         <div class="toolbar-inner">
             <div class="toolbar-left">
-                <button class="tb-btn" onclick="applyBoldFormat()" data-title="Kalın (Ctrl+B)"><strong>K</strong></button>
-                <button class="tb-btn" onclick="applySigTitle()" data-title="Altı Çizgili (Ctrl+U)"><u>A</u></button>
-                <button class="tb-btn" onclick="applyItalicFormat()" data-title="İtalik (Ctrl+I)"><em>İ</em></button>
+                <button class="tb-btn" onmousedown="event.preventDefault()" onclick="applyBoldFormat()" data-title="Kalın (Ctrl+B)"><strong>K</strong></button>
+                <button class="tb-btn" onmousedown="event.preventDefault()" onclick="applyItalicFormat()" data-title="İtalik (Ctrl+I)"><em>T</em></button>
+                <button class="tb-btn" onmousedown="event.preventDefault()" onclick="applySigTitle()" data-title="Altı Çizgili (Ctrl+U)"><u>A</u></button>
                 
                 <button class="tb-btn" onclick="document.execCommand('hiliteColor',false,'#fff9c4')" data-title="Vurgula"><span class="material-icons">border_color</span></button>
                 <button class="tb-btn" onclick="document.execCommand('hiliteColor',false,'transparent')" data-title="Vurgu Sil"><span class="material-icons">format_color_reset</span></button>
@@ -1627,6 +1626,11 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             '#docTable .sig-box'
         ];
         function applyEditable() {
+            document.querySelectorAll('#docTable .sig-box span.sig-title').forEach(function(legacy) {
+                const underline = document.createElement('u');
+                while (legacy.firstChild) underline.appendChild(legacy.firstChild);
+                legacy.replaceWith(underline);
+            });
             document.querySelectorAll(EDITABLE_SELECTORS.join(',')).forEach(function(el) {
                 el.setAttribute('contenteditable', 'true');
             });
@@ -4556,46 +4560,20 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 } 
             }); 
         }
-        function applySemanticInlineFormat(tagName) {
+        function applySemanticInlineFormat(command) {
             const selection = window.getSelection();
-            if (!selection || !selection.rangeCount || selection.isCollapsed) return;
+            if (!selection?.rangeCount || selection.isCollapsed) return;
             const range = selection.getRangeAt(0);
-            let root = range.commonAncestorContainer;
-            if (root.nodeType === Node.TEXT_NODE) root = root.parentNode;
-            if (!root || !root.closest || !root.closest('[contenteditable="true"]')) return;
-            const element = document.createElement(tagName);
-            try {
-                element.appendChild(range.extractContents());
-                range.insertNode(element);
-                const selected = document.createRange();
-                selected.selectNodeContents(element);
-                selection.removeAllRanges();
-                selection.addRange(selected);
-            } catch (error) {
-                document.execCommand(tagName === 'b' ? 'bold' : 'italic');
-            }
+            const node = range.commonAncestorContainer;
+            const root = (node.nodeType === Node.ELEMENT_NODE ? node : node.parentElement)?.closest('[contenteditable="true"]');
+            if (!root) return;
+            document.execCommand('styleWithCSS', false, false);
+            document.execCommand(command);
         }
-        function applyBoldFormat() { applySemanticInlineFormat('b'); }
-        function applyItalicFormat() { applySemanticInlineFormat('i'); }
-        function applySigTitle() { 
-            const sel = window.getSelection(); 
-            if (!sel.rangeCount || sel.isCollapsed) return; 
-            const range = sel.getRangeAt(0); 
-            let node = range.commonAncestorContainer;
-            if (node && node.nodeType === Node.TEXT_NODE) node = node.parentNode;
-            const inSignature = !!(node && node.closest && node.closest('.sig-box'));
-            const span  = document.createElement(inSignature ? 'span' : 'u'); 
-            if (inSignature) span.className = 'sig-title';
-            else span.className = 'text-underline';
-            try { 
-                span.appendChild(range.extractContents()); 
-                range.insertNode(span); 
-                const r2 = document.createRange(); 
-                r2.selectNodeContents(span); 
-                sel.removeAllRanges(); 
-                sel.addRange(r2); 
-            } catch(e) { document.execCommand('underline'); } 
-        }
+        function applyBoldFormat() { applySemanticInlineFormat('bold'); }
+        function applyItalicFormat() { applySemanticInlineFormat('italic'); }
+        function applySigTitle() { applySemanticInlineFormat('underline'); }
+
 
         function insertTabSpace() {
             const sel = window.getSelection();
@@ -4851,7 +4829,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                             var newStyles = Object.assign({}, styles);
                             if (tag === 'b' || tag === 'strong') newStyles.b = true;
                             if (tag === 'i' || tag === 'em') newStyles.i = true;
-                            if (tag === 'span' && n.classList.contains('sig-title')) { newStyles.b = true; newStyles.u = true; }
+                            if (n.classList.contains('sig-title')) newStyles.u = true;
                             if (tag === 'u' || (tag === 'span' && n.classList.contains('text-underline')) || /underline/i.test(n.style?.textDecoration || n.style?.textDecorationLine || '')) newStyles.u = true;
                             
                             if (tag === 'span' && n.classList.contains('word-tab')) { currentRuns += '<w:r><w:tab/></w:r>'; } 
@@ -4931,9 +4909,9 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                         var labelTxt = esc(((labelTd.querySelector('span') || labelTd).textContent || '').trim());
                         var colonTxt = esc((colonTd.textContent || '').trim());
                         bodyXml += '<w:tr>';
-                        bodyXml += '<w:tc><w:tcPr><w:tcW w:w="' + colW1 + '" w:type="dxa"/><w:tcMar><w:top w:w="11" w:type="dxa"/><w:left w:w="11" w:type="dxa"/><w:bottom w:w="60" w:type="dxa"/><w:right w:w="11" w:type="dxa"/></w:tcMar><w:tcBorders><w:top w:val="none"/><w:bottom w:val="none"/><w:left w:val="none"/><w:right w:val="none"/></w:tcBorders></w:tcPr><w:p><w:pPr><w:jc w:val="left"/><w:spacing w:before="0" w:after="0" w:line="260" w:lineRule="atLeast"/></w:pPr><w:r><w:rPr><w:b w:val="on"/></w:rPr><w:t>' + labelTxt + '</w:t></w:r></w:p></w:tc>';
-                        bodyXml += '<w:tc><w:tcPr><w:tcW w:w="' + colW2 + '" w:type="dxa"/><w:tcMar><w:top w:w="11" w:type="dxa"/><w:left w:w="11" w:type="dxa"/><w:bottom w:w="60" w:type="dxa"/><w:right w:w="11" w:type="dxa"/></w:tcMar><w:tcBorders><w:top w:val="none"/><w:bottom w:val="none"/><w:left w:val="none"/><w:right w:val="none"/></w:tcBorders></w:tcPr><w:p><w:pPr><w:jc w:val="center"/><w:spacing w:before="0" w:after="0" w:line="260" w:lineRule="atLeast"/></w:pPr><w:r><w:rPr><w:b/></w:rPr><w:t>' + colonTxt + '</w:t></w:r></w:p></w:tc>';
-                        bodyXml += '<w:tc><w:tcPr><w:tcW w:w="' + colW3 + '" w:type="dxa"/><w:tcMar><w:top w:w="11" w:type="dxa"/><w:left w:w="11" w:type="dxa"/><w:bottom w:w="60" w:type="dxa"/><w:right w:w="11" w:type="dxa"/></w:tcMar><w:tcBorders><w:top w:val="none"/><w:bottom w:val="none"/><w:left w:val="none"/><w:right w:val="none"/></w:tcBorders></w:tcPr>' + cellToOoxml(contentTd, 'both') + '</w:tc>';
+                        bodyXml += '<w:tc><w:tcPr><w:tcW w:w="' + colW1 + '" w:type="dxa"/><w:tcMar><w:top w:w="0" w:type="dxa"/><w:left w:w="11" w:type="dxa"/><w:bottom w:w="0" w:type="dxa"/><w:right w:w="11" w:type="dxa"/></w:tcMar><w:tcBorders><w:top w:val="none"/><w:bottom w:val="none"/><w:left w:val="none"/><w:right w:val="none"/></w:tcBorders></w:tcPr><w:p><w:pPr><w:jc w:val="left"/><w:spacing w:before="0" w:after="0" w:line="260" w:lineRule="atLeast"/></w:pPr><w:r><w:rPr><w:b w:val="on"/></w:rPr><w:t>' + labelTxt + '</w:t></w:r></w:p></w:tc>';
+                        bodyXml += '<w:tc><w:tcPr><w:tcW w:w="' + colW2 + '" w:type="dxa"/><w:tcMar><w:top w:w="0" w:type="dxa"/><w:left w:w="11" w:type="dxa"/><w:bottom w:w="0" w:type="dxa"/><w:right w:w="11" w:type="dxa"/></w:tcMar><w:tcBorders><w:top w:val="none"/><w:bottom w:val="none"/><w:left w:val="none"/><w:right w:val="none"/></w:tcBorders></w:tcPr><w:p><w:pPr><w:jc w:val="center"/><w:spacing w:before="0" w:after="0" w:line="260" w:lineRule="atLeast"/></w:pPr><w:r><w:rPr><w:b/></w:rPr><w:t>' + colonTxt + '</w:t></w:r></w:p></w:tc>';
+                        bodyXml += '<w:tc><w:tcPr><w:tcW w:w="' + colW3 + '" w:type="dxa"/><w:tcMar><w:top w:w="0" w:type="dxa"/><w:left w:w="11" w:type="dxa"/><w:bottom w:w="0" w:type="dxa"/><w:right w:w="11" w:type="dxa"/></w:tcMar><w:tcBorders><w:top w:val="none"/><w:bottom w:val="none"/><w:left w:val="none"/><w:right w:val="none"/></w:tcBorders></w:tcPr>' + cellToOoxml(contentTd, 'both') + '</w:tc>';
                         bodyXml += '</w:tr>';
                     }
                 });
@@ -5074,7 +5052,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                             var newStyles = Object.assign({}, styles);
                             if (tag === 'b' || tag === 'strong') newStyles.b = true;
                             if (tag === 'i' || tag === 'em') newStyles.i = true;
-                            if (tag === 'span' && n.classList.contains('sig-title')) { newStyles.b = true; newStyles.u = true; }
+                            if (n.classList.contains('sig-title')) newStyles.u = true;
                             if (tag === 'u' || (tag === 'span' && n.classList.contains('text-underline')) || /underline/i.test(n.style?.textDecoration || n.style?.textDecorationLine || '')) newStyles.u = true;
 
                             if (tag === 'span' && n.classList.contains('word-tab')) {
@@ -7560,18 +7538,6 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 copy.classList.remove('row-hovered','row-delete-preview','row-dragging','v34-selected','v34-new-row');
                 copy.querySelectorAll('button,input,select,textarea,.lbl-dd-btn,[data-no-print]').forEach(function(node){node.remove();});
                 copy.querySelectorAll('[contenteditable]').forEach(function(node){node.removeAttribute('contenteditable');});
-                /* Word ve UYAP, sonuc metninin sonundaki kalin tarihi bu
-                   uzun metinlerde ayri satira tasiyor. Chromium'un farkli
-                   kelime olcumu tarihi onceki satira cekmesin: yalnizca
-                   baski/onizleme kopyasinda, son anlamli kalin tarih
-                   kosusundan once gercek bir satir sonu koy. */
-                copy.querySelectorAll('.content-cell').forEach(function(cell){
-                    const bolds=Array.from(cell.querySelectorAll('b,strong'));
-                    const lastMeaningful=bolds.reverse().find(function(node){return (node.textContent||'').replace(/\u00a0/g,' ').trim();});
-                    if(lastMeaningful&&/^\d{2}\.\d{2}\.\d{4}$/.test((lastMeaningful.textContent||'').trim())){
-                        const br=document.createElement('br');br.setAttribute('data-v23-date-break','true');lastMeaningful.before(br);
-                    }
-                });
                 copy.querySelectorAll('.selected,.hover,.drag-over,.row-hovered,.row-delete-preview,.row-dragging,.v34-selected,.v34-new-row').forEach(function(node){node.classList.remove('selected','hover','drag-over','row-hovered','row-delete-preview','row-dragging','v34-selected','v34-new-row');});
                 return copy;
             }
@@ -8625,7 +8591,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         /* ==== v34: ekle / taşı / sil modu ve eşit satır boşlukları ==== */
         #docTable>tbody>tr.single-row>td.label-cell,
         #docTable>tbody>tr.single-row>td.colon-cell,
-        #docTable>tbody>tr.single-row>td.content-cell{padding-bottom:4px!important;padding-right:var(--arbsys-pdf-right-gap,2mm)!important}
+        #docTable>tbody>tr.single-row>td.content-cell{padding-right:var(--arbsys-pdf-right-gap,2mm)!important}
         #docTable>tbody>tr.empty-row>td{height:1.3em!important;min-height:1.3em!important;line-height:1.3em!important;padding:0!important}
         .v23-preview-page .empty-row td{height:1.3em!important;line-height:1.3em!important}
         .v34-title-text-row>td{padding:1.5px 0!important;text-align:center!important;text-align-last:center!important;font-weight:normal!important}
@@ -9140,4 +9106,31 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         },true);
         var v27HistoryObserver=new MutationObserver(v27ScheduleHistory);v27HistoryObserver.observe(v27HistoryTbody(),{subtree:true,childList:true,characterData:true,attributes:true});v27CommitHistory();
     </script>
+    <style>
+        #docTable > tbody > tr.single-row > td:not([colspan]),
+        #docTable > tbody > tr.full-row:not(.v34-title-text-row) > td,
+        .v23-preview-page tbody > tr.single-row > td:not([colspan]),
+        .v23-preview-page tbody > tr.full-row:not(.v34-title-text-row) > td {
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+            line-height: 13pt;
+        }
+        /* 23.7 cm body / 19 px = 47 complete test lines. Keep wrapping enabled. */
+        .v23-preview-page tbody > tr.single-row > td:not([colspan]),
+        .v23-preview-page tbody > tr.full-row:not(.v34-title-text-row) > td,
+        .v23-preview-page tbody > tr.empty-row > td {
+            line-height: 19px !important;
+            min-height: 19px !important;
+        }
+        .v23-preview-page tbody > tr.empty-row > td { height: 19px !important; }
+        #docTable > tbody > tr.single-row > td.label-cell > .lbl-dd-btn {
+            display: block;
+            visibility: hidden;
+            position: absolute !important;
+        }
+        #docTable > tbody > tr.single-row > td.label-cell:hover > .lbl-dd-btn,
+        #docTable > tbody > tr.single-row > td.label-cell:focus-within > .lbl-dd-btn {
+            visibility: visible;
+        }
+    </style>
 </body></html>
