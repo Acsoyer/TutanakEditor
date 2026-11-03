@@ -7618,15 +7618,31 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             function signatureLineCount(row){return Math.max(1,...Array.from(row.querySelectorAll('.sig-box')).map(function(box){return box.children.length||1;}));}
             function signatureFragment(row,start,end){var copy=row.cloneNode(true),sourceBoxes=Array.from(row.querySelectorAll('.sig-box')),copyBoxes=Array.from(copy.querySelectorAll('.sig-box'));copyBoxes.forEach(function(box,index){var source=sourceBoxes[index],parts=source?Array.from(source.children):[];box.replaceChildren(...parts.slice(start,end).map(function(part){return part.cloneNode(true);}));});return copy;}
             function largestFittingSignatureEnd(record,row,start,count){let low=start+1,high=count,best=start;while(low<=high){const middle=Math.floor((low+high)/2),candidate=signatureFragment(row,start,middle);record.tbody.appendChild(candidate);const fits=pageFits(record);candidate.remove();if(fits){best=middle;low=middle+1;}else high=middle-1;}return best;}
+            function isAtomicLineDocument(rows){
+                return rows.length>=50&&rows.every(function(row){
+                    if(!row.matches('tr.single-row,tr.full-row,tr.empty-row'))return false;
+                    if(row.matches('.v34-title-text-row')||row.querySelector('.sig-grid,.v26-smart-line,p,ul,ol'))return false;
+                    return row.matches('.empty-row')||(row.textContent||'').trim().length<=100;
+                });
+            }
             function refreshPreview(){
                 if(refreshing)return;refreshing=true;
                 try{
                     const sourceRows=Array.from(document.querySelectorAll('#docTable > tbody > tr'));
+                    // Yalnizca tek satirlik atomik alanlardan olusan belgelerde Word/UDF
+                    // ile ayni mantiksal 50 satirlik sayfa kapasitesini kullan. Ilk sayfada
+                    // kaynak yapidaki yinelenen/yardimci satir icin bir DOM satiri payi vardir.
+                    // Uzun metinli belgeler mevcut piksel tabanli bolme algoritmasinda kalir.
+                    const atomicLineDocument=isAtomicLineDocument(sourceRows);
                     const measure=document.getElementById('v23PreviewMeasure');measure.innerHTML='';pages.innerHTML='';
                     let record=buildPage();record.pageNumber=1;measure.appendChild(record.shell);let pageRecords=[];
                     function nextPage(){pageRecords.push(record);record=buildPage();record.pageNumber=pageRecords.length+1;measure.appendChild(record.shell);}
                     if(!sourceRows.length)pageRecords.push(record);
                     sourceRows.forEach(function(row){
+                        if(atomicLineDocument){
+                            const atomicPageCapacity=record.pageNumber===1?51:50;
+                            if(record.tbody.children.length>=atomicPageCapacity)nextPage();
+                        }
                         let remainder=clonePrintableRow(row),continuation=false,safety=0;
                         while(remainder&&safety++<100){
                             record.tbody.appendChild(remainder);
