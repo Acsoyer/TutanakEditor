@@ -7422,6 +7422,16 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
            gorunen yapay bosluk birakmaz. */
         .v23-preview-page-footer .footer-line-print { border-top:1px solid #808080; margin-bottom:.30cm; position:relative; top:-8px; }
         .v23-preview-page-footer .footer-text-print { font-size:9pt; line-height:1.5; }
+        /* Sayfa sonunda ikiye ayrılan paragrafın ilk parçası gerçekte paragrafın
+           sonu değildir. Chromium'un bu satırı kısa "son satır" gibi bırakmasını
+           önleyip normal ara satır gibi iki yana yaslarız. */
+        .v23-preview-page .v45-page-split-head .content-cell,
+        .v23-preview-page .v45-page-split-head.full-row > td,
+        .v23-preview-page .v45-page-split-head .fr-content {
+            text-align:justify !important;
+            text-align-last:justify !important;
+            text-justify:inter-word !important;
+        }
         .v23-preview-page-body { position:absolute; left:1.75cm; right:1.25cm; top:1.25cm; bottom:1.25cm; overflow:hidden; }
         .v23-preview-page.has-hf .v23-preview-page-body { top:4cm; bottom:1.85cm; }
         .v23-preview-page table { width:100%; border-collapse:collapse; table-layout:fixed; }
@@ -7656,7 +7666,9 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                                 if(splitAt<=0)splitAt=splitPositions(remainder).positions[0]||length;
                             }
                             if(splitAt>=length){record.tbody.appendChild(remainder);remainder=null;break;}
-                            record.tbody.appendChild(rowFragment(remainder,0,splitAt,continuation));
+                            const pageEndingFragment=rowFragment(remainder,0,splitAt,continuation);
+                            pageEndingFragment.classList.add('v45-page-split-head');
+                            record.tbody.appendChild(pageEndingFragment);
                             remainder=rowFragment(remainder,splitAt,length,true);continuation=true;nextPage();
                         }
                     });
