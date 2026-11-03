@@ -7418,9 +7418,9 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         .v23-preview-page-footer { position:absolute; bottom:0; left:0; right:0; height:1.85cm; padding:0 1.25cm .5cm 1.75cm; box-sizing:border-box; display:flex; flex-direction:column; justify-content:flex-start; background:#fff; }
         .v23-preview-page-header .logo-container-print { margin:0 auto; width:8cm; height:2cm; }
         .v23-preview-page-header .header-line-print { border-top:1px solid #808080; margin-top:.4cm; margin-bottom:.5cm; }
-        /* Sayfa kirilimini etkilemeden son metin satiri ile ayirici cizgi arasindaki
-           gorunen artik boslugu en aza indirir. */
-        .v23-preview-page-footer .footer-line-print { border-top:1px solid #808080; margin-bottom:.30cm; position:relative; top:-3px; }
+        /* 8 px sayfalama guvenligi korunurken son satir ile ayirici cizgi arasinda
+           gorunen yapay bosluk birakmaz. */
+        .v23-preview-page-footer .footer-line-print { border-top:1px solid #808080; margin-bottom:.30cm; position:relative; top:-8px; }
         .v23-preview-page-footer .footer-text-print { font-size:9pt; line-height:1.5; }
         .v23-preview-page-body { position:absolute; left:1.75cm; right:1.25cm; top:1.25cm; bottom:1.25cm; overflow:hidden; }
         .v23-preview-page.has-hf .v23-preview-page-body { top:4cm; bottom:1.85cm; }
