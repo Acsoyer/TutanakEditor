@@ -7433,7 +7433,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             text-align-last:justify !important;
             text-justify:inter-word !important;
         }
-        /* Tam dolu, satir-bazli sayfalarda 51 mantiksal satiri kullanilabilir
+        /* Tam dolu, satir-bazli sayfalarda 52 mantiksal satiri kullanilabilir
            yukseklige esit dagit. Cizgi govde sinirinin 1 px altinda, tablo ise
            12 px yukarida biter; aralarinda toplam 13 px kalir. */
         .v23-preview-page.v46-atomic-full-page .v23-preview-page-body > table {
@@ -7657,7 +7657,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                     if(!sourceRows.length)pageRecords.push(record);
                     sourceRows.forEach(function(row){
                         if(atomicLineDocument){
-                            const atomicPageCapacity=51;
+                            const atomicPageCapacity=52;
                             if(record.tbody.children.length>=atomicPageCapacity)nextPage();
                         }
                         let remainder=clonePrintableRow(row),continuation=false,safety=0;
@@ -7683,7 +7683,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                     pageRecords.forEach(function(item,index){
                         item.shell.dataset.page=String(index+1);
                         if(atomicLineDocument){
-                            const capacity=51;
+                            const capacity=52;
                             if(item.tbody.children.length>=capacity)item.page.classList.add('v46-atomic-full-page');
                         }
                         pages.appendChild(item.shell);
@@ -9166,18 +9166,19 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         }
         /*
          * PDF sayfalama kalibrasyonu: 13 px footer guvenlik alani korunurken
-         * DOCX'teki 51 satirlik govde kapasitesini yakalamak icin satir adimi
-         * 16.70 px'tir. Bu kural yalnizca PDF onizleme/sayfalama kopyasina uygulanir.
+         * DOCX'teki 52 gorunur satirlik govde kapasitesini yakalamak icin satir
+         * adimi, olculen 53/52 oranina gore 17.02 px'tir. Bu kural yalnizca PDF
+         * onizleme/sayfalama kopyasina uygulanir.
          * Header 4 cm kalir; footer cizgi-yazi boslugu 10 px, PDF rezervi ise
          * DOCX'in 51 satir kapasitesi icin 1.85 cm eksi 17 px'tir.
          */
         .v23-preview-page tbody > tr.single-row > td:not([colspan]),
         .v23-preview-page tbody > tr.full-row:not(.v34-title-text-row) > td,
         .v23-preview-page tbody > tr.empty-row > td {
-            line-height: 16.70px !important;
-            min-height: 16.70px !important;
+            line-height: 17.02px !important;
+            min-height: 17.02px !important;
         }
-        .v23-preview-page tbody > tr.empty-row > td { height: 16.70px !important; }
+        .v23-preview-page tbody > tr.empty-row > td { height: 17.02px !important; }
         #docTable > tbody > tr.single-row > td.label-cell > .lbl-dd-btn {
             display: block;
             visibility: hidden;
