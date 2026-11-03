@@ -33,7 +33,7 @@
                tamamen kaldiriyor (asagida bkz). */
             tr.row-hovered > td::after { content: none !important; display: none !important; }
             .fixed-print-header { display: block !important; position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; height: 4cm !important; padding: 0.6cm 1.25cm 0 1.75cm !important; box-sizing: border-box !important; background: #fff !important; z-index: 999; }
-            .fixed-print-footer { display: flex !important; position: fixed !important; bottom: 0 !important; left: 0 !important; right: 0 !important; height: 2.0cm !important; padding: 0 1.25cm 0.5cm 1.75cm !important; box-sizing: border-box !important; background: #fff !important; flex-direction: column !important; justify-content: space-between !important; z-index: 999; }
+            .fixed-print-footer { display: flex !important; position: fixed !important; bottom: 0 !important; left: 0 !important; right: 0 !important; height: 1.65cm !important; padding: 0 1.25cm 0.5cm 1.75cm !important; box-sizing: border-box !important; background: #fff !important; flex-direction: column !important; justify-content: space-between !important; z-index: 999; }
             body.no-print-hf .fixed-print-header, body.no-print-hf .fixed-print-footer, body.no-print-hf .print-space-head, body.no-print-hf .print-space-foot { display: none !important; }
             body.no-print-hf .print-content-wrapper { padding-top: 1.25cm !important; padding-bottom: 1.25cm !important; }
             /* Chromium/Arial, Word ve UYAP'a gore ayni nominal genislikte
@@ -55,11 +55,11 @@
            ==== */
         body { font-family: Arial, sans-serif; background-color: #f0f2f5; display: flex; flex-direction: column; align-items: center; padding: 80px 20px 20px 20px; margin: 0; }
         .a4-page { width: 210mm; max-width: 100%; min-height: 297mm; padding: 0; background: white; box-shadow: 0 0 15px rgba(0,0,0,0.1); box-sizing: border-box; position: relative; margin-bottom: 20px; font-size: 10pt; line-height: 1.2; z-index: 1; }
-        .print-content-wrapper { padding: 4cm 1.25cm 2cm 1.75cm; box-sizing: border-box; }
+        .print-content-wrapper { padding: 4cm 1.25cm 1.65cm 1.75cm; box-sizing: border-box; }
         .logo-container-print { margin-top: 0; margin-left: auto; margin-right: auto; width: 8cm; height: 2cm; display: flex; align-items: center; justify-content: center; }
         .logo-container-print img { width: 100%; height: 100%; object-fit: contain; }
         .header-line-print { width: 100%; border-top: 1px solid #808080; margin-top: 0.4cm; margin-bottom: 0.5cm; }
-        .footer-line-print { width: 100%; border-top: 1px solid #808080; margin-bottom: 0.5cm; }
+        .footer-line-print { width: 100%; border-top: 1px solid #808080; margin-bottom: 0.15cm; }
         .footer-text-print { width: 100%; text-align: center; font-family: 'Palatino Linotype', Georgia, serif; font-size: 9pt; line-height: 1.5; color: #000; }
 
         /* ====
@@ -1186,7 +1186,7 @@ tazminat alacağı olup olmadığı, varsa ne şekilde ve ne zaman ödeneceği
 hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td></tr><tr class="single-row"><td class="label-cell"><span>SONUÇ</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell"><div>Taraflarca uyuşmazlık konusu müzakere edildikten sonra, yeniden değerlendirilmek üzere, <b>XX.XX.20XX ……. günü saat XX.XX’da</b> <b>ikinci</b> bir toplantı yapılması kararlaştırılmıştır. İşbu tutanak,&nbsp;<b>üç (3)</b> nüsha olarak hazırlanmış taraflarla birlikte imza altına alınarak birer nüshası taraflara teslim edilmiştir. <b>20.01.2026</b>&nbsp;&nbsp;<b>&nbsp;&nbsp;</b></div></td></tr><tr class="empty-row"><td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td></tr><tr class="single-row"><td colspan="3"><div class="sig-grid"><div class="sig-box"><span class="sig-title">TARAF</span><div><b>Zehir Civata Tic. ve San A.Ş.</b></div><div><b><br></b></div><div><span class="sig-title"><b>YETKİLİSİ</b></span></div><div><b>Ziya Zemberek</b></div></div><div class="sig-box"><span class="sig-title">ARABULUCU</span><div><b>Arb. Av.Erinç Soyer</b></div><div>(ADB Sicil No: 00127)</div></div><div class="sig-box"><span class="sig-title">TARAF</span><div><b>Abdullah Ablak</b></div><div><b><br></b></div><div><b><br></b></div><div><b><br></b></div><div><b><span class="sig-title">VEKİLİ</span></b></div><div><b>Av. Saul Goodman</b></div><div><b><br></b></div><div><b><br></b></div><div><b><br></b></div></div></div></td></tr></tbody>
 
                 <tfoot class="print-space-foot">
-                    <tr><td colspan="3" style="padding:0; border:none;"><div style="height: 2.0cm;"></div></td></tr>
+                    <tr><td colspan="3" style="padding:0; border:none;"><div style="height: 1.65cm;"></div></td></tr>
                 </tfoot>
             </table>
         </div>
@@ -7415,13 +7415,13 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         }
         /* Bu ölçüler @media print içindeki gerçek PDF alanlarının birebir karşılığıdır. */
         .v23-preview-page-header { position:absolute; top:0; left:0; right:0; height:4cm; padding:.6cm 1.25cm 0 1.75cm; box-sizing:border-box; background:#fff; }
-        .v23-preview-page-footer { position:absolute; bottom:0; left:0; right:0; height:2cm; padding:0 1.25cm .5cm 1.75cm; box-sizing:border-box; display:flex; flex-direction:column; justify-content:space-between; background:#fff; }
+        .v23-preview-page-footer { position:absolute; bottom:0; left:0; right:0; height:1.65cm; padding:0 1.25cm .5cm 1.75cm; box-sizing:border-box; display:flex; flex-direction:column; justify-content:space-between; background:#fff; }
         .v23-preview-page-header .logo-container-print { margin:0 auto; width:8cm; height:2cm; }
         .v23-preview-page-header .header-line-print { border-top:1px solid #808080; margin-top:.4cm; margin-bottom:.5cm; }
-        .v23-preview-page-footer .footer-line-print { border-top:1px solid #808080; margin-bottom:.5cm; }
+        .v23-preview-page-footer .footer-line-print { border-top:1px solid #808080; margin-bottom:.15cm; }
         .v23-preview-page-footer .footer-text-print { font-size:9pt; line-height:1.5; }
         .v23-preview-page-body { position:absolute; left:1.75cm; right:1.25cm; top:1.25cm; bottom:1.25cm; overflow:hidden; }
-        .v23-preview-page.has-hf .v23-preview-page-body { top:4cm; bottom:2cm; }
+        .v23-preview-page.has-hf .v23-preview-page-body { top:4cm; bottom:1.65cm; }
         .v23-preview-page table { width:100%; border-collapse:collapse; table-layout:fixed; }
         .v23-preview-page .main-container { width:17.6cm; margin-left:auto; margin-right:auto; }
         .v23-preview-page .label-cell, .v23-preview-page .colon-cell,
@@ -7544,7 +7544,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             function buildPage(){
                 const shell=document.createElement('div');shell.className='v23-preview-page-shell';
                 const page=document.createElement('section');page.className='v23-preview-page';
-                // Gercek PDF'te .print-space-head/.print-space-foot (3,5cm/2cm bosluk)
+                // Gercek PDF'te .print-space-head/.print-space-foot (4cm/1,65cm bosluk)
                 // rezervasyonu v22HFSettings.enabled'dan BAGIMSIZDIR - Ust/Alt Bilgi
                 // paneli tamamen kapali olsa bile bu alan hep ayrilir; yalnizca "Ust/alt
                 // bilgi olmadan kaydet" onay kutusu (body.no-print-hf) bunu kapatir (bkz.
@@ -9118,8 +9118,8 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         /*
          * PDF sayfalama kalibrasyonu: gercek belge testinde 17.5 px ile 47 satir
          * sigdi. 47/50 oranina gore 16.45 px, UDF ve DOCX'teki 50 satirlik
-         * govdeyle eslesir. Bu kural yalnizca PDF onizleme/sayfalama kopyasina uygulanir;
-         * 4 cm header ve 2 cm footer rezervleri degismez.
+         * govdeyle eslesir. Bu kural yalnizca PDF onizleme/sayfalama kopyasina uygulanir.
+         * Header 4 cm kalir; footer cizgi-yazi boslugu 0.15 cm ve rezervi 1.65 cm'dir.
          */
         .v23-preview-page tbody > tr.single-row > td:not([colspan]),
         .v23-preview-page tbody > tr.full-row:not(.v34-title-text-row) > td,
