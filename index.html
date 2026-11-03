@@ -7415,7 +7415,9 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         }
         /* Bu ölçüler @media print içindeki gerçek PDF alanlarının birebir karşılığıdır. */
         .v23-preview-page-header { position:absolute; top:0; left:0; right:0; height:4cm; padding:.6cm 1.25cm 0 1.75cm; box-sizing:border-box; background:#fff; }
-        .v23-preview-page-footer { position:absolute; bottom:0; left:0; right:0; height:1.85cm; padding:0 1.25cm .5cm 1.75cm; box-sizing:border-box; display:flex; flex-direction:column; justify-content:flex-start; background:#fff; }
+        /* PDF footer rezervinden bir metin satiri (17 px) govdeye geri verilir.
+           Alt kenar konumu korunur; yalnizca PDF icindeki gereksiz dikey rezerv azalir. */
+        .v23-preview-page-footer { position:absolute; bottom:0; left:0; right:0; height:calc(1.85cm - 17px); padding:0 1.25cm calc(.5cm - 17px) 1.75cm; box-sizing:border-box; display:flex; flex-direction:column; justify-content:flex-start; background:#fff; }
         .v23-preview-page-header .logo-container-print { margin:0 auto; width:8cm; height:2cm; }
         .v23-preview-page-header .header-line-print { border-top:1px solid #808080; margin-top:.4cm; margin-bottom:.5cm; }
         /* Cizginin normal akistaki 11 px alt bosluguna 9 px gorsel ofset eklenir;
@@ -7439,7 +7441,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             height:calc(100% - 34px) !important;
         }
         .v23-preview-page-body { position:absolute; left:1.75cm; right:1.25cm; top:1.25cm; bottom:1.25cm; overflow:hidden; }
-        .v23-preview-page.has-hf .v23-preview-page-body { top:4cm; bottom:1.85cm; }
+        .v23-preview-page.has-hf .v23-preview-page-body { top:4cm; bottom:calc(1.85cm - 17px); }
         .v23-preview-page table { width:100%; border-collapse:collapse; table-layout:fixed; }
         .v23-preview-page .main-container { width:17.6cm; margin-left:auto; margin-right:auto; }
         .v23-preview-page .label-cell, .v23-preview-page .colon-cell,
@@ -9167,7 +9169,8 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
          * PDF sayfalama kalibrasyonu: 25 px footer guvenlik alani korunurken
          * DOCX'teki 51 satirlik govde kapasitesini yakalamak icin satir adimi
          * 16.70 px'tir. Bu kural yalnizca PDF onizleme/sayfalama kopyasina uygulanir.
-         * Header 4 cm kalir; footer cizgi-yazi boslugu 0.30 cm ve rezervi 1.85 cm'dir.
+         * Header 4 cm kalir; footer cizgi-yazi boslugu 20 px, PDF rezervi ise
+         * DOCX'in 51 satir kapasitesi icin 1.85 cm eksi 17 px'tir.
          */
         .v23-preview-page tbody > tr.single-row > td:not([colspan]),
         .v23-preview-page tbody > tr.full-row:not(.v34-title-text-row) > td,
