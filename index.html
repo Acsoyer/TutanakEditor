@@ -9115,14 +9115,19 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             padding-bottom: 0 !important;
             line-height: 13pt;
         }
-        /* 23.7 cm body / 19 px = 47 complete test lines. Keep wrapping enabled. */
+        /*
+         * PDF sayfalama kalibrasyonu: gercek ciktida 19 px ile 46 satir sigiyordu.
+         * 46/50 oranina gore 17.5 px, UDF ve DOCX'teki 50 satirlik govdeyle
+         * eslesir. Bu kural yalnizca PDF onizleme/sayfalama kopyasina uygulanir;
+         * 4 cm header ve 2 cm footer rezervleri degismez.
+         */
         .v23-preview-page tbody > tr.single-row > td:not([colspan]),
         .v23-preview-page tbody > tr.full-row:not(.v34-title-text-row) > td,
         .v23-preview-page tbody > tr.empty-row > td {
-            line-height: 19px !important;
-            min-height: 19px !important;
+            line-height: 17.5px !important;
+            min-height: 17.5px !important;
         }
-        .v23-preview-page tbody > tr.empty-row > td { height: 19px !important; }
+        .v23-preview-page tbody > tr.empty-row > td { height: 17.5px !important; }
         #docTable > tbody > tr.single-row > td.label-cell > .lbl-dd-btn {
             display: block;
             visibility: hidden;
