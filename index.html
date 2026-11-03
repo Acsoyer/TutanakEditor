@@ -7420,9 +7420,8 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         .v23-preview-page-footer { position:absolute; bottom:0; left:0; right:0; height:calc(1.85cm - 17px); padding:0 1.25cm calc(.5cm - 17px) 1.75cm; box-sizing:border-box; display:flex; flex-direction:column; justify-content:flex-start; background:#fff; }
         .v23-preview-page-header .logo-container-print { margin:0 auto; width:8cm; height:2cm; }
         .v23-preview-page-header .header-line-print { border-top:1px solid #808080; margin-top:.4cm; margin-bottom:.5cm; }
-        /* Cizginin normal akistaki 11 px alt bosluguna 9 px gorsel ofset eklenir;
-           boylece cizgi ile footer yazisi arasinda toplam 20 px kalir. */
-        .v23-preview-page-footer .footer-line-print { border-top:1px solid #808080; margin-bottom:.30cm; position:relative; top:-9px; }
+        /* Normal akistaki yaklasik 11 px bosluk 1 px ofsetle 10 px'e indirilir. */
+        .v23-preview-page-footer .footer-line-print { border-top:1px solid #808080; margin-bottom:.30cm; position:relative; top:1px; }
         .v23-preview-page-footer .footer-text-print { font-size:9pt; line-height:1.5; }
         /* Sayfa sonunda ikiye ayrılan paragrafın ilk parçası gerçekte paragrafın
            sonu değildir. Chromium'un bu satırı kısa "son satır" gibi bırakmasını
@@ -7435,10 +7434,10 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             text-justify:inter-word !important;
         }
         /* Tam dolu, satir-bazli sayfalarda 51 mantiksal satiri kullanilabilir
-           yukseklige esit dagit. Cizgi govde sinirinin 9 px uzerinde oldugu icin
-           tablonun 34 px yukarida bitmesi cizginin uzerinde 25 px birakir. */
+           yukseklige esit dagit. Cizgi govde sinirinin 1 px altinda, tablo ise
+           12 px yukarida biter; aralarinda toplam 13 px kalir. */
         .v23-preview-page.v46-atomic-full-page .v23-preview-page-body > table {
-            height:calc(100% - 34px) !important;
+            height:calc(100% - 12px) !important;
         }
         .v23-preview-page-body { position:absolute; left:1.75cm; right:1.25cm; top:1.25cm; bottom:1.25cm; overflow:hidden; }
         .v23-preview-page.has-hf .v23-preview-page-body { top:4cm; bottom:calc(1.85cm - 17px); }
@@ -7587,9 +7586,9 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 if(hf){const footer=document.createElement('div');footer.className='v23-preview-page-footer';footer.innerHTML=document.querySelector('.fixed-print-footer')?.innerHTML||'';footer.querySelectorAll('[id]').forEach(function(node){node.removeAttribute('id');});page.appendChild(footer);}
                 shell.appendChild(page);return {shell:shell,page:page,body:body,table:table,tbody:tbody};
             }
-            // Footer cizgisi govde sinirinin 9 px uzerindedir. 34 px govde
-            // guvenligiyle son satir ile cizgi arasinda sabit 25 px kalir.
-            const PDF_PAGE_BOTTOM_SAFETY_PX=34;
+            // Footer cizgisi govde sinirinin 1 px altindadir. 12 px govde
+            // guvenligiyle son satir ile cizgi arasinda sabit 13 px kalir.
+            const PDF_PAGE_BOTTOM_SAFETY_PX=12;
             function pageFits(record){
                 return record.table.getBoundingClientRect().height<=record.body.clientHeight-PDF_PAGE_BOTTOM_SAFETY_PX;
             }
@@ -9166,10 +9165,10 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             line-height: 13pt;
         }
         /*
-         * PDF sayfalama kalibrasyonu: 25 px footer guvenlik alani korunurken
+         * PDF sayfalama kalibrasyonu: 13 px footer guvenlik alani korunurken
          * DOCX'teki 51 satirlik govde kapasitesini yakalamak icin satir adimi
          * 16.70 px'tir. Bu kural yalnizca PDF onizleme/sayfalama kopyasina uygulanir.
-         * Header 4 cm kalir; footer cizgi-yazi boslugu 20 px, PDF rezervi ise
+         * Header 4 cm kalir; footer cizgi-yazi boslugu 10 px, PDF rezervi ise
          * DOCX'in 51 satir kapasitesi icin 1.85 cm eksi 17 px'tir.
          */
         .v23-preview-page tbody > tr.single-row > td:not([colspan]),
