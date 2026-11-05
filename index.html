@@ -4545,6 +4545,9 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             else if (mode === 'right') { target.style.textAlign = 'right'; } 
             else { target.style.textAlign = 'left'; } 
 
+            const smartRow = target.closest('tr[data-smart-group]');
+            if (smartRow) smartRow.dataset.smartAlignExplicit = mode;
+
             const iconMap = { 'left': 'format_align_left', 'center': 'format_align_center', 'right': 'format_align_right', 'justify': 'format_align_justify' };
             document.getElementById('currentAlignIcon').textContent = iconMap[mode];
             document.getElementById('alignDropdownContainer').classList.remove('open');
@@ -8864,7 +8867,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         function v20CloseSmartText(){document.getElementById('v20SmartModal')?.classList.remove('open');}
         function v20CreateSmartParagraph(text,marker,item,group){
             var row=document.createElement('tr');row.className='full-row';row.dataset.smartGroup=group;row.dataset.smartKind=item.kind;row.dataset.smartStart=item.start||'';row.dataset.smartSuffix=item.suffix||')';
-            var cell=document.createElement('td');cell.colSpan=3;var content=document.createElement('div');content.className='fr-content';content.style.textAlign='justify';content.style.textAlignLast='left';
+            var cell=document.createElement('td');cell.colSpan=3;var content=document.createElement('div');content.className='fr-content';content.style.textAlign='left';content.style.textAlignLast='auto';
             var line=document.createElement('div');line.className='v26-smart-line';var tab=document.createElement('span');tab.className='word-tab';tab.style.display='inline-block';tab.style.width='1.25cm';tab.contentEditable='false';tab.innerHTML='&nbsp;';line.appendChild(tab);
             if(marker){var bold=document.createElement('b');bold.className='v21-smart-marker';bold.textContent=marker;line.appendChild(bold);line.appendChild(document.createTextNode(' '));}
             line.appendChild(document.createTextNode(text));content.appendChild(line);cell.appendChild(content);row.appendChild(cell);return row;
@@ -8917,7 +8920,19 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             var groups=[[]];Array.from(content.childNodes).forEach(function(node){if(node.nodeName==='BR')groups.push([]);else groups[groups.length-1].push(node);});content.replaceChildren();
             groups.forEach(function(nodes){var line=document.createElement('div');line.className='v26-smart-line';nodes.forEach(function(node){line.appendChild(node);});if(!line.childNodes.length)line.appendChild(document.createElement('br'));content.appendChild(line);});
         }
-        function v24RepairAllSmartParagraphs(root){(root||document).querySelectorAll?.('#docTable tr[data-smart-group] .fr-content')?.forEach(v26EnsureSmartLines);}
+        function v24RepairAllSmartParagraphs(root){
+            (root||document).querySelectorAll?.('#docTable tr[data-smart-group] .fr-content')?.forEach(function(content){
+                var row=content.closest('tr[data-smart-group]');
+                // Eski akilli metinler gerçekte justify olarak kaydediliyordu.
+                // Kullanici özellikle bir hizalama seçmediyse bunlari gerçek
+                // sola hizaya geçir; sonraki bilinçli hizalama seçimini koru.
+                if(row&&!row.dataset.smartAlignExplicit){
+                    content.style.textAlign='left';
+                    content.style.textAlignLast='auto';
+                }
+                v26EnsureSmartLines(content);
+            });
+        }
         function v26SetCaret(container,offset){var selection=window.getSelection(),range=document.createRange();range.setStart(container,offset);range.collapse(true);selection.removeAllRanges();selection.addRange(range);}
         function v26PreviousCaretNode(line,container,offset){
             if(container===line)return offset>0?line.childNodes[offset-1]:null;
