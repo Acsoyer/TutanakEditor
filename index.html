@@ -1036,7 +1036,7 @@
                         <button class="tb-btn" onclick="setContentAlign('justify')" data-title="İki Yana Yasla"><span class="material-icons">format_align_justify</span></button>
                     </div>
                 </div>
-                <button class="tb-btn" onclick="insertTabSpace()" data-title="Satır Başı (Ctrl+Q)"><span class="material-icons">keyboard_tab</span></button>
+                <button class="tb-btn" onmousedown="event.preventDefault()" onclick="insertTabSpace()" data-title="Satır Başı (Tab)"><span class="material-icons">keyboard_tab</span></button>
                 <button class="tb-btn accent-red" onclick="clearFormatting()" data-title="Format Temizle"><span class="material-icons">format_clear</span></button>
             </div>
 
@@ -4234,6 +4234,19 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
 
         // === TARAYICI KISAYOLLARINI BASKILAYAN (OVERRIDE) KEYDOWN EVENT ===
         document.addEventListener('keydown', function(e) {
+            // Belge icinde Tab, tarayicinin tablo/hücreler arasinda odak
+            // gezdirmesini tamamen ezer ve imlecin bulundugu yere satir basi
+            // ekler. Modal, form ve belge disindaki Tab davranisi korunur.
+            if (e.key === 'Tab' && !e.ctrlKey && !e.metaKey && !e.altKey && !e.shiftKey) {
+                const target = e.target.closest && e.target.closest('#docTable [contenteditable="true"]');
+                if (target) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    e.stopImmediatePropagation();
+                    insertTabSpace();
+                }
+                return;
+            }
             if (e.key === 'Delete') {
                 const tag = document.activeElement ? document.activeElement.tagName : '';
                 if (tag === 'INPUT' || tag === 'TEXTAREA' || (document.activeElement && document.activeElement.isContentEditable)) return;
@@ -4257,12 +4270,6 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             
             // Tarayıcı eylemlerini baskılamak için tuşu algıla ve varsayılan davranışı durdur (preventDefault)
             const key = e.key.toLowerCase();
-            if (key === 'q') {
-                const target = e.target.closest('[contenteditable="true"]');
-                if (target) { e.preventDefault(); e.stopImmediatePropagation(); insertTabSpace(); }
-                return;
-            }
-            
             if (key === 'i') { 
                 e.preventDefault(); 
                 applyItalicFormat(); 
@@ -4542,6 +4549,28 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             document.getElementById('currentAlignIcon').textContent = iconMap[mode];
             document.getElementById('alignDropdownContainer').classList.remove('open');
         }
+        function syncCurrentAlignIcon() {
+            const selection = window.getSelection();
+            if (!selection || !selection.rangeCount) return;
+            let node = selection.anchorNode;
+            if (node && node.nodeType === Node.TEXT_NODE) node = node.parentNode;
+            const target = node && node.closest && node.closest('#docTable .content-cell, #docTable [contenteditable="true"]');
+            if (!target) return;
+
+            // Satirda acikca verilen deger onceliklidir; yoksa tarayicinin
+            // gercekte uyguladigi (miras alinmis CSS dahil) hizalamayi oku.
+            let mode = String(target.style.textAlign || getComputedStyle(target).textAlign || 'left').toLowerCase();
+            if (mode === 'start' || mode === '-webkit-auto') mode = 'left';
+            if (mode === 'end') mode = 'right';
+            if (!['left', 'center', 'right', 'justify'].includes(mode)) mode = 'left';
+            const iconMap = { left:'format_align_left', center:'format_align_center', right:'format_align_right', justify:'format_align_justify' };
+            const icon = document.getElementById('currentAlignIcon');
+            if (icon) icon.textContent = iconMap[mode];
+            document.getElementById('alignDropdownContainer')?.setAttribute('data-current-align', mode);
+        }
+        document.addEventListener('selectionchange', syncCurrentAlignIcon);
+        document.getElementById('docTable')?.addEventListener('mouseup', syncCurrentAlignIcon, true);
+        document.getElementById('docTable')?.addEventListener('keyup', syncCurrentAlignIcon, true);
         function clearFormatting() { 
             const sel = window.getSelection(); 
             if (!sel || !sel.rangeCount) return; 
