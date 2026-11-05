@@ -7580,6 +7580,11 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
 
             function clonePrintableRow(row){
                 const copy=row.cloneNode(true);
+                // Kaynak satir hâlâ belgeye bagliyken hesaplanan hizalamayi
+                // kopyaya sabitle. Sayfalama sirasinda satir DOM'dan ayrilsa
+                // bile CSS mirasi ve tablo varsayimlari bu bilgiyi bozamaz.
+                const sourceInfo=splitTarget(row),copyInfo=splitTarget(copy);
+                applyFragmentAlignment(copyInfo.cell,sourceCellAlignment(sourceInfo.cell));
                 copy.classList.remove('row-hovered','row-delete-preview','row-dragging','v34-selected','v34-new-row');
                 copy.querySelectorAll('button,input,select,textarea,.lbl-dd-btn,[data-no-print]').forEach(function(node){node.remove();});
                 copy.querySelectorAll('[contenteditable]').forEach(function(node){node.removeAttribute('contenteditable');});
@@ -7633,10 +7638,32 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 const range=document.createRange();range.selectNodeContents(cell);const from=textPoint(cell,start),to=textPoint(cell,end);
                 try{range.setStart(from.node,from.offset);range.setEnd(to.node,to.offset);return range.cloneContents();}catch(_error){const fragment=document.createDocumentFragment();fragment.appendChild(document.createTextNode((cell.textContent||'').slice(start,end)));return fragment;}
             }
+            function sourceCellAlignment(cell){
+                if(!cell)return {align:'left',last:'auto'};
+                const aligned=cell.matches('.content-cell,.fr-content')?cell:cell.querySelector('.fr-content,.content-cell,[contenteditable="true"]')||cell;
+                const computed=getComputedStyle(aligned);
+                let align=String(aligned.style.textAlign||computed.textAlign||'left').toLowerCase();
+                let last=String(aligned.style.textAlignLast||computed.textAlignLast||'auto').toLowerCase();
+                if(align==='start'||align==='-webkit-auto')align='left';
+                if(align==='end')align='right';
+                if(!['left','center','right','justify'].includes(align))align='left';
+                if(!['left','center','right','justify','auto'].includes(last))last='auto';
+                return {align:align,last:last};
+            }
+            function applyFragmentAlignment(cell,alignment){
+                if(!cell||!alignment)return;
+                cell.style.textAlign=alignment.align;
+                cell.style.textAlignLast=alignment.last;
+                cell.querySelectorAll('.fr-content,.content-cell').forEach(function(node){
+                    node.style.textAlign=alignment.align;
+                    node.style.textAlignLast=alignment.last;
+                });
+            }
             function rowFragment(row,start,end,continuation){
-                const info=splitTarget(row),copy=row.cloneNode(true),cells=Array.from(copy.children).filter(function(cell){return cell.tagName==='TD';}),target=cells[info.index];
+                const info=splitTarget(row),alignment=sourceCellAlignment(info.cell),copy=row.cloneNode(true),cells=Array.from(copy.children).filter(function(cell){return cell.tagName==='TD';}),target=cells[info.index];
                 if(!info.cell||!target)return copy;
                 target.replaceChildren(cellFragment(info.cell,start,end));
+                applyFragmentAlignment(target,alignment);
                 if(continuation)cells.forEach(function(cell,index){if(index!==info.index)cell.innerHTML='';});
                 return copy;
             }
