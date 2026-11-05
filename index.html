@@ -4545,9 +4545,6 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             else if (mode === 'right') { target.style.textAlign = 'right'; } 
             else { target.style.textAlign = 'left'; } 
 
-            const smartRow = target.closest('tr[data-smart-group]');
-            if (smartRow) smartRow.dataset.smartAlignExplicit = mode;
-
             const iconMap = { 'left': 'format_align_left', 'center': 'format_align_center', 'right': 'format_align_right', 'justify': 'format_align_justify' };
             document.getElementById('currentAlignIcon').textContent = iconMap[mode];
             document.getElementById('alignDropdownContainer').classList.remove('open');
@@ -7458,9 +7455,12 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         /* Sayfa sonunda ikiye ayrılan paragrafın ilk parçası gerçekte paragrafın
            sonu değildir. Chromium'un bu satırı kısa "son satır" gibi bırakmasını
            önleyip normal ara satır gibi iki yana yaslarız. */
-        .v23-preview-page .v45-page-split-head .content-cell,
-        .v23-preview-page .v45-page-split-head.full-row > td,
-        .v23-preview-page .v45-page-split-head .fr-content {
+        /* Yalnizca kaynak belgede gercekten iki yana yasli olan ve sayfada
+           bolunen paragrafin ilk parcasini justify etmeye devam et. Sola,
+           saga veya ortaya hizali satirlari PDF onizlemesi degistiremez. */
+        .v23-preview-page .v45-page-split-head.v56-split-justify .content-cell,
+        .v23-preview-page .v45-page-split-head.v56-split-justify.full-row > td,
+        .v23-preview-page .v45-page-split-head.v56-split-justify .fr-content {
             text-align:justify !important;
             text-align-last:justify !important;
             text-justify:inter-word !important;
@@ -7699,6 +7699,11 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                             if(splitAt>=length){record.tbody.appendChild(remainder);remainder=null;break;}
                             const pageEndingFragment=rowFragment(remainder,0,splitAt,continuation);
                             pageEndingFragment.classList.add('v45-page-split-head');
+                            const sourceAlignedContent=row.querySelector('.fr-content, .content-cell, [contenteditable="true"]');
+                            const sourceAlignment=sourceAlignedContent
+                                ? String(sourceAlignedContent.style.textAlign||getComputedStyle(sourceAlignedContent).textAlign||'left').toLowerCase()
+                                : 'left';
+                            if(sourceAlignment==='justify')pageEndingFragment.classList.add('v56-split-justify');
                             record.tbody.appendChild(pageEndingFragment);
                             remainder=rowFragment(remainder,splitAt,length,true);continuation=true;nextPage();
                         }
@@ -8867,7 +8872,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         function v20CloseSmartText(){document.getElementById('v20SmartModal')?.classList.remove('open');}
         function v20CreateSmartParagraph(text,marker,item,group){
             var row=document.createElement('tr');row.className='full-row';row.dataset.smartGroup=group;row.dataset.smartKind=item.kind;row.dataset.smartStart=item.start||'';row.dataset.smartSuffix=item.suffix||')';
-            var cell=document.createElement('td');cell.colSpan=3;var content=document.createElement('div');content.className='fr-content';content.style.textAlign='left';content.style.textAlignLast='auto';
+            var cell=document.createElement('td');cell.colSpan=3;var content=document.createElement('div');content.className='fr-content';content.style.textAlign='justify';content.style.textAlignLast='left';
             var line=document.createElement('div');line.className='v26-smart-line';var tab=document.createElement('span');tab.className='word-tab';tab.style.display='inline-block';tab.style.width='1.25cm';tab.contentEditable='false';tab.innerHTML='&nbsp;';line.appendChild(tab);
             if(marker){var bold=document.createElement('b');bold.className='v21-smart-marker';bold.textContent=marker;line.appendChild(bold);line.appendChild(document.createTextNode(' '));}
             line.appendChild(document.createTextNode(text));content.appendChild(line);cell.appendChild(content);row.appendChild(cell);return row;
@@ -8920,19 +8925,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             var groups=[[]];Array.from(content.childNodes).forEach(function(node){if(node.nodeName==='BR')groups.push([]);else groups[groups.length-1].push(node);});content.replaceChildren();
             groups.forEach(function(nodes){var line=document.createElement('div');line.className='v26-smart-line';nodes.forEach(function(node){line.appendChild(node);});if(!line.childNodes.length)line.appendChild(document.createElement('br'));content.appendChild(line);});
         }
-        function v24RepairAllSmartParagraphs(root){
-            (root||document).querySelectorAll?.('#docTable tr[data-smart-group] .fr-content')?.forEach(function(content){
-                var row=content.closest('tr[data-smart-group]');
-                // Eski akilli metinler gerçekte justify olarak kaydediliyordu.
-                // Kullanici özellikle bir hizalama seçmediyse bunlari gerçek
-                // sola hizaya geçir; sonraki bilinçli hizalama seçimini koru.
-                if(row&&!row.dataset.smartAlignExplicit){
-                    content.style.textAlign='left';
-                    content.style.textAlignLast='auto';
-                }
-                v26EnsureSmartLines(content);
-            });
-        }
+        function v24RepairAllSmartParagraphs(root){(root||document).querySelectorAll?.('#docTable tr[data-smart-group] .fr-content')?.forEach(v26EnsureSmartLines);}
         function v26SetCaret(container,offset){var selection=window.getSelection(),range=document.createRange();range.setStart(container,offset);range.collapse(true);selection.removeAllRanges();selection.addRange(range);}
         function v26PreviousCaretNode(line,container,offset){
             if(container===line)return offset>0?line.childNodes[offset-1]:null;
