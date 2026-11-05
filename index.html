@@ -14,7 +14,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    
+
     <style>
         /* ====
            1. PDF / BASKI (PRINT) FORMATLAMALARI
@@ -206,9 +206,9 @@
         #floatDeletePanel .menu-btn[data-tip]:hover::after { left: 40px; right: auto; }
 
         [contenteditable="true"]:focus { outline:none; background-color:#f8f9fa; }
-        
+
         .word-tab { display: inline-block; width: 1.25cm; height: 1em; vertical-align: baseline; user-select: all; }
-        
+
         .lbl-dd-btn { display: none; cursor: pointer; background: none; border: none; color: #3c40c6; font-size: 13px; padding: 0 2px; line-height: 1; vertical-align: middle; opacity: 0.55; transition: opacity 0.15s; user-select: none; }
         .label-cell:hover .lbl-dd-btn { display: inline-block; }
         .lbl-dd-btn:hover { opacity: 1; }
@@ -1023,10 +1023,10 @@
                 <button class="tb-btn" onmousedown="event.preventDefault()" onclick="applyBoldFormat()" data-title="Kalın (Ctrl+B)"><strong>K</strong></button>
                 <button class="tb-btn" onmousedown="event.preventDefault()" onclick="applyItalicFormat()" data-title="İtalik (Ctrl+I)"><em>T</em></button>
                 <button class="tb-btn" onmousedown="event.preventDefault()" onclick="applySigTitle()" data-title="Altı Çizgili (Ctrl+U)"><u>A</u></button>
-                
+
                 <button class="tb-btn" onclick="document.execCommand('hiliteColor',false,'#fff9c4')" data-title="Vurgula"><span class="material-icons">border_color</span></button>
                 <button class="tb-btn" onclick="document.execCommand('hiliteColor',false,'transparent')" data-title="Vurgu Sil"><span class="material-icons">format_color_reset</span></button>
-                
+
                 <div class="tb-dropdown" id="alignDropdownContainer">
                     <button class="tb-btn" onclick="toggleAlignMenu(event)" data-title="Hizalama"><span class="material-icons" id="currentAlignIcon">format_align_left</span></button>
                     <div class="tb-dropdown-content">
@@ -1162,27 +1162,27 @@
         <div class="print-content-wrapper">
             <table class="main-container" id="docTable">
                 <colgroup>
-                    <col style="width: 26.8%;">
+                    <col style="width: 27.8%;">
                     <col style="width: 0.2%;">
-                    <col style="width: 73%;">
+                    <col style="width: 72%;">
                 </colgroup>
 
                 <thead class="print-space-head">
                     <tr><td colspan="3" style="padding:0; border:none;"><div style="height: 4cm;"></div></td></tr>
                 </thead>
 
-                <tbody><tr class="title-wrapper-row"><td class="title-cell" colspan="3"><table class="title-table title-inner"><tbody><tr class="title-blank-row"><td>&nbsp;</td></tr><tr class="title-text-row"><td>ARABULUCULUK İLK TOPLANTI TUTANAĞI</td></tr><tr class="title-text-row"><td>(Görüşme Yapıldıktan Sonra Erteleme)</td></tr><tr class="title-blank-row"><td>&nbsp;</td></tr><tr class="title-blank-row"><td>&nbsp;</td></tr></tbody></table></td></tr><tr class="single-row"><td class="label-cell"><span>ARB. BÜROSU</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell">İzmir Arabuluculuk Bürosu</td></tr><tr class="single-row"><td class="label-cell"><span>BAŞVURU DOSYA NO</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell">2026/12345</td></tr><tr class="single-row"><td class="label-cell"><span>ARB. DOSYA NO</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell">2026/4567</td></tr><tr class="empty-row"><td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td></tr><tr class="single-row"><td class="label-cell"><span>TARAFLAR</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell"><br></td><td class="content-cell"><br></td></tr><tr class="single-row"><td class="label-cell"><span>BAŞVURUCU</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell"><b>Zehir Civata Tic. ve San. A.Ş. (Mersis No: 08888052800016)</b><br>(Çiğli V.D. 88880528) A.O.S.B. 10088 Sk. No:88 Çiğli / İZMİR - 0232 555 45 65&nbsp;</td></tr><tr class="empty-row"><td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td></tr><tr class="single-row"><td class="label-cell"><span>YETKİLİSİ</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell"><b>Ziya Zemberek (T.C. Kimlik No: 371788886)</b><div>A.O.S.B. 10002 Sk. No:12 Çiğli / İZMİR - ziya@zehircivata.com</div></td></tr><tr class="empty-row"><td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td></tr><tr class="single-row"><td class="label-cell"><span>DİĞER TARAF</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell"><b>Abdullah Ablak (T.C. Kimlik No: 10128888)</b><br><div>Mahalleler Mh. Caddeler Cd. Siteler Sitesi No:22A D:2 Konak / İZMİR</div></td></tr><tr class="empty-row"><td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td></tr><tr class="single-row"><td class="label-cell"><span>VEKİLİ</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell"><b>Av Saul Goodman (T.C. Kimlik No: 123456789123)</b><br><div>0555 545 45 45 - saulgoodman@goodmanhukuk.com</div></td></tr><tr class="empty-row"><td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td></tr><tr class="single-row"><td class="label-cell"><span>UYUŞMAZLIK TÜRÜ</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell">İşçi – işveren uyuşmazlığı (İşçilik alacakları ve tazminatları hk.)</td></tr><tr class="empty-row"><td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td></tr><tr class="single-row"><td class="label-cell"><span>TOPLANTI YERİ</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell">AOSB Toplantı Salonu Çiğli / İZMİR</td></tr><tr class="empty-row"><td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td></tr><tr class="single-row"><td class="label-cell"><span>BAŞVURU TARİHİ</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell">10.01.2026</td></tr><tr class="single-row"><td class="label-cell"><span>GÖREVİ KABUL TARİHİ</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell">11.01.2026</td></tr><tr class="single-row"><td class="label-cell"><span>İLK TOPLANTI TARİHİ</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell">20.01.2026</td></tr><tr class="single-row"><td class="label-cell"><span>TOPLANTI BAŞL. SAATİ</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell">11:00</td></tr><tr class="single-row"><td class="label-cell"><span>TOPLANTI BİTİŞ SAATİ</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell">11:45</td></tr><tr class="empty-row"><td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td></tr><tr class="single-row row-hovered"><td class="label-cell"><span>UYUŞMAZLIK KONUSU <br> (Talep Konusu)</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell"><div>Taraflar arasındaki iş sözleşmesinin geçerli bir sebeple sona erip 
-ermediği ve işçinin işe iade talebi bulunup bulunmadığı, işçinin, iş 
-yerinde çalışmış olduğu süreye ilişkin olarak eksik ödenen veya hiç 
-ödenmeyen ücret alacağı, kıdem tazminatı alacağı, ihbar tazminatı 
-alacağı, fazla çalışma ücreti alacağı, fazla sürelerle çalışma ücreti 
-alacağı, prim – ikramiye alacağı, performans primi alacağı, yıllık izin 
-ücreti alacağı, hafta tatili ücreti alacağı, ulusal bayram ve genel 
-tatil ücreti alacağı, vardiya tazminatı alacağı, sosyal yardım alacağı, 
-yakacak yardımı alacağı, yol yardımı alacağı, yemek yardımı alacağı,&nbsp;erzak yardımı alacağı, eğitim yardımı alacağı, asgari geçim indirimi 
-alacağı, sendikal tazminat alacağı, iş kazası, meslek hastalığı ve 
-mobbing sebebiyle veya sair hususlarla ilgili olarak maddi ve manevi 
-tazminat alacağı olup olmadığı, varsa ne şekilde ve ne zaman ödeneceği 
+                <tbody><tr class="title-wrapper-row"><td class="title-cell" colspan="3"><table class="title-table title-inner"><tbody><tr class="title-blank-row"><td>&nbsp;</td></tr><tr class="title-text-row"><td>ARABULUCULUK İLK TOPLANTI TUTANAĞI</td></tr><tr class="title-text-row"><td>(Görüşme Yapıldıktan Sonra Erteleme)</td></tr><tr class="title-blank-row"><td>&nbsp;</td></tr><tr class="title-blank-row"><td>&nbsp;</td></tr></tbody></table></td></tr><tr class="single-row"><td class="label-cell"><span>ARB. BÜROSU</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell">İzmir Arabuluculuk Bürosu</td></tr><tr class="single-row"><td class="label-cell"><span>BAŞVURU DOSYA NO</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell">2026/12345</td></tr><tr class="single-row"><td class="label-cell"><span>ARB. DOSYA NO</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell">2026/4567</td></tr><tr class="empty-row"><td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td></tr><tr class="single-row"><td class="label-cell"><span>TARAFLAR</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell"><br></td><td class="content-cell"><br></td></tr><tr class="single-row"><td class="label-cell"><span>BAŞVURUCU</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell"><b>Zehir Civata Tic. ve San. A.Ş. (Mersis No: 08888052800016)</b><br>(Çiğli V.D. 88880528) A.O.S.B. 10088 Sk. No:88 Çiğli / İZMİR - 0232 555 45 65&nbsp;</td></tr><tr class="empty-row"><td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td></tr><tr class="single-row"><td class="label-cell"><span>YETKİLİSİ</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell"><b>Ziya Zemberek (T.C. Kimlik No: 371788886)</b><div>A.O.S.B. 10002 Sk. No:12 Çiğli / İZMİR - ziya@zehircivata.com</div></td></tr><tr class="empty-row"><td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td></tr><tr class="single-row"><td class="label-cell"><span>DİĞER TARAF</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell"><b>Abdullah Ablak (T.C. Kimlik No: 10128888)</b><br><div>Mahalleler Mh. Caddeler Cd. Siteler Sitesi No:22A D:2 Konak / İZMİR</div></td></tr><tr class="empty-row"><td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td></tr><tr class="single-row"><td class="label-cell"><span>VEKİLİ</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell"><b>Av Saul Goodman (T.C. Kimlik No: 123456789123)</b><br><div>0555 545 45 45 - saulgoodman@goodmanhukuk.com</div></td></tr><tr class="empty-row"><td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td></tr><tr class="single-row"><td class="label-cell"><span>UYUŞMAZLIK TÜRÜ</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell">İşçi – işveren uyuşmazlığı (İşçilik alacakları ve tazminatları hk.)</td></tr><tr class="empty-row"><td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td></tr><tr class="single-row"><td class="label-cell"><span>TOPLANTI YERİ</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell">AOSB Toplantı Salonu Çiğli / İZMİR</td></tr><tr class="empty-row"><td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td></tr><tr class="single-row"><td class="label-cell"><span>BAŞVURU TARİHİ</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell">10.01.2026</td></tr><tr class="single-row"><td class="label-cell"><span>GÖREVİ KABUL TARİHİ</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell">11.01.2026</td></tr><tr class="single-row"><td class="label-cell"><span>İLK TOPLANTI TARİHİ</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell">20.01.2026</td></tr><tr class="single-row"><td class="label-cell"><span>TOPLANTI BAŞL. SAATİ</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell">11:00</td></tr><tr class="single-row"><td class="label-cell"><span>TOPLANTI BİTİŞ SAATİ</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell">11:45</td></tr><tr class="empty-row"><td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td></tr><tr class="single-row row-hovered"><td class="label-cell"><span>UYUŞMAZLIK KONUSU <br> (Talep Konusu)</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell"><div>Taraflar arasındaki iş sözleşmesinin geçerli bir sebeple sona erip
+ermediği ve işçinin işe iade talebi bulunup bulunmadığı, işçinin, iş
+yerinde çalışmış olduğu süreye ilişkin olarak eksik ödenen veya hiç
+ödenmeyen ücret alacağı, kıdem tazminatı alacağı, ihbar tazminatı
+alacağı, fazla çalışma ücreti alacağı, fazla sürelerle çalışma ücreti
+alacağı, prim – ikramiye alacağı, performans primi alacağı, yıllık izin
+ücreti alacağı, hafta tatili ücreti alacağı, ulusal bayram ve genel
+tatil ücreti alacağı, vardiya tazminatı alacağı, sosyal yardım alacağı,
+yakacak yardımı alacağı, yol yardımı alacağı, yemek yardımı alacağı,&nbsp;erzak yardımı alacağı, eğitim yardımı alacağı, asgari geçim indirimi
+alacağı, sendikal tazminat alacağı, iş kazası, meslek hastalığı ve
+mobbing sebebiyle veya sair hususlarla ilgili olarak maddi ve manevi
+tazminat alacağı olup olmadığı, varsa ne şekilde ve ne zaman ödeneceği
 hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td></tr><tr class="single-row"><td class="label-cell"><span>SONUÇ</span><button class="lbl-dd-btn" title="Öneri Seç">▾</button></td><td class="colon-cell">:</td><td class="content-cell"><div>Taraflarca uyuşmazlık konusu müzakere edildikten sonra, yeniden değerlendirilmek üzere, <b>XX.XX.20XX ……. günü saat XX.XX’da</b> <b>ikinci</b> bir toplantı yapılması kararlaştırılmıştır. İşbu tutanak,&nbsp;<b>üç (3)</b> nüsha olarak hazırlanmış taraflarla birlikte imza altına alınarak birer nüshası taraflara teslim edilmiştir. <b>20.01.2026</b>&nbsp;&nbsp;<b>&nbsp;&nbsp;</b></div></td></tr><tr class="empty-row"><td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td></tr><tr class="single-row"><td colspan="3"><div class="sig-grid"><div class="sig-box"><span class="sig-title">TARAF</span><div><b>Zehir Civata Tic. ve San A.Ş.</b></div><div><b><br></b></div><div><span class="sig-title"><b>YETKİLİSİ</b></span></div><div><b>Ziya Zemberek</b></div></div><div class="sig-box"><span class="sig-title">ARABULUCU</span><div><b>Arb. Av.Erinç Soyer</b></div><div>(ADB Sicil No: 00127)</div></div><div class="sig-box"><span class="sig-title">TARAF</span><div><b>Abdullah Ablak</b></div><div><b><br></b></div><div><b><br></b></div><div><b><br></b></div><div><b><span class="sig-title">VEKİLİ</span></b></div><div><b>Av. Saul Goodman</b></div><div><b><br></b></div><div><b><br></b></div><div><b><br></b></div></div></div></td></tr></tbody>
 
                 <tfoot class="print-space-foot">
@@ -1207,7 +1207,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                         <button class="tb-btn" onclick="incrementVersion()" data-title="Versiyon +1" style="font-size:14px;font-weight:bold;flex-shrink:0;">+1</button>
                     </div>
                 </div>
-                
+
                 <div class="save-buttons-row v15-save-format-buttons">
                     <button class="tb-btn tb-btn-wide arbsys-save-btn" onclick="executeSave('arbsys')">
                         <img src="Arbsys_Logo_SVG.svg" alt=""><span><strong>Arbsys Şablon</strong><small>Düzenlenebilir şablon olarak kaydet</small></span>
@@ -1222,7 +1222,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                         <span class="material-icons">gavel</span><span><strong>UDF</strong><small>UYAP belgesi olarak kaydet</small></span>
                     </button>
                 </div>
-                
+
                 <div class="checkbox-group" onclick="document.getElementById('ignoreHFCheck').click()">
                     <input type="checkbox" id="ignoreHFCheck" onclick="event.stopPropagation()" value="on">
                     <label for="ignoreHFCheck" onclick="event.preventDefault()">Üst / alt bilgi olmadan kaydet</label>
@@ -1521,7 +1521,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         </div>
         <div class="lbl-opts-list"><div class="lbl-opt" data-value="ARB. BÜROSU">Arb. Bürosu</div><div class="lbl-opt" data-value="BAŞVURU DOSYA NO">Başvuru Dosya No</div><div class="lbl-opt" data-value="ARB. DOSYA NO">Arb. Dosya No</div><div class="lbl-opt" data-value="TARAFLAR">Taraflar</div><div class="lbl-opt" data-value="BAŞVURUCU">Başvurucu</div><div class="lbl-opt" data-value="YETKİLİSİ">Yetkilisi</div><div class="lbl-opt" data-value="DİĞER TARAF">Diğer Taraf</div><div class="lbl-opt" data-value="VEKİLİ">Vekili</div><div class="lbl-opt" data-value="ÇALIŞANI">Çalışanı</div><div class="lbl-opt" data-value="KANUNİ TEMSİLCİ">Kanuni Temsilci</div><div class="lbl-opt" data-value="KOMİSYON ÜYESİ">Komisyon Üyesi</div><div class="lbl-opt" data-value="UZMAN KİŞİ">Uzman Kişi</div><div class="lbl-opt" data-value="UYUŞMAZLIK TÜRÜ">Uyuşmazlık Türü</div><div class="lbl-opt" data-value="TOPLANTI YERİ">Toplantı Yeri</div><div class="lbl-opt" data-value="BAŞVURU TARİHİ">Başvuru Tarihi</div><div class="lbl-opt" data-value="GÖREVİ KABUL TARİHİ">Görevi Kabul Tarihi</div><div class="lbl-opt" data-value="İLK TOPLANTI TARİHİ">İlk Toplantı Tarihi</div><div class="lbl-opt" data-value="SON TOPLANTI TARİHİ">Son Toplantı Tarihi</div><div class="lbl-opt" data-value="TOPLANTI BAŞL. SAATİ">Toplantı Başlangıç Saati</div><div class="lbl-opt" data-value="TOPLANTI BİTİŞ SAATİ">Toplantı Bitiş Saati</div><div class="lbl-opt" data-value="UYUŞMAZLIK KONUSU &lt;br&gt; (Talep Konusu)">Uyuşmazlık Konusu (Talep Konusu)</div><div class="lbl-opt" data-value="ÇÖZÜM ÖNERİSİNDE &lt;br&gt; BULUNMA">Çözüm Önerisinde Bulunma</div><div class="lbl-opt" data-value="OTURUM SAYISI">Oturum Sayısı</div><div class="lbl-opt" data-value="OTURUM SÜRESİ">Oturum Süresi</div><div class="lbl-opt" data-value="VARILAN ANLAŞMA">Varılan Anlaşma</div><div class="lbl-opt" data-value="SONUÇ">Sonuç</div></div>
       </div>
-    
+
 
     <div id="floatPanel" style="height: 211px; top: 435.617px; left: 585.3px;" class="visible">
         <button id="floatPlus" title="Ekle">+</button>
@@ -4095,7 +4095,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         })();
 
         function executeSave(type) {
-            closeSaveModal(); 
+            closeSaveModal();
             setTimeout(function() {
                 if(type === 'htm') saveAsHtm();
                 if(type === 'arbsys') exportArbsys(getFileName());
@@ -4106,7 +4106,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         }
 
         function toggleHFPanel() { document.getElementById('hfPanel').classList.toggle('open'); }
-        
+
         function toggleHFData(type) {
             const isChecked = document.getElementById(type + 'Check').checked;
             const row = document.getElementById(type + 'Row');
@@ -4124,7 +4124,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             } else {
                 row.classList.remove('active');
                 if(type === 'header') {
-                    document.getElementById('logoPrintBox').innerHTML = ''; 
+                    document.getElementById('logoPrintBox').innerHTML = '';
                     document.getElementById('logoPrintBox').style.display = 'none';
                     if(document.getElementById('headerLinePrint')) document.getElementById('headerLinePrint').style.display = 'none';
                 }
@@ -4135,25 +4135,25 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             }
             updateStatusDot();
         }
-        
+
         function clearHFData(type) {
             if (type === 'header') {
-                uploadedLogoBase64 = ""; 
-                document.getElementById('logoInput').value = ""; 
+                uploadedLogoBase64 = "";
+                document.getElementById('logoInput').value = "";
                 document.getElementById('previewLogo').src = "";
-                document.getElementById('previewLogo').style.display = 'none'; 
+                document.getElementById('previewLogo').style.display = 'none';
                 document.getElementById('dropZoneText').style.display = 'inline-block';
-                document.getElementById('logoPrintBox').innerHTML = ''; 
+                document.getElementById('logoPrintBox').innerHTML = '';
                 document.getElementById('logoPrintBox').style.display = 'none';
                 if(document.getElementById('headerLinePrint')) document.getElementById('headerLinePrint').style.display = 'none';
-                document.getElementById('headerCheck').checked = false; 
+                document.getElementById('headerCheck').checked = false;
                 document.getElementById('headerRow').classList.remove('active');
             } else if (type === 'footer') {
-                document.getElementById('footerText1').value = ""; 
-                document.getElementById('footerText2').value = ""; 
+                document.getElementById('footerText1').value = "";
+                document.getElementById('footerText2').value = "";
                 document.getElementById('footerPrintBox').innerHTML = '';
                 if(document.getElementById('footerLinePrint')) document.getElementById('footerLinePrint').style.display = 'none';
-                document.getElementById('footerCheck').checked = false; 
+                document.getElementById('footerCheck').checked = false;
                 document.getElementById('footerRow').classList.remove('active');
             }
             updateStatusDot();
@@ -4161,10 +4161,10 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
 
         function updateStatusDot() {
             const panelBtn = document.getElementById('hfPanelBtn');
-            if(document.getElementById('headerCheck').checked || document.getElementById('footerCheck').checked) { 
-                panelBtn.classList.add('hf-active'); 
-            } else { 
-                panelBtn.classList.remove('hf-active'); 
+            if(document.getElementById('headerCheck').checked || document.getElementById('footerCheck').checked) {
+                panelBtn.classList.add('hf-active');
+            } else {
+                panelBtn.classList.remove('hf-active');
             }
         }
 
@@ -4173,17 +4173,17 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     padLogoTo4x1(e.target.result, function(paddedBase64) {
-                    uploadedLogoBase64 = paddedBase64; 
+                    uploadedLogoBase64 = paddedBase64;
                     document.getElementById('previewLogo').src = uploadedLogoBase64;
-                    document.getElementById('previewLogo').style.display = 'inline-block'; 
+                    document.getElementById('previewLogo').style.display = 'inline-block';
                     document.getElementById('dropZoneText').style.display = 'none';
                     if(document.getElementById('headerCheck').checked) {
-                    document.getElementById('logoPrintBox').innerHTML = '<img src="' + uploadedLogoBase64 + '" alt="Logo">'; 
+                    document.getElementById('logoPrintBox').innerHTML = '<img src="' + uploadedLogoBase64 + '" alt="Logo">';
                     document.getElementById('logoPrintBox').style.display = '';
                     if(document.getElementById('headerLinePrint')) document.getElementById('headerLinePrint').style.display = '';
                     }
                     });
-                }; 
+                };
                 reader.readAsDataURL(input.files[0]);
             }
         }
@@ -4191,21 +4191,21 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         function padLogoTo4x1(srcDataUrl, callback) {
             const img = new Image();
             img.onload = function() {
-                const targetRatio = 4, srcRatio = img.width / img.height; 
+                const targetRatio = 4, srcRatio = img.width / img.height;
                 let canvasW, canvasH;
                 if (Math.abs(srcRatio - targetRatio) < 0.01) { callback(srcDataUrl); return; }
-                if (srcRatio > targetRatio) { 
-                    canvasW = img.width; canvasH = Math.round(img.width / targetRatio); 
-                } else { 
-                    canvasH = img.height; canvasW = Math.round(img.height * targetRatio); 
+                if (srcRatio > targetRatio) {
+                    canvasW = img.width; canvasH = Math.round(img.width / targetRatio);
+                } else {
+                    canvasH = img.height; canvasW = Math.round(img.height * targetRatio);
                 }
                 const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d'); 
+                const ctx = canvas.getContext('2d');
                 canvas.width = canvasW; canvas.height = canvasH;
                 ctx.fillStyle = '#ffff'; ctx.fillRect(0, 0, canvasW, canvasH);
                 ctx.drawImage(img, Math.round((canvasW - img.width) / 2), Math.round((canvasH - img.height) / 2), img.width, img.height);
                 callback(canvas.toDataURL('image/png'));
-            }; 
+            };
             img.src = srcDataUrl;
         }
 
@@ -4213,8 +4213,8 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             if(!document.getElementById('footerCheck').checked) return;
             const t1 = document.getElementById('footerText1').value.trim();
             const t2 = document.getElementById('footerText2').value.trim();
-            let html = ""; 
-            if(t1) html += t1; 
+            let html = "";
+            if(t1) html += t1;
             if(t2) html += (html ? '<br>' : '') + t2;
             document.getElementById('footerPrintBox').innerHTML = html;
         }
@@ -4226,9 +4226,9 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             e.preventDefault(); dropZone.style.borderColor = '#cbd5e1';
             if(!document.getElementById('headerCheck').checked) return;
             const file = e.dataTransfer.files[0];
-            if (file && (file.type === "image/jpeg" || file.type === "image/png")) { 
-                document.getElementById('logoInput').files = e.dataTransfer.files; 
-                handleLogoSelect(document.getElementById('logoInput')); 
+            if (file && (file.type === "image/jpeg" || file.type === "image/png")) {
+                document.getElementById('logoInput').files = e.dataTransfer.files;
+                handleLogoSelect(document.getElementById('logoInput'));
             }
         });
 
@@ -4259,53 +4259,53 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 }
                 return;
             }
-            if (e.shiftKey && e.key === 'Enter') { 
-                const target = e.target.closest('[contenteditable]'); 
-                if (target) { e.preventDefault(); document.execCommand('insertParagraph'); } 
-                return; 
+            if (e.shiftKey && e.key === 'Enter') {
+                const target = e.target.closest('[contenteditable]');
+                if (target) { e.preventDefault(); document.execCommand('insertParagraph'); }
+                return;
             }
-            
+
             // Sadece CTRL veya META (CMD) tuşlarıyla kombinasyonları işle
             if (!e.ctrlKey && !e.metaKey) return;
-            
+
             // Tarayıcı eylemlerini baskılamak için tuşu algıla ve varsayılan davranışı durdur (preventDefault)
             const key = e.key.toLowerCase();
-            if (key === 'i') { 
-                e.preventDefault(); 
-                applyItalicFormat(); 
-                return; 
+            if (key === 'i') {
+                e.preventDefault();
+                applyItalicFormat();
+                return;
             }
-            if (key === 'u') { 
-                e.preventDefault(); 
-                const target = e.target.closest('[contenteditable]'); 
-                if (target) { applySigTitle(); } 
-                return; 
+            if (key === 'u') {
+                e.preventDefault();
+                const target = e.target.closest('[contenteditable]');
+                if (target) { applySigTitle(); }
+                return;
             }
-            
+
             // YENİ SIRALAMALI KISAYOL LİSTESİ (1'den 8'e kadar, Tarayıcı sekme geçişlerini de önler)
             const blockMap = { '1': 'single', '2': 'empty', '3': 'full', '5': 'sig3', '6': 'sig2', '7': 'sig1', '8': 'title' };
-            if (blockMap[e.key]) { 
-                e.preventDefault(); 
-                const refRow = getRefRowForShortcut(); 
-                if (refRow) addBlock(refRow, blockMap[e.key]); 
+            if (blockMap[e.key]) {
+                e.preventDefault();
+                const refRow = getRefRowForShortcut();
+                if (refRow) addBlock(refRow, blockMap[e.key]);
             }
         }, true);
 
         function getRefRowForShortcut() {
             if (floatActiveRow) return floatActiveRow;
-            const focused = document.activeElement; 
-            if (focused) { 
-                const tr = focused.closest('#docTable > tbody > tr'); 
-                if (tr) return tr; 
+            const focused = document.activeElement;
+            if (focused) {
+                const tr = focused.closest('#docTable > tbody > tr');
+                if (tr) return tr;
             }
             const sel = window.getSelection();
-            if (sel && sel.rangeCount) { 
-                let node = sel.anchorNode; 
-                if (node && node.nodeType === Node.TEXT_NODE) node = node.parentNode; 
-                const tr = node && node.closest('#docTable > tbody > tr'); 
-                if (tr) return tr; 
+            if (sel && sel.rangeCount) {
+                let node = sel.anchorNode;
+                if (node && node.nodeType === Node.TEXT_NODE) node = node.parentNode;
+                const tr = node && node.closest('#docTable > tbody > tr');
+                if (tr) return tr;
             }
-            const rows = document.querySelectorAll('#docTable > tbody > tr'); 
+            const rows = document.querySelectorAll('#docTable > tbody > tr');
             return rows[rows.length - 1] || null;
         }
 
@@ -4316,10 +4316,10 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             let panelTimer = null;
             let dragEl = null;   // suruklenmekte olan satir (null => surukleme yok)
 
-            function positionPanel(tr) { 
-                const rect = tr.getBoundingClientRect(); 
+            function positionPanel(tr) {
+                const rect = tr.getBoundingClientRect();
                 const tableRect = document.getElementById('docTable').getBoundingClientRect();
-                const minTop = 65; 
+                const minTop = 65;
                 const maxBottom = window.innerHeight - 10;
                 const visibleTop = Math.max(rect.top, minTop);
                 const visibleBottom = Math.min(rect.bottom, maxBottom);
@@ -4336,8 +4336,8 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 // konforlu bir minimuma (34px) sabitlenip merkeze hizalanir.
                 const plusH = Math.max(visibleHeight, 34);
                 panel.style.height = plusH + 'px';
-                panel.style.top = Math.max(minTop, rowCenter - plusH / 2) + 'px'; 
-                panel.style.left = (tableRect.left - 44) + 'px'; 
+                panel.style.top = Math.max(minTop, rowCenter - plusH / 2) + 'px';
+                panel.style.left = (tableRect.left - 44) + 'px';
 
                 // Sag (surukle + sil) panel: icerigi ~68px oldugundan ince
                 // satirlarda da bu yukseklikte kalip merkeze hizalanir.
@@ -4347,46 +4347,46 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 deletePanel.style.left = (tableRect.right + 6) + 'px';
 
                 const spaceBelowCenter = window.innerHeight - rowCenter;
-                if (spaceBelowCenter < 280) { menu.className = 'menu-open-up'; } 
+                if (spaceBelowCenter < 280) { menu.className = 'menu-open-up'; }
                 else { menu.className = 'menu-open-down'; }
             }
 
-            function showPanel(tr) { 
+            function showPanel(tr) {
                 if (dragEl) return;   // surukleme sirasinda aktif satiri degistirme
-                clearTimeout(panelTimer); 
-                if (floatActiveRow && floatActiveRow !== tr) { floatActiveRow.classList.remove('row-hovered'); menu.classList.remove('open'); } 
-                floatActiveRow = tr; tr.classList.add('row-hovered'); positionPanel(tr); 
+                clearTimeout(panelTimer);
+                if (floatActiveRow && floatActiveRow !== tr) { floatActiveRow.classList.remove('row-hovered'); menu.classList.remove('open'); }
+                floatActiveRow = tr; tr.classList.add('row-hovered'); positionPanel(tr);
                 panel.classList.add('visible'); deletePanel.classList.add('visible');
             }
 
-            function hidePanel() { 
+            function hidePanel() {
                 if (dragEl) return;   // surukleme sirasinda panelleri gizleme
-                panelTimer = setTimeout(function() { 
-                    panel.classList.remove('visible'); 
-                    deletePanel.classList.remove('visible'); 
-                    menu.classList.remove('open'); 
-                    if (floatActiveRow) { 
-                    floatActiveRow.classList.remove('row-hovered'); 
-                    floatActiveRow.classList.remove('row-delete-preview'); 
-                    floatActiveRow = null; 
-                    } 
-                }, 450); 
+                panelTimer = setTimeout(function() {
+                    panel.classList.remove('visible');
+                    deletePanel.classList.remove('visible');
+                    menu.classList.remove('open');
+                    if (floatActiveRow) {
+                    floatActiveRow.classList.remove('row-hovered');
+                    floatActiveRow.classList.remove('row-delete-preview');
+                    floatActiveRow = null;
+                    }
+                }, 450);
             }
 
             document.getElementById('docTable').addEventListener('mouseover', function(e) { const tr = e.target.closest('#docTable > tbody > tr'); if (tr) showPanel(tr); });
-            document.getElementById('docTable').addEventListener('mouseleave', hidePanel); 
-            panel.addEventListener('mouseenter', function() { clearTimeout(panelTimer); }); 
-            panel.addEventListener('mouseleave', hidePanel); 
-            deletePanel.addEventListener('mouseenter', function() { clearTimeout(panelTimer); }); 
-            deletePanel.addEventListener('mouseleave', hidePanel); 
-            menu.addEventListener('mouseenter', function() { clearTimeout(panelTimer); }); 
+            document.getElementById('docTable').addEventListener('mouseleave', hidePanel);
+            panel.addEventListener('mouseenter', function() { clearTimeout(panelTimer); });
+            panel.addEventListener('mouseleave', hidePanel);
+            deletePanel.addEventListener('mouseenter', function() { clearTimeout(panelTimer); });
+            deletePanel.addEventListener('mouseleave', hidePanel);
+            menu.addEventListener('mouseenter', function() { clearTimeout(panelTimer); });
             menu.addEventListener('mouseleave', hidePanel);
             plusBtn.addEventListener('mouseenter', function() { menu.classList.add('open'); });
-            menu.addEventListener('click', function(e) { 
-                const btn = e.target.closest('.menu-btn'); 
-                if (!btn || !floatActiveRow) return; 
-                addBlock(floatActiveRow, btn.dataset.action); 
-                menu.classList.remove('open'); 
+            menu.addEventListener('click', function(e) {
+                const btn = e.target.closest('.menu-btn');
+                if (!btn || !floatActiveRow) return;
+                addBlock(floatActiveRow, btn.dataset.action);
+                menu.classList.remove('open');
             });
             deleteBtn.addEventListener('click', function(e) { if(floatActiveRow) removeBlock(floatActiveRow); hidePanel(); });
             deleteBtn.addEventListener('mouseover', function(e) { if (floatActiveRow) floatActiveRow.classList.add('row-delete-preview'); });
@@ -4463,16 +4463,16 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
 
         // === 5. YENİ MADDE EKLE VE BLOK EKLEME FONKSİYONLARI ===
         function addBlock(refRow, type) {
-            const newRow = document.createElement('tr'); 
+            const newRow = document.createElement('tr');
             let inner = '';
-            if (type === 'single') { 
-                newRow.className = 'single-row'; 
-                inner = '<td class="label-cell"><span>BAŞLIK</span></td><td class="colon-cell">:</td><td class="content-cell">Detay yazısı...</td>'; 
-            } 
-            else if (type === 'full') { 
-                newRow.className = 'full-row'; 
-                inner = '<td colspan="3"><div class="fr-content">Tam genişlikte metin bloğu...</div></td>'; 
-            } 
+            if (type === 'single') {
+                newRow.className = 'single-row';
+                inner = '<td class="label-cell"><span>BAŞLIK</span></td><td class="colon-cell">:</td><td class="content-cell">Detay yazısı...</td>';
+            }
+            else if (type === 'full') {
+                newRow.className = 'full-row';
+                inner = '<td colspan="3"><div class="fr-content">Tam genişlikte metin bloğu...</div></td>';
+            }
          // YENİ MADDE ŞABLONU:
          //   [Satır Başı (word-tab, 1.25cm)] + <b>X)</b> + [boşluk] + "Maddeyi buraya ekleyin..."
          // Bu, tam-genişlik (full-row) bir metin bloğudur; hem UDF hem DOCX
@@ -4482,28 +4482,28 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
          // kullanılıyor, böylece UDF'deki 1.25cm varsayılan sekme ile hizalanır.
          // NOT: .madde-row sınıfı yalnızca içe-aktarma listesinde bloğu "Madde"
          // olarak etiketlemek için (ioModuleLabel); dışa aktarımı etkilemez.
-            else if (type === 'madde') { 
-                newRow.className = 'full-row'; 
-                inner = '<td colspan="3"><div class="fr-content madde-row"><span class="word-tab" style="display:inline-block; width:1.25cm;" contenteditable="false">&nbsp;</span><b>X)</b>&nbsp;Maddeyi buraya ekleyin...</div></td>'; 
+            else if (type === 'madde') {
+                newRow.className = 'full-row';
+                inner = '<td colspan="3"><div class="fr-content madde-row"><span class="word-tab" style="display:inline-block; width:1.25cm;" contenteditable="false">&nbsp;</span><b>X)</b>&nbsp;Maddeyi buraya ekleyin...</div></td>';
             }
-            else if (type === 'empty') { 
-                newRow.className = 'empty-row'; 
-                inner = '<td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td>'; 
-            } 
-            else if (type === 'sig3') { 
-                newRow.className = 'single-row'; 
-                inner = '<td colspan="3"><div class="sig-grid"><div class="sig-box"><span class="sig-title">TARAF</span><div><b>İsim Soyisim</b></div></div><div class="sig-box"><span class="sig-title">ARABULUCU</span><div><b>Arb. Av. </b></div><div>(ADB Sicil No: XXXX)</div></div><div class="sig-box"><span class="sig-title">TARAF</span><div><b>İsim Soyisim</b></div></div></div></td>'; 
-            } 
-            else if (type === 'sig2') { 
-                newRow.className = 'single-row'; 
-                inner = '<td colspan="3"><div class="sig-grid"><div class="sig-box"><span class="sig-title">TARAF</span><div><b>İsim Soyisim</b></div></div><div class="sig-box"><span class="sig-title">ARABULUCU</span><div><b>Arb. Av. </b></div><div>(ADB Sicil No: XXXX)</div></div></div></td>'; 
-            } 
-            else if (type === 'sig1') { 
-                newRow.className = 'single-row'; 
-                inner = '<td colspan="3"><div class="sig-grid" style="justify-content:center;"><div class="sig-box" style="max-width:250px;"><div class="sig-title">ARABULUCU</div><div><b>Arb. Av.</b></div><div>(ADB Sicil No: XXXX)</div></div></div></td>'; 
+            else if (type === 'empty') {
+                newRow.className = 'empty-row';
+                inner = '<td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td>';
             }
-            else if (type === 'title') { 
-                newRow.className = 'title-wrapper-row'; 
+            else if (type === 'sig3') {
+                newRow.className = 'single-row';
+                inner = '<td colspan="3"><div class="sig-grid"><div class="sig-box"><span class="sig-title">TARAF</span><div><b>İsim Soyisim</b></div></div><div class="sig-box"><span class="sig-title">ARABULUCU</span><div><b>Arb. Av. </b></div><div>(ADB Sicil No: XXXX)</div></div><div class="sig-box"><span class="sig-title">TARAF</span><div><b>İsim Soyisim</b></div></div></div></td>';
+            }
+            else if (type === 'sig2') {
+                newRow.className = 'single-row';
+                inner = '<td colspan="3"><div class="sig-grid"><div class="sig-box"><span class="sig-title">TARAF</span><div><b>İsim Soyisim</b></div></div><div class="sig-box"><span class="sig-title">ARABULUCU</span><div><b>Arb. Av. </b></div><div>(ADB Sicil No: XXXX)</div></div></div></td>';
+            }
+            else if (type === 'sig1') {
+                newRow.className = 'single-row';
+                inner = '<td colspan="3"><div class="sig-grid" style="justify-content:center;"><div class="sig-box" style="max-width:250px;"><div class="sig-title">ARABULUCU</div><div><b>Arb. Av.</b></div><div>(ADB Sicil No: XXXX)</div></div></div></td>';
+            }
+            else if (type === 'title') {
+                newRow.className = 'title-wrapper-row';
                 inner = '<td class="title-cell" colspan="3">' +
                     '<table class="title-table title-inner">' +
                     '<tr class="title-blank-row"><td>&nbsp;</td></tr>' +
@@ -4512,38 +4512,38 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                     '<tr class="title-blank-row"><td>&nbsp;</td></tr>' +
                     '<tr class="title-blank-row"><td>&nbsp;</td></tr>' +
                     '</table>' +
-                    '</td>'; 
+                    '</td>';
             }
-            newRow.innerHTML = inner; 
-            refRow.parentNode.insertBefore(newRow, refRow.nextSibling); 
+            newRow.innerHTML = inner;
+            refRow.parentNode.insertBefore(newRow, refRow.nextSibling);
             injectLabelDropdowns();
             applyEditable();
         }
-        
-        function removeBlock(tr) { 
-            if (tr && document.querySelectorAll('#docTable > tbody > tr').length > 1) tr.remove(); 
+
+        function removeBlock(tr) {
+            if (tr && document.querySelectorAll('#docTable > tbody > tr').length > 1) tr.remove();
         }
 
         // === 6. METİN BİÇİMLENDİRME (FORMATTING) FONKSİYONLARI ===
-        function incrementVersion() { 
-            const inp = document.getElementById('fileNameInput'); 
-            const m = inp.value.match(/^(.*?)_?v(\d+)$/i); 
-            inp.value = m ? m[1] + '_v' + (parseInt(m[2]) + 1) : inp.value + '_v2'; 
+        function incrementVersion() {
+            const inp = document.getElementById('fileNameInput');
+            const m = inp.value.match(/^(.*?)_?v(\d+)$/i);
+            inp.value = m ? m[1] + '_v' + (parseInt(m[2]) + 1) : inp.value + '_v2';
         }
-        function setContentAlign(mode) { 
-            const sel = window.getSelection(); 
-            if (!sel.rangeCount) return; 
-            let node = sel.anchorNode; 
-            if (node && node.nodeType === Node.TEXT_NODE) node = node.parentNode; 
-            const target = node && node.closest('.content-cell, [contenteditable]'); 
-            if (!target) return; 
-            
-            target.style.textAlignLast = 'auto'; 
-            
-            if (mode === 'justify') { target.style.textAlign = 'justify'; target.style.textAlignLast = 'left'; } 
-            else if (mode === 'center') { target.style.textAlign = 'center'; } 
-            else if (mode === 'right') { target.style.textAlign = 'right'; } 
-            else { target.style.textAlign = 'left'; } 
+        function setContentAlign(mode) {
+            const sel = window.getSelection();
+            if (!sel.rangeCount) return;
+            let node = sel.anchorNode;
+            if (node && node.nodeType === Node.TEXT_NODE) node = node.parentNode;
+            const target = node && node.closest('.content-cell, [contenteditable]');
+            if (!target) return;
+
+            target.style.textAlignLast = 'auto';
+
+            if (mode === 'justify') { target.style.textAlign = 'justify'; target.style.textAlignLast = 'left'; }
+            else if (mode === 'center') { target.style.textAlign = 'center'; }
+            else if (mode === 'right') { target.style.textAlign = 'right'; }
+            else { target.style.textAlign = 'left'; }
 
             const iconMap = { 'left': 'format_align_left', 'center': 'format_align_center', 'right': 'format_align_right', 'justify': 'format_align_justify' };
             document.getElementById('currentAlignIcon').textContent = iconMap[mode];
@@ -4571,23 +4571,23 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         document.addEventListener('selectionchange', syncCurrentAlignIcon);
         document.getElementById('docTable')?.addEventListener('mouseup', syncCurrentAlignIcon, true);
         document.getElementById('docTable')?.addEventListener('keyup', syncCurrentAlignIcon, true);
-        function clearFormatting() { 
-            const sel = window.getSelection(); 
-            if (!sel || !sel.rangeCount) return; 
-            const range = sel.getRangeAt(0); 
-            document.execCommand('removeFormat'); 
-            let container = range.commonAncestorContainer; 
-            if (container.nodeType === Node.TEXT_NODE) container = container.parentNode; 
-            const editRoot = container.closest('[contenteditable]'); 
-            if (!editRoot) return; 
-            editRoot.querySelectorAll('span.sig-title').forEach(function(span) { 
-                if (range.intersectsNode ? range.intersectsNode(span) : true) { 
-                    const parent = span.parentNode; 
-                    if (!parent) return; 
-                    while (span.firstChild) parent.insertBefore(span.firstChild, span); 
-                    parent.removeChild(span); 
-                } 
-            }); 
+        function clearFormatting() {
+            const sel = window.getSelection();
+            if (!sel || !sel.rangeCount) return;
+            const range = sel.getRangeAt(0);
+            document.execCommand('removeFormat');
+            let container = range.commonAncestorContainer;
+            if (container.nodeType === Node.TEXT_NODE) container = container.parentNode;
+            const editRoot = container.closest('[contenteditable]');
+            if (!editRoot) return;
+            editRoot.querySelectorAll('span.sig-title').forEach(function(span) {
+                if (range.intersectsNode ? range.intersectsNode(span) : true) {
+                    const parent = span.parentNode;
+                    if (!parent) return;
+                    while (span.firstChild) parent.insertBefore(span.firstChild, span);
+                    parent.removeChild(span);
+                }
+            });
         }
         function applySemanticInlineFormat(command) {
             const selection = window.getSelection();
@@ -4610,7 +4610,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             let node = sel.anchorNode;
             if (node && node.nodeType === Node.TEXT_NODE) node = node.parentNode;
             const target = node && node.closest('[contenteditable="true"]');
-            if (!target) return; 
+            if (!target) return;
 
             const range = sel.getRangeAt(0);
             range.deleteContents();
@@ -4625,12 +4625,12 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             span.className = 'word-tab';
             span.style.display = 'inline-block';
             span.style.width = '1.25cm';
-            span.contentEditable = 'false'; 
-            span.innerHTML = '&nbsp;'; 
-            
+            span.contentEditable = 'false';
+            span.innerHTML = '&nbsp;';
+
             range.insertNode(span);
             if (smartLine && !smartLine.querySelector('br') && !smartLine.textContent.replace(/\u00a0/g, '').trim()) smartLine.appendChild(document.createElement('br'));
-            
+
             range.setStartAfter(span);
             range.setEndAfter(span);
             sel.removeAllRanges();
@@ -4651,14 +4651,14 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         });
 
         // === 7. DIŞA AKTARMA (PDF, HTM, DOCX) İŞLEMLERİ ===
-        function getFileName() { 
-            return (document.getElementById('fileNameInput').value || 'Arabuluculuk_Tutanak').replace(/[\r\n]+/g, ' ').replace(/[\\/:*?"<>|]/g, '').trim(); 
+        function getFileName() {
+            return (document.getElementById('fileNameInput').value || 'Arabuluculuk_Tutanak').replace(/[\r\n]+/g, ' ').replace(/[\\/:*?"<>|]/g, '').trim();
         }
-        
-        function downloadBlob(blob, name) { 
-            const url = URL.createObjectURL(blob); 
-            const a = document.createElement('a'); 
-            a.href = url; a.download = name; 
+
+        function downloadBlob(blob, name) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; a.download = name;
             document.body.appendChild(a); a.click();
             document.body.removeChild(a); setTimeout(function(){ URL.revokeObjectURL(url); }, 30000);
         }
@@ -4720,8 +4720,8 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             var d = document.getElementById('busyOverlay');
             if (d) d.style.display = 'none';
         }
-        
-        function saveAsHtm() { 
+
+        function saveAsHtm() {
             var ignoreHF = document.getElementById('ignoreHFCheck').checked;
             var origH = document.getElementById('headerCheck').checked;
             var origF = document.getElementById('footerCheck').checked;
@@ -4731,8 +4731,8 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 if(origF) { document.getElementById('footerCheck').checked = false; toggleHFData('footer'); }
             }
 
-            document.querySelectorAll('input').forEach(function(i) { 
-                i.setAttribute('value', i.value); 
+            document.querySelectorAll('input').forEach(function(i) {
+                i.setAttribute('value', i.value);
                 // Checkbox/radio icin 'checked' OZELLIGI (property) disinda
                 // 'checked' NITELIGINI (attribute) de senkronize etmemiz
                 // lazim - aksi halde .htm yeniden acildiginda tarayici
@@ -4744,13 +4744,13 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                     if (i.checked) { i.setAttribute('checked', 'checked'); }
                     else { i.removeAttribute('checked'); }
                 }
-            }); 
+            });
 
             // Kaydetmeden ONCE contenteditable'i gecici olarak temizle ki
             // kaydedilen .htm kaynagi temiz olsun; tekrar acildiginda
             // applyEditable() sayfa yuklenirken bunu geri ekler.
             stripEditable();
-            downloadBlob(new Blob([document.documentElement.outerHTML], { type: 'text/html;charset=utf-8' }), getFileName() + '.htm'); 
+            downloadBlob(new Blob([document.documentElement.outerHTML], { type: 'text/html;charset=utf-8' }), getFileName() + '.htm');
             applyEditable();
 
             if (ignoreHF) {
@@ -4758,7 +4758,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 if(origF) { document.getElementById('footerCheck').checked = true; toggleHFData('footer'); }
             }
         }
-        
+
         function saveAsPdf() {
             var ignoreHF = document.getElementById('ignoreHFCheck').checked;
             if (ignoreHF) document.body.classList.add('no-print-hf');
@@ -4832,8 +4832,8 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 function processNode(n, styles) {
                     if (!n) return;
                     if (n.nodeType === Node.TEXT_NODE) {
-                        var txt = (n.textContent || '').replace(/\u00A0/g, ' '); 
-                        if (txt.trim() !== '' || txt.includes(' ')) { 
+                        var txt = (n.textContent || '').replace(/\u00A0/g, ' ');
+                        if (txt.trim() !== '' || txt.includes(' ')) {
                             var rPr = '';
                             if (styles.b) rPr += '<w:b/>';
                             if (styles.i) rPr += '<w:i/>';
@@ -4845,7 +4845,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                         if (n.classList && n.classList.contains('v21-smart-control')) return;
                         var tag = n.tagName.toLowerCase();
                         if (tag === 'br') {
-                            if (currentRuns === '') { xml += '<w:p><w:pPr><w:jc w:val="' + currentPAlign + '"/><w:spacing w:before="0" w:after="0" w:line="260" w:lineRule="atLeast"/></w:pPr></w:p>'; } 
+                            if (currentRuns === '') { xml += '<w:p><w:pPr><w:jc w:val="' + currentPAlign + '"/><w:spacing w:before="0" w:after="0" w:line="260" w:lineRule="atLeast"/></w:pPr></w:p>'; }
                             else { flushParagraph(); }
                         } else if (tag === 'div' || tag === 'p') {
                             flushParagraph();
@@ -4860,8 +4860,8 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                             if (tag === 'i' || tag === 'em') newStyles.i = true;
                             if (n.classList.contains('sig-title')) newStyles.u = true;
                             if (tag === 'u' || (tag === 'span' && n.classList.contains('text-underline')) || /underline/i.test(n.style?.textDecoration || n.style?.textDecorationLine || '')) newStyles.u = true;
-                            
-                            if (tag === 'span' && n.classList.contains('word-tab')) { currentRuns += '<w:r><w:tab/></w:r>'; } 
+
+                            if (tag === 'span' && n.classList.contains('word-tab')) { currentRuns += '<w:r><w:tab/></w:r>'; }
                             else if (tag === 'span' && n.classList.contains('madde-marker')) {
                                 // legacy madde-marker: yeni duzenle ayni sirayla uret
                                 // -> ONCE tab, SONRA kalin marker, SONRA bosluk.
@@ -4967,10 +4967,10 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
 
             var topMargin    = ignoreHF ? 709 : 2268;
             var bottomMargin = ignoreHF ? 709 : 1134;
-            var leftMargin   = 992;  
-            var rightMargin  = 709;  
-            var headerDist   = 340;  
-            var footerDist   = 284;  
+            var leftMargin   = 992;
+            var rightMargin  = 709;
+            var headerDist   = 340;
+            var footerDist   = 284;
 
             var documentXml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing"><w:body>' + bodyXml + '<w:sectPr><w:headerReference w:type="default" r:id="rId1"/><w:footerReference w:type="default" r:id="rId2"/><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="' + topMargin + '" w:right="' + rightMargin + '" w:bottom="' + bottomMargin + '" w:left="' + leftMargin + '" w:header="' + headerDist + '" w:footer="' + footerDist + '" w:gutter="0"/></w:sectPr></w:body></w:document>';
 
@@ -5189,31 +5189,31 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
 
         // === 8. ETİKET ÖNERİ SİSTEMİ (DROPDOWN) ===
         const BASE_LABEL_PRESETS = [
-            { label: 'Arb. Bürosu', value: 'ARB. BÜROSU' }, 
-            { label: 'Başvuru Dosya No', value: 'BAŞVURU DOSYA NO' }, 
+            { label: 'Arb. Bürosu', value: 'ARB. BÜROSU' },
+            { label: 'Başvuru Dosya No', value: 'BAŞVURU DOSYA NO' },
             { label: 'Arb. Dosya No', value: 'ARB. DOSYA NO' },
-            { label: 'Taraflar', value: 'TARAFLAR' }, 
-            { label: 'Başvurucu', value: 'BAŞVURUCU' }, 
+            { label: 'Taraflar', value: 'TARAFLAR' },
+            { label: 'Başvurucu', value: 'BAŞVURUCU' },
             { label: 'Yetkilisi', value: 'YETKİLİSİ' },
-            { label: 'Diğer Taraf', value: 'DİĞER TARAF' }, 
-            { label: 'Vekili', value: 'VEKİLİ' }, 
+            { label: 'Diğer Taraf', value: 'DİĞER TARAF' },
+            { label: 'Vekili', value: 'VEKİLİ' },
             { label: 'Çalışanı', value: 'ÇALIŞANI' },
-            { label: 'Kanuni Temsilci', value: 'KANUNİ TEMSİLCİ' }, 
-            { label: 'Komisyon Üyesi', value: 'KOMİSYON ÜYESİ' }, 
+            { label: 'Kanuni Temsilci', value: 'KANUNİ TEMSİLCİ' },
+            { label: 'Komisyon Üyesi', value: 'KOMİSYON ÜYESİ' },
             { label: 'Uzman Kişi', value: 'UZMAN KİŞİ' },
-            { label: 'Uyuşmazlık Türü', value: 'UYUŞMAZLIK TÜRÜ' }, 
-            { label: 'Toplantı Yeri', value: 'TOPLANTI YERİ' }, 
+            { label: 'Uyuşmazlık Türü', value: 'UYUŞMAZLIK TÜRÜ' },
+            { label: 'Toplantı Yeri', value: 'TOPLANTI YERİ' },
             { label: 'Başvuru Tarihi', value: 'BAŞVURU TARİHİ' },
-            { label: 'Görevi Kabul Tarihi', value: 'GÖREVİ KABUL TARİHİ' }, 
-            { label: 'İlk Toplantı Tarihi', value: 'İLK TOPLANTI TARİHİ' }, 
+            { label: 'Görevi Kabul Tarihi', value: 'GÖREVİ KABUL TARİHİ' },
+            { label: 'İlk Toplantı Tarihi', value: 'İLK TOPLANTI TARİHİ' },
             { label: 'Son Toplantı Tarihi', value: 'SON TOPLANTI TARİHİ' },
             { label: 'Toplantı Başlama Saati', value: 'TOPLANTI BAŞL. SAATİ' },
             { label: 'Toplantı Bitiş Saati', value: 'TOPLANTI BİTİŞ. SAATİ' },
             { label: 'Uyuşmazlık Konusu (Talep Konusu)', value: 'UYUŞMAZLIK KONUSU <br> (Talep Konusu)' },
             { label: 'Çözüm Önerisinde Bulunma', value: 'ÇÖZÜM ÖNERİSİNDE <br> BULUNMA' },
-            { label: 'Oturum Sayısı', value: 'OTURUM SAYISI' }, 
-            { label: 'Oturum Süresi', value: 'OTURUM SÜRESİ' }, 
-            { label: 'Varılan Anlaşma', value: 'VARILAN ANLAŞMA' }, 
+            { label: 'Oturum Sayısı', value: 'OTURUM SAYISI' },
+            { label: 'Oturum Süresi', value: 'OTURUM SÜRESİ' },
+            { label: 'Varılan Anlaşma', value: 'VARILAN ANLAŞMA' },
             { label: 'Sonuç', value: 'SONUÇ' }
         ];
 
@@ -5315,11 +5315,11 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         function injectLabelDropdowns() {
             document.querySelectorAll('#docTable .single-row .label-cell').forEach(function(td) {
                 if (!td.querySelector('.lbl-dd-btn')) {
-                    const btn = document.createElement('button'); 
-                    btn.className = 'lbl-dd-btn'; 
-                    btn.title = 'Öneri Seç'; 
+                    const btn = document.createElement('button');
+                    btn.className = 'lbl-dd-btn';
+                    btn.title = 'Öneri Seç';
                     btn.textContent = '▾';
-                    btn.addEventListener('mousedown', function(e) { e.preventDefault(); }); 
+                    btn.addEventListener('mousedown', function(e) { e.preventDefault(); });
                     td.appendChild(btn);
                 }
             });
@@ -5331,7 +5331,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         (function() {
             const dropdown = document.getElementById('lblDropdown');
             const optsList = dropdown.querySelector('.lbl-opts-list');
-            const searchInp = dropdown.querySelector('.lbl-search'); 
+            const searchInp = dropdown.querySelector('.lbl-search');
             let activeSpan = null;
 
             renderLabelDropdownOptions = function() {
@@ -5345,65 +5345,65 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 });
             };
             renderLabelDropdownOptions();
-            
+
             searchInp.addEventListener('input', function() {
-                const q = this.value.trim().toLowerCase(); 
+                const q = this.value.trim().toLowerCase();
                 let anyVisible = false;
-                optsList.querySelectorAll('.lbl-opt').forEach(function(opt) { 
-                    const match = opt.textContent.toLowerCase().includes(q); 
-                    opt.style.display = match ? '' : 'none'; 
-                    if (match) anyVisible = true; 
+                optsList.querySelectorAll('.lbl-opt').forEach(function(opt) {
+                    const match = opt.textContent.toLowerCase().includes(q);
+                    opt.style.display = match ? '' : 'none';
+                    if (match) anyVisible = true;
                 });
-                
+
                 let noRes = optsList.querySelector('.lbl-no-result');
-                if (!anyVisible) { 
-                    if (!noRes) { 
-                    noRes = document.createElement('div'); 
-                    noRes.className = 'lbl-no-result'; 
-                    noRes.textContent = 'Sonuç bulunamadı'; 
-                    optsList.appendChild(noRes); 
-                    } 
-                    noRes.style.display = ''; 
-                } else if (noRes) { 
-                    noRes.style.display = 'none'; 
+                if (!anyVisible) {
+                    if (!noRes) {
+                    noRes = document.createElement('div');
+                    noRes.className = 'lbl-no-result';
+                    noRes.textContent = 'Sonuç bulunamadı';
+                    optsList.appendChild(noRes);
+                    }
+                    noRes.style.display = '';
+                } else if (noRes) {
+                    noRes.style.display = 'none';
                 }
             });
-            
+
             function openDropdown(btn) {
                 if (!isTitleDropdownEnabled()) return;
                 activeSpan = btn.closest('.label-cell').querySelector('span[contenteditable]');
                 const rect = btn.getBoundingClientRect();
                 const menuH = Math.min(280, LABEL_PRESETS.length * 31 + 44);
                 const spaceBelow = window.innerHeight - rect.bottom;
-                
-                dropdown.style.top = (spaceBelow < menuH ? rect.top - menuH - 4 : rect.bottom + 4) + 'px'; 
-                dropdown.style.left = rect.left + 'px'; 
+
+                dropdown.style.top = (spaceBelow < menuH ? rect.top - menuH - 4 : rect.bottom + 4) + 'px';
+                dropdown.style.left = rect.left + 'px';
                 searchInp.value = '';
-                
-                optsList.querySelectorAll('.lbl-opt').forEach(function(o) { o.style.display = ''; }); 
-                const noRes = optsList.querySelector('.lbl-no-result'); 
+
+                optsList.querySelectorAll('.lbl-opt').forEach(function(o) { o.style.display = ''; });
+                const noRes = optsList.querySelector('.lbl-no-result');
                 if (noRes) noRes.style.display = 'none';
-                dropdown.classList.add('open'); 
-                
+                dropdown.classList.add('open');
+
                 setTimeout(function() { searchInp.focus(); }, 30);
             }
-            
+
             document.addEventListener('click', function(e) {
-                const btn = e.target.closest('.lbl-dd-btn'); 
+                const btn = e.target.closest('.lbl-dd-btn');
                 if (btn) { e.stopPropagation(); if (isTitleDropdownEnabled()) openDropdown(btn); return; }
-                const opt = e.target.closest('.lbl-opt'); 
+                const opt = e.target.closest('.lbl-opt');
                 if (opt && activeSpan) { activeSpan.innerHTML = opt.dataset.value; dropdown.classList.remove('open'); activeSpan = null; return; }
                 if (!dropdown.contains(e.target)) dropdown.classList.remove('open');
             });
-            
+
             searchInp.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') { 
-                    const first = optsList.querySelector('.lbl-opt:not([style*="display: none"])'); 
-                    if (first && activeSpan) { 
-                    activeSpan.innerHTML = first.dataset.value; 
-                    dropdown.classList.remove('open'); 
-                    activeSpan = null; 
-                    } 
+                if (e.key === 'Enter') {
+                    const first = optsList.querySelector('.lbl-opt:not([style*="display: none"])');
+                    if (first && activeSpan) {
+                    activeSpan.innerHTML = first.dataset.value;
+                    dropdown.classList.remove('open');
+                    activeSpan = null;
+                    }
                 }
                 if (e.key === 'Escape') dropdown.classList.remove('open');
             });
@@ -7146,7 +7146,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         #v20DocumentResultCard .v20-manage-result:hover{background:#6d28d9;border-color:#6d28d9}
     </style>
     <script>
-        // ==== v21: sonuç kartı her zaman Aktif Belge altında ve veri göçü dayanıklı ==== 
+        // ==== v21: sonuç kartı her zaman Aktif Belge altında ve veri göçü dayanıklı ====
         function v21EnsureResultGroups(persist){
             if(!ioGuidedData)return false;
             ioGuidedData.resultVariantGroups=Array.isArray(ioGuidedData.resultVariantGroups)?ioGuidedData.resultVariantGroups:[];
@@ -8498,7 +8498,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         @media(max-width:900px){#dashboardBlankOptionsPanel{grid-template-columns:1fr}.v31-options-list{max-height:245px;border-right:0;border-bottom:1px solid #dfe6ee}.v31-form-grid{grid-template-columns:1fr}.v31-form-grid .wide{grid-column:auto}.v31-rule{grid-template-columns:1fr}.v31-options-editor{padding:15px 14px 80px}}
     </style>
     <script id="v31-blank-options-script">
-        // ==== v31: yönetilebilir boş belge seçenekleri ==== 
+        // ==== v31: yönetilebilir boş belge seçenekleri ====
         let v31ActiveDocumentKey='';
         let v31EditingRuleId='';
 
@@ -8611,7 +8611,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         @media(max-width:900px){.v32-template-choice,.v32-mapping{grid-template-columns:1fr}.v32-edit-template{width:100%}}
     </style>
     <script id="v32-blank-options-simple-script">
-        // ==== v32: üç temel belge + ek belge, tür/alt tür eşleştirmesi ==== 
+        // ==== v32: üç temel belge + ek belge, tür/alt tür eşleştirmesi ====
         const V32_BUILTIN_DOCUMENTS=['Davet Mektubu','Bilgilendirme Tutanağı','Arabulucu Belirleme Tutanağı'];
 
         function v32OptionsData(){ioLoadGuidedData();if(!ioGuidedData.blankDocumentOptions||ioGuidedData.blankDocumentOptions.schemaVersion!==1)ioGuidedData.blankDocumentOptions={schemaVersion:1,documents:{}};var root=ioGuidedData.blankDocumentOptions;if(!root.documents)root.documents={};if(!Array.isArray(root.customDocuments))root.customDocuments=[];return root;}
@@ -8665,7 +8665,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         @media(max-width:860px){#ioDocumentPanel .v18-open-row{grid-template-columns:1fr!important}.v33-open-template-name{white-space:normal}}
     </style>
     <script id="v33-layout-fixes-script">
-        // ==== v33: sade şablon adları ve ilgili eşleştirmeye geçiş ==== 
+        // ==== v33: sade şablon adları ve ilgili eşleştirmeye geçiş ====
         function v33TemplateDisplayName(template){if(!template)return 'Şablon bulunamadı';var manifest=v15TemplateManifest(template.fileName);return String(manifest.displayName||template.fileName.replace(/\.arbsys$/i,'')).trim();}
 
         v32MappingHtml=function(item){var scope=item.type?(item.type+' › '+(item.subtype||'Bütün alt türler')):'Bütün türler › Bütün alt türler';return '<div class="v32-mapping"><div><strong>'+v31Escape(scope)+'</strong><small>'+(item.id==='general'?'Genel boş belge':'Özel boş belge seçeneği')+'</small></div><div class="v32-mapping-template">'+v31Escape(v33TemplateDisplayName(item.template))+'</div><div><button class="v31-action" type="button" onclick="v32EditMapping(\''+item.id+'\')">Düzenle</button>'+(item.id==='general'?'':' <button class="v31-action danger" type="button" onclick="v31DeleteRule(\''+item.id+'\')">Sil</button>')+'</div></div>';};
@@ -8723,7 +8723,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         @media print{#docTable>tbody>tr.single-row>td.label-cell,#docTable>tbody>tr.single-row>td.colon-cell,#docTable>tbody>tr.single-row>td.content-cell{padding-bottom:4px!important}#docTable>tbody>tr.empty-row>td{height:1.3em!important;line-height:1.3em!important}.sig-grid{display:table!important;table-layout:fixed!important}.sig-box{display:table-cell!important;vertical-align:top!important}.v34-addbar{display:none!important}}
     </style>
     <script id="v34-structure-mode-script">
-        // ==== v34: belge üzerinde seçili satırın altına ekleme ve bağımsız başlık satırları ==== 
+        // ==== v34: belge üzerinde seçili satırın altına ekleme ve bağımsız başlık satırları ====
         let v34SelectedRow=null;
         let v34NewTimer=null;
 
