@@ -69,7 +69,7 @@
         .doc-header * { text-align: center; }
         .main-container { width:100%; border-collapse:collapse; table-layout:fixed; }
         td { padding: 1.5px 0 1.5px 0.2cm; vertical-align:top; font-size:10pt; line-height:1.3; position:relative; box-sizing:border-box; word-wrap: break-word; }
-        .label-cell { text-align:left; text-align-last:left; font-weight:bold; color:#3c40c6; text-transform:uppercase; padding-left:0.15cm; }
+        .label-cell { text-align:left; text-align-last:left; font-weight:bold; color:#3c40c6; text-transform:none; padding-left:0.15cm; }
         .colon-cell { font-weight:bold; text-align:left; padding-left:0; padding-right:0; color:#000; }
         .content-cell { text-align:justify; text-align-last:left; text-justify:inter-word; padding-left:0.15cm; padding-right:var(--arbsys-pdf-right-gap, 2mm); }
         .full-row td { text-align:justify; text-align-last:left; text-justify:inter-word; }
@@ -7575,6 +7575,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 const sourceInfo=splitTarget(row),copyInfo=splitTarget(copy);
                 applyFragmentAlignment(copyInfo.cell,sourceCellAlignment(sourceInfo.cell));
                 copy.classList.remove('row-hovered','row-delete-preview','row-dragging','v34-selected','v34-new-row');
+                copy.querySelectorAll('.v60-soft-focus').forEach(function(node){node.classList.remove('v60-soft-focus');});
                 copy.querySelectorAll('button,input,select,textarea,.lbl-dd-btn,[data-no-print]').forEach(function(node){node.remove();});
                 copy.querySelectorAll('[contenteditable]').forEach(function(node){node.removeAttribute('contenteditable');});
                 copy.querySelectorAll('.selected,.hover,.drag-over,.row-hovered,.row-delete-preview,.row-dragging,.v34-selected,.v34-new-row').forEach(function(node){node.classList.remove('selected','hover','drag-over','row-hovered','row-delete-preview','row-dragging','v34-selected','v34-new-row');});
@@ -9314,6 +9315,57 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             document.addEventListener('mouseup',function(){dragSelection=null;},true);
             document.querySelectorAll('.toolbar-left .tb-btn').forEach(function(button){button.addEventListener('mousedown',function(event){event.preventDefault();});});
             configure();
+        })();
+    </script>
+    <style id="v60-soft-focus-and-label-case-styles">
+        @keyframes v60SoftFocusFade {
+            0% { background-color:rgba(100,116,139,.105); }
+            22% { background-color:rgba(100,116,139,.075); }
+            100% { background-color:transparent; }
+        }
+        #docTable .v60-soft-focus {
+            animation:v60SoftFocusFade 2.4s ease-out forwards;
+        }
+        #docTable .label-cell,
+        .v23-preview-page .label-cell {
+            text-transform:none !important;
+        }
+        @media print {
+            #docTable .label-cell { text-transform:none !important; }
+            #docTable .v60-soft-focus { animation:none !important; background:transparent !important; }
+        }
+    </style>
+    <script id="v60-soft-focus-and-label-case-script">
+        (function(){
+            const table=document.getElementById('docTable');if(!table)return;
+            let focusNode=null,focusTimer=0;
+            table.addEventListener('click',function(event){
+                if(document.body.classList.contains('v34-structure-mode'))return;
+                const target=event.target.closest('.content-cell,.fr-content,.title-text-row td');
+                if(!target||target.closest('.sig-grid,.sig-box'))return;
+                if(focusNode)focusNode.classList.remove('v60-soft-focus');
+                clearTimeout(focusTimer);focusNode=target;
+                // Ayni alana tekrar tiklandiginda animasyonu bastan baslat.
+                target.classList.remove('v60-soft-focus');void target.offsetWidth;target.classList.add('v60-soft-focus');
+                focusTimer=setTimeout(function(){target.classList.remove('v60-soft-focus');if(focusNode===target)focusNode=null;},2450);
+            },true);
+
+            function selectedLabelSpan(){
+                const selection=window.getSelection();if(!selection||!selection.rangeCount)return null;
+                let node=selection.anchorNode;if(node?.nodeType===Node.TEXT_NODE)node=node.parentNode;
+                const span=node?.closest?.('.label-cell>span');return span&&table.contains(span)?span:null;
+            }
+            document.addEventListener('keydown',function(event){
+                if(event.ctrlKey||event.metaKey||event.altKey||event.key.length!==1)return;
+                const span=selectedLabelSpan();if(!span)return;
+                const caps=!!event.getModifierState?.('CapsLock');
+                if(!event.shiftKey&&!caps)return;
+                const lower=event.key.toLocaleLowerCase('tr-TR'),upper=event.key.toLocaleUpperCase('tr-TR');
+                if(lower===upper)return;
+                event.preventDefault();event.stopImmediatePropagation();
+                document.execCommand('insertText',false,lower);
+                span.dispatchEvent(new InputEvent('input',{bubbles:true,inputType:'insertText',data:lower}));
+            },true);
         })();
     </script>
 </body></html>
