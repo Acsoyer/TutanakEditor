@@ -1020,9 +1020,9 @@
         </a>
         <div class="toolbar-inner">
             <div class="toolbar-left">
-                <button class="tb-btn" onmousedown="event.preventDefault()" onclick="applyBoldFormat()" data-title="Kalın (Ctrl+B)"><strong>K</strong></button>
-                <button class="tb-btn" onmousedown="event.preventDefault()" onclick="applyItalicFormat()" data-title="İtalik (Ctrl+I)"><em>T</em></button>
-                <button class="tb-btn" onmousedown="event.preventDefault()" onclick="applySigTitle()" data-title="Altı Çizgili (Ctrl+U)"><u>A</u></button>
+                <button id="formatBoldBtn" class="tb-btn" onmousedown="event.preventDefault()" onclick="applyBoldFormat()" data-format-command="bold" data-title="Kalın (Ctrl+B)" aria-pressed="false"><strong>K</strong></button>
+                <button id="formatItalicBtn" class="tb-btn" onmousedown="event.preventDefault()" onclick="applyItalicFormat()" data-format-command="italic" data-title="İtalik (Ctrl+I)" aria-pressed="false"><em>T</em></button>
+                <button id="formatUnderlineBtn" class="tb-btn" onmousedown="event.preventDefault()" onclick="applySigTitle()" data-format-command="underline" data-title="Altı Çizgili (Ctrl+U)" aria-pressed="false"><u>A</u></button>
                 
                 <button class="tb-btn" onclick="document.execCommand('hiliteColor',false,'#fff9c4')" data-title="Vurgula"><span class="material-icons">border_color</span></button>
                 <button class="tb-btn" onclick="document.execCommand('hiliteColor',false,'transparent')" data-title="Vurgu Sil"><span class="material-icons">format_color_reset</span></button>
@@ -1626,10 +1626,24 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             '#docTable .sig-box'
         ];
         function applyEditable() {
-            document.querySelectorAll('#docTable .sig-box span.sig-title').forEach(function(legacy) {
+            // Eski imza basliklari yalniz CSS ile alti cizili gorunuyordu.
+            // Bunlari gercek, disari aktarilabilir <u><b>...</b></u> bicimine
+            // bir kez donustur. data isareti, kullanicinin sonradan K ile
+            // kalinligi kaldirmasinin applyEditable tarafindan geri alinmasini
+            // engeller.
+            document.querySelectorAll('#docTable .sig-box span.sig-title, #docTable .sig-box div.sig-title').forEach(function(legacy) {
                 const underline = document.createElement('u');
-                while (legacy.firstChild) underline.appendChild(legacy.firstChild);
+                underline.setAttribute('data-sig-title-format', 'v66');
+                const bold = document.createElement('b');
+                while (legacy.firstChild) bold.appendChild(legacy.firstChild);
+                underline.appendChild(bold);
                 legacy.replaceWith(underline);
+            });
+            document.querySelectorAll('#docTable .sig-box u:not([data-sig-title-format])').forEach(function(underline) {
+                underline.setAttribute('data-sig-title-format', 'v66');
+                const bold = document.createElement('b');
+                while (underline.firstChild) bold.appendChild(underline.firstChild);
+                underline.appendChild(bold);
             });
             document.querySelectorAll(EDITABLE_SELECTORS.join(',')).forEach(function(el) {
                 el.setAttribute('contenteditable', 'true');
@@ -4492,15 +4506,15 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             } 
             else if (type === 'sig3') { 
                 newRow.className = 'single-row'; 
-                inner = '<td colspan="3"><div class="sig-grid"><div class="sig-box"><span class="sig-title">TARAF</span><div><b>İsim Soyisim</b></div></div><div class="sig-box"><span class="sig-title">ARABULUCU</span><div><b>Arb. Av. </b></div><div>(ADB Sicil No: XXXX)</div></div><div class="sig-box"><span class="sig-title">TARAF</span><div><b>İsim Soyisim</b></div></div></div></td>'; 
+                inner = '<td colspan="3"><div class="sig-grid"><div class="sig-box"><u data-sig-title-format="v66"><b>TARAF</b></u><div><b>İsim Soyisim</b></div></div><div class="sig-box"><u data-sig-title-format="v66"><b>ARABULUCU</b></u><div><b>Arb. Av. </b></div><div>(ADB Sicil No: XXXX)</div></div><div class="sig-box"><u data-sig-title-format="v66"><b>TARAF</b></u><div><b>İsim Soyisim</b></div></div></div></td>'; 
             } 
             else if (type === 'sig2') { 
                 newRow.className = 'single-row'; 
-                inner = '<td colspan="3"><div class="sig-grid"><div class="sig-box"><span class="sig-title">TARAF</span><div><b>İsim Soyisim</b></div></div><div class="sig-box"><span class="sig-title">ARABULUCU</span><div><b>Arb. Av. </b></div><div>(ADB Sicil No: XXXX)</div></div></div></td>'; 
+                inner = '<td colspan="3"><div class="sig-grid"><div class="sig-box"><u data-sig-title-format="v66"><b>TARAF</b></u><div><b>İsim Soyisim</b></div></div><div class="sig-box"><u data-sig-title-format="v66"><b>ARABULUCU</b></u><div><b>Arb. Av. </b></div><div>(ADB Sicil No: XXXX)</div></div></div></td>'; 
             } 
             else if (type === 'sig1') { 
                 newRow.className = 'single-row'; 
-                inner = '<td colspan="3"><div class="sig-grid" style="justify-content:center;"><div class="sig-box" style="max-width:250px;"><div class="sig-title">ARABULUCU</div><div><b>Arb. Av.</b></div><div>(ADB Sicil No: XXXX)</div></div></div></td>'; 
+                inner = '<td colspan="3"><div class="sig-grid" style="justify-content:center;"><div class="sig-box" style="max-width:250px;"><u data-sig-title-format="v66"><b>ARABULUCU</b></u><div><b>Arb. Av.</b></div><div>(ADB Sicil No: XXXX)</div></div></div></td>'; 
             }
             else if (type === 'title') { 
                 newRow.className = 'title-wrapper-row'; 
@@ -8367,9 +8381,9 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             if(type==='full')return {className:'full-row',html:'<td colspan="3"><div class="fr-content">Tam genişlikte metin bloğu...</div></td>'};
             if(type==='madde')return {className:'full-row',html:'<td colspan="3"><div class="fr-content madde-row"><span class="word-tab" style="display:inline-block; width:1.25cm;" contenteditable="false">&nbsp;</span><b>X)</b>&nbsp;Maddeyi buraya ekleyin...</div></td>'};
             if(type==='empty')return {className:'empty-row',html:'<td class="label-cell"><span><br></span></td><td class="colon-cell"><br></td><td class="content-cell"><br></td>'};
-            if(type==='sig3')return {className:'single-row',html:'<td colspan="3"><div class="sig-grid"><div class="sig-box"><span class="sig-title">TARAF</span><div><b>İsim Soyisim</b></div></div><div class="sig-box"><span class="sig-title">ARABULUCU</span><div><b>Arb. Av. </b></div><div>(ADB Sicil No: XXXX)</div></div><div class="sig-box"><span class="sig-title">TARAF</span><div><b>İsim Soyisim</b></div></div></div></td>'};
-            if(type==='sig2')return {className:'single-row',html:'<td colspan="3"><div class="sig-grid"><div class="sig-box"><span class="sig-title">TARAF</span><div><b>İsim Soyisim</b></div></div><div class="sig-box"><span class="sig-title">ARABULUCU</span><div><b>Arb. Av. </b></div><div>(ADB Sicil No: XXXX)</div></div></div></td>'};
-            if(type==='sig1')return {className:'single-row',html:'<td colspan="3"><div class="sig-grid" style="justify-content:center;"><div class="sig-box" style="max-width:250px;"><div class="sig-title">ARABULUCU</div><div><b>Arb. Av.</b></div><div>(ADB Sicil No: XXXX)</div></div></div></td>'};
+            if(type==='sig3')return {className:'single-row',html:'<td colspan="3"><div class="sig-grid"><div class="sig-box"><u data-sig-title-format="v66"><b>TARAF</b></u><div><b>İsim Soyisim</b></div></div><div class="sig-box"><u data-sig-title-format="v66"><b>ARABULUCU</b></u><div><b>Arb. Av. </b></div><div>(ADB Sicil No: XXXX)</div></div><div class="sig-box"><u data-sig-title-format="v66"><b>TARAF</b></u><div><b>İsim Soyisim</b></div></div></div></td>'};
+            if(type==='sig2')return {className:'single-row',html:'<td colspan="3"><div class="sig-grid"><div class="sig-box"><u data-sig-title-format="v66"><b>TARAF</b></u><div><b>İsim Soyisim</b></div></div><div class="sig-box"><u data-sig-title-format="v66"><b>ARABULUCU</b></u><div><b>Arb. Av. </b></div><div>(ADB Sicil No: XXXX)</div></div></div></td>'};
+            if(type==='sig1')return {className:'single-row',html:'<td colspan="3"><div class="sig-grid" style="justify-content:center;"><div class="sig-box" style="max-width:250px;"><u data-sig-title-format="v66"><b>ARABULUCU</b></u><div><b>Arb. Av.</b></div><div>(ADB Sicil No: XXXX)</div></div></div></td>'};
             if(type==='title')return {className:'title-wrapper-row',html:'<td class="title-cell" colspan="3"><table class="title-table title-inner"><tbody><tr class="title-blank-row"><td>&nbsp;</td></tr><tr class="title-text-row"><td>BAŞLIK EKLE</td></tr><tr class="title-text-row"><td>(Açıklama Ekle)</td></tr><tr class="title-blank-row"><td>&nbsp;</td></tr><tr class="title-blank-row"><td>&nbsp;</td></tr></tbody></table></td>'};
             return null;
         }
@@ -9144,7 +9158,9 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         /* U düğmesiyle üretilen standart alt çizgi bütün alanlarda görünür. */
         #docTable u,#docTable .text-underline{text-decoration:underline!important;text-decoration-thickness:auto;text-underline-offset:auto}
         /* İmza başlığının mevcut alt boşluğu korunur. */
-        #docTable .sig-box .sig-title{display:block!important;margin-bottom:5px!important;text-decoration:underline!important}
+        #docTable .sig-box .sig-title,
+        #docTable .sig-box u[data-sig-title-format]{display:block!important;margin-bottom:5px!important;text-decoration:underline!important}
+        .toolbar-left .tb-btn.is-active{background:#e8edff!important;border-color:#4f63d8!important;color:#263da8!important;box-shadow:inset 0 0 0 1px rgba(79,99,216,.16)}
         .title-dropdown-setting{display:flex;align-items:center;gap:10px;padding:12px 14px;border:1px solid #c7d2fe;border-radius:10px;background:#eef2ff;color:#312e81;font-size:12px;font-weight:800;cursor:pointer;user-select:none}
         .title-dropdown-setting input{width:18px;height:18px;accent-color:#4338ca;cursor:pointer}
         #titleDropdownSettings[hidden]{display:none!important}
@@ -9241,11 +9257,11 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
     </style>
     <script id="v58-multi-text-selection-script">
         (function(){
-            const TEXT_SELECTOR='.content-cell,.fr-content,.title-text-row td';
+            const TEXT_SELECTOR='.content-cell,.fr-content,.title-text-row td,.sig-box';
             const table=document.getElementById('docTable'),tbody=table?.querySelector(':scope>tbody');
             if(!table||!tbody)return;
             function structureMode(){return document.body.classList.contains('v34-structure-mode');}
-            function textRoots(){return Array.from(table.querySelectorAll(TEXT_SELECTOR)).filter(function(root){return !root.closest('.sig-grid,.sig-box')&&!root.parentElement?.closest(TEXT_SELECTOR);});}
+            function textRoots(){return Array.from(table.querySelectorAll(TEXT_SELECTOR)).filter(function(root){return !root.parentElement?.closest(TEXT_SELECTOR);});}
             function configure(){
                 if(structureMode()){
                     tbody.removeAttribute('contenteditable');tbody.removeAttribute('data-multi-text-edit');
@@ -9264,7 +9280,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             function intersects(range,node){try{return range.intersectsNode(node);}catch(_error){return false;}}
             function selectedRoots(range){
                 if(!range)return[];
-                if(range.collapsed){let node=range.startContainer;if(node.nodeType===Node.TEXT_NODE)node=node.parentNode;const root=node?.closest?.(TEXT_SELECTOR);return root&&!root.closest('.sig-grid,.sig-box')?[root]:[];}
+                if(range.collapsed){let node=range.startContainer;if(node.nodeType===Node.TEXT_NODE)node=node.parentNode;const root=node?.closest?.(TEXT_SELECTOR);return root?[root]:[];}
                 return textRoots().filter(function(root){return intersects(range,root);});
             }
             function clipped(range,root){const part=range.cloneRange();if(!root.contains(part.startContainer))part.setStart(root,0);if(!root.contains(part.endContainer))part.setEnd(root,root.childNodes.length);return part;}
@@ -9287,6 +9303,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 const range=currentRange();if(!range||range.collapsed)return;const roots=selectedRoots(range);if(!roots.length)return;
                 roots.map(function(root){return clipped(range,root);}).reverse().forEach(function(part){if(part.collapsed)return;const selection=window.getSelection();selection.removeAllRanges();selection.addRange(part);document.execCommand('styleWithCSS',false,false);document.execCommand(command,false,null);});
                 tbody.dispatchEvent(new InputEvent('input',{bubbles:true,inputType:'format'+command,data:null}));
+                requestAnimationFrame(syncInlineFormatButtons);
             }
             applySemanticInlineFormat=function(command){commandOnText(command);};
             clearFormatting=function(){commandOnText('removeFormat');};
@@ -9305,7 +9322,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             let dragSelection=null;
             table.addEventListener('mousedown',function(event){
                 if(structureMode()||event.button!==0||event.target.closest('.lbl-dd-btn,.v21-smart-control'))return;
-                const root=event.target.closest(TEXT_SELECTOR);if(!root||root.closest('.sig-grid,.sig-box'))return;
+                const root=event.target.closest(TEXT_SELECTOR);if(!root)return;
                 const point=caretPoint(event.clientX,event.clientY);if(point)dragSelection={anchor:point,x:event.clientX,y:event.clientY,active:false};
             },true);
             document.addEventListener('mousemove',function(event){
@@ -9315,6 +9332,17 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             },true);
             document.addEventListener('mouseup',function(){dragSelection=null;},true);
             document.querySelectorAll('.toolbar-left .tb-btn').forEach(function(button){button.addEventListener('mousedown',function(event){event.preventDefault();});});
+            function syncInlineFormatButtons(){
+                const selection=window.getSelection(),inside=!!(selection&&selection.rangeCount&&table.contains(selection.anchorNode));
+                [['bold','formatBoldBtn'],['italic','formatItalicBtn'],['underline','formatUnderlineBtn']].forEach(function(pair){
+                    const button=document.getElementById(pair[1]);if(!button)return;let active=false;
+                    if(inside){try{active=!!document.queryCommandState(pair[0]);}catch(_error){active=false;}}
+                    button.classList.toggle('is-active',active);button.setAttribute('aria-pressed',active?'true':'false');
+                });
+            }
+            document.addEventListener('selectionchange',syncInlineFormatButtons);
+            table.addEventListener('keyup',syncInlineFormatButtons,true);
+            table.addEventListener('mouseup',syncInlineFormatButtons,true);
             configure();
         })();
     </script>
