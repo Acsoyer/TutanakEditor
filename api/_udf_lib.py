@@ -272,10 +272,11 @@ SEP_LINE_FONT_SIZE = "4"
 FOOTER_SEP_LINESPACING = "0.0"   # 0.0 = mumkun oldugunca dar. Ayarlanabilir.
 FOOTER_SEP_CONTENT_SIZE = "1"    # placeholder metnin puntosu (satir kutusunu belirler)
 
-# Ana tablo kolon genislikleri (yuzde, toplam 100). Editör/PDF ve DOCX
-# ile ayni oran: mavi baslik 27.4%, iki nokta 0.6%, metin 72%.
-# Ilk iki sutunun toplami yine %28'dir; sag metnin baslangici degismez.
+# Editör/PDF ve DOCX ana tablo oranı. UDF, çok dar 3 pt orta sütunda
+# iki nokta ile sağ hücreyi görsel olarak birbirine fazla yaklaştırdığı için
+# aşağıda UDF'ye özel kesin point karşılığı kullanılır.
 MAIN_COL_SPANS = "27.4,0.6,72"
+UDF_MAIN_COL_SPANS_PT = "138,5,367"
 
 # ====
 # TABLO GENISLIGI HIPOTEZI (test edilecek): UYAP tablo genisligini
@@ -1076,7 +1077,9 @@ def build_udf_content_xml(data: dict) -> str:
         body_xml += (
             f'<table tableName="{table_name}" columnCount="3" border="borderNone" borderSpec="31" '
             f'borderColor="-16777216" borderStyle="borderStyle-plain" borderWidth="1.0" '
-            f'columnSpans="{scale_spans(MAIN_COL_SPANS)}">{rows_concat}</table>'
+            # 138 + 5 yine 143 pt: sag metin hucre baslangici degismez.
+            # Yalnizca mavi basliktan 2 pt alinip ':' sutununa verilir.
+            f'columnSpans="{UDF_MAIN_COL_SPANS_PT}">{rows_concat}</table>'
         )
         pending_rows = []
 
