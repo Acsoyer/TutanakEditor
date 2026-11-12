@@ -567,13 +567,20 @@ def paragraph_xml(cb: ContentBuilder, para, align_map=None, extra_para_attrs="",
 
 def build_labeled_row(cb: ContentBuilder, label: str, colon: str, content_paragraphs):
     """label : content seklindeki 3 kolonlu satiri uretir."""
-    label_tag = run_tag(cb, label, bold=True) if label else ""
     colon_tag = run_tag(cb, colon or ":", bold=True) if colon else ""
 
-    label_para = (
-        f'<paragraph {TABSET_ATTR}Alignment="0" LineSpacing="0.30" family="{FONT_FAMILY}" size="{FONT_SIZE}">'
-        f"{label_tag}</paragraph>"
-    )
+    # Editordeki Enter, HTML'de <br>/<div> olarak saklanir ve JSON'a "\n"
+    # olarak gelir. Her satiri ayri UDF paragrafi yapmak, UYAP'in bu sert
+    # satir sonunu yutup iki metni bitisik gostermesini engeller.
+    label_lines = str(label or "").replace("\r\n", "\n").replace("\r", "\n").split("\n")
+    label_parts = []
+    for line in label_lines:
+        line_tag = run_tag(cb, line, bold=True) if line else run_tag(cb, "\n", bold=True, force_content=True)
+        label_parts.append(
+            f'<paragraph {TABSET_ATTR}Alignment="0" LineSpacing="0.30" family="{FONT_FAMILY}" size="{FONT_SIZE}">'
+            f"{line_tag}</paragraph>"
+        )
+    label_para = "".join(label_parts)
     colon_para = (
         f'<paragraph {TABSET_ATTR}Alignment="1" LineSpacing="0.30" family="{FONT_FAMILY}" size="{FONT_SIZE}">'
         f"{colon_tag}</paragraph>"

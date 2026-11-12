@@ -4665,6 +4665,23 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         });
 
         // === 7. DIŞA AKTARMA (PDF, HTM, DOCX) İŞLEMLERİ ===
+        function labelTextWithHardBreaks(root) {
+            if (!root) return '';
+            var output = '';
+            function addBreak() { if (output && !output.endsWith('\n')) output += '\n'; }
+            function walk(node, isRoot) {
+                if (node.nodeType === Node.TEXT_NODE) { output += node.nodeValue || ''; return; }
+                if (node.nodeType !== Node.ELEMENT_NODE) return;
+                if (node.matches?.('button,.lbl-dd-btn,[data-no-print]')) return;
+                if (node.tagName === 'BR') { addBreak(); return; }
+                var block = !isRoot && /^(DIV|P)$/.test(node.tagName);
+                if (block) addBreak();
+                node.childNodes.forEach(function(child) { walk(child, false); });
+                if (block) addBreak();
+            }
+            walk(root, true);
+            return output.replace(/\u00a0/g, ' ').replace(/[ \t]+\n/g, '\n').replace(/\n[ \t]+/g, '\n').replace(/\n{2,}/g, '\n').trim();
+        }
         function getFileName() { 
             return (document.getElementById('fileNameInput').value || 'Arabuluculuk_Tutanak').replace(/[\r\n]+/g, ' ').replace(/[\\/:*?"<>|]/g, '').trim(); 
         }
@@ -4953,10 +4970,11 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
 
                     if (tds.length >= 3) {
                         var labelTd = tds[0], colonTd = tds[1], contentTd = tds[2];
-                        var labelTxt = esc(((labelTd.querySelector('span') || labelTd).textContent || '').trim());
+                        var labelLines = labelTextWithHardBreaks(labelTd.querySelector('span') || labelTd).split('\n');
+                        var labelRunsXml = labelLines.map(function(line,index){return (index?'<w:br/>':'')+'<w:t xml:space="preserve">'+esc(line)+'</w:t>';}).join('');
                         var colonTxt = esc((colonTd.textContent || '').trim());
                         bodyXml += '<w:tr>';
-                        bodyXml += '<w:tc><w:tcPr><w:tcW w:w="' + colW1 + '" w:type="dxa"/><w:tcMar><w:top w:w="0" w:type="dxa"/><w:left w:w="11" w:type="dxa"/><w:bottom w:w="0" w:type="dxa"/><w:right w:w="11" w:type="dxa"/></w:tcMar><w:tcBorders><w:top w:val="none"/><w:bottom w:val="none"/><w:left w:val="none"/><w:right w:val="none"/></w:tcBorders></w:tcPr><w:p><w:pPr><w:jc w:val="left"/><w:spacing w:before="0" w:after="0" w:line="260" w:lineRule="atLeast"/><w:widowControl w:val="0"/><w:keepNext w:val="0"/><w:keepLines w:val="0"/></w:pPr><w:r><w:rPr><w:b w:val="on"/></w:rPr><w:t>' + labelTxt + '</w:t></w:r></w:p></w:tc>';
+                        bodyXml += '<w:tc><w:tcPr><w:tcW w:w="' + colW1 + '" w:type="dxa"/><w:tcMar><w:top w:w="0" w:type="dxa"/><w:left w:w="11" w:type="dxa"/><w:bottom w:w="0" w:type="dxa"/><w:right w:w="11" w:type="dxa"/></w:tcMar><w:tcBorders><w:top w:val="none"/><w:bottom w:val="none"/><w:left w:val="none"/><w:right w:val="none"/></w:tcBorders></w:tcPr><w:p><w:pPr><w:jc w:val="left"/><w:spacing w:before="0" w:after="0" w:line="260" w:lineRule="atLeast"/><w:widowControl w:val="0"/><w:keepNext w:val="0"/><w:keepLines w:val="0"/></w:pPr><w:r><w:rPr><w:b w:val="on"/></w:rPr>' + labelRunsXml + '</w:r></w:p></w:tc>';
                         bodyXml += '<w:tc><w:tcPr><w:tcW w:w="' + colW2 + '" w:type="dxa"/><w:tcMar><w:top w:w="0" w:type="dxa"/><w:left w:w="0" w:type="dxa"/><w:bottom w:w="0" w:type="dxa"/><w:right w:w="0" w:type="dxa"/></w:tcMar><w:tcBorders><w:top w:val="none"/><w:bottom w:val="none"/><w:left w:val="none"/><w:right w:val="none"/></w:tcBorders></w:tcPr><w:p><w:pPr><w:jc w:val="center"/><w:spacing w:before="0" w:after="0" w:line="260" w:lineRule="atLeast"/><w:widowControl w:val="0"/><w:keepNext w:val="0"/><w:keepLines w:val="0"/></w:pPr><w:r><w:rPr><w:b/></w:rPr><w:t>' + colonTxt + '</w:t></w:r></w:p></w:tc>';
                         bodyXml += '<w:tc><w:tcPr><w:tcW w:w="' + colW3 + '" w:type="dxa"/><w:tcMar><w:top w:w="0" w:type="dxa"/><w:left w:w="11" w:type="dxa"/><w:bottom w:w="0" w:type="dxa"/><w:right w:w="11" w:type="dxa"/></w:tcMar><w:tcBorders><w:top w:val="none"/><w:bottom w:val="none"/><w:left w:val="none"/><w:right w:val="none"/></w:tcBorders></w:tcPr>' + cellToOoxml(contentTd, 'both') + '</w:tc>';
                         bodyXml += '</w:tr>';
@@ -5171,7 +5189,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
 
                     if (tds.length >= 3) {
                         var labelTd = tds[0], colonTd = tds[1], contentTd = tds[2];
-                        var labelTxt = ((labelTd.querySelector('span') || labelTd).textContent || '').trim();
+                        var labelTxt = labelTextWithHardBreaks(labelTd.querySelector('span') || labelTd);
                         var colonTxt = (colonTd.textContent || '').trim();
                         rows.push({
                             type: 'labeled',
