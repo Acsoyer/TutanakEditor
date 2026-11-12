@@ -585,9 +585,12 @@ def build_labeled_row(cb: ContentBuilder, label: str, colon: str, content_paragr
     # "Satir Basi" ile nbsp ekleyebilir - ayni <space>-tablo-genisligi
     # sorununa karsi ayni onlem burada da uygulanir (bkz. build_full_row).
     for para in content_paragraphs:
-        content_inner += paragraph_xml(cb, para, force_content=True)
+        # UYAP tablo hucrelerinde HTML/DOCX'teki padding-left karsiligi
+        # kendiliginden olusmaz. 3 pt paragraf girintisi, ':' sutunundan
+        # sonraki makul mini araligi tum sarilmis satirlarda korur.
+        content_inner += paragraph_xml(cb, para, extra_para_attrs=' LeftIndent="3"', force_content=True)
     if not content_paragraphs:
-        content_inner = paragraph_xml(cb, {"align": "left", "runs": []}, force_content=True)
+        content_inner = paragraph_xml(cb, {"align": "left", "runs": []}, extra_para_attrs=' LeftIndent="3"', force_content=True)
 
     row = (
         '<row rowName="rowX" rowType="dataRow" border="borderNone" borderWidth="0.5">'

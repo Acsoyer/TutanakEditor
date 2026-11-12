@@ -9074,6 +9074,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 label.style.removeProperty('margin-left');label.style.removeProperty('padding-left');label.style.removeProperty('text-indent');
                 var walker=document.createTreeWalker(label,NodeFilter.SHOW_TEXT),first=walker.nextNode();
                 if(first)first.nodeValue=first.nodeValue.replace(/^[\s\u00a0]+/,'');
+                label.classList.toggle('v74-nowrap-label',labelOf(cell.parentElement).includes('(MÜZAKERE EDİLEN HUSUSLAR)'));
             });
             // BLOKLAR.arbsys ve ayni eski semadaki belgelerde SON TOPLANTI
             // TARIHI ile UYUSMAZLIK KONUSU arasina kaydedilmis yapay empty-row,
@@ -9105,10 +9106,13 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         .v23-preview-page tbody>tr.single-row>td.label-cell{margin-left:0!important;text-indent:0!important}
         #docTable>tbody>tr.single-row>td.label-cell>span,
         .v23-preview-page tbody>tr.single-row>td.label-cell>span{margin-left:0!important;padding-left:0!important;text-indent:0!important}
+        #docTable .label-cell>span.v74-nowrap-label,
+        .v23-preview-page .label-cell>span.v74-nowrap-label{white-space:nowrap}
         @media print{
             #docTable>tbody>tr.single-row>td.label-cell,
             #docTable>tbody>tr.single-row>td.label-cell>span{margin-left:0!important;text-indent:0!important}
             #docTable>tbody>tr.single-row>td.label-cell>span{padding-left:0!important}
+            #docTable .label-cell>span.v74-nowrap-label{white-space:nowrap}
         }
     </style>
     <style id="v15-save-parity-styles">
