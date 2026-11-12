@@ -314,34 +314,6 @@ DEFAULT_ROW_HEIGHT = "485"
 # paragraf araligiyla temsil ederek cozuluyor.
 EMPTY_ROW_HEIGHT = "485"
 
-# ----
-# v34.2 - IMZA BLOGUNUN SAYFA ARASINDA BOLUNMEMESI ("keep together")
-# ----
-# SORUN: Imza alani (3'lu/2'li/tekli) simdiye kadar HER SATIRI ayri bir
-#   <row> olan cok-satirli bir tablo olarak uretiliyordu. UYAP, bir tablonun
-#   satirlarini sayfa sonunda BIRBIRINDEN AYIRIP bir kismini sonraki sayfaya
-#   tasiyabildigi icin, imza blogu ikiye bolunuyordu. PDF/DOCX'te bu,
-#   "page-break-inside: avoid" / <w:cantSplit/> ile cozuluyor; UDF'te bizim
-#   denedigimiz keepTogether="true" niteligini UYAP TANIMIYOR (sessizce yok
-#   sayiyor) - bu yuzden ise yaramiyordu.
-#
-# COZUM: Imza blogunu TEK BIR <row> yap. Her imzalayan = o satirin TEK bir
-#   <cell>'i; o imzalayanin tum paragraflari (baslik, isim, unvan, bosluklar)
-#   hucrenin ICINDE dikey yigin olarak durur. UYAP tek bir tablo SATIRINI
-#   sayfa arasinda BOLMEZ - satir sigmazsa butun halinde sonraki sayfaya
-#   gecer. Boylece imza blogu her zaman butun kalir.
-#
-#   Dikey hizalama: kisa hucreler, en uzun hucre (max_lines) kadar bos
-#   paragrafla doldurulur -> tum sutunlar ayni satir sayisinda, ust hizalari
-#   ayni. Gorsel sonuc cok-satirli surumle AYNI; sadece 10 <row> yerine 10
-#   paragraf tasiyan 1 <row> var. (Satir yuksekligi zaten XML'e yazilmiyordu,
-#   UYAP icerige gore otomatik buyutuyor - bkz. flush_main_table'da row_spans
-#   uretilip KULLANILMAMASI.)
-#
-# Sorun cikarsa False yapip eski cok-satirli davranisa donebilirsin.
-SIGGRID_SINGLE_ROW = False
-
-
 def esc_xml(s: str) -> str:
     """XML attribute/metin icin kacis (escape)."""
     if s is None:
@@ -703,30 +675,6 @@ def build_siggrid_row(cb: ContentBuilder, boxes):
     max_lines = max((len(b) for b in boxes), default=1)
     max_lines = max(max_lines, 1)
 
-    # === v34.2: TEK-SATIR modu (imza blogu sayfa arasinda bolunmesin) ===
-    if SIGGRID_SINGLE_ROW:
-        align_map = {"left": "0", "center": "1", "right": "2", "justify": "3"}
-        cells_xml = ""
-        for box_paragraphs in boxes:
-            paras = list(box_paragraphs) if box_paragraphs else []
-            # tum sutunlar ayni satir sayisinda olsun (ust hizalari otursun)
-            while len(paras) < max_lines:
-                paras.append({"align": "center", "runs": []})
-            inner = "".join(paragraph_xml(cb, para, align_map=align_map) for para in paras)
-            cells_xml += f'<cell border="borderNone" borderWidth="0.5">{inner}</cell>'
-        # TUM imza blogu = TEK <row>. UYAP tek satiri sayfa arasinda bolmez.
-        row_xml = (
-            f'<row rowName="row1" rowType="dataRow" border="borderNone" borderWidth="0.5">'
-            f"{cells_xml}</row>"
-        )
-        table_name = cb.next_table_name()
-        return (
-            f'<table tableName="{table_name}" columnCount="{n}" border="borderNone" borderSpec="31" '
-            f'borderColor="-16777216" borderStyle="borderStyle-plain" borderWidth="1.0" '
-            f'columnSpans="{col_spans}">{row_xml}</table>'
-        )
-    # === /v34.2 ; asagisi eski cok-satirli davranis (SIGGRID_SINGLE_ROW=False) ===
-
     # DUZELTME (bu turda): Eskiden burada HER paragraf ciftinin arasina
     # OTOMATIK bos bir satir ekleniyordu ("kullanicinin enter ile
     # olusturdugu bosluklari korumak" amaciyla). Ama HTM tarafindaki
@@ -781,19 +729,10 @@ def build_siggrid_row(cb: ContentBuilder, boxes):
 
     row_spans = ",".join(row_heights) + ","
 
-    # DENEYSEL - TEST GEREKTIRIR: Imza tablosunun sayfa arasinda ortadan
-    # bolunmemesi (madde 4, kullanici talebi) icin UDF/UYAP tarafinda
-    # dogrulanmis bir "keepTogether" niteligi henuz bilinmiyor (format
-    # kapali kaynak, reverse-engineering ile cozuluyor - description.md).
-    # DOCX'te bunun karsiligi <w:cantSplit/>; asagida ayni isimlendirme
-    # sezgisiyle "keepTogether" denemesi ekleniyor. UYAP bu niteligi
-    # tanimiyorsa muhtemelen sessizce yok sayacaktir (zararsiz), ama
-    # calisip calismadigi kesin degildir. Kullanicinin daha once yaptigi
-    # "ac/kapa dialog + content.xml diff" yontemiyle dogrulanmasi lazim:
-    # bu tabloyu sayfa sonuna yakin bir yere koyup PDF/UDF ciktisini
-    # karsilastirin. Calismiyorsa bu satiri kaldirin, tek care satirlarin
-    # toplam yuksekligini sayfa sinirini asmayacak sekilde kucultmek
-    # (yukaridaki EMPTY_ROW_HEIGHT duzeltmesi) olabilir.
+    # v69: Imza satirlari bilerek ayri <row> elemanlari olarak tutulur.
+    # keepTogether/cantSplit benzeri hicbir nitelik yazilmaz. UYAP sayfa
+    # sonunda sigan satirlari mevcut sayfada birakip kalan satirlari sonraki
+    # sayfaya aktarabilir; PDF ve DOCX de ayni bolunebilir davranisi kullanir.
     table_name = cb.next_table_name()
     table = (
         f'<table tableName="{table_name}" columnCount="{n}" border="borderNone" borderSpec="31" '

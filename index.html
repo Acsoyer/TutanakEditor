@@ -4908,7 +4908,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 // İmza satırı bilinçli olarak bölünebilir bırakılır. UYAP imza
                 // tablosunu sayfa sonunda satır satır bölebildiği için DOCX ve
                 // PDF de aynı beklenebilir davranışı kullanır.
-                tbl += '</w:tblGrid><w:tr><w:trPr><w:cantSplit w:val="0"/></w:trPr>';
+                tbl += '</w:tblGrid><w:tr>';
                 sigBoxes.forEach(function (box) { tbl += '<w:tc><w:tcPr><w:tcW w:w="' + sigColW + '" w:type="dxa"/><w:tcBorders><w:top w:val="none"/><w:bottom w:val="none"/><w:left w:val="none"/><w:right w:val="none"/></w:tcBorders></w:tcPr>' + cellToOoxml(box, 'center') + '</w:tc>'; });
                 tbl += '</w:tr></w:tbl>';
                 return tbl;
@@ -4940,7 +4940,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                     if (tr.hidden || tr.hasAttribute('hidden') || tr.matches('[data-arbsys-control],[data-arbsys-exchange]')) return;
                     if (tr.classList.contains('print-space-head') || tr.classList.contains('print-space-foot') || tr.classList.contains('title-wrapper-row')) return;
                     if (tr.classList.contains('empty-row')) {
-                        bodyXml += '<w:tr><w:trPr><w:cantSplit w:val="0"/><w:trHeight w:val="260" w:hRule="exact"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="' + colWFull + '" w:type="dxa"/><w:gridSpan w:val="3"/><w:tcBorders><w:top w:val="none"/><w:bottom w:val="none"/><w:left w:val="none"/><w:right w:val="none"/></w:tcBorders></w:tcPr><w:p><w:pPr><w:jc w:val="both"/><w:spacing w:before="0" w:after="0" w:line="260" w:lineRule="exact"/><w:widowControl w:val="0"/><w:keepNext w:val="0"/><w:keepLines w:val="0"/></w:pPr></w:p></w:tc></w:tr>';
+                        bodyXml += '<w:tr><w:trPr><w:trHeight w:val="260" w:hRule="exact"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="' + colWFull + '" w:type="dxa"/><w:gridSpan w:val="3"/><w:tcBorders><w:top w:val="none"/><w:bottom w:val="none"/><w:left w:val="none"/><w:right w:val="none"/></w:tcBorders></w:tcPr><w:p><w:pPr><w:jc w:val="both"/><w:spacing w:before="0" w:after="0" w:line="260" w:lineRule="exact"/><w:widowControl w:val="0"/><w:keepNext w:val="0"/><w:keepLines w:val="0"/></w:pPr></w:p></w:tc></w:tr>';
                         return;
                     }
 
@@ -4954,14 +4954,14 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                             appendParaBetweenTables(); openMainTable(); return;
                         }
                         var contentEl = firstTd.querySelector('[contenteditable]') || firstTd;
-                        bodyXml += '<w:tr><w:trPr><w:cantSplit w:val="0"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="' + colWFull + '" w:type="dxa"/><w:gridSpan w:val="3"/><w:tcBorders><w:top w:val="none"/><w:bottom w:val="none"/><w:left w:val="none"/><w:right w:val="none"/></w:tcBorders></w:tcPr>' + cellToOoxml(contentEl, 'both') + '</w:tc></w:tr>'; return;
+                        bodyXml += '<w:tr><w:tc><w:tcPr><w:tcW w:w="' + colWFull + '" w:type="dxa"/><w:gridSpan w:val="3"/><w:tcBorders><w:top w:val="none"/><w:bottom w:val="none"/><w:left w:val="none"/><w:right w:val="none"/></w:tcBorders></w:tcPr>' + cellToOoxml(contentEl, 'both') + '</w:tc></w:tr>'; return;
                     }
 
                     if (tds.length >= 3) {
                         var labelTd = tds[0], colonTd = tds[1], contentTd = tds[2];
                         var labelTxt = esc(((labelTd.querySelector('span') || labelTd).textContent || '').trim());
                         var colonTxt = esc((colonTd.textContent || '').trim());
-                        bodyXml += '<w:tr><w:trPr><w:cantSplit w:val="0"/></w:trPr>';
+                        bodyXml += '<w:tr>';
                         bodyXml += '<w:tc><w:tcPr><w:tcW w:w="' + colW1 + '" w:type="dxa"/><w:tcMar><w:top w:w="0" w:type="dxa"/><w:left w:w="11" w:type="dxa"/><w:bottom w:w="0" w:type="dxa"/><w:right w:w="11" w:type="dxa"/></w:tcMar><w:tcBorders><w:top w:val="none"/><w:bottom w:val="none"/><w:left w:val="none"/><w:right w:val="none"/></w:tcBorders></w:tcPr><w:p><w:pPr><w:jc w:val="left"/><w:spacing w:before="0" w:after="0" w:line="260" w:lineRule="atLeast"/><w:widowControl w:val="0"/><w:keepNext w:val="0"/><w:keepLines w:val="0"/></w:pPr><w:r><w:rPr><w:b w:val="on"/></w:rPr><w:t>' + labelTxt + '</w:t></w:r></w:p></w:tc>';
                         bodyXml += '<w:tc><w:tcPr><w:tcW w:w="' + colW2 + '" w:type="dxa"/><w:tcMar><w:top w:w="0" w:type="dxa"/><w:left w:w="0" w:type="dxa"/><w:bottom w:w="0" w:type="dxa"/><w:right w:w="0" w:type="dxa"/></w:tcMar><w:tcBorders><w:top w:val="none"/><w:bottom w:val="none"/><w:left w:val="none"/><w:right w:val="none"/></w:tcBorders></w:tcPr><w:p><w:pPr><w:jc w:val="center"/><w:spacing w:before="0" w:after="0" w:line="260" w:lineRule="atLeast"/><w:widowControl w:val="0"/><w:keepNext w:val="0"/><w:keepLines w:val="0"/></w:pPr><w:r><w:rPr><w:b/></w:rPr><w:t>' + colonTxt + '</w:t></w:r></w:p></w:tc>';
                         bodyXml += '<w:tc><w:tcPr><w:tcW w:w="' + colW3 + '" w:type="dxa"/><w:tcMar><w:top w:w="0" w:type="dxa"/><w:left w:w="11" w:type="dxa"/><w:bottom w:w="0" w:type="dxa"/><w:right w:w="11" w:type="dxa"/></w:tcMar><w:tcBorders><w:top w:val="none"/><w:bottom w:val="none"/><w:left w:val="none"/><w:right w:val="none"/></w:tcBorders></w:tcPr>' + cellToOoxml(contentTd, 'both') + '</w:tc>';
@@ -7707,11 +7707,24 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                     return !isArbsysTemplateControlElement(part);
                 });
             }
-            function signatureLineCount(row){return Math.max(1,...Array.from(row.querySelectorAll('.sig-box')).map(function(box){return signatureVisualParts(box).length||1;}));}
+            function signatureLineParts(box){
+                const lines=[];
+                function collect(part){
+                    if(!part||part.hidden||part.hasAttribute('hidden')||isArbsysTemplateControlElement(part))return;
+                    if(part.matches('.signature-title,.signature-name,.sig-note,.signature-space')){lines.push(part);return;}
+                    const children=Array.from(part.children||[]).filter(function(child){return !child.hidden&&!child.hasAttribute('hidden')&&!isArbsysTemplateControlElement(child);});
+                    if(part.matches('.signature-party,.signature-person,.signature-identity')){children.forEach(collect);return;}
+                    if(children.some(function(child){return child.matches('.signature-party,.signature-person,.signature-identity');})){children.forEach(collect);return;}
+                    lines.push(part);
+                }
+                signatureVisualParts(box).forEach(collect);
+                return lines;
+            }
+            function signatureLineCount(row){return Math.max(1,...Array.from(row.querySelectorAll('.sig-box')).map(function(box){return signatureLineParts(box).length||1;}));}
             function signatureFragment(row,start,end){
                 var copy=row.cloneNode(true),sourceBoxes=Array.from(row.querySelectorAll('.sig-box')),copyBoxes=Array.from(copy.querySelectorAll('.sig-box'));
                 copyBoxes.forEach(function(box,index){
-                    var source=sourceBoxes[index],parts=source?signatureVisualParts(source):[];
+                    var source=sourceBoxes[index],parts=source?signatureLineParts(source):[];
                     box.replaceChildren(...parts.slice(start,end).map(function(part){var cloned=part.cloneNode(true);cloned.querySelectorAll?.('.arbsys-dynamic-field').forEach(function(node){if(isArbsysTemplateControlElement(node))node.remove();});return cloned;}));
                 });
                 return copy;
