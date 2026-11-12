@@ -70,7 +70,7 @@
         .main-container { width:100%; border-collapse:collapse; table-layout:fixed; }
         td { padding: 1.5px 0 1.5px 0.2cm; vertical-align:top; font-size:10pt; line-height:1.3; position:relative; box-sizing:border-box; word-wrap: break-word; }
         .label-cell { text-align:left; text-align-last:left; font-weight:bold; color:#3c40c6; text-transform:none; padding-left:0.15cm; }
-        .colon-cell { font-weight:bold; text-align:left; padding-left:0; padding-right:0; color:#000; }
+        .colon-cell { font-weight:bold; text-align:center; padding-left:0; padding-right:0; color:#000; }
         .content-cell { text-align:justify; text-align-last:left; text-justify:inter-word; padding-left:0.15cm; padding-right:var(--arbsys-pdf-right-gap, 2mm); }
         .full-row td { text-align:justify; text-align-last:left; text-justify:inter-word; }
         .empty-row td { height: 10px; line-height: 10px; padding: 0 !important; }
@@ -1162,8 +1162,8 @@
         <div class="print-content-wrapper">
             <table class="main-container" id="docTable">
                 <colgroup>
-                    <col style="width: 27.8%;">
-                    <col style="width: 0.2%;">
+                    <col style="width: 27.4%;">
+                    <col style="width: 0.6%;">
                     <col style="width: 72%;">
                 </colgroup>
 
@@ -4822,12 +4822,6 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             }, 300);
         }
 
-        function isArbsysTemplateControlElement(node) {
-            if (!node || node.nodeType !== Node.ELEMENT_NODE || !node.classList?.contains('arbsys-dynamic-field')) return false;
-            var raw = String(node.getAttribute('title') || node.textContent || '').trim();
-            return /^\{\{\s*(?:#|\/|else\b)/i.test(raw);
-        }
-
         function exportToDocx() {
             if (typeof JSZip === 'undefined') {
                 appAlert('JSZip kütüphanesi yüklenemedi. İnternet bağlantınızı kontrol edin ve sayfayı yenileyin.', 'Bileşen Yüklenemedi');
@@ -4863,7 +4857,6 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                         }
                     } else if (n.nodeType === Node.ELEMENT_NODE) {
                         if (n.classList && n.classList.contains('v21-smart-control')) return;
-                        if (isArbsysTemplateControlElement(n)) return;
                         var tag = n.tagName.toLowerCase();
                         if (tag === 'br') {
                             if (currentRuns === '') { xml += '<w:p><w:pPr><w:jc w:val="' + currentPAlign + '"/><w:spacing w:before="0" w:after="0" w:line="260" w:lineRule="atLeast"/><w:widowControl w:val="0"/><w:keepNext w:val="0"/><w:keepLines w:val="0"/></w:pPr></w:p>'; } 
@@ -4924,9 +4917,10 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 titleXml += makeParagraph('', 'center'); titleXml += makeParagraph('', 'center');
             }
 
-            // 10206 dxa toplam genislikte 27.8% / 0.2% / 72%.
-            // Yuvarlama: 2838 + 20 + 7348 = 10206; toplam ve sag kenar sabit.
-            var colW1 = 2838, colW2 = 20, colW3 = 7348, colWFull = 10206;
+            // 10206 dxa toplam genislikte 27.4% / 0.6% / 72%.
+            // Sag metnin baslangici korunur: 2797 + 61 = 2858 dxa
+            // (eski duzende de 2838 + 20 = 2858 dxa idi).
+            var colW1 = 2797, colW2 = 61, colW3 = 7348, colWFull = 10206;
             var mainTableStart = '<w:tbl><w:tblPr><w:tblW w:w="10206" w:type="dxa"/><w:tblLayout w:type="fixed"/><w:tblBorders><w:top w:val="none"/><w:bottom w:val="none"/><w:left w:val="none"/><w:right w:val="none"/><w:insideH w:val="none"/><w:insideV w:val="none"/></w:tblBorders><w:tblLook w:val="0000"/></w:tblPr><w:tblGrid><w:gridCol w:w="' + colW1 + '"/><w:gridCol w:w="' + colW2 + '"/><w:gridCol w:w="' + colW3 + '"/></w:tblGrid>';
             var bodyXml = titleXml + mainTableStart; var mainTableOpen = true;
 
@@ -5076,7 +5070,6 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                         if (txt !== '') pushText(txt, styles);
                     } else if (n.nodeType === Node.ELEMENT_NODE) {
                         if (n.classList && n.classList.contains('v21-smart-control')) return;
-                        if (isArbsysTemplateControlElement(n)) return;
                         var tag = n.tagName.toLowerCase();
                         if (tag === 'br') {
                             // DUZELTME (bosluk/bos-satir kaybi): DOCX ciktisiyla
@@ -7602,7 +7595,6 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 applyFragmentAlignment(copyInfo.cell,sourceCellAlignment(sourceInfo.cell));
                 copy.classList.remove('row-hovered','row-delete-preview','row-dragging','v34-selected','v34-new-row');
                 copy.querySelectorAll('button,input,select,textarea,.lbl-dd-btn,[data-no-print]').forEach(function(node){node.remove();});
-                copy.querySelectorAll('.arbsys-dynamic-field').forEach(function(node){if(isArbsysTemplateControlElement(node))node.remove();});
                 copy.querySelectorAll('[contenteditable]').forEach(function(node){node.removeAttribute('contenteditable');});
                 copy.querySelectorAll('.selected,.hover,.drag-over,.row-hovered,.row-delete-preview,.row-dragging,.v34-selected,.v34-new-row').forEach(function(node){node.classList.remove('selected','hover','drag-over','row-hovered','row-delete-preview','row-dragging','v34-selected','v34-new-row');});
                 return copy;
@@ -7704,20 +7696,29 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             function signatureVisualParts(box){
                 return Array.from(box?.children||[]).filter(function(part){
                     if(part.hidden||part.hasAttribute('hidden')||getComputedStyle(part).display==='none')return false;
-                    return !isArbsysTemplateControlElement(part);
+                    return true;
                 });
             }
             function signatureLineParts(box){
                 const lines=[];
-                function collect(part){
-                    if(!part||part.hidden||part.hasAttribute('hidden')||isArbsysTemplateControlElement(part))return;
-                    if(part.matches('.signature-title,.signature-name,.sig-note,.signature-space')){lines.push(part);return;}
-                    const children=Array.from(part.children||[]).filter(function(child){return !child.hidden&&!child.hasAttribute('hidden')&&!isArbsysTemplateControlElement(child);});
-                    if(part.matches('.signature-party,.signature-person,.signature-identity')){children.forEach(collect);return;}
-                    if(children.some(function(child){return child.matches('.signature-party,.signature-person,.signature-identity');})){children.forEach(collect);return;}
-                    lines.push(part);
+                function collectSequence(parts){
+                    let inline=[];
+                    function flushInline(){
+                        if(!inline.length)return;
+                        const line=document.createElement('div');line.className='v70-signature-inline-line';
+                        inline.forEach(function(part){line.appendChild(part.cloneNode(true));});
+                        lines.push(line);inline=[];
+                    }
+                    parts.forEach(function(part){
+                        if(!part||part.hidden||part.hasAttribute('hidden'))return;
+                        const children=Array.from(part.children||[]).filter(function(child){return !child.hidden&&!child.hasAttribute('hidden');});
+                        if(part.matches('.signature-party,.signature-person,.signature-identity')){flushInline();collectSequence(children);return;}
+                        if(part.matches('.signature-title,.signature-name,.sig-note,.signature-space')||/^(DIV|P|UL|OL|TABLE)$/.test(part.tagName)){flushInline();lines.push(part);return;}
+                        inline.push(part);
+                    });
+                    flushInline();
                 }
-                signatureVisualParts(box).forEach(collect);
+                collectSequence(signatureVisualParts(box));
                 return lines;
             }
             function signatureLineCount(row){return Math.max(1,...Array.from(row.querySelectorAll('.sig-box')).map(function(box){return signatureLineParts(box).length||1;}));}
@@ -7725,7 +7726,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 var copy=row.cloneNode(true),sourceBoxes=Array.from(row.querySelectorAll('.sig-box')),copyBoxes=Array.from(copy.querySelectorAll('.sig-box'));
                 copyBoxes.forEach(function(box,index){
                     var source=sourceBoxes[index],parts=source?signatureLineParts(source):[];
-                    box.replaceChildren(...parts.slice(start,end).map(function(part){var cloned=part.cloneNode(true);cloned.querySelectorAll?.('.arbsys-dynamic-field').forEach(function(node){if(isArbsysTemplateControlElement(node))node.remove();});return cloned;}));
+                    box.replaceChildren(...parts.slice(start,end).map(function(part){return part.cloneNode(true);}));
                 });
                 return copy;
             }

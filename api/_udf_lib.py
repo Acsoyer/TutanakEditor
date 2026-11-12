@@ -126,7 +126,7 @@ CONTENT_WIDTH_PT = A4_WIDTH_PT - LEFT_MARGIN_PT - RIGHT_MARGIN_PT
 # testi (Tablo Ozellikleri > Tercih Edilen Genislik: 17 -> 18 yapip
 # kaydetmesi) SONUCUNDA ortaya cikan content.xml incelendiginde:
 #   - tableWidth attribute'u TAMAMEN SILINMIS (UYAP tarafindan)
-#   - O donemde columnSpans degismemisti; guncel oran 27.8,0.2,72'dir.
+#   - O donemde columnSpans degismemisti; guncel oran 27.4,0.6,72'dir.
 #   - pageFormat HIC DEGISMEMIS
 # Bu, UYAP'in tabloyu HER ZAMAN sayfa icerik genisligine (marjinler arasi)
 # OTOMATIK yaydigini ve bizim yazdigimiz tableWidth degerinin GEREKSIZ
@@ -273,8 +273,9 @@ FOOTER_SEP_LINESPACING = "0.0"   # 0.0 = mumkun oldugunca dar. Ayarlanabilir.
 FOOTER_SEP_CONTENT_SIZE = "1"    # placeholder metnin puntosu (satir kutusunu belirler)
 
 # Ana tablo kolon genislikleri (yuzde, toplam 100). Editör/PDF ve DOCX
-# ile ayni oran: mavi baslik 27.8%, iki nokta 0.2%, metin 72%.
-MAIN_COL_SPANS = "27.8,0.2,72"
+# ile ayni oran: mavi baslik 27.4%, iki nokta 0.6%, metin 72%.
+# Ilk iki sutunun toplami yine %28'dir; sag metnin baslangici degismez.
+MAIN_COL_SPANS = "27.4,0.6,72"
 
 # ====
 # TABLO GENISLIGI HIPOTEZI (test edilecek): UYAP tablo genisligini
@@ -287,7 +288,7 @@ MAIN_COL_SPANS = "27.8,0.2,72"
 TABLE_WIDTH_PT = 510  # 18cm = 18*72/2.54 = 510.24 pt (gerekirse kalibre edilir)
 
 def scale_spans(spans_csv: str, total_pt: int = TABLE_WIDTH_PT) -> str:
-    """'27.8,0.2,72' gibi (toplami ~100) oranlari, toplami total_pt olacak
+    """'27.4,0.6,72' gibi (toplami ~100) oranlari, toplami total_pt olacak
     sekilde olcekler; yuvarlama artigini son sutuna verir."""
     vals = [float(x) for x in str(spans_csv).split(",") if x.strip() != ""]
     ssum = sum(vals) or 1.0
@@ -573,7 +574,7 @@ def build_labeled_row(cb: ContentBuilder, label: str, colon: str, content_paragr
         f"{label_tag}</paragraph>"
     )
     colon_para = (
-        f'<paragraph {TABSET_ATTR}Alignment="0" LineSpacing="0.30" family="{FONT_FAMILY}" size="{FONT_SIZE}">'
+        f'<paragraph {TABSET_ATTR}Alignment="1" LineSpacing="0.30" family="{FONT_FAMILY}" size="{FONT_SIZE}">'
         f"{colon_tag}</paragraph>"
     )
 
@@ -617,7 +618,7 @@ def build_full_row(cb: ContentBuilder, paragraphs):
     KOK NEDEN #2 (bu turda bulundu): Bu fonksiyonun urettigi satir, TEK
     bir <cell> iceriyor (colSpan=3 ile 3 kolonu gorsel olarak birlestiren).
     AMA bu satirin sarildigi <table>, hala 3-KOLONLU bir tanim
-    (columnSpans="27.8,0.2,72", labeled-row'lar icin tasarlanmis 27.8%/0.2%/72%
+    (columnSpans="27.4,0.6,72", labeled-row'lar icin tasarlanmis 27.4%/0.6%/72%
     oranlari) kullaniyordu. Yani gercekte TEK hücreli bir satir, "3 kolonlu
     ama ortasi birlesik" gibi YANLIS bir sekilde tanimlaniyordu. Kullanicinin
     kanitladigi "Tablo Ozellikleri'nde genislik 16cm gorunuyor (18 yerine)"
@@ -1101,7 +1102,7 @@ def build_udf_content_xml(data: dict) -> str:
             # KOK NEDEN #2 (bu turda bulundu): Bu satirin tek hucresi ile
             # sarildigi tablonun kolon tanimi UYUMSUZDU - satir TEK bir
             # <cell> iceriyordu (eskiden colSpan="3" ile), ama tablo hala
-            # "labeled" satirlar icin tasarlanmis 3-kolonlu (27.8,0.2,72)
+            # "labeled" satirlar icin tasarlanmis 3-kolonlu (27.4,0.6,72)
             # tanimla aciliyordu. Kullanicinin kanitladigi "Tablo
             # Ozellikleri'nde 18 yerine 16cm gorunuyor" sorunu buradan
             # kaynaklaniyordu. Artik "full" satirlar GERCEKTEN tek kolonlu
