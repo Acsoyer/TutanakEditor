@@ -9059,17 +9059,58 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             if(next?.classList.contains('empty-row')&&!next.classList.contains('v34-title-part'))next.remove();
             return table;
         }
+        function v71NormalizeLabeledFlow(table){
+            if(!table)return table;var body=table.tBodies?.[0]||table.querySelector('tbody');if(!body)return table;
+            function labelOf(row){
+                var label=row?.querySelector?.(':scope > .label-cell > span');
+                return String(label?.textContent||'').replace(/\u00a0/g,' ').replace(/\s+/g,' ').trim().toLocaleUpperCase('tr-TR');
+            }
+            // Eski paketlerden gelebilen hucre/etiket bazli girintileri temizle.
+            // Sol hucre kendi ortak 0,15 cm ic boslugunu CSS'ten almaya devam eder;
+            // boylece SON TOPLANTI TARIHI dahil tum mavi basliklar ayni x eksenindedir.
+            body.querySelectorAll('tr.single-row > td.label-cell').forEach(function(cell){
+                cell.style.removeProperty('margin-left');cell.style.removeProperty('text-indent');
+                var label=cell.querySelector(':scope > span');if(!label)return;
+                label.style.removeProperty('margin-left');label.style.removeProperty('padding-left');label.style.removeProperty('text-indent');
+                var walker=document.createTreeWalker(label,NodeFilter.SHOW_TEXT),first=walker.nextNode();
+                if(first)first.nodeValue=first.nodeValue.replace(/^[\s\u00a0]+/,'');
+            });
+            // BLOKLAR.arbsys ve ayni eski semadaki belgelerde SON TOPLANTI
+            // TARIHI ile UYUSMAZLIK KONUSU arasina kaydedilmis yapay empty-row,
+            // sayfa sonunda kalan tek metin satirini tuketip uzun satirin tamamini
+            // sonraki sayfadan baslatiyordu. Yalnizca bu kesin komsulukta kaldir;
+            // kullanicinin diger gercek bos satirlarina dokunma.
+            Array.from(body.children).forEach(function(row){
+                if(!row.matches('tr.empty-row'))return;
+                var previous=row.previousElementSibling,next=row.nextElementSibling;
+                if(labelOf(previous)==='SON TOPLANTI TARİHİ'&&labelOf(next).startsWith('UYUŞMAZLIK KONUSU'))row.remove();
+            });
+            return table;
+        }
         function v11NormalizeArbsysTable(table){
             if(!table)return table;var legacy=table.getAttribute('data-arbsys-schema')!=='2';var body=table.tBodies?.[0]||table.querySelector('tbody');if(!body)return table;
             if(legacy){
                 Array.from(body.children).filter(function(row){return row.matches('tr.title-wrapper-row');}).forEach(function(wrapper){var nested=wrapper.querySelector('.title-table tbody');if(!nested)return;Array.from(nested.children).forEach(function(part){var next;if(part.classList.contains('title-blank-row')){next=v11CreateEmptyRow();next.classList.add('v34-title-part');}else{var cell=part.querySelector('td');if(cell)next=v11CreateTitleTextRow(cell);}if(next)wrapper.parentElement.insertBefore(next,wrapper);});wrapper.remove();});
                 Array.from(body.children).filter(function(row){return !!row.querySelector('.sig-grid');}).forEach(function(signature){var after=signature.nextElementSibling;if(after?.classList.contains('empty-row'))after.remove();var before=signature.previousElementSibling;if(!before?.classList.contains('empty-row')){before=v11CreateEmptyRow();signature.parentElement.insertBefore(before,signature);}before.classList.add('v11-signature-gap');});
             }
-            v67NormalizeTitleSpacing(table);v18EnsureTitleBold(table);table.setAttribute('data-arbsys-schema','2');return table;
+            v67NormalizeTitleSpacing(table);v18EnsureTitleBold(table);v71NormalizeLabeledFlow(table);table.setAttribute('data-arbsys-schema','2');return table;
         }
         v11NormalizeArbsysTable(document.getElementById('docTable'));
         injectLabelDropdowns();applyEditable();
     </script>
+    <style id="v71-labeled-flow-styles">
+        /* Hucre genisliklerini ve sag metnin baslangicini degistirmeden tum
+           mavi basliklarin metin baslangicini tek eksende sabitler. */
+        #docTable>tbody>tr.single-row>td.label-cell,
+        .v23-preview-page tbody>tr.single-row>td.label-cell{margin-left:0!important;text-indent:0!important}
+        #docTable>tbody>tr.single-row>td.label-cell>span,
+        .v23-preview-page tbody>tr.single-row>td.label-cell>span{margin-left:0!important;padding-left:0!important;text-indent:0!important}
+        @media print{
+            #docTable>tbody>tr.single-row>td.label-cell,
+            #docTable>tbody>tr.single-row>td.label-cell>span{margin-left:0!important;text-indent:0!important}
+            #docTable>tbody>tr.single-row>td.label-cell>span{padding-left:0!important}
+        }
+    </style>
     <style id="v15-save-parity-styles">
         #saveModal .modal-header{justify-content:flex-start;gap:10px}
         #saveModal .modal-header>.close-btn{margin-left:0}
