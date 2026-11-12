@@ -4822,6 +4822,12 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             }, 300);
         }
 
+        function isArbsysTemplateControlElement(node) {
+            if (!node || node.nodeType !== Node.ELEMENT_NODE || !node.classList?.contains('arbsys-dynamic-field')) return false;
+            var raw = String(node.getAttribute('title') || node.textContent || '').trim();
+            return /^\{\{\s*(?:#|\/|else\b)/i.test(raw);
+        }
+
         function exportToDocx() {
             if (typeof JSZip === 'undefined') {
                 appAlert('JSZip kütüphanesi yüklenemedi. İnternet bağlantınızı kontrol edin ve sayfayı yenileyin.', 'Bileşen Yüklenemedi');
@@ -4857,6 +4863,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                         }
                     } else if (n.nodeType === Node.ELEMENT_NODE) {
                         if (n.classList && n.classList.contains('v21-smart-control')) return;
+                        if (isArbsysTemplateControlElement(n)) return;
                         var tag = n.tagName.toLowerCase();
                         if (tag === 'br') {
                             if (currentRuns === '') { xml += '<w:p><w:pPr><w:jc w:val="' + currentPAlign + '"/><w:spacing w:before="0" w:after="0" w:line="260" w:lineRule="atLeast"/><w:widowControl w:val="0"/><w:keepNext w:val="0"/><w:keepLines w:val="0"/></w:pPr></w:p>'; } 
@@ -5069,6 +5076,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                         if (txt !== '') pushText(txt, styles);
                     } else if (n.nodeType === Node.ELEMENT_NODE) {
                         if (n.classList && n.classList.contains('v21-smart-control')) return;
+                        if (isArbsysTemplateControlElement(n)) return;
                         var tag = n.tagName.toLowerCase();
                         if (tag === 'br') {
                             // DUZELTME (bosluk/bos-satir kaybi): DOCX ciktisiyla
@@ -7594,6 +7602,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 applyFragmentAlignment(copyInfo.cell,sourceCellAlignment(sourceInfo.cell));
                 copy.classList.remove('row-hovered','row-delete-preview','row-dragging','v34-selected','v34-new-row');
                 copy.querySelectorAll('button,input,select,textarea,.lbl-dd-btn,[data-no-print]').forEach(function(node){node.remove();});
+                copy.querySelectorAll('.arbsys-dynamic-field').forEach(function(node){if(isArbsysTemplateControlElement(node))node.remove();});
                 copy.querySelectorAll('[contenteditable]').forEach(function(node){node.removeAttribute('contenteditable');});
                 copy.querySelectorAll('.selected,.hover,.drag-over,.row-hovered,.row-delete-preview,.row-dragging,.v34-selected,.v34-new-row').forEach(function(node){node.classList.remove('selected','hover','drag-over','row-hovered','row-delete-preview','row-dragging','v34-selected','v34-new-row');});
                 return copy;
@@ -7692,8 +7701,21 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 while(low<=high){const middle=Math.floor((low+high)/2),candidate=rowFragment(row,0,middle,false);record.tbody.appendChild(candidate);const fits=pageFits(record);candidate.remove();if(fits){best=middle;low=middle+1;}else high=middle-1;}
                 return best;
             }
-            function signatureLineCount(row){return Math.max(1,...Array.from(row.querySelectorAll('.sig-box')).map(function(box){return box.children.length||1;}));}
-            function signatureFragment(row,start,end){var copy=row.cloneNode(true),sourceBoxes=Array.from(row.querySelectorAll('.sig-box')),copyBoxes=Array.from(copy.querySelectorAll('.sig-box'));copyBoxes.forEach(function(box,index){var source=sourceBoxes[index],parts=source?Array.from(source.children):[];box.replaceChildren(...parts.slice(start,end).map(function(part){return part.cloneNode(true);}));});return copy;}
+            function signatureVisualParts(box){
+                return Array.from(box?.children||[]).filter(function(part){
+                    if(part.hidden||part.hasAttribute('hidden')||getComputedStyle(part).display==='none')return false;
+                    return !isArbsysTemplateControlElement(part);
+                });
+            }
+            function signatureLineCount(row){return Math.max(1,...Array.from(row.querySelectorAll('.sig-box')).map(function(box){return signatureVisualParts(box).length||1;}));}
+            function signatureFragment(row,start,end){
+                var copy=row.cloneNode(true),sourceBoxes=Array.from(row.querySelectorAll('.sig-box')),copyBoxes=Array.from(copy.querySelectorAll('.sig-box'));
+                copyBoxes.forEach(function(box,index){
+                    var source=sourceBoxes[index],parts=source?signatureVisualParts(source):[];
+                    box.replaceChildren(...parts.slice(start,end).map(function(part){var cloned=part.cloneNode(true);cloned.querySelectorAll?.('.arbsys-dynamic-field').forEach(function(node){if(isArbsysTemplateControlElement(node))node.remove();});return cloned;}));
+                });
+                return copy;
+            }
             function largestFittingSignatureEnd(record,row,start,count){let low=start+1,high=count,best=start;while(low<=high){const middle=Math.floor((low+high)/2),candidate=signatureFragment(row,start,middle);record.tbody.appendChild(candidate);const fits=pageFits(record);candidate.remove();if(fits){best=middle;low=middle+1;}else high=middle-1;}return best;}
             function isAtomicLineDocument(rows){
                 return rows.length>=50&&rows.every(function(row){
