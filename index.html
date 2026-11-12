@@ -9388,11 +9388,25 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             function setDragRange(anchor,focus){
                 if(!anchor||!focus||!table.contains(anchor.node)||!table.contains(focus.node))return;
                 try{
-                    const anchorRange=document.createRange();anchorRange.setStart(anchor.node,anchor.offset);anchorRange.collapse(true);
-                    const range=document.createRange(),order=anchorRange.comparePoint(focus.node,focus.offset);
-                    if(order<0){range.setStart(focus.node,focus.offset);range.setEnd(anchor.node,anchor.offset);}
-                    else{range.setStart(anchor.node,anchor.offset);range.setEnd(focus.node,focus.offset);}
-                    const selection=window.getSelection();selection.removeAllRanges();selection.addRange(range);
+                    function safeOffset(point){return Math.max(0,Math.min(point.offset,point.node.nodeType===Node.TEXT_NODE?point.node.data.length:point.node.childNodes.length));}
+                    const selection=window.getSelection(),anchorOffset=safeOffset(anchor),focusOffset=safeOffset(focus);
+                    // Range baslangic/bitis noktalarini elle siralamak, Chromium'un
+                    // contenteditable tablo icindeki geriye (sagdan sola) seciminde
+                    // odak ucunu caret olarak yeniden yorumlamasina yol aciyordu.
+                    // Selection'in gercek anchor/focus API'si yonu korur: saga, sola,
+                    // yukari veya asagi surukleme ayni secim davranisini kullanir.
+                    if(typeof selection.setBaseAndExtent==='function'){
+                        selection.setBaseAndExtent(anchor.node,anchorOffset,focus.node,focusOffset);
+                        return;
+                    }
+                    // Eski motorlar icin DOM sirasi temelli, yon bagimsiz yedek.
+                    const anchorRange=document.createRange(),focusRange=document.createRange();
+                    anchorRange.setStart(anchor.node,anchorOffset);anchorRange.collapse(true);
+                    focusRange.setStart(focus.node,focusOffset);focusRange.collapse(true);
+                    const range=document.createRange();
+                    if(anchorRange.compareBoundaryPoints(Range.START_TO_START,focusRange)<=0){range.setStart(anchor.node,anchorOffset);range.setEnd(focus.node,focusOffset);}
+                    else{range.setStart(focus.node,focusOffset);range.setEnd(anchor.node,anchorOffset);}
+                    selection.removeAllRanges();selection.addRange(range);
                 }catch(_error){}
             }
             function commandOnText(command){
@@ -9419,14 +9433,18 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             table.addEventListener('mousedown',function(event){
                 if(structureMode()||event.button!==0||event.target.closest('.lbl-dd-btn,.v21-smart-control'))return;
                 const root=event.target.closest(TEXT_SELECTOR);if(!root)return;
-                const point=caretPoint(event.clientX,event.clientY);if(point)dragSelection={anchor:point,x:event.clientX,y:event.clientY,active:false};
+                const point=caretPoint(event.clientX,event.clientY);if(point)dragSelection={anchor:point,last:point,x:event.clientX,y:event.clientY,active:false};
             },true);
             document.addEventListener('mousemove',function(event){
                 if(!dragSelection||structureMode())return;
                 if(!dragSelection.active&&Math.hypot(event.clientX-dragSelection.x,event.clientY-dragSelection.y)<4)return;
-                dragSelection.active=true;event.preventDefault();event.stopPropagation();setDragRange(dragSelection.anchor,caretPoint(event.clientX,event.clientY));
+                const focus=caretPoint(event.clientX,event.clientY);if(!focus)return;
+                dragSelection.active=true;dragSelection.last=focus;event.preventDefault();event.stopImmediatePropagation();setDragRange(dragSelection.anchor,focus);
             },true);
-            document.addEventListener('mouseup',function(){dragSelection=null;},true);
+            document.addEventListener('mouseup',function(event){
+                if(dragSelection?.active){event.preventDefault();event.stopImmediatePropagation();setDragRange(dragSelection.anchor,dragSelection.last);}
+                dragSelection=null;
+            },true);
             document.querySelectorAll('.toolbar-left .tb-btn').forEach(function(button){button.addEventListener('mousedown',function(event){event.preventDefault();});});
             function syncInlineFormatButtons(){
                 const selection=window.getSelection(),inside=!!(selection&&selection.rangeCount&&table.contains(selection.anchorNode));
