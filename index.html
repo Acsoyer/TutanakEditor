@@ -8841,7 +8841,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         function v34InstallToolbar(){
             document.querySelectorAll('.toolbar-left .tb-btn').forEach(function(button){var title=button.getAttribute('data-title')||'';if(title==='Vurgula'||title==='Vurgu Sil')button.remove();});
             var right=document.querySelector('.toolbar-right'),udf=document.getElementById('udfViewerToggleBtn');if(right&&!document.getElementById('v34StructureToggle')){var toggle=document.createElement('button');toggle.id='v34StructureToggle';toggle.type='button';toggle.className='tb-btn tb-btn-wide';toggle.setAttribute('data-title','Belge alanlarını ekle, taşı veya sil');toggle.innerHTML='<span class="material-icons" style="font-size:17px">open_with</span> Ekle / Taşı / Sil';toggle.onclick=function(){v34ToggleStructureMode();};right.insertBefore(toggle,udf);}
-            var toolbar=document.querySelector('.toolbar');if(toolbar&&!document.getElementById('v34AddBar')){var bar=document.createElement('div');bar.id='v34AddBar';bar.className='v34-addbar';bar.innerHTML='<button class="v20-smart-add" type="button" onclick="v20OpenSmartText()"><span class="material-icons">auto_fix_high</span>Akıllı Metin Ekleme</button><div class="v21-add-center"><span class="v34-addbar-label">Ekle:</span><button type="button" onclick="v34AddSelected(\'title\')"><span class="material-icons">title</span>Başlık</button><button type="button" onclick="v34AddSelected(\'single\')"><span class="material-icons">short_text</span>Yeni Alan</button><button type="button" onclick="v34AddSelected(\'full\')"><span class="material-icons">segment</span>Tam Metin</button><button type="button" onclick="v34AddSelected(\'empty\')"><span class="material-icons">space_bar</span>Boş Satır</button><button type="button" onclick="v34AddSelected(\'sig1\')"><span class="material-icons">person</span>Tekli İmza</button><button type="button" onclick="v34AddSelected(\'sig2\')"><span class="material-icons">people</span>İkili İmza</button><button type="button" onclick="v34AddSelected(\'sig3\')"><span class="material-icons">groups</span>Üçlü İmza</button></div><span class="v21-add-balance" aria-hidden="true"></span>';toolbar.appendChild(bar);}
+            var toolbar=document.querySelector('.toolbar');if(toolbar&&!document.getElementById('v34AddBar')){var bar=document.createElement('div');bar.id='v34AddBar';bar.className='v34-addbar';bar.innerHTML='<div class="v80-smart-tools"><button class="v20-smart-add" type="button" onclick="v20OpenSmartText()"><span class="material-icons">auto_fix_high</span>Akıllı Metin Ekleme</button><button class="v80-field-add" type="button" onclick="v80OpenSmartFields()"><span class="material-icons">table_rows</span>Akıllı Alan Ekleme</button></div><div class="v21-add-center"><span class="v34-addbar-label">Ekle:</span><button type="button" onclick="v34AddSelected(\'title\')"><span class="material-icons">title</span>Başlık</button><button type="button" onclick="v34AddSelected(\'single\')"><span class="material-icons">short_text</span>Yeni Alan</button><button type="button" onclick="v34AddSelected(\'full\')"><span class="material-icons">segment</span>Tam Metin</button><button type="button" onclick="v34AddSelected(\'empty\')"><span class="material-icons">space_bar</span>Boş Satır</button><button type="button" onclick="v34AddSelected(\'sig1\')"><span class="material-icons">person</span>Tekli İmza</button><button type="button" onclick="v34AddSelected(\'sig2\')"><span class="material-icons">people</span>İkili İmza</button><button type="button" onclick="v34AddSelected(\'sig3\')"><span class="material-icons">groups</span>Üçlü İmza</button></div><span class="v21-add-balance" aria-hidden="true"></span>';toolbar.appendChild(bar);}
             var panel=document.getElementById('floatPanel'),deletePanel=document.getElementById('floatDeletePanel'),drag=deletePanel?.querySelector('.drag-btn');if(panel&&drag&&drag.parentElement!==panel)panel.appendChild(drag);document.querySelector('#floatMenu [data-action="madde"]')?.remove();
         }
         document.getElementById('docTable')?.addEventListener('click',function(event){if(!v34IsMode()||event.target.closest('.lbl-dd-btn,.v21-smart-control'))return;var row=event.target.closest('#docTable>tbody>tr');if(row){event.stopPropagation();v34SelectRow(row);}},true);
@@ -8867,7 +8867,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         .v20-smart-body{display:grid;grid-template-columns:minmax(320px,.9fr) minmax(450px,1.35fr);gap:14px;min-height:0;flex:1;padding:14px}
         .v20-smart-pane{display:flex;min-height:0;flex-direction:column;border:1px solid #dbe4ee;border-radius:12px;background:#fff;overflow:hidden}
         .v20-smart-pane-title{padding:10px 12px;border-bottom:1px solid #e5eaf0;color:#334155;font-size:11px;font-weight:800}
-        #v20SmartRaw{min-height:0;flex:1;resize:none;border:0;padding:14px;outline:0;color:#172033;font:13px/1.55 Arial,sans-serif;white-space:pre-wrap}
+        #v20SmartRaw,#v80FieldRaw{min-height:0;flex:1;resize:none;border:0;padding:14px;outline:0;color:#172033;font:13px/1.55 Arial,sans-serif;white-space:pre-wrap}
         #v20SmartRows{min-height:0;flex:1;overflow:auto;padding:9px}
         .v20-smart-row{display:grid;grid-template-columns:54px 28px minmax(0,1fr);gap:7px;align-items:start;margin-bottom:7px;padding:8px;border:1px solid #e2e8f0;border-radius:9px;background:#fff}
         .v20-smart-marker{padding-top:9px;color:#4338ca;font-size:11px;font-weight:800;text-align:center}
@@ -8885,6 +8885,16 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         .v20-smart-actions .primary{border-color:#0f766e;background:#0f766e;color:#fff}
         @media(max-width:1100px){#v34AddBar{grid-template-columns:auto 1fr!important;overflow-x:auto}.v21-add-center{justify-content:flex-start}.v21-add-balance{display:none}}
         @media(max-width:850px){.v20-smart-body{grid-template-columns:1fr}.v20-smart-dialog{height:95vh}.v20-smart-row{grid-template-columns:44px 28px minmax(0,1fr)}}
+        .v80-smart-tools{display:flex;align-items:center;gap:7px;justify-self:start}
+        #v34AddBar .v80-field-add{border-color:#0f766e;background:#ecfdf5;color:#0f766e}
+        #v34AddBar .v80-field-add:hover{border-color:#0f766e;background:#0f766e;color:#fff}
+        #v80FieldRows{min-height:0;flex:1;overflow:auto;padding:9px}
+        .v80-field-row{display:grid;grid-template-columns:112px minmax(140px,.72fr) minmax(220px,1.45fr);gap:7px;align-items:start;margin-bottom:7px;padding:8px;border:1px solid #e2e8f0;border-radius:9px;background:#fff}
+        .v80-field-row select,.v80-field-row input,.v80-field-row textarea{box-sizing:border-box;width:100%;border:1px solid #cbd5e1;border-radius:7px;background:#fff;color:#334155;font:10px/1.4 Arial,sans-serif;padding:7px;outline:0}
+        .v80-field-row select,.v80-field-row input{height:35px}.v80-field-row textarea{min-height:52px;resize:vertical}
+        .v80-field-row.is-empty{grid-template-columns:112px 1fr}.v80-field-row.is-empty textarea{display:none}
+        .v80-field-summary{padding:7px 12px;border-bottom:1px solid #e5eaf0;background:#f8fafc;color:#475569;font-size:10px}
+        @media(max-width:850px){.v80-field-row{grid-template-columns:95px minmax(110px,.7fr) minmax(180px,1.3fr)}.v80-smart-tools{min-width:max-content}}
     </style>
     <script id="v20-smart-text-script">
         // Ctrl+B, tarayıcının CSS tabanlı kalınlaştırmasına düşmeden K düğmesiyle aynı yolu kullanır.
@@ -9060,6 +9070,59 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         },true);
         document.getElementById('docTable')?.addEventListener('input',function(event){var content=event.target?.closest?.('tr[data-smart-group] .fr-content');if(content)queueMicrotask(function(){v26EnsureSmartLines(content);});},true);
         var v24SmartRepairObserver=new MutationObserver(function(records){if(records.some(function(record){return Array.from(record.addedNodes||[]).some(function(node){return node.nodeType===1&&(node.matches?.('tr[data-smart-group],table')||node.querySelector?.('tr[data-smart-group]'));});}))queueMicrotask(v24RepairAllSmartParagraphs);});v24SmartRepairObserver.observe(document.getElementById('docTable'),{childList:true,subtree:true});setTimeout(v24RepairAllSmartParagraphs,0);
+    </script>
+    <script id="v80-smart-fields-script">
+        var v80FieldRows=[];
+        function v80Plain(value){return String(value==null?'':value).replace(/&nbsp;|&#x?A0;/gi,' ').replace(/\u00a0/g,' ').replace(/[\t ]+/g,' ').trim();}
+        function v80LabelKey(value){return v80Plain(value).replace(/<br\s*\/?\s*>/gi,' ').replace(/\s+/g,' ').toLocaleUpperCase('tr-TR').replace(/[.:]+$/,'').trim();}
+        function v80KnownLabels(){
+            var values=[],presets=typeof LABEL_PRESETS!=='undefined'?LABEL_PRESETS:(typeof BASE_LABEL_PRESETS!=='undefined'?BASE_LABEL_PRESETS:[]);presets.forEach(function(item){if(item?.value)values.push(v80LabelKey(item.value));});
+            ['ARB BÜROSU','ARB. BÜROSU','BAŞVURU DOSYA NO','ARB DOSYA NO','ARB. DOSYA NO','TARAFLAR','BAŞVURUCU','YETKİLİSİ','DİĞER TARAF','VEKİLİ','UYUŞMAZLIK TÜRÜ','TOPLANTI YERİ'].forEach(function(item){values.push(v80LabelKey(item));});
+            return new Set(values);
+        }
+        function v80LooksLikeLabel(value){
+            var text=v80LabelKey(value);if(!text||text.length>65||!/\p{L}/u.test(text))return false;if(v80KnownLabels().has(text))return true;
+            if(/^(TEL|TELEFON|E-?POSTA|ADRES|SAAT|TARİH)$/u.test(text))return false;
+            var letters=text.replace(/[^A-Za-zÇĞİÖŞÜçğıöşü]/g,'');return letters.length>1&&letters===letters.toLocaleUpperCase('tr-TR');
+        }
+        function v80MarkdownCells(line){
+            var text=String(line||'').trim();if(!/^\|.*\|$/.test(text))return null;
+            var cells=text.slice(1,-1).split('|').map(function(cell){return v80Plain(cell.replace(/<br\s*\/?\s*>/gi,'\n'));});
+            if(cells.length&&cells.every(function(cell){return !cell||/^:?-{2,}:?$/.test(cell);}))return [];
+            return cells;
+        }
+        function v80PushBlank(rows){if(rows.length&&rows[rows.length-1].kind!=='empty')rows.push({kind:'empty',label:'',text:'',colon:false});}
+        function v80ParseFields(){
+            var raw=document.getElementById('v80FieldRaw')?.value||'',lines=raw.replace(/\r\n?/g,'\n').split('\n'),rows=[],paragraph=[];
+            function flushParagraph(){if(!paragraph.length)return;rows.push({kind:'text',label:'',text:paragraph.join(' ').replace(/\s+/g,' ').trim(),colon:false});paragraph=[];}
+            lines.forEach(function(source){
+                var tableCells=v80MarkdownCells(source);if(tableCells){flushParagraph();var useful=tableCells.filter(function(cell){return cell!=='';});if(!useful.length){v80PushBlank(rows);return;}var label=tableCells[0]||'',second=tableCells[1]||'',rest=tableCells.slice(2).filter(Boolean).join('\n');if(v80LooksLikeLabel(label)){rows.push({kind:'field',label:v80Plain(label),text:rest,colon:second===':'||second==='：'});}else rows.push({kind:'text',label:'',text:useful.join(' '),colon:false});return;}
+                var line=v80Plain(String(source).replace(/<br\s*\/?\s*>/gi,'\n'));if(!line){flushParagraph();v80PushBlank(rows);return;}
+                var match=line.match(/^(.{2,65}?)\s*[:：]\s*(.*)$/);if(match&&v80LooksLikeLabel(match[1])){flushParagraph();rows.push({kind:'field',label:v80Plain(match[1]),text:v80Plain(match[2]),colon:true});return;}
+                if(v80LooksLikeLabel(line)&&v80KnownLabels().has(v80LabelKey(line))){flushParagraph();rows.push({kind:'field',label:line,text:'',colon:false});return;}
+                var previous=rows[rows.length-1];if(previous?.kind==='field'&&!paragraph.length){previous.text+=(previous.text?'\n':'')+line;return;}
+                paragraph.push(line);
+            });flushParagraph();while(rows[0]?.kind==='empty')rows.shift();while(rows[rows.length-1]?.kind==='empty')rows.pop();v80FieldRows=rows;v80RenderFields();
+        }
+        function v80RenderFields(){
+            var host=document.getElementById('v80FieldRows');if(!host)return;host.innerHTML='';var fields=v80FieldRows.filter(function(row){return row.kind==='field';}).length,texts=v80FieldRows.filter(function(row){return row.kind==='text';}).length;
+            var summary=document.getElementById('v80FieldSummary');if(summary)summary.textContent=v80FieldRows.length?(fields+' alan, '+texts+' metin ve '+(v80FieldRows.length-fields-texts)+' boş satır algılandı.'):'Henüz içerik algılanmadı.';
+            if(!v80FieldRows.length){host.innerHTML='<div class="v20-smart-empty">Metni veya tabloyu sol alana yapıştırın. Başlıklar, içerikler, normal metinler ve boş satırlar burada ayrıştırılacaktır.</div>';return;}
+            v80FieldRows.forEach(function(row,index){var item=document.createElement('div');item.className='v80-field-row'+(row.kind==='empty'?' is-empty':'');var kind=document.createElement('select');[['field','Başlık + alan'],['text','Normal metin'],['empty','Boş satır']].forEach(function(option){var el=document.createElement('option');el.value=option[0];el.textContent=option[1];el.selected=row.kind===option[0];kind.appendChild(el);});kind.onchange=function(){row.kind=this.value;if(row.kind==='empty'){row.label='';row.text='';}v80RenderFields();};var label=document.createElement('input');label.placeholder='Alan başlığı';label.value=row.label||'';label.disabled=row.kind!=='field';label.oninput=function(){row.label=this.value;};var content=document.createElement('textarea');content.placeholder=row.kind==='field'?'Sağ hücrenin içeriği':'Normal metin';content.value=row.text||'';content.oninput=function(){row.text=this.value;};item.append(kind,label,content);host.appendChild(item);});
+        }
+        function v80InstallSmartFields(){
+            if(document.getElementById('v80FieldModal'))return;var modal=document.createElement('div');modal.id='v80FieldModal';modal.className='v20-smart-modal';modal.innerHTML='<div class="v20-smart-dialog" onclick="event.stopPropagation()"><div class="v20-smart-head"><div><h2>Akıllı Alan Ekleme</h2><p>Başlık ve içerik satırları belge alanlarına; normal paragraflar tam metin satırlarına dönüştürülür.</p></div><button class="v20-smart-close" type="button" onclick="v80CloseSmartFields()">×</button></div><div class="v20-smart-body"><section class="v20-smart-pane"><div class="v20-smart-pane-title">Metni veya tabloyu buraya yapıştırın</div><textarea id="v80FieldRaw" placeholder="ARB. BÜROSU : 2026/6544\nBAŞVURU DOSYA NO : 2026/XXXXX\n\nNormal metin paragrafı…"></textarea></section><section class="v20-smart-pane"><div class="v20-smart-pane-title">Algılanan belge alanları</div><div class="v80-field-summary" id="v80FieldSummary">Henüz içerik algılanmadı.</div><div id="v80FieldRows"></div></section></div><div class="v20-smart-foot"><div class="v20-smart-note">Algılama sonucunu eklemeden önce “Başlık + alan”, “Normal metin” veya “Boş satır” olarak değiştirebilirsiniz.</div><div class="v20-smart-actions"><button type="button" onclick="v80CloseSmartFields()">Vazgeç</button><button class="primary" type="button" onclick="v80InsertSmartFields()">Seçili Alanın Altına Ekle</button></div></div></div>';document.body.appendChild(modal);var raw=document.getElementById('v80FieldRaw'),timer=null;raw.addEventListener('input',function(){clearTimeout(timer);timer=setTimeout(v80ParseFields,100);});v80RenderFields();
+        }
+        function v80OpenSmartFields(){if(!v34SelectedRow||!v34SelectedRow.isConnected){appAlert('Alanların ekleneceği yeri belirlemek için önce belge üzerinde bir satıra tıklayın.','Ekleme Yeri Seçilmedi');return;}v80InstallSmartFields();document.getElementById('v80FieldModal').classList.add('open');setTimeout(function(){document.getElementById('v80FieldRaw').focus();},0);}
+        function v80CloseSmartFields(){document.getElementById('v80FieldModal')?.classList.remove('open');}
+        function v80AppendFormatted(target,value){
+            String(value||'').replace(/<br\s*\/?\s*>/gi,'\n').split('\n').forEach(function(line,lineIndex){if(lineIndex)target.appendChild(document.createElement('br'));var parts=line.split('**');parts.forEach(function(part,index){if(!part)return;var node=document.createTextNode(part);if(index%2){var bold=document.createElement('b');bold.appendChild(node);target.appendChild(bold);}else target.appendChild(node);});});if(!target.childNodes.length)target.appendChild(document.createElement('br'));
+        }
+        function v80CreateFieldRow(item){var row=document.createElement('tr');row.className='single-row';var label=document.createElement('td');label.className='label-cell';var span=document.createElement('span');v80AppendFormatted(span,item.label);label.appendChild(span);var colon=document.createElement('td');colon.className='colon-cell';colon.textContent=item.colon===false?'':':';if(!colon.textContent)colon.appendChild(document.createElement('br'));var content=document.createElement('td');content.className='content-cell';v80AppendFormatted(content,item.text);row.append(label,colon,content);return row;}
+        function v80CreateTextRow(item){var row=document.createElement('tr');row.className='full-row';var cell=document.createElement('td');cell.colSpan=3;var content=document.createElement('div');content.className='fr-content';content.style.textAlign='left';content.style.textAlignLast='left';v80AppendFormatted(content,item.text);cell.appendChild(content);row.appendChild(cell);return row;}
+        async function v80InsertSmartFields(){
+            var usable=v80FieldRows.filter(function(row){return row.kind==='empty'||v80Plain(row.label)||v80Plain(row.text);});if(!usable.length){await appAlert('Eklenecek bir alan veya metin bulunamadı.','İçerik Bulunamadı');return;}var cursor=v34SelectedRow,last=null;usable.forEach(function(item){var row=item.kind==='empty'?v20CreateSmartGap():item.kind==='field'?v80CreateFieldRow(item):v80CreateTextRow(item);cursor.insertAdjacentElement('afterend',row);cursor=row;v34FlashRow(row);last=row;});applyEditable();injectLabelDropdowns();v21InstallSmartControls();if(last)v34SelectRow(last);v80CloseSmartFields();document.getElementById('v80FieldRaw').value='';v80FieldRows=[];v80RenderFields();
+        }
     </script>
     <style id="v11-print-parity-styles">
         @media print{
