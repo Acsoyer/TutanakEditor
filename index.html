@@ -9081,9 +9081,9 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             return new Set(values);
         }
         function v80LooksLikeLabel(value){
-            var text=v80LabelKey(value);if(!text||text.length>65||!/\p{L}/u.test(text))return false;if(v80KnownLabels().has(text))return true;
-            if(/^(TEL|TELEFON|E-?POSTA|ADRES|SAAT|TARİH)$/u.test(text))return false;
-            var letters=text.replace(/[^A-Za-zÇĞİÖŞÜçğıöşü]/g,'');return letters.length>1&&letters===letters.toLocaleUpperCase('tr-TR');
+            var raw=v80Plain(value).replace(/<br\s*\/?\s*>/gi,' ').replace(/\s+/g,' ').trim(),key=v80LabelKey(raw);if(!key||key.length>65||!/\p{L}/u.test(key))return false;if(v80KnownLabels().has(key))return true;
+            if(/^(TEL|TELEFON|E-?POSTA|ADRES|SAAT|TARİH)$/u.test(key))return false;
+            var letters=raw.replace(/[^A-Za-zÇĞİÖŞÜçğıöşü]/g,'');return letters.length>1&&letters===letters.toLocaleUpperCase('tr-TR');
         }
         function v80MarkdownCells(line){
             var text=String(line||'').trim();if(!/^\|.*\|$/.test(text))return null;
@@ -9093,14 +9093,18 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         }
         function v80PushBlank(rows){if(rows.length&&rows[rows.length-1].kind!=='empty')rows.push({kind:'empty',label:'',text:'',colon:false});}
         function v80ParseFields(){
-            var raw=document.getElementById('v80FieldRaw')?.value||'',lines=raw.replace(/\r\n?/g,'\n').split('\n'),rows=[],paragraph=[];
+            var raw=document.getElementById('v80FieldRaw')?.value||'',lines=raw.replace(/\r\n?/g,'\n').split('\n'),rows=[],paragraph=[],activeField=null,pendingBlanks=0;
             function flushParagraph(){if(!paragraph.length)return;rows.push({kind:'text',label:'',text:paragraph.join(' ').replace(/\s+/g,' ').trim(),colon:false});paragraph=[];}
+            function finishFieldSpacing(){if(activeField&&pendingBlanks)v80PushBlank(rows);activeField=null;pendingBlanks=0;}
+            function startField(label,text,colon){flushParagraph();finishFieldSpacing();activeField={kind:'field',label:v80Plain(label),text:v80Plain(text),colon:colon};rows.push(activeField);}
+            function appendFieldText(text){if(/^[:：]/.test(v80Plain(text)))activeField.colon=true;var clean=v80Plain(text).replace(/^[:：]\s*/,'');if(!clean)return;if(pendingBlanks&&activeField.text)activeField.text+='\n';activeField.text+=(activeField.text?'\n':'')+clean;pendingBlanks=0;}
             lines.forEach(function(source){
-                var tableCells=v80MarkdownCells(source);if(tableCells){flushParagraph();var useful=tableCells.filter(function(cell){return cell!=='';});if(!useful.length){v80PushBlank(rows);return;}var label=tableCells[0]||'',second=tableCells[1]||'',rest=tableCells.slice(2).filter(Boolean).join('\n');if(v80LooksLikeLabel(label)){rows.push({kind:'field',label:v80Plain(label),text:rest,colon:second===':'||second==='：'});}else rows.push({kind:'text',label:'',text:useful.join(' '),colon:false});return;}
-                var line=v80Plain(String(source).replace(/<br\s*\/?\s*>/gi,'\n'));if(!line){flushParagraph();v80PushBlank(rows);return;}
-                var match=line.match(/^(.{2,65}?)\s*[:：]\s*(.*)$/);if(match&&v80LooksLikeLabel(match[1])){flushParagraph();rows.push({kind:'field',label:v80Plain(match[1]),text:v80Plain(match[2]),colon:true});return;}
-                if(v80LooksLikeLabel(line)&&v80KnownLabels().has(v80LabelKey(line))){flushParagraph();rows.push({kind:'field',label:line,text:'',colon:false});return;}
-                var previous=rows[rows.length-1];if(previous?.kind==='field'&&!paragraph.length){previous.text+=(previous.text?'\n':'')+line;return;}
+                var tableCells=v80MarkdownCells(source);if(tableCells){var useful=tableCells.filter(function(cell){return cell!=='';});if(!useful.length){if(activeField)pendingBlanks++;else{flushParagraph();v80PushBlank(rows);}return;}var label=tableCells[0]||'',second=tableCells[1]||'',rest=tableCells.slice(2).filter(Boolean).join('\n');if(v80LooksLikeLabel(label)){startField(label,rest,second===':'||second==='：');}else{finishFieldSpacing();flushParagraph();rows.push({kind:'text',label:'',text:useful.join(' '),colon:false});}return;}
+                var line=v80Plain(String(source).replace(/<br\s*\/?\s*>/gi,'\n'));if(!line){if(activeField)pendingBlanks++;else{flushParagraph();v80PushBlank(rows);}return;}
+                if(activeField&&/^[:：]/.test(line)){appendFieldText(line);return;}
+                var match=line.match(/^(.{2,65}?)\s*[:：]\s*(.*)$/);if(match&&v80LooksLikeLabel(match[1])){startField(match[1],match[2],true);return;}
+                if(v80KnownLabels().has(v80LabelKey(line))){startField(line,'',false);return;}
+                if(activeField){appendFieldText(line);return;}
                 paragraph.push(line);
             });flushParagraph();while(rows[0]?.kind==='empty')rows.shift();while(rows[rows.length-1]?.kind==='empty')rows.pop();v80FieldRows=rows;v80RenderFields();
         }
