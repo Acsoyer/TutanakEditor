@@ -10052,4 +10052,46 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             addEventListener('message',function(event){if(event.data?.type==='v90-hf-ready')setTimeout(fixZoom,0);});setTimeout(wire,0);
         })();
     </script>
+    <style id="v94-hf-three-fixes">
+        /* Padding yalnızca çapraz bantlarla görünür; logo taşıyıcısı fazladan beyaz alan üretmez. */
+        .v90-logo-inner{background:transparent!important}
+        .v90-format .v90-font-up,.v90-format .v90-font-down{font-size:0!important;display:flex!important;align-items:center!important;justify-content:center!important}
+        .v90-format .v94-font-icon{position:relative;display:inline-block;width:20px;height:21px;color:#172033;font:700 16px/21px Arial;text-align:left}
+        .v90-format .v94-font-icon i{position:absolute;right:-1px;top:-2px;color:#1681c4;font:800 11px/1 Arial;font-style:normal}
+        .v90-zoom select{min-width:76px!important;text-align:center!important;text-align-last:center!important}
+    </style>
+    <script id="v94-hf-three-fixes-script">
+        (function(){
+            if(new URLSearchParams(location.search).get('hfPreview')==='1')return;
+            function repairFontButtons(){
+                document.querySelectorAll('#v90TextCard .v90-font-up').forEach(function(button){
+                    button.innerHTML='<span class="v94-font-icon">A<i>⌃</i></span>';
+                    button.title='Yazıyı büyüt';
+                    button.setAttribute('aria-label','Yazıyı büyüt');
+                });
+                document.querySelectorAll('#v90TextCard .v90-font-down').forEach(function(button){
+                    button.innerHTML='<span class="v94-font-icon">A<i>⌄</i></span>';
+                    button.title='Yazıyı küçült';
+                    button.setAttribute('aria-label','Yazıyı küçült');
+                });
+            }
+            function repairZoom(){
+                var select=document.getElementById('v90Zoom');
+                if(!select)return;
+                Array.from(select.options).forEach(function(option){
+                    var number=Number(option.value);
+                    if(Number.isFinite(number))option.value=String(number);
+                });
+                var current=Number(select.value);
+                if(!Number.isFinite(current)||current<=0)current=.7;
+                var nearest=Array.from(select.options).sort(function(a,b){return Math.abs(Number(a.value)-current)-Math.abs(Number(b.value)-current);})[0];
+                if(nearest)select.value=nearest.value;
+            }
+            function repair(){repairFontButtons();repairZoom();}
+            var previousToggle=toggleHFPanel;
+            toggleHFPanel=function(){previousToggle();setTimeout(repair,0);setTimeout(repair,120);};
+            addEventListener('message',function(event){if(event.data?.type==='v90-hf-ready'){setTimeout(repairZoom,0);setTimeout(repairZoom,120);}});
+            setTimeout(repair,0);
+        })();
+    </script>
 </body></html>
