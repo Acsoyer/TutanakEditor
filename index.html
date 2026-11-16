@@ -10362,4 +10362,51 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             setTimeout(repair,0);
         })();
     </script>
+    <style id="v98-deterministic-logo-layout-style">
+        #v90LogoInner,.logo-container-print{position:relative!important;overflow:hidden!important}
+        #v90LogoInner>img,.logo-container-print>img{position:absolute!important;margin:0!important;transform:none!important;object-fit:contain!important}
+    </style>
+    <script id="v98-deterministic-logo-layout-script">
+        (function(){
+            function textMode(state){return ['text','textSaved'].includes(state?.headerMode);}
+            function maxZoom(img,state){if(!img?.naturalWidth||!img?.naturalHeight||!textMode(state))return 1;return Math.max(1,Math.min(4,Math.min(1244/img.naturalWidth,237/img.naturalHeight)));}
+            function layout(img,box,state){
+                if(!img||!box||!img.naturalWidth||!img.naturalHeight)return;
+                var cw=box.clientWidth,ch=box.clientHeight;if(!cw||!ch)return;
+                var base=textMode(state)?Math.min(cw/1244,ch/237):Math.min(cw/img.naturalWidth,ch/img.naturalHeight),zoom=Math.max(.25,Math.min(maxZoom(img,state),Number(state.headerZoom||1))),w=img.naturalWidth*base*zoom,h=img.naturalHeight*base*zoom;
+                var offset=Math.max(-1,Math.min(1,Number(state.headerOffsetY||0))),left=(cw-w)/2,top=(ch-h)*(offset+1)/2;
+                img.style.setProperty('width',w+'px','important');img.style.setProperty('height',h+'px','important');img.style.setProperty('max-width','none','important');img.style.setProperty('max-height','none','important');img.style.setProperty('left',left+'px','important');img.style.setProperty('top',top+'px','important');img.style.setProperty('transform','none','important');
+            }
+            function reflow(state){
+                state=state||v22HFSettings;
+                document.querySelectorAll('.logo-container-print>img').forEach(function(img){var box=img.parentElement;if(img.complete)layout(img,box,state);img.addEventListener('load',function(){layout(img,box,state);},{once:true});});
+                var ui=document.getElementById('v90LogoImage'),inner=document.getElementById('v90LogoInner');if(ui&&inner){if(ui.complete)layout(ui,inner,state);ui.addEventListener('load',function(){layout(ui,inner,state);},{once:true});}
+            }
+            function scheduled(state){[0,16,50,120,240,420].forEach(function(delay){setTimeout(function(){reflow(state||v22HFSettings);},delay);});}
+            var apply98=v22ApplyHeader;v22ApplyHeader=async function(){await apply98();scheduled(v22HFSettings);};
+            var refresh98=window.v23RefreshPreview;if(typeof refresh98==='function'){window.v23RefreshPreview=function(){var result=refresh98.apply(this,arguments);scheduled(v22HFSettings);return result;};}
+            if(new URLSearchParams(location.search).get('hfPreview')==='1'){
+                addEventListener('message',function(event){if(event.data?.type==='v96-header-geometry'||event.data?.type==='v90-hf-settings')scheduled(event.data.settings||{});});
+                return;
+            }
+            var observer;
+            function observeLeft(){var area=document.getElementById('v90LogoInner');if(!area)return;if(observer)observer.disconnect();observer=new ResizeObserver(function(){scheduled(v22HFSettings);});observer.observe(area);var image=document.getElementById('v90LogoImage');if(image&&!image.dataset.v98){image.dataset.v98='1';image.addEventListener('load',function(){scheduled(v22HFSettings);});}}
+            function postGeometry(){document.getElementById('v90PreviewFrame')?.contentWindow?.postMessage({type:'v96-header-geometry',settings:Object.assign({},v22HFSettings)},'*');}
+            async function commitSavedLogo(){
+                if(!v22HFSettings.textLogo)return;
+                v22HFSettings.headerMode='textSaved';v22HFSettings.customHeaderLogo=v22HFSettings.textLogo;v22HFSettings.enabled=true;v22HFSettings.headerPlacement='full';
+                var master=document.getElementById('hfMasterCheck');if(master)master.checked=true;
+                v22HFStore();await v22ApplyHeader();scheduled(v22HFSettings);postGeometry();
+                var radio=document.querySelector('input[name="v22HeaderMode"][value="textSaved"]');if(radio){radio.disabled=false;radio.checked=true;}
+            }
+            function wireSave(){
+                var save=document.getElementById('v90TextSave');if(!save||save.dataset.v98)return;save.dataset.v98='1';
+                save.addEventListener('click',function(){[60,180,400].forEach(function(delay){setTimeout(function(){commitSavedLogo();},delay);});});
+                var close=document.getElementById('v90Close');if(close&&!close.dataset.v98){close.dataset.v98='1';close.addEventListener('click',function(){if(v22HFSettings.headerMode==='textSaved')commitSavedLogo();});}
+            }
+            function repair(){observeLeft();wireSave();scheduled(v22HFSettings);postGeometry();}
+            var toggle98=toggleHFPanel;toggleHFPanel=function(){toggle98();setTimeout(repair,0);setTimeout(repair,150);};
+            setTimeout(repair,0);
+        })();
+    </script>
 </body></html>
