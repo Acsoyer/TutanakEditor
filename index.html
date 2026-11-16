@@ -9724,4 +9724,68 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             },true);
         })();
     </script>
+    <script id="v85-word-uyap-import-script">
+        // V85: Word donusturucusunun ayni onizleme/duzenleme akisini UYAP UDF belgelerine de acar.
+        (function(){
+            var originalInstall=v82InstallWordImporter;
+            var originalOpen=v82OpenWordImporter;
+
+            function v85DirectChildren(node,name){return Array.from(node?.children||[]).filter(function(child){return !name||child.tagName===name;});}
+            function v85UdfPoolSlice(pool,node){var start=parseInt(node.getAttribute('startOffset')||'0',10),length=parseInt(node.getAttribute('length')||'0',10);return (!Number.isFinite(start)||!Number.isFinite(length))?'':pool.slice(start,start+length).join('').replace(/[\r\n]+/g,'');}
+            function v85UdfStyleMap(root){var map={};root.querySelectorAll('styles > style').forEach(function(style){var attrs={};Array.from(style.attributes).forEach(function(attr){attrs[attr.name]=attr.value;});if(attrs.name)map[attrs.name]=attrs;});return map;}
+            function v85UdfAttrs(node,styles,seen){var own={};Array.from(node?.attributes||[]).forEach(function(attr){own[attr.name]=attr.value;});var key=own.resolver;seen=seen||{};if(!key||seen[key]||!styles[key])return own;seen[key]=true;var inherited=v85UdfAttrs({attributes:Object.keys(styles[key]).map(function(name){return {name:name,value:styles[key][name]};})},styles,seen);return Object.assign({},inherited,own);}
+            function v85UdfInlineHtml(node,context){var tag=node.tagName;if(tag==='tab')return '&nbsp;&nbsp;&nbsp;&nbsp;';if(!/^(?:content|field|space)$/i.test(tag))return '';var attrs=v85UdfAttrs(node,context.styles),text=v85UdfPoolSlice(context.pool,node),html=v82Esc(text);if(attrs.bold==='true')html='<b>'+html+'</b>';if(attrs.italic==='true')html='<i>'+html+'</i>';if(attrs.underline==='true')html='<u>'+html+'</u>';return html;}
+            function v85UdfParagraph(node,context){var attrs=v85UdfAttrs(node,context.styles),html='',plain='';v85DirectChildren(node).forEach(function(child){html+=v85UdfInlineHtml(child,context);if(child.tagName==='tab')plain+='\t';else if(/^(?:content|field|space)$/i.test(child.tagName))plain+=v85UdfPoolSlice(context.pool,child);});return {html:html,plain:plain,center:attrs.Alignment==='1',bold:attrs.bold==='true'||(/^\s*<b[ >]/i.test(html)&&/<\/b>\s*$/i.test(html))};}
+            function v85UdfCellParagraphs(cell,context){var result=[];v85DirectChildren(cell).forEach(function(child){if(child.tagName==='paragraph')result.push(v85UdfParagraph(child,context));else if(child.tagName==='table')v85DirectChildren(child,'row').forEach(function(row){v85DirectChildren(row,'cell').forEach(function(nested){result=result.concat(v85UdfCellParagraphs(nested,context));});});});return result;}
+            function v85UdfCellData(cell,context){var paras=v85UdfCellParagraphs(cell,context);return {plain:paras.map(function(p){return p.plain;}).join('\n'),html:paras.map(function(p){return p.html;}).join('<br>'),paras:paras};}
+            function v85IsSignatureTitle(value){return /^(?:TARAF|ARABULUCU|VEKİL|VEKİLİ|YETKİLİ|YETKİLİSİ|ŞİRKET TEMSİLCİSİ|ŞİRKET YETKİLİSİ|ŞİRKET ÇALIŞANI)$/iu.test(String(value||'').trim());}
+            function v85SignatureColumn(lines){var out='',seen=false,previousTitle=false,blank=false;lines.forEach(function(line){var plain=String(line.plain||'').trim();if(!plain){if(previousTitle)return;if(seen&&!blank)out+='<br><br>';blank=true;return;}var title=v85IsSignatureTitle(plain),html=title?'<u><b>'+v82Esc(plain)+'</b></u>':v82SanitizeInlineHtml(line.html);if(seen&&!previousTitle&&!blank)out+='<br>';out+=html;seen=true;previousTitle=title;blank=false;});return out.replace(/(?:<br>)+$/,'');}
+            function v85UdfSignature(table,context){var rows=v85DirectChildren(table,'row'),first=v85DirectChildren(rows[0],'cell'),titles=first.map(function(cell){return (v85UdfCellParagraphs(cell,context).find(function(p){return p.plain.trim();})?.plain||'').trim();});if(first.length<1||first.length>3||!titles.some(v85IsSignatureTitle))return null;var columns=first.length,entries=[];for(var column=0;column<columns;column++){var lines=[];rows.forEach(function(row){var cell=v85DirectChildren(row,'cell')[column];if(cell)lines=lines.concat(v85UdfCellParagraphs(cell,context));});var custom=v85SignatureColumn(lines);if(custom)entries.push({kind:'custom',customHtml:custom});}return entries.length?{layout:Math.min(3,entries.length),entries:entries.slice(0,3)}:null;}
+            async function v85ReadUdfFile(file){
+                if(!window.JSZip)throw new Error('UYAP belge okuma bileşeni yüklenemedi.');
+                var zip=await JSZip.loadAsync(file,{checkCRC32:true}),entry=zip.file('content.xml');if(!entry)throw new Error('UDF içinde content.xml bulunamadı.');
+                var text=await entry.async('string');if(/<!DOCTYPE|<!ENTITY/i.test(text))throw new Error('Güvenli olmayan XML bildirimi nedeniyle belge açılmadı.');
+                var xml=new DOMParser().parseFromString(text,'application/xml');if(xml.querySelector('parsererror'))throw new Error('UDF belge yapısı okunamadı.');
+                var root=xml.documentElement,content=Array.from(root.children).find(function(n){return n.tagName==='content';}),elements=Array.from(root.children).find(function(n){return n.tagName==='elements';});if(!content||!elements)throw new Error('UDF metin veya belge elemanları eksik.');
+                var context={pool:Array.from(content.textContent||''),styles:v85UdfStyleMap(root)},rows=[],titles=[],signature=null,titlePhase=true,seenContent=false;
+                v85DirectChildren(elements).forEach(function(node){
+                    if(node.tagName==='header'||node.tagName==='footer'||node.tagName==='page-break')return;
+                    if(node.tagName==='paragraph'){
+                        var p=v85UdfParagraph(node,context),plain=p.plain.trim();
+                        if(!plain){if(seenContent)v82PushEmpty(rows);return;}
+                        if(titlePhase&&(p.center||p.bold)){titles.push(p.html);seenContent=true;return;}
+                        titlePhase=false;rows.push({kind:'text',label:'',html:p.html,colon:false});seenContent=true;return;
+                    }
+                    if(node.tagName!=='table')return;titlePhase=false;seenContent=true;
+                    var sig=v85UdfSignature(node,context);if(sig){signature=sig;return;}
+                    v85DirectChildren(node,'row').forEach(function(row){var cells=v85DirectChildren(row,'cell'),data=cells.map(function(cell){return v85UdfCellData(cell,context);});if(!data.length)return;var label=(data[0].plain||'').trim(),colon=(data[1]?.plain||'').trim();if(cells.length>=3&&(colon===':'||label)){rows.push(v82MakeField(label,data[2].html,colon===':'));return;}var combined=data.map(function(item){return item.html;}).filter(Boolean).join('<br>');if(combined)rows.push({kind:'text',label:'',html:combined,colon:false});});
+                    v82PushEmpty(rows);
+                });
+                while(rows.length&&rows[rows.length-1].kind==='empty')rows.pop();
+                if(!signature)signature={layout:1,entries:[{kind:'mediator',title:'ARABULUCU',name:'Arb. Av. ……………………',registry:'(ADB Sicil No: ……)'}]};
+                v82WordModel={fileName:file.name,sourceType:'udf',rows:rows,signature:signature,titles:titles.length?titles:['<b>BELGE BAŞLIĞI</b>']};v82RenderWordPreview();
+            }
+            async function v85HandleDocumentFile(file){if(!file)return;var udf=/\.udf$/i.test(file.name||''),docx=/\.docx$/i.test(file.name||'');if(!udf&&!docx){await appAlert('Lütfen .docx uzantılı Word veya .udf uzantılı UYAP belgesi seçin.','Geçersiz Dosya');return;}var fileLabel=document.getElementById('v82WordFile'),status=document.getElementById('v82WordStatus');if(fileLabel)fileLabel.textContent=file.name;if(status)status.textContent=(udf?'UYAP':'Word')+' belgesi okunuyor…';try{if(udf)await v85ReadUdfFile(file);else {await v82ReadWordFile(file);v82WordModel.sourceType='docx';}}catch(error){if(status)status.textContent='Belge okunamadı.';await appAlert(error.message||String(error),(udf?'UYAP':'Word')+' Belgesi Okunamadı');}}
+
+            v82HandleWordFile=v85HandleDocumentFile;
+            v82InstallWordImporter=function(){
+                originalInstall();var modal=document.getElementById('v82WordModal');if(!modal||modal.dataset.v85Ready)return;modal.dataset.v85Ready='true';
+                var heading=modal.querySelector('.v20-smart-head h2'),description=modal.querySelector('.v20-smart-head p'),pick=modal.querySelector('.v82-word-pick'),input=document.getElementById('v82WordInput'),help=modal.querySelector('.v82-word-help');
+                if(heading)heading.textContent='Word veya UYAP Belgesini Dönüştür';if(description)description.textContent='Word veya UYAP içeriği standart editör alanlarına ayrılır; aktarılmadan önce düzenlenebilir.';if(pick){var icon=pick.querySelector('.material-icons');pick.childNodes.forEach(function(node){if(node.nodeType===Node.TEXT_NODE)node.textContent=' Word / UYAP Belgesi Seç';});if(icon)icon.textContent='description';}if(input)input.setAttribute('accept','.docx,.udf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/zip');if(help)help.textContent='Bilgisayarınızdaki .docx veya .udf belgesini seçin ya da aşağıdaki geniş alana sürükleyip bırakın.';
+                var drop=document.getElementById('v82WordRows');if(drop)drop.addEventListener('drop',function(event){var file=Array.from(event.dataTransfer?.files||[]).find(function(item){return /\.(?:docx|udf)$/i.test(item.name||'');});if(!file)return;event.preventDefault();event.stopImmediatePropagation();drop.classList.remove('is-dragging');v85HandleDocumentFile(file);},true);
+                var empty=drop?.querySelector('.v82-drop-empty');if(empty){empty.querySelector('strong').textContent='Word veya UYAP belgesini buraya sürükleyip bırakın';empty.querySelector('span:last-child').textContent='Dosyayı bilgisayarınızdan seçmek için bu alana veya yukarıdaki düğmeye tıklayabilirsiniz.';}
+            };
+            v82OpenWordImporter=function(){v82InstallWordImporter();document.getElementById('v82WordModal').classList.add('open');};
+            var originalReset=v82ResetWordImporter;
+            v82ResetWordImporter=function(){originalReset();var file=document.getElementById('v82WordFile'),rows=document.getElementById('v82WordRows'),sig=document.getElementById('v82SignaturePreview');if(file)file.textContent='Henüz Word veya UYAP belgesi seçilmedi.';if(rows)rows.innerHTML='<div class="v82-word-empty v82-drop-empty" onclick="document.getElementById(\'v82WordInput\').click()"><span class="material-icons">upload_file</span><strong>Word veya UYAP belgesini buraya sürükleyip bırakın</strong><span>Dosyayı bilgisayarınızdan seçmek için bu alana veya yukarıdaki düğmeye tıklayabilirsiniz.</span></div>';if(sig)sig.innerHTML='<div class="v82-word-empty">İmza bilgileri belge okunduktan sonra gösterilir.</div>';};
+            v82ApplyWordImport=async function(){
+                if(!v82WordModel.rows.length)return;var source=v82WordModel.sourceType==='udf'?'UYAP':'Word';if(!await appConfirm('Mevcut belge içeriği '+source+' belgesinden algılanan yeni içerikle değiştirilecek. Devam edilsin mi?',source+' Belgesini Editöre Aktar','Belgeyi Değiştir','Vazgeç'))return;
+                var body=document.querySelector('#docTable>tbody'),fragment=document.createDocumentFragment();fragment.appendChild(v20CreateSmartGap());
+                (v82WordModel.titles||[]).forEach(function(html){var row=document.createElement('tr');row.className='full-row v34-title-text-row v34-title-part';var td=document.createElement('td');td.colSpan=3;var content=document.createElement('div');content.className='fr-content';content.style.textAlign='center';content.style.textAlignLast='center';var bold=document.createElement('b');bold.innerHTML=v82SanitizeInlineHtml(html).replace(/^<b>|<\/b>$/gi,'');content.appendChild(bold);td.appendChild(content);row.appendChild(td);fragment.appendChild(row);});
+                var blank1=v20CreateSmartGap(),blank2=v20CreateSmartGap();blank1.classList.add('v34-title-part');blank2.classList.add('v34-title-part');fragment.append(blank1,blank2);
+                (v82WordModel.rows||[]).forEach(function(row){fragment.appendChild(row.kind==='empty'?v20CreateSmartGap():row.kind==='field'?v82CreateRichField(row):v82CreateRichText(row));});var sigGap=v20CreateSmartGap();sigGap.classList.add('v11-signature-gap');fragment.append(sigGap,v82CreateSignatureRow());body.replaceChildren(fragment);applyEditable();injectLabelDropdowns();v21InstallSmartControls();v18EnsureTitleBold(document.getElementById('docTable'));v82CloseWordImporter();v34ToggleStructureMode(false);document.getElementById('pageContent')?.scrollTo?.(0,0);await appAlert(source+' belgesi editöre aktarıldı. Alanları kontrol edip .arbsys olarak kaydedebilirsiniz.','Dönüşüm Tamamlandı');
+            };
+            document.addEventListener('DOMContentLoaded',function(){var button=document.querySelector('#v34AddBar .v82-word-add');if(button){button.lastChild.textContent='Word / UYAP Belgesini Dönüştür';}});
+        })();
+    </script>
 </body></html>
