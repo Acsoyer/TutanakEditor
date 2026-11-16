@@ -10194,4 +10194,119 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             setTimeout(repair,0);
         })();
     </script>
+    <style id="v96-unified-header-controls-style">
+        .v90-logo-area{background:#fff!important}
+        .v90-logo-inner{inset:0!important;background:#fff!important;overflow:hidden!important}
+        .v90-logo-inner img{will-change:transform,width,height}
+        .v90-place{display:none!important}
+        .v90-placement{width:100%!important;justify-content:flex-end!important;padding:5px 6px!important;gap:5px!important}
+        .v90-placement-title{width:auto!important;max-width:none!important;margin-right:auto!important;font-size:11px!important;line-height:1.15!important;text-align:left!important}
+        .v96-scale-controls{display:flex;align-items:center;gap:4px}
+        .v96-logo-tool{position:relative;width:34px;height:32px;border:1px solid #cbd5e1;border-radius:8px;background:#fff;color:#334155;cursor:pointer}
+        .v96-logo-tool:hover{border-color:#2563eb;background:#eff6ff;color:#1d4ed8}
+        .v96-logo-tool:disabled{opacity:.35;cursor:not-allowed}
+        .v96-logo-tool svg{display:block;width:18px;height:18px;margin:auto;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+        .v93-nudge{padding-left:5px!important;margin-left:1px!important}
+        .v93-nudge button{width:34px!important;height:32px!important}
+    </style>
+    <script id="v96-unified-header-controls-script">
+        (function(){
+            function defaults(){
+                v22HFSettings.headerZoom=Math.max(.25,Math.min(1,Number(v22HFSettings.headerZoom||1)));
+                v22HFSettings.headerOffsetY=Math.max(-1,Math.min(1,Number(v22HFSettings.headerOffsetY||0)));
+                v22HFSettings.headerPlacement='full';
+            }
+            function textSettings(){
+                v22HFSettings.headerText=Object.assign({line1:'',line2:'',leading:24},v22HFSettings.headerText||{});
+                [1,2].forEach(function(i){v22HFSettings.headerText['style'+i]=Object.assign({family:'Times New Roman',size:i===1?16:9,color:'#000000',bold:i===1,italic:false,underline:false,tracking:0},v22HFSettings.headerText['style'+i]||{});});
+                return v22HFSettings.headerText;
+            }
+            function textMode(settings){return ['text','textSaved'].includes(settings?.headerMode);}
+            function applyImageGeometry(img,container,state){
+                if(!img||!container||!img.naturalWidth||!img.naturalHeight)return;
+                var box=container.getBoundingClientRect();if(!box.width||!box.height)return;
+                var isText=textMode(state),base=isText?Math.min(box.width/1244,box.height/237):Math.min(box.width/img.naturalWidth,box.height/img.naturalHeight);
+                var zoom=Math.max(.25,Math.min(1,Number(state.headerZoom||1))),w=img.naturalWidth*base*zoom,h=img.naturalHeight*base*zoom;
+                var free=Math.max(0,box.height-h),offset=Math.max(-1,Math.min(1,Number(state.headerOffsetY||0))),shift=offset*free/2;
+                img.style.setProperty('width',w+'px','important');img.style.setProperty('height',h+'px','important');img.style.setProperty('max-width','none','important');img.style.setProperty('max-height','none','important');img.style.setProperty('transform','translateY('+shift+'px)','important');
+            }
+            function applyGeometry(state){
+                state=state||v22HFSettings;var ui=document.getElementById('v90LogoImage'),inner=document.getElementById('v90LogoInner');
+                if(ui&&inner){if(ui.complete)applyImageGeometry(ui,inner,state);ui.addEventListener('load',function(){applyImageGeometry(ui,inner,state);},{once:true});}
+                var print=document.querySelector('#logoPrintBox img'),box=document.getElementById('logoPrintBox');
+                if(print&&box){if(print.complete)applyImageGeometry(print,box,state);print.addEventListener('load',function(){applyImageGeometry(print,box,state);},{once:true});}
+            }
+            var applyHeader96=v22ApplyHeader;
+            v22ApplyHeader=async function(){defaults();await applyHeader96();setTimeout(function(){applyGeometry(v22HFSettings);},0);};
+            function post(){document.getElementById('v90PreviewFrame')?.contentWindow?.postMessage({type:'v96-header-geometry',settings:Object.assign({},v22HFSettings)},'*');}
+            function postAll(){var frame=document.getElementById('v90PreviewFrame')?.contentWindow;if(!frame)return;frame.postMessage({type:'v90-hf-settings',settings:Object.assign({},v22HFSettings)},'*');setTimeout(post,40);}
+            if(new URLSearchParams(location.search).get('hfPreview')==='1'){
+                addEventListener('message',function(event){
+                    if(event.data?.type!=='v96-header-geometry')return;var state=event.data.settings||{};
+                    [0,40,100,180].forEach(function(delay){setTimeout(function(){applyGeometry(state);},delay);});
+                });
+                return;
+            }
+            function svg(kind){
+                var glass='<circle cx="8" cy="8" r="5"></circle><path d="M12 12l4 4"></path>';
+                return '<svg viewBox="0 0 18 18" aria-hidden="true">'+glass+(kind==='plus'?'<path d="M8 5.5v5M5.5 8h5"></path>':'<path d="M5.5 8h5"></path>')+'</svg>';
+            }
+            function createScaleControls(){
+                var placement=document.querySelector('.v90-placement');if(!placement)return;
+                placement.querySelectorAll('.v90-place').forEach(function(button){button.hidden=true;});
+                var title=placement.querySelector('.v90-placement-title');if(title)title.textContent='Logo boyutu ve konumu';
+                var group=placement.querySelector('.v96-scale-controls');
+                if(!group){group=document.createElement('div');group.className='v96-scale-controls';var minus=document.createElement('button'),plus=document.createElement('button');minus.type=plus.type='button';minus.className=plus.className='v96-logo-tool';minus.dataset.action='shrink';plus.dataset.action='grow';minus.title='Logoyu küçült';plus.title='Logoyu büyüt';minus.innerHTML=svg('minus');plus.innerHTML=svg('plus');group.append(minus,plus);var nudges=placement.querySelector('.v93-nudge');placement.insertBefore(group,nudges||null);}
+                group.querySelector('[data-action="grow"]').onclick=function(){changeZoom(.05);};
+                group.querySelector('[data-action="shrink"]').onclick=function(){changeZoom(-.05);};
+                var nudges=placement.querySelector('.v93-nudge');if(nudges)nudges.querySelectorAll('button').forEach(function(button){button.disabled=false;button.onclick=function(){changeOffset(button.dataset.direction==='down'?.1:-.1);};});
+                updateToolState();
+            }
+            function updateToolState(){var zoom=Number(v22HFSettings.headerZoom||1),group=document.querySelector('.v96-scale-controls');if(group){group.querySelector('[data-action="grow"]').disabled=zoom>=.999;group.querySelector('[data-action="shrink"]').disabled=zoom<=.251;}}
+            function changeZoom(delta){defaults();v22HFSettings.headerZoom=Math.max(.25,Math.min(1,Number((v22HFSettings.headerZoom+delta).toFixed(2))));v22HFStore();applyGeometry();post();updateToolState();}
+            function changeOffset(delta){defaults();v22HFSettings.headerOffsetY=Math.max(-1,Math.min(1,Number((v22HFSettings.headerOffsetY+delta).toFixed(2))));v22HFStore();applyGeometry();post();}
+            function markDirty(){var save=document.getElementById('v90TextSave');if(save){save.disabled=true;save.classList.add('v92-save-disabled');save.classList.remove('v92-save-ready');}}
+            function renderText(){
+                /* Önceki tek ve güvenilir metin üreticisini bir kez çalıştır; ardından doğal punto ölçeğini uygula. */
+                var line=document.getElementById('v90Line1');if(line)line.dispatchEvent(new Event('input',{bubbles:false}));
+                setTimeout(function(){applyGeometry();},0);markDirty();
+            }
+            function showModeInLeft(mode){
+                var image=document.getElementById('v90LogoImage');if(!image)return;
+                if(mode==='arbsys')image.src='ArbsysLogoHeader_FULL.png';
+                else if(mode==='consensus')image.src='ConsensusLogoHeader_FULL.png';
+                else if(mode==='textSaved'&&v22HFSettings.textLogo)image.src=v22HFSettings.textLogo;
+                image.addEventListener('load',function(){applyGeometry();},{once:true});
+            }
+            function replaceControl(old,handler){if(!old)return null;var fresh=old.cloneNode(true);old.replaceWith(fresh);fresh.onclick=handler;return fresh;}
+            function repairTextControls(){
+                [1,2].forEach(function(i){
+                    var row=document.getElementById('v90Line'+i)?.closest('.v90-text-line');if(!row)return;
+                    var style=textSettings()['style'+i],up=row.querySelector('.v90-font-up'),down=row.querySelector('.v90-font-down'),font=document.getElementById('v90Font'+i);
+                    up=replaceControl(up,function(){style=textSettings()['style'+i];style.size=Math.min(48,Number(style.size||10)+1);var hidden=document.getElementById('v90Size'+i);if(hidden)hidden.value=style.size;v22HFStore();renderText();});
+                    down=replaceControl(down,function(){style=textSettings()['style'+i];style.size=Math.max(6,Number(style.size||10)-1);var hidden=document.getElementById('v90Size'+i);if(hidden)hidden.value=style.size;v22HFStore();renderText();});
+                    if(font&&up&&down){font.insertAdjacentElement('afterend',down);font.insertAdjacentElement('afterend',up);}
+                    [['v90Bold'+i,'bold'],['v90Italic'+i,'italic'],['v90Underline'+i,'underline']].forEach(function(item){
+                        var button=replaceControl(document.getElementById(item[0]),function(){var current=textSettings()['style'+i];current[item[1]]=!current[item[1]];button.classList.toggle('is-active',!!current[item[1]]);v22HFStore();renderText();});
+                        if(button)button.classList.toggle('is-active',!!style[item[1]]);
+                    });
+                });
+            }
+            var modeSequence=0;
+            function repairModeRadios(){
+                document.querySelectorAll('#headerRow input[name="v22HeaderMode"]').forEach(function(old){
+                    if(old.dataset.v96)return;var radio=old.cloneNode(true);radio.dataset.v96='1';old.replaceWith(radio);
+                    radio.onchange=async function(){if(!radio.checked)return;var sequence=++modeSequence,mode=radio.value;v22HFSettings.headerMode=mode;v22HFSettings.headerPlacement='full';
+                        if(mode==='custom'){document.getElementById('logoInput')?.click();return;}
+                        var card=document.getElementById('v90TextCard');if(card)card.classList.toggle('is-open',mode==='text');
+                        if(mode==='text')renderText();else{showModeInLeft(mode);await v22ApplyHeader();if(sequence!==modeSequence)return;showModeInLeft(mode);}
+                        v22HFStore();applyGeometry();postAll();
+                    };
+                });
+            }
+            function repair(){defaults();createScaleControls();repairTextControls();repairModeRadios();var mode=v22HFSettings.headerMode;if(mode!=='text')showModeInLeft(mode);applyGeometry();post();var apply=document.querySelector('.v91-apply');if(apply&&!apply.dataset.v96){apply.dataset.v96='1';apply.addEventListener('click',function(){setTimeout(post,50);});}}
+            var toggle96=toggleHFPanel;toggleHFPanel=function(){toggle96();setTimeout(repair,0);setTimeout(repair,120);};
+            setTimeout(repair,0);
+        })();
+    </script>
 </body></html>
