@@ -10309,4 +10309,57 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             setTimeout(repair,0);
         })();
     </script>
+    <script id="v97-header-geometry-fix-script">
+        (function(){
+            function isText(state){return ['text','textSaved'].includes(state?.headerMode);}
+            function limitFor(img,state){
+                if(!img?.naturalWidth||!img?.naturalHeight)return 1;
+                if(!isText(state))return 1;
+                return Math.max(1,Math.min(4,Math.min(1244/img.naturalWidth,237/img.naturalHeight)));
+            }
+            function place(img,container,state){
+                if(!img||!container||!img.naturalWidth||!img.naturalHeight)return;
+                var cw=container.clientWidth||container.getBoundingClientRect().width,ch=container.clientHeight||container.getBoundingClientRect().height;if(!cw||!ch)return;
+                var text=isText(state),base=text?Math.min(cw/1244,ch/237):Math.min(cw/img.naturalWidth,ch/img.naturalHeight),maximum=limitFor(img,state),zoom=Math.max(.25,Math.min(maximum,Number(state.headerZoom||1)));
+                var w=img.naturalWidth*base*zoom,h=img.naturalHeight*base*zoom,free=Math.max(0,ch-h),offset=Math.max(-1,Math.min(1,Number(state.headerOffsetY||0))),shift=offset*free/2;
+                img.style.setProperty('width',w+'px','important');img.style.setProperty('height',h+'px','important');img.style.setProperty('max-width','none','important');img.style.setProperty('max-height','none','important');img.style.setProperty('transform','translateY('+shift+'px)','important');img.style.setProperty('object-fit','contain','important');
+            }
+            function allLogoImages(state){
+                document.querySelectorAll('.logo-container-print img').forEach(function(img){var box=img.closest('.logo-container-print');if(img.complete)place(img,box,state);img.addEventListener('load',function(){place(img,box,state);},{once:true});});
+                var ui=document.getElementById('v90LogoImage'),inner=document.getElementById('v90LogoInner');if(ui&&inner){if(ui.complete)place(ui,inner,state);ui.addEventListener('load',function(){place(ui,inner,state);},{once:true});}
+            }
+            function updateButtons(state){
+                var ui=document.getElementById('v90LogoImage'),max=limitFor(ui,state),zoom=Number(state.headerZoom||1),grow=document.querySelector('.v96-scale-controls [data-action="grow"]'),shrink=document.querySelector('.v96-scale-controls [data-action="shrink"]');
+                if(grow)grow.disabled=zoom>=max-.001;if(shrink)shrink.disabled=zoom<=.251;
+            }
+            function apply(state){state=state||v22HFSettings;if(isText(state)){var ui=document.getElementById('v90LogoImage'),max=limitFor(ui,state);state.headerZoom=Math.max(.25,Math.min(max,Number(state.headerZoom||1)));}else state.headerZoom=Math.max(.25,Math.min(1,Number(state.headerZoom||1)));allLogoImages(state);updateButtons(state);}
+            var baseApply=v22ApplyHeader;
+            v22ApplyHeader=async function(){await baseApply();[0,30,90].forEach(function(delay){setTimeout(function(){apply(v22HFSettings);},delay);});};
+            if(new URLSearchParams(location.search).get('hfPreview')==='1'){
+                addEventListener('message',function(event){
+                    if(event.data?.type!=='v96-header-geometry'&&event.data?.type!=='v90-hf-settings')return;var state=event.data.settings||{};
+                    [0,30,80,150,260].forEach(function(delay){setTimeout(function(){allLogoImages(state);},delay);});
+                });
+                return;
+            }
+            function post(){var frame=document.getElementById('v90PreviewFrame')?.contentWindow;if(!frame)return;frame.postMessage({type:'v96-header-geometry',settings:Object.assign({},v22HFSettings)},'*');}
+            function refresh(){apply(v22HFSettings);post();v22HFStore();}
+            function dynamicMax(){return limitFor(document.getElementById('v90LogoImage'),v22HFSettings);}
+            function rewireTools(){
+                var grow=document.querySelector('.v96-scale-controls [data-action="grow"]'),shrink=document.querySelector('.v96-scale-controls [data-action="shrink"]');
+                if(grow)grow.onclick=function(){v22HFSettings.headerZoom=Math.min(dynamicMax(),Number((Number(v22HFSettings.headerZoom||1)+.05).toFixed(2)));refresh();};
+                if(shrink)shrink.onclick=function(){v22HFSettings.headerZoom=Math.max(.25,Number((Number(v22HFSettings.headerZoom||1)-.05).toFixed(2)));refresh();};
+                document.querySelectorAll('.v93-nudge button').forEach(function(button){button.disabled=false;button.onclick=function(){var direction=button.dataset.direction==='down'?.1:-.1;v22HFSettings.headerOffsetY=Math.max(-1,Math.min(1,Number((Number(v22HFSettings.headerOffsetY||0)+direction).toFixed(2))));refresh();};});
+                updateButtons(v22HFSettings);
+            }
+            function rewireLeading(){
+                var old=document.getElementById('v90Leading');if(!old||old.dataset.v97)return;var input=old.cloneNode(true);input.dataset.v97='1';old.replaceWith(input);input.value=Number(v22HFSettings.headerText?.leading||24);input.min='6';input.max='56';input.step='1';
+                input.oninput=function(){var value=Math.max(6,Math.min(56,Number(input.value)||24));v22HFSettings.headerText.leading=value;v22HFStore();var line=document.getElementById('v90Line1');if(line)line.dispatchEvent(new Event('input',{bubbles:false}));setTimeout(function(){apply(v22HFSettings);updateButtons(v22HFSettings);},0);};
+            }
+            function watchImage(){var image=document.getElementById('v90LogoImage');if(!image||image.dataset.v97)return;image.dataset.v97='1';image.addEventListener('load',function(){apply(v22HFSettings);updateButtons(v22HFSettings);});}
+            function repair(){rewireTools();rewireLeading();watchImage();apply(v22HFSettings);post();}
+            var toggle97=toggleHFPanel;toggleHFPanel=function(){toggle97();setTimeout(repair,0);setTimeout(repair,140);};
+            setTimeout(repair,0);
+        })();
+    </script>
 </body></html>
