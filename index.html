@@ -9963,6 +9963,8 @@ window.V89_PREVIEW_SAMPLE=(function(){var b=atob('PCEtLSBBUkJTWVMtQ09OVEVOVCB2Mi
 #hf101FooterEdit{min-width:94px}
 #v22FooterInputs input::placeholder{color:#8491a3;opacity:1}
 #v22FooterInputs input[readonly]{background:#f8fafc}
+#hf102Import{margin:0 0 11px;min-height:35px;font-size:11px}
+.v90-choice:has(input:disabled):not(:has(input:checked)){background:#f1f5f9;color:#64748b}
 .v90-zoom #hf99Close,.v90-zoom #hf99Save{width:auto}
 .v90-btn.hf100-cancel{background:#edf1f5;border-color:#cbd5e1;color:#334155}
 .v90-btn.hf100-confirm,.v90-zoom #hf99Save{background:#15803d;border-color:#15803d;color:white}
@@ -10013,7 +10015,10 @@ body:has(#hfPanel[data-explicit-close].open) #v26HFBackdrop{cursor:default}
     'use strict';
     const width = 1244, height = 237;
     const presets = {arbsys:'ArbsysLogoHeader_FULL.png', consensus:'ConsensusLogoHeader_FULL.png'};
-    const slots = ['arbsys','consensus','imported','text'];
+    const slots = ['arbsys','consensus','imported','text','document-image','document-text'];
+    const isTextSlot = key=>key==='text'||key==='document-text';
+    const isImageSlot = key=>key==='imported'||key==='document-image';
+    const maxLogoBytes = 10 * 1024 * 1024;
     const bucket = 'header-assets', table = 'arbsys_header_designs';
     const child = new URLSearchParams(location.search).get('hfPreview') === '1';
     const byId = id => document.getElementById(id);
@@ -10047,6 +10052,160 @@ body:has(#hfPanel[data-explicit-close].open) #v26HFBackdrop{cursor:default}
         gap:8
     });
     const placeholders = ['DEMO HUKUK','AVUKATLIK, HUKUKİ DANIŞMANLIK HİZMETLERİ'];
+    const localAttr = (node,name) => Array.from(node?.attributes || []).find(attr=>attr.localName===name)?.value;
+    const descendants = (node,name) => Array.from(node?.getElementsByTagNameNS('*',name) || []);
+    const lineText = value => value.replace(/[ \t]*(?:_{4,}|[-─—]{4,})[ \t]*$/u,'').trim();
+    function twoDocumentLines(lines) {
+        const visible = lines.map(line=>({...line,value:lineText(line.value)})).filter(line=>line.value);
+        if (visible.length <= 2) return visible;
+        return [visible[0],{...visible[1],value:visible.slice(1).map(line=>line.value).join(' ')}];
+    }
+    async function zipPart(zip,path,type='string',limit=maxLogoBytes) {
+        const entry = zip.file(path);
+        if (!entry) return null;
+        if (entry._data?.uncompressedSize>limit) throw new Error('Belgedeki üst veya alt bilgi çok büyük.');
+        const value = await entry.async(type);
+        if ((value.byteLength ?? value.length)>limit) throw new Error('Belgedeki üst veya alt bilgi çok büyük.');
+        return value;
+    }
+    function readXml(source) {
+        if (!source) return null;
+        if (/<!DOCTYPE|<!ENTITY/i.test(source)) throw new Error('Belgede desteklenmeyen XML bildirimi var.');
+        const xml=new DOMParser().parseFromString(source,'application/xml');
+        if (xml.querySelector('parsererror')) throw new Error('Üst veya alt bilgi XML’i okunamadı.');
+        return xml;
+    }
+    function pathInPackage(part,target) {
+        if (!target || /^[a-z]+:|^\/\//i.test(target)) return '';
+        try {
+            return decodeURIComponent(new URL(target,'https://package.invalid/'+part).pathname).slice(1);
+        } catch { return ''; }
+    }
+    async function readRelationships(zip,part) {
+        const at=part.lastIndexOf('/')+1;
+        const path=part.slice(0,at)+'_rels/'+part.slice(at)+'.rels';
+        const entries=descendants(readXml(await zipPart(zip,path)),'Relationship');
+        return new Map(entries.filter(rel=>rel.getAttribute('TargetMode')!=='External')
+            .map(rel=>[rel.getAttribute('Id'),pathInPackage(part,rel.getAttribute('Target'))]));
+    }
+    async function supportedLogo(bytes) {
+        if (!bytes?.length || bytes.length>maxLogoBytes) return null;
+        const starts=(...values)=>values.every((value,index)=>bytes[index]===value);
+        let type;
+        if (starts(137,80,78,71,13,10,26,10)) type='image/png';
+        else if (starts(255,216,255)) type='image/jpeg';
+        else if (starts(82,73,70,70) && String.fromCharCode(...bytes.slice(8,12))==='WEBP') type='image/webp';
+        if (!type) return null;
+        const blob=new Blob([bytes],{type});
+        try { await imageOf(blob); return blob; } catch { return null; }
+    }
+    function wordLines(xml) {
+        const lines=[];
+        for (const paragraph of descendants(xml,'p')) {
+            let line={value:''}, fields=0;
+            for (const run of descendants(paragraph,'r')) {
+                let insideSimpleField=false;
+                for(let parent=run.parentElement;parent && parent!==paragraph;parent=parent.parentElement) {
+                    if(parent.localName==='fldSimple') insideSimpleField=true;
+                }
+                if(insideSimpleField) continue;
+                const props=Array.from(run.children).find(node=>node.localName==='rPr');
+                const property=name=>Array.from(props?.children || []).find(node=>node.localName===name);
+                const flag=name=>property(name) && !/^(?:0|false|off|none)$/i.test(localAttr(property(name),'val') || '');
+                for (const node of run.children) {
+                    if(node.localName==='fldChar'){
+                        const marker=localAttr(node,'fldCharType');
+                        if(marker==='begin') fields++;
+                        if(marker==='end') fields=Math.max(0,fields-1);
+                    }
+                    if(fields) continue;
+                    if(node.localName==='br'||node.localName==='cr'){lines.push(line);line={value:''};}
+                    if(node.localName==='tab')line.value+=' ';
+                    if(node.localName!=='t')continue;
+                    if(!line.value.trim() && node.textContent.trim()) {
+                        const color=localAttr(property('color'),'val');
+                        line={...line,family:localAttr(property('rFonts'),'hAnsi') || localAttr(property('rFonts'),'ascii'),
+                            size:Number(localAttr(property('sz'),'val'))/2,color:/^[0-9a-f]{6}$/i.test(color || '')?'#'+color:undefined,
+                            bold:!!flag('b'),italic:!!flag('i'),underline:!!flag('u')};
+                    }
+                    line.value+=node.textContent;
+                }
+            }
+            lines.push(line);
+        }
+        return twoDocumentLines(lines);
+    }
+    async function readWordHeaderFooter(zip) {
+        const part='word/document.xml';
+        const documentXml=readXml(await zipPart(zip,part));
+        if (!documentXml) throw new Error('DOCX belge yapısı bulunamadı.');
+        const relationships=await readRelationships(zip,part);
+        async function parts(kind) {
+            const links=descendants(documentXml,kind+'Reference');
+            const ordered=[...links.filter(link=>localAttr(link,'type')==='default'),
+                ...links.filter(link=>localAttr(link,'type')!=='default')];
+            const paths=[...new Set(ordered.map(link=>relationships.get(localAttr(link,'id'))).filter(Boolean))];
+            for (const path of paths) {
+                const xml=readXml(await zipPart(zip,path));
+                const lines=wordLines(xml);
+                let logo=null;
+                if (kind==='header') {
+                    const refs=[...descendants(xml,'blip'),...descendants(xml,'imagedata')];
+                    if(refs.length){
+                        const rels=await readRelationships(zip,path);
+                        for(const ref of refs){
+                            const imagePath=rels.get(localAttr(ref,'embed') || localAttr(ref,'id'));
+                            if (imagePath && (logo=await supportedLogo(await zipPart(zip,imagePath,'uint8array')))) break;
+                        }
+                    }
+                }
+                if(lines.length||logo) return {lines,logo};
+            }
+            return {lines:[],logo:null};
+        }
+        const [header,footer]=await Promise.all([parts('header'),parts('footer')]);
+        return {text:header.lines,logo:header.logo,footer:footer.lines.map(line=>line.value)};
+    }
+    async function readUdfHeaderFooter(zip) {
+        const xml=readXml(await zipPart(zip,'content.xml'));
+        const root=xml?.documentElement, content=Array.from(root?.children || []).find(node=>node.localName==='content');
+        if (!content) throw new Error('UDF metin havuzu bulunamadı.');
+        const pool=Array.from(content.textContent);
+        const sections = kind => descendants(root,kind).flatMap(section=>descendants(section,'paragraph'));
+        const lines = kind => twoDocumentLines(sections(kind).flatMap(paragraph=>{
+            const result=[];
+            let line={value:''};
+            for (const run of paragraph.children) {
+                if(run.localName==='tab'){line.value+=' ';continue;}
+                if(!['content','field','space'].includes(run.localName)) continue;
+                const offset=Number(run.getAttribute('startOffset')), count=Number(run.getAttribute('length'));
+                if(!Number.isInteger(offset)||!Number.isInteger(count)||offset<0||count<0||offset+count>pool.length)continue;
+                const parts=pool.slice(offset,offset+count).join('').split(/\r\n|[\n\r]/);
+                parts.forEach((value,index)=>{
+                    if(index){result.push(line);line={value:''};}
+                    if(!line.value.trim()&&lineText(value)){
+                        const attr=name=>run.getAttribute(name) ?? paragraph.getAttribute(name);
+                        line={...line,family:attr('family'),size:Number(attr('size')),
+                            bold:attr('bold')==='true',italic:attr('italic')==='true',underline:attr('underline')==='true'};
+                    }
+                    line.value+=value;
+                });
+            }
+            return [...result,line];
+        }));
+        let logo=null;
+        for (const image of descendants(root,'header').flatMap(section=>descendants(section,'image'))) {
+            // UYAP stores divider lines as very short PNG images.
+            const h=Number(image.getAttribute('height'));
+            if(h>0 && h<=3)continue;
+            const data=(image.getAttribute('imageData') || '').replace(/\s+/g,'');
+            if(!data || data.length>Math.ceil(maxLogoBytes*4/3)+4)continue;
+            try { logo=await supportedLogo(Uint8Array.from(atob(data),char=>char.charCodeAt(0))); }
+            catch { continue; }
+            if(logo)break;
+        }
+        return {text:lines('header'),logo,footer:lines('footer').map(line=>line.value)};
+    }
     function legacyModel() {
         const old = legacy(), records = {arbsys:{},consensus:{}};
         const existingText = old.textLogo || (['text','textSaved'].includes(old.headerMode) && old.customHeaderLogo);
@@ -10148,7 +10307,7 @@ body:has(#hfPanel[data-explicit-close].open) #v26HFBackdrop{cursor:default}
     }
     const sources = new Map();
     async function sourceOf(key, record, demo) {
-        if (key === 'text' && record.text) return textSource(record.text,demo);
+        if (isTextSlot(key) && record.text) return textSource(record.text,demo);
         const source = record.file || (record.sourcePath ? await download(record.sourcePath)
             : record.legacySource || presets[key]);
         if (!source) return null;
@@ -10235,7 +10394,7 @@ body:has(#hfPanel[data-explicit-close].open) #v26HFBackdrop{cursor:default}
                 const {legacySource,file,...record} = current;
                 if (!record.outputPath || changed.has(key)) {
                     const picture = await compose(key,current);
-                    if (key === 'imported' || (key === 'text' && !record.text)) {
+                    if (isImageSlot(key) || (isTextSlot(key) && !record.text)) {
                         const blob = file || (legacySource && await fetch(legacySource).then(response => response.blob()));
                         if (blob) record.sourcePath = await write(key,'source',blob);
                     }
@@ -10386,7 +10545,7 @@ body:has(#hfPanel[data-explicit-close].open) #v26HFBackdrop{cursor:default}
     v22HFStore = () => {
         const original = v22HFSettings;
         v22HFSettings = {...legacy(),footerMode:original.footerMode,customFooter:original.customFooter,
-            userFooter:original.userFooter};
+            userFooter:original.userFooter,documentFooter:original.documentFooter};
         try { storeFooter(); } finally { v22HFSettings = original; }
     };
     v22ApplyHeader = async () => {
@@ -10470,6 +10629,8 @@ body:has(#hfPanel[data-explicit-close].open) #v26HFBackdrop{cursor:default}
             ${button('hf99Close','İptal','hf100-cancel')}${button('hf99Save',disk+'Seçimi uygula','hf100-confirm')}</div></div></div></div>
             <div class="v90-layout"><div class="v90-controls">
             <label class="v90-master"><input id="hfMasterCheck" type="checkbox">Üst ve alt bilgiyi kullan</label>
+            ${button('hf102Import','Belgeden üst ve alt bilgi al')}
+            <input id="hf102Document" type="file" hidden accept=".docx,.udf">
             <input id="headerCheck" type="checkbox" hidden><input id="footerCheck" type="checkbox" hidden>
             <section class="v90-card" id="headerRow"><h3>Üst Bilgi</h3><div class="v90-modes" id="hf99Choices"></div>
             <input id="hf99File" type="file" hidden accept="image/png,image/jpeg,image/webp">
@@ -10486,7 +10647,7 @@ body:has(#hfPanel[data-explicit-close].open) #v26HFBackdrop{cursor:default}
             <div id="hf99Text"></div></div>
             <p id="hf99Status" class="hf99-status" role="status"></p></section>
             <section class="v90-card" id="footerRow"><h3>Alt Bilgi</h3><div class="v90-modes">
-            ${choices('v22FooterMode',[['arbsys','Arbsys'],['consensus','Consensus'],['custom','Alt Bilgi Ekle']])}</div>
+            ${choices('v22FooterMode',[['arbsys','Arbsys'],['consensus','Consensus'],['custom','Alt Bilgi Ekle'],['documentFooter','Belgeden alt bilgi']])}</div>
             <div class="hf100-editor-actions">${button('hf101FooterEdit','Düzenle')}
             ${button('hf101FooterCancel','İptal','hf100-cancel')}${button('hf101FooterAccept','Kaydet','hf100-confirm')}</div>
             <div id="v22FooterInputs" class="v90-footer-inputs">
@@ -10502,12 +10663,14 @@ body:has(#hfPanel[data-explicit-close].open) #v26HFBackdrop{cursor:default}
         byId('hf100EditCancel').onclick = cancelEdit;
         byId('hf100EditSave').onclick = () => finishEdit();
         byId('hf99File').onchange = importLogo;
+        byId('hf102Import').onclick = () => {if(draft && !editing && !footerEdit && !saving)byId('hf102Document').click();};
+        byId('hf102Document').onchange = importHeaderFooter;
         byId('hf99Save').onclick = save;
         byId('hf99Reset').onclick = resetLogo;
         byId('hf100Replace').onclick = () => {
-            if (editing?.key === 'imported') return byId('hf99File').click();
-            if (editing?.key !== 'text') return;
-            draft.records.text = newTextRecord();
+            if (isImageSlot(editing?.key)) return byId('hf99File').click();
+            if (!isTextSlot(editing?.key)) return;
+            draft.records[editing.key] = {...newTextRecord(),origin:editing.key==='document-text'?'document':undefined};
             renderControls();
             paint();
         };
@@ -10527,25 +10690,29 @@ body:has(#hfPanel[data-explicit-close].open) #v26HFBackdrop{cursor:default}
         });
         for (const id of ['footerText1','footerText2']) byId(id).oninput = () => {
             if (!footerDraft || !footerEdit) return;
-            footerDraft.customFooter = [byId('footerText1').value,byId('footerText2').value];
+            footerDraft[footerDraft.footerMode==='documentFooter'?'documentFooter':'customFooter'] =
+                [byId('footerText1').value,byId('footerText2').value];
             paint();
         };
         byId('hf101FooterEdit').onclick = () => {
-            if (!footerDraft || footerDraft.footerMode!=='custom' || footerEdit) return;
-            footerEdit = [...(footerDraft.customFooter || ['',''])];
+            if (!footerDraft || !['custom','documentFooter'].includes(footerDraft.footerMode) || footerEdit) return;
+            footerEdit = structuredClone(footerDraft);
             showFooterDraft();
+            renderImportAvailability();
             byId('footerText1').focus();
         };
         byId('hf101FooterCancel').onclick = () => {
             if (!footerEdit) return;
-            footerDraft.customFooter = footerEdit;
+            footerDraft = footerEdit;
             footerEdit = null;
             showFooterDraft();
+            renderControls();
             paint();
         };
         byId('hf101FooterAccept').onclick = () => {
             footerEdit = null;
             showFooterDraft();
+            renderImportAvailability();
             paint();
         };
         const drop = byId('hf99Drop');
@@ -10559,16 +10726,25 @@ body:has(#hfPanel[data-explicit-close].open) #v26HFBackdrop{cursor:default}
             previewSource = await file.text();
             frameMessage({type:'hf99-document',source:previewSource});
         };
+        renderImportAvailability();
     }
     function renderControls() {
         const record = draft.records[draft.selected];
         const controls = byId('hf99Choices');
         const hasText = draft.records.text && !draft.records.text.creating;
-        controls.innerHTML = choices('hf99Slot',[['arbsys','Arbsys Logo'],['consensus','Consensus Logo'],
-            ['imported',draft.records.imported?'İçeri Aktarılan Logo':'Logo Yükle'],['text',hasText?'Metin Logo':'Metinden Oluştur']]);
+        const documentImage = !!draft.records['document-image'];
+        const documentText = !!draft.records['document-text'];
+        const items=[['arbsys','Arbsys Logo'],['consensus','Consensus Logo']];
+        if(documentImage||documentText||footerDraft?.documentFooter){
+            items.push([documentImage?'document-image':'document-image-empty','Belgeden gelen imaj logo'],
+                [documentText?'document-text':'document-text-empty','Belgeden gelen metin logo']);
+        }
+        items.push(['imported',draft.records.imported?'İçeri Aktarılan Logo':'Logo Yükle'],
+            ['text',hasText?'Metin Logo':'Metinden Oluştur']);
+        controls.innerHTML = choices('hf99Slot',items);
         controls.querySelectorAll('input').forEach(radio => {
             radio.checked = radio.value === draft.selected;
-            radio.disabled = !!editing;
+            radio.disabled = !!editing || radio.value.endsWith('-empty');
             radio.onchange = () => {
                 const key = radio.value;
                 if (key === 'imported' && !draft.records.imported) {
@@ -10591,9 +10767,10 @@ body:has(#hfPanel[data-explicit-close].open) #v26HFBackdrop{cursor:default}
         byId('hf100EditCancel').hidden = !editing;
         byId('hf100EditSave').hidden = !editing;
         const replace = byId('hf100Replace');
-        replace.hidden = !['text','imported'].includes(draft.selected);
-        replace.textContent = draft.selected === 'text' ? 'Yeni Metin Logo' : 'Yeni Logo Yükle';
-        renderTextFields(editing && record?.creating ? record.text : null);
+        replace.hidden = !isTextSlot(draft.selected) && !isImageSlot(draft.selected);
+        replace.textContent = isTextSlot(draft.selected) ? 'Yeni Metin Logo' : 'Yeni Logo Yükle';
+        renderTextFields(editing && (record?.creating || record?.origin==='document') ? record.text : null);
+        renderImportAvailability();
     }
     const newTextRecord = () => ({text:textDefaults(),creating:true,scale:1,offset:0});
     function beginEdit(key) {
@@ -10642,12 +10819,14 @@ body:has(#hfPanel[data-explicit-close].open) #v26HFBackdrop{cursor:default}
         v22ApplyFooter(true);
     }
     function footerLines(state) {
+        if (state.footerMode === 'documentFooter') return state.documentFooter || ['',''];
         if (state.footerMode === 'userFooter') return state.userFooter || ['',''];
         return V22_FOOTERS[state.footerMode] || state.customFooter || ['',''];
     }
     function showFooterDraft() {
         const values = footerDraft.footerMode === 'custom' ? footerDraft.customFooter : footerLines(footerDraft);
         const custom = footerDraft.footerMode==='custom';
+        const editable = custom || footerDraft.footerMode==='documentFooter';
         ['Mahalle Mh. Sokak Sk. Apt 88 / 8A  İlçe - Şehir',
             'Telefon 0(123) 456 78 90 - eposta: info@eposta.com'].forEach((placeholder,index)=>{
             const input=byId('footerText'+(index+1));
@@ -10655,11 +10834,11 @@ body:has(#hfPanel[data-explicit-close].open) #v26HFBackdrop{cursor:default}
             input.placeholder=custom?placeholder:'';
             input.readOnly=!footerEdit;
         });
-        byId('hf101FooterEdit').hidden=!custom || !!footerEdit;
+        byId('hf101FooterEdit').hidden=!editable || !!footerEdit;
         byId('hf101FooterCancel').hidden=!footerEdit;
         byId('hf101FooterAccept').hidden=!footerEdit;
         panel.querySelectorAll('[name=v22FooterMode]').forEach(radio=>{
-            radio.disabled = !!footerEdit;
+            radio.disabled = !!footerEdit || (radio.value==='documentFooter' && !footerDraft.documentFooter);
             radio.checked = radio.value===footerDraft.footerMode;
         });
     }
@@ -10715,9 +10894,70 @@ body:has(#hfPanel[data-explicit-close].open) #v26HFBackdrop{cursor:default}
         };
         area.append(label);
     }
+    let documentImportBusy=false;
+    function renderImportAvailability() {
+        byId('hf102Import').disabled=!draft || !!editing || !!footerEdit || saving || documentImportBusy;
+    }
+    async function importHeaderFooter(event) {
+        const file=event.target.files[0];
+        event.target.value='';
+        if (!file || !draft || editing || footerEdit || saving || documentImportBusy) return;
+        const current=draft;
+        documentImportBusy=true;
+        renderImportAvailability();
+        status('Belgedeki üst ve alt bilgi okunuyor…');
+        try {
+            const format=file.name.match(/\.(docx|udf)$/i)?.[1].toLowerCase();
+            if (!format) throw new Error('DOCX veya UDF uzantılı bir belge seçin.');
+            if (file.size>25*1024*1024) throw new Error('En fazla 25 MB boyutunda bir belge seçin.');
+            const zip=await JSZip.loadAsync(await file.arrayBuffer());
+            const result=await (format==='udf'?readUdfHeaderFooter(zip):readWordHeaderFooter(zip));
+            if (current!==draft || editing || footerEdit || saving) return;
+            if (!result.logo && !result.text.length && !result.footer.length)
+                throw new Error('Belgede aktarılabilir bir üst veya alt bilgi bulunamadı.');
+            draft.enabled=true;
+            if (result.logo) {
+                const logo={file:result.logo,origin:'document',scale:1,offset:0};
+                if (!result.text.length) {
+                    beginEdit('document-image');
+                    draft.records['document-image']=logo;
+                } else {
+                    draft.records['document-image']=logo;
+                    dirty.add('document-image');
+                }
+            }
+            if (result.text.length) {
+                const text=textDefaults();
+                for(const [index,line] of result.text.entries()) {
+                    const target=text.lines[index];
+                    target.value=line.value;
+                    if(fonts.includes(line.family)) target.family=line.family;
+                    if(line.size>0) target.size=clamp(line.size,6,48);
+                    if(line.color) target.color=line.color;
+                    for(const key of ['bold','italic','underline']) if(typeof line[key]==='boolean')target[key]=line[key];
+                }
+                beginEdit('document-text');
+                draft.records['document-text']={text,creating:true,origin:'document',scale:1,offset:0};
+            }
+            if (result.footer.length) {
+                footerEdit=structuredClone(footerDraft);
+                footerDraft.footerMode='documentFooter';
+                footerDraft.documentFooter=result.footer;
+                showFooterDraft();
+            }
+            renderControls();
+            paint();
+            status('');
+        } catch(error) {
+            if(current===draft)status(error.message,true);
+        } finally {
+            documentImportBusy=false;
+            renderImportAvailability();
+        }
+    }
     function textFits(text) {
         const image = textSource(text,true);
-        const scale = draft.records.text.scale ?? 1;
+        const scale = draft.records[draft.selected].scale ?? 1;
         return !image || (image.width*scale <= width && image.height*scale <= height);
     }
     async function paint() {
@@ -10791,7 +11031,7 @@ body:has(#hfPanel[data-explicit-close].open) #v26HFBackdrop{cursor:default}
             await imageOf(file);
             if (currentDraft!==draft || currentEdit!==editing || saving) return;
             if (!editing) beginEdit('imported');
-            draft.records.imported={file,scale:1,offset:0};
+            draft.records[editing.key]={file,scale:1,offset:0,origin:editing.key==='document-image'?'document':undefined};
             renderControls();
             paint();
         } catch(error) { status(error.message,true); }
@@ -10830,6 +11070,7 @@ body:has(#hfPanel[data-explicit-close].open) #v26HFBackdrop{cursor:default}
             controls.inert=false;
             byId('footerRow').inert=false;
             for (const id of ['hf99Save','hf99Close','hfMasterCheck']) byId(id).disabled=false;
+            renderImportAvailability();
         }
     }
     async function initializeOwner(migrate) {
@@ -10875,6 +11116,7 @@ body:has(#hfPanel[data-explicit-close].open) #v26HFBackdrop{cursor:default}
         byId('hf99Choices').replaceChildren();
         byId('hf99Editor').hidden=true;
         draft=footerDraft=footerEdit=null;
+        renderImportAvailability();
         byId('hf99Save').disabled=true;
         for (const id of ['hf99Edit','hf100EditCancel','hf100EditSave']) byId(id).hidden=true;
         status('Üst bilgi tasarımı yükleniyor…');
@@ -10885,7 +11127,8 @@ body:has(#hfPanel[data-explicit-close].open) #v26HFBackdrop{cursor:default}
             draft=structuredClone(current);
             editing=null;
             footerDraft=structuredClone({footerMode:v22HFSettings.footerMode,
-                customFooter:v22HFSettings.customFooter,userFooter:v22HFSettings.userFooter});
+                customFooter:v22HFSettings.customFooter,userFooter:v22HFSettings.userFooter,
+                documentFooter:v22HFSettings.documentFooter});
             showFooterDraft();
             dirty.clear();
             renderControls();
