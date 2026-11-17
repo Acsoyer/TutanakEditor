@@ -461,6 +461,9 @@ h1 {
   height: 1em;
   vertical-align: baseline;
 }
+.udf-page[data-layout-profile="uyap-legacy"] .udf-tab {
+  height: 0;
+}
 .udf-table { width: 100%; max-width: 100%; border-collapse: collapse; table-layout: fixed; margin: 0; color: #000; }
 .udf-table col { min-width: 0; }
 .udf-table td { min-width: 0; padding: 3.5pt 5.4pt; vertical-align: top; overflow: hidden; }

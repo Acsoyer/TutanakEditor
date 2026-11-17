@@ -651,8 +651,7 @@
         const active=sourceStops.find(([position])=>position>currentPt+.01);
         let targetPt;
         if(generated) targetPt=nextTabStop(Math.max(0,currentPt),explicitStops);
-        else if((paragraph.style.getPropertyValue('--text-align')||'left')!=='left') targetPt=currentPt+10;
-        else if(!sourceStops.length) targetPt=(Math.floor(Math.max(0,currentPt)/72)+1)*72;
+        else if(!sourceStops.length) targetPt=nextTabStop(Math.max(0,currentPt),[]);
         else if(!active) targetPt=currentPt+5;
         else {
           const [position,alignment]=active;
