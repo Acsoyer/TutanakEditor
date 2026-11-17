@@ -420,10 +420,14 @@ h1 {
 }
 
 .udf-header .udf-paragraph { margin: 0; }
+.udf-page[data-layout-profile="uyap-legacy"] .udf-header { max-height: none; }
+.udf-page[data-layout-profile="uyap-legacy"] .udf-header .udf-paragraph {
+  margin: var(--space-above, 0pt) 0 var(--space-below, 0pt);
+}
 
 .udf-body {
   position: absolute;
-  top: var(--margin-top);
+  top: var(--body-top, var(--margin-top));
   right: var(--margin-right);
   bottom: var(--body-bottom);
   left: var(--margin-left);

@@ -548,7 +548,7 @@
       page.appendChild(watermark);
     }
 
-    if (documentModel.arbsysGenerated && documentModel.headerBlocks.length) {
+    if (documentModel.headerBlocks.length) {
       const header = document.createElement('header');
       header.className = 'udf-header';
       documentModel.headerBlocks.forEach(block => header.appendChild(block.cloneNode(true)));
@@ -557,9 +557,6 @@
 
     const body = document.createElement('div');
     body.className = 'udf-body';
-    if (!documentModel.arbsysGenerated) {
-      documentModel.headerBlocks.forEach(block => body.appendChild(block.cloneNode(true)));
-    }
     page.appendChild(body);
 
     if (documentModel.footerBlocks.length) {
@@ -592,7 +589,7 @@
       page,
       body,
       number,
-      bodyHeaderCount: documentModel.arbsysGenerated ? 0 : documentModel.headerBlocks.length
+      bodyHeaderCount: 0
     };
   }
 
@@ -849,7 +846,16 @@
     el.measureHost.replaceChildren();
     const measurement = createPageShell(documentModel);
     el.measureHost.appendChild(measurement.page);
-    layoutBlockTabs(measurement.page);
+    function layoutPage(shell) {
+      layoutBlockTabs(shell.page);
+      if (documentModel.arbsysGenerated) return;
+      const header = shell.page.querySelector('.udf-header');
+      if (!header) return;
+      // Use the stored body margin, extending it only if the header actually reaches into it.
+      const bodyTop = Math.max(shell.body.offsetTop, header.offsetTop + header.offsetHeight);
+      shell.page.style.setProperty('--body-top', `${bodyTop}px`);
+    }
+    layoutPage(measurement);
 
     const pages = [];
     let shell = measurement;
@@ -859,7 +865,7 @@
       pages.push(shell.page);
       shell = createPageShell(documentModel);
       el.measureHost.appendChild(shell.page);
-      layoutBlockTabs(shell.page);
+      layoutPage(shell);
     };
 
     while (pending.length) {
