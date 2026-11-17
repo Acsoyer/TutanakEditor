@@ -553,7 +553,13 @@
     if (documentModel.headerBlocks.length) {
       const header = document.createElement('header');
       header.className = 'udf-header';
-      documentModel.headerBlocks.forEach(block => header.appendChild(block.cloneNode(true)));
+      const [first, ...rest] = documentModel.headerBlocks;
+      const isEmptyParagraph = block => block.matches('.udf-paragraph') &&
+        !block.textContent.replace(/[\s\u200b]/gu,'') && !block.querySelector('img,.udf-tab');
+      // Use the stored header offset as the leading gap, omitting one empty opening paragraph.
+      const blocks = !documentModel.arbsysGenerated && isEmptyParagraph(first) &&
+        rest.some(block=>!isEmptyParagraph(block)) ? rest : documentModel.headerBlocks;
+      blocks.forEach(block => header.appendChild(block.cloneNode(true)));
       page.appendChild(header);
     }
 
