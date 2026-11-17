@@ -9851,7 +9851,9 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             v21SmartRenumber=function(group){var state=null;v21SmartGroupRows(group).forEach(function(row){var kind=row.dataset.smartKind||'normal',marker='';if(kind==='continue'){}else if(kind==='normal')state=null;else if(kind==='bullet'){state={kind:'bullet'};marker='•';}else{if(!state||state.kind!==kind)state={kind:kind,value:kind==='number'?(Number(row.dataset.smartStart)||1):v20SmartLetterNumber(row.dataset.smartStart,kind==='upper')};else state.value++;marker=kind==='number'?String(state.value)+(row.dataset.smartSuffix||')'):v20SmartLetter(state.value,kind==='upper')+(row.dataset.smartSuffix||')');}var content=row.querySelector('.fr-content'),line=content?.querySelector(':scope > .v26-smart-line')||content,old=row.querySelector('.v21-smart-marker');if(!line)return;if(old){var next=old.nextSibling;if(next&&next.nodeType===Node.TEXT_NODE&&/^\s*$/.test(next.textContent||''))next.remove();old.remove();}if(marker){var bold=document.createElement('b');bold.className='v21-smart-marker';bold.textContent=marker;var tab=line.querySelector(':scope > .word-tab');if(tab)tab.insertAdjacentElement('afterend',bold);else line.prepend(bold);bold.insertAdjacentText('afterend',' ');}var select=row.querySelector('.v21-smart-choice');if(select){select.value=kind;select.title=v21SmartKindLabel(kind);}});};
         })();
     </script>
-    <script src="hf-preview-sample-data.js"></script>
+    <script id='v99-header-preview-sample'>
+window.V89_PREVIEW_SAMPLE=(function(){var b=atob('PCEtLSBBUkJTWVMtQ09OVEVOVCB2MiAtLT4KPHRhYmxlIGRhdGEtYXJic3lzLXNjaGVtYT0iMiI+CiAgPHRib2R5PgogICAgPHRyIGNsYXNzPSJlbXB0eS1yb3ciPjx0ZCBjbGFzcz0ibGFiZWwtY2VsbCI+PHNwYW4+PGJyPjwvc3Bhbj48L3RkPjx0ZCBjbGFzcz0iY29sb24tY2VsbCI+PGJyPjwvdGQ+PHRkIGNsYXNzPSJjb250ZW50LWNlbGwiPjxicj48L3RkPjwvdHI+CiAgICA8dHIgY2xhc3M9ImZ1bGwtcm93IHYzNC10aXRsZS10ZXh0LXJvdyB2MzQtdGl0bGUtcGFydCI+PHRkIGNvbHNwYW49IjMiPjxkaXYgY2xhc3M9ImZyLWNvbnRlbnQiIHN0eWxlPSJ0ZXh0LWFsaWduOiBjZW50ZXI7IHRleHQtYWxpZ24tbGFzdDogY2VudGVyOyI+PGI+QVJBQlVMVUNVTFVLIMSwTEsgVE9QTEFOVEkgVFVUQU5BxJ5JPC9iPjwvZGl2PjwvdGQ+PC90cj4KICAgIDx0ciBjbGFzcz0iZnVsbC1yb3cgdjM0LXRpdGxlLXRleHQtcm93IHYzNC10aXRsZS1wYXJ0Ij48dGQgY29sc3Bhbj0iMyI+PGRpdiBjbGFzcz0iZnItY29udGVudCIgc3R5bGU9InRleHQtYWxpZ246IGNlbnRlcjsgdGV4dC1hbGlnbi1sYXN0OiBjZW50ZXI7Ij48Yj4oR8O2csO8xZ9tZSBZYXDEsWxkxLFrdGFuIFNvbnJhIEVydGVsZW1lKTwvYj48L2Rpdj48L3RkPjwvdHI+CiAgICA8dHIgY2xhc3M9ImVtcHR5LXJvdyB2MzQtdGl0bGUtcGFydCI+PHRkIGNsYXNzPSJsYWJlbC1jZWxsIj48c3Bhbj48YnI+PC9zcGFuPjwvdGQ+PHRkIGNsYXNzPSJjb2xvbi1jZWxsIj48YnI+PC90ZD48dGQgY2xhc3M9ImNvbnRlbnQtY2VsbCI+PGJyPjwvdGQ+PC90cj4KICAgIDx0ciBjbGFzcz0iZW1wdHktcm93IHYzNC10aXRsZS1wYXJ0Ij48dGQgY2xhc3M9ImxhYmVsLWNlbGwiPjxzcGFuPjxicj48L3NwYW4+PC90ZD48dGQgY2xhc3M9ImNvbG9uLWNlbGwiPjxicj48L3RkPjx0ZCBjbGFzcz0iY29udGVudC1jZWxsIj48YnI+PC90ZD48L3RyPgogICAgPHRyIGNsYXNzPSJzaW5nbGUtcm93Ij48dGQgY2xhc3M9ImxhYmVsLWNlbGwiPjxzcGFuPkFSQi4gQsOcUk9TVTwvc3Bhbj48L3RkPjx0ZCBjbGFzcz0iY29sb24tY2VsbCI+OjwvdGQ+PHRkIGNsYXNzPSJjb250ZW50LWNlbGwiPsSwem1pciBBcmFidWx1Y3VsdWsgQsO8cm9zdTwvdGQ+PC90cj4KICAgIDx0ciBjbGFzcz0ic2luZ2xlLXJvdyI+PHRkIGNsYXNzPSJsYWJlbC1jZWxsIj48c3Bhbj5CQcWeVlVSVSBET1NZQSBOTzwvc3Bhbj48L3RkPjx0ZCBjbGFzcz0iY29sb24tY2VsbCI+OjwvdGQ+PHRkIGNsYXNzPSJjb250ZW50LWNlbGwiPjIwMjYvMTIzNDU8L3RkPjwvdHI+CiAgICA8dHIgY2xhc3M9InNpbmdsZS1yb3ciPjx0ZCBjbGFzcz0ibGFiZWwtY2VsbCI+PHNwYW4+QVJCLiBET1NZQSBOTzwvc3Bhbj48L3RkPjx0ZCBjbGFzcz0iY29sb24tY2VsbCI+OjwvdGQ+PHRkIGNsYXNzPSJjb250ZW50LWNlbGwiPjIwMjYvNDU2NzwvdGQ+PC90cj4KICAgIDx0ciBjbGFzcz0iZW1wdHktcm93Ij48dGQgY2xhc3M9ImxhYmVsLWNlbGwiPjxzcGFuPjxicj48L3NwYW4+PC90ZD48dGQgY2xhc3M9ImNvbG9uLWNlbGwiPjxicj48L3RkPjx0ZCBjbGFzcz0iY29udGVudC1jZWxsIj48YnI+PC90ZD48L3RyPgogICAgPHRyIGNsYXNzPSJzaW5nbGUtcm93Ij48dGQgY2xhc3M9ImxhYmVsLWNlbGwiPjxzcGFuPlRBUkFGTEFSPC9zcGFuPjwvdGQ+PHRkIGNsYXNzPSJjb2xvbi1jZWxsIj48YnI+PC90ZD48dGQgY2xhc3M9ImNvbnRlbnQtY2VsbCI+PGJyPjwvdGQ+PC90cj4KICAgIDx0ciBjbGFzcz0ic2luZ2xlLXJvdyI+PHRkIGNsYXNzPSJsYWJlbC1jZWxsIj48c3Bhbj5CQcWeVlVSVUNVPC9zcGFuPjwvdGQ+PHRkIGNsYXNzPSJjb2xvbi1jZWxsIj46PC90ZD48dGQgY2xhc3M9ImNvbnRlbnQtY2VsbCI+PGI+WmVoaXIgQ2l2YXRhIFRpYy4gdmUgU2FuLiBBLsWeLiAoTWVyc2lzIE5vOiAwODg4ODA1MjgwMDAxNik8L2I+PGJyPijDh2nEn2xpIFYuRC4gODg4ODA1MjgpIEEuTy5TLkIuIDEwMDg4IFNrLiBObzo4OCDDh2nEn2xpIC8gxLBaTcSwUiAtIDAyMzIgNTU1IDQ1IDY1Jm5ic3A7PC90ZD48L3RyPgogICAgPHRyIGNsYXNzPSJzaW5nbGUtcm93Ij48dGQgY2xhc3M9ImxhYmVsLWNlbGwiPjxzcGFuPllFVEvEsEzEsFPEsDwvc3Bhbj48L3RkPjx0ZCBjbGFzcz0iY29sb24tY2VsbCI+OjwvdGQ+PHRkIGNsYXNzPSJjb250ZW50LWNlbGwiPjxiPlppeWEgWmVtYmVyZWsgKFQuQy4gS2ltbGlrIE5vOiAzNzE3ODg4ODYpPC9iPjxkaXY+QS5PLlMuQi4gMTAwMDIgU2suIE5vOjEyIMOHacSfbGkgLyDEsFpNxLBSIC0geml5YUB6ZWhpcmNpdmF0YS5jb208L2Rpdj48L3RkPjwvdHI+CiAgICA8dHIgY2xhc3M9ImVtcHR5LXJvdyI+PHRkIGNsYXNzPSJsYWJlbC1jZWxsIj48c3Bhbj48YnI+PC9zcGFuPjwvdGQ+PHRkIGNsYXNzPSJjb2xvbi1jZWxsIj48YnI+PC90ZD48dGQgY2xhc3M9ImNvbnRlbnQtY2VsbCI+PGJyPjwvdGQ+PC90cj4KICAgIDx0ciBjbGFzcz0ic2luZ2xlLXJvdyI+PHRkIGNsYXNzPSJsYWJlbC1jZWxsIj48c3Bhbj5ExLDEnkVSIFRBUkFGPC9zcGFuPjwvdGQ+PHRkIGNsYXNzPSJjb2xvbi1jZWxsIj46PC90ZD48dGQgY2xhc3M9ImNvbnRlbnQtY2VsbCI+PGI+QWJkdWxsYWggQWJsYWsgKFQuQy4gS2ltbGlrIE5vOiAxMDEyODg4OCk8L2I+PGJyPjxkaXY+TWFoYWxsZWxlciBNaC4gQ2FkZGVsZXIgQ2QuIFNpdGVsZXIgU2l0ZXNpIE5vOjIyQSBEOjIgS29uYWsgLyDEsFpNxLBSPC9kaXY+PC90ZD48L3RyPgogICAgPHRyIGNsYXNzPSJzaW5nbGUtcm93Ij48dGQgY2xhc3M9ImxhYmVsLWNlbGwiPjxzcGFuPlZFS8SwTMSwPC9zcGFuPjwvdGQ+PHRkIGNsYXNzPSJjb2xvbi1jZWxsIj46PC90ZD48dGQgY2xhc3M9ImNvbnRlbnQtY2VsbCI+PGI+QXYgU2F1bCBHb29kbWFuIChULkMuIEtpbWxpayBObzogMTIzNDU2Nzg5MTIzKTwvYj48YnI+PGRpdj4wNTU1IDU0NSA0NSA0NSAtIHNhdWxnb29kbWFuQGdvb2RtYW5odWt1ay5jb208L2Rpdj48L3RkPjwvdHI+CiAgICA8dHIgY2xhc3M9ImVtcHR5LXJvdyI+PHRkIGNsYXNzPSJsYWJlbC1jZWxsIj48c3Bhbj48YnI+PC9zcGFuPjwvdGQ+PHRkIGNsYXNzPSJjb2xvbi1jZWxsIj48YnI+PC90ZD48dGQgY2xhc3M9ImNvbnRlbnQtY2VsbCI+PGJyPjwvdGQ+PC90cj4KICAgIDx0ciBjbGFzcz0ic2luZ2xlLXJvdyI+PHRkIGNsYXNzPSJsYWJlbC1jZWxsIj48c3Bhbj5VWVXFnk1BWkxJSyBUw5xSw5w8L3NwYW4+PC90ZD48dGQgY2xhc3M9ImNvbG9uLWNlbGwiPjo8L3RkPjx0ZCBjbGFzcz0iY29udGVudC1jZWxsIj7EsMWfw6dpIOKAkyBpxZ92ZXJlbiB1eXXFn21hemzEscSfxLEgKMSwxZ/Dp2lsaWsgYWxhY2FrbGFyxLEgdmUgdGF6bWluYXRsYXLEsSBoay4pPC90ZD48L3RyPgogICAgPHRyIGNsYXNzPSJlbXB0eS1yb3ciPjx0ZCBjbGFzcz0ibGFiZWwtY2VsbCI+PHNwYW4+PGJyPjwvc3Bhbj48L3RkPjx0ZCBjbGFzcz0iY29sb24tY2VsbCI+PGJyPjwvdGQ+PHRkIGNsYXNzPSJjb250ZW50LWNlbGwiPjxicj48L3RkPjwvdHI+CiAgICA8dHIgY2xhc3M9InNpbmdsZS1yb3ciPjx0ZCBjbGFzcz0ibGFiZWwtY2VsbCI+PHNwYW4+VE9QTEFOVEkgWUVSxLA8L3NwYW4+PC90ZD48dGQgY2xhc3M9ImNvbG9uLWNlbGwiPjo8L3RkPjx0ZCBjbGFzcz0iY29udGVudC1jZWxsIj5BT1NCIFRvcGxhbnTEsSBTYWxvbnUgw4dpxJ9saSAvIMSwWk3EsFI8L3RkPjwvdHI+CiAgICA8dHIgY2xhc3M9ImVtcHR5LXJvdyI+PHRkIGNsYXNzPSJsYWJlbC1jZWxsIj48c3Bhbj48YnI+PC9zcGFuPjwvdGQ+PHRkIGNsYXNzPSJjb2xvbi1jZWxsIj48YnI+PC90ZD48dGQgY2xhc3M9ImNvbnRlbnQtY2VsbCI+PGJyPjwvdGQ+PC90cj4KICAgIDx0ciBjbGFzcz0ic2luZ2xlLXJvdyI+PHRkIGNsYXNzPSJsYWJlbC1jZWxsIj48c3Bhbj5CQcWeVlVSVSBUQVLEsEjEsDwvc3Bhbj48L3RkPjx0ZCBjbGFzcz0iY29sb24tY2VsbCI+OjwvdGQ+PHRkIGNsYXNzPSJjb250ZW50LWNlbGwiPjEwLjAxLjIwMjY8L3RkPjwvdHI+CiAgICA8dHIgY2xhc3M9InNpbmdsZS1yb3ciPjx0ZCBjbGFzcz0ibGFiZWwtY2VsbCI+PHNwYW4+R8OWUkVWxLAgS0FCVUwgVEFSxLBIxLA8L3NwYW4+PC90ZD48dGQgY2xhc3M9ImNvbG9uLWNlbGwiPjo8L3RkPjx0ZCBjbGFzcz0iY29udGVudC1jZWxsIj4xMS4wMS4yMDI2PC90ZD48L3RyPgogICAgPHRyIGNsYXNzPSJzaW5nbGUtcm93Ij48dGQgY2xhc3M9ImxhYmVsLWNlbGwiPjxzcGFuPsSwTEsgVE9QTEFOVEkgVEFSxLBIxLA8L3NwYW4+PC90ZD48dGQgY2xhc3M9ImNvbG9uLWNlbGwiPjo8L3RkPjx0ZCBjbGFzcz0iY29udGVudC1jZWxsIj4yMC4wMS4yMDI2PC90ZD48L3RyPgogICAgPHRyIGNsYXNzPSJzaW5nbGUtcm93Ij48dGQgY2xhc3M9ImxhYmVsLWNlbGwiPjxzcGFuPlRPUExBTlRJIEJBxZ5MLiBTQUFUxLA8L3NwYW4+PC90ZD48dGQgY2xhc3M9ImNvbG9uLWNlbGwiPjo8L3RkPjx0ZCBjbGFzcz0iY29udGVudC1jZWxsIj4xMTowMDwvdGQ+PC90cj4KICAgIDx0ciBjbGFzcz0ic2luZ2xlLXJvdyI+PHRkIGNsYXNzPSJsYWJlbC1jZWxsIj48c3Bhbj5UT1BMQU5USSBCxLBUxLDFniBTQUFUxLA8L3NwYW4+PC90ZD48dGQgY2xhc3M9ImNvbG9uLWNlbGwiPjo8L3RkPjx0ZCBjbGFzcz0iY29udGVudC1jZWxsIj4xMTo0NTwvdGQ+PC90cj4KICAgIDx0ciBjbGFzcz0iZW1wdHktcm93Ij48dGQgY2xhc3M9ImxhYmVsLWNlbGwiPjxzcGFuPjxicj48L3NwYW4+PC90ZD48dGQgY2xhc3M9ImNvbG9uLWNlbGwiPjxicj48L3RkPjx0ZCBjbGFzcz0iY29udGVudC1jZWxsIj48YnI+PC90ZD48L3RyPgogICAgPHRyIGNsYXNzPSJzaW5nbGUtcm93Ij48dGQgY2xhc3M9ImxhYmVsLWNlbGwiPjxzcGFuPlVZVcWeTUFaTElLIEtPTlVTVSA8YnI+IChNw7x6YWtlcmUgRWRpbGVuIGh1c3VzbGFyKTwvc3Bhbj48L3RkPjx0ZCBjbGFzcz0iY29sb24tY2VsbCI+OjwvdGQ+PHRkIGNsYXNzPSJjb250ZW50LWNlbGwiPjxkaXY+VGFyYWZsYXIgYXJhc8SxbmRha2kgacWfIHPDtnpsZcWfbWVzaW5pbiBnZcOnZXJsaSBiaXIgc2ViZXBsZSBzb25hIGVyaXAgCmVybWVkacSfaSB2ZSBpxZ/Dp2luaW4gacWfZSBpYWRlIHRhbGViaSBidWx1bnVwIGJ1bHVubWFkxLHEn8SxLCBpxZ/Dp2luaW4sIGnFnyAKeWVyaW5kZSDDp2FsxLHFn23EscWfIG9sZHXEn3Ugc8O8cmV5ZSBpbGnFn2tpbiBvbGFyYWsgZWtzaWsgw7ZkZW5lbiB2ZXlhIGhpw6cgCsO2ZGVubWV5ZW4gw7xjcmV0IGFsYWNhxJ/EsSwga8SxZGVtIHRhem1pbmF0xLEgYWxhY2HEn8SxLCBpaGJhciB0YXptaW5hdMSxIAphbGFjYcSfxLEsIHZleWEgc2FpciBodXN1c2xhcmxhIGlsZ2lsaSBvbGFyYWsgbWFkZGkgdmUgbWFuZXZpIAp0YXptaW5hdCBhbGFjYcSfxLEgb2x1cCBvbG1hZMSxxJ/EsSwgdmFyc2EgbmUgxZ9la2lsZGUgdmUgbmUgemFtYW4gw7ZkZW5lY2XEn2kgCmh1c3VzbGFyxLEuPC9kaXY+PC90ZD48L3RyPgogICAgPHRyIGNsYXNzPSJlbXB0eS1yb3ciPjx0ZCBjbGFzcz0ibGFiZWwtY2VsbCI+PHNwYW4+PGJyPjwvc3Bhbj48L3RkPjx0ZCBjbGFzcz0iY29sb24tY2VsbCI+PGJyPjwvdGQ+PHRkIGNsYXNzPSJjb250ZW50LWNlbGwiPjxicj48L3RkPjwvdHI+CiAgICA8dHIgY2xhc3M9InNpbmdsZS1yb3ciPjx0ZCBjbGFzcz0ibGFiZWwtY2VsbCI+PHNwYW4+U09OVcOHPC9zcGFuPjwvdGQ+PHRkIGNsYXNzPSJjb2xvbi1jZWxsIj46PC90ZD48dGQgY2xhc3M9ImNvbnRlbnQtY2VsbCI+PGRpdj5UYXJhZmxhcmNhIHV5dcWfbWF6bMSxayBrb251c3UgbcO8emFrZXJlIGVkaWxkaWt0ZW4gc29ucmEsIHllbmlkZW4gZGXEn2VybGVuZGlyaWxtZWsgw7x6ZXJlLCA8Yj5YWC5YWC4yMFhYIOKApuKApi4gZ8O8bsO8IHNhYXQgWFguWFjigJlkYTwvYj4gPGI+aWtpbmNpPC9iPiBiaXIgdG9wbGFudMSxIHlhcMSxbG1hc8SxIGthcmFybGHFn3TEsXLEsWxtxLHFn3TEsXIuIMSwxZ9idSB0dXRhbmFrLCZuYnNwOzxiPsO8w6cgKDMpPC9iPiBuw7xzaGEgb2xhcmFrIGhhesSxcmxhbm3EscWfIHRhcmFmbGFybGEgYmlybGlrdGUgaW16YSBhbHTEsW5hIGFsxLFuYXJhayBiaXJlciBuw7xzaGFzxLEgdGFyYWZsYXJhIHRlc2xpbSBlZGlsbWnFn3Rpci4gPGI+MjAuMDEuMjAyNjwvYj4mbmJzcDsmbmJzcDs8Yj4mbmJzcDsmbmJzcDs8L2I+PC9kaXY+PC90ZD48L3RyPgogICAgPHRyIGNsYXNzPSJlbXB0eS1yb3cgdjExLXNpZ25hdHVyZS1nYXAiPjx0ZCBjbGFzcz0ibGFiZWwtY2VsbCI+PHNwYW4+PGJyPjwvc3Bhbj48L3RkPjx0ZCBjbGFzcz0iY29sb24tY2VsbCI+PGJyPjwvdGQ+PHRkIGNsYXNzPSJjb250ZW50LWNlbGwiPjxicj48L3RkPjwvdHI+CiAgICA8dHIgY2xhc3M9InNpbmdsZS1yb3ciPjx0ZCBjb2xzcGFuPSIzIj48ZGl2IGNsYXNzPSJzaWctZ3JpZCI+PGRpdiBjbGFzcz0ic2lnLWJveCI+PHUgZGF0YS1zaWctdGl0bGUtZm9ybWF0PSJ2NjYiPjxiPlRBUkFGPC9iPjwvdT48ZGl2PjxiPlplaGlyIENpdmF0YSBUaWMuIHZlIFNhbiBBLsWeLjwvYj48L2Rpdj48ZGl2PjxiPjxicj48L2I+PC9kaXY+PGRpdj48dSBkYXRhLXNpZy10aXRsZS1mb3JtYXQ9InY2NiI+PGI+WUVUS8SwTMSwU8SwPC9iPjwvdT48L2Rpdj48ZGl2PjxiPlppeWEgWmVtYmVyZWs8L2I+PC9kaXY+PC9kaXY+PGRpdiBjbGFzcz0ic2lnLWJveCI+PHUgZGF0YS1zaWctdGl0bGUtZm9ybWF0PSJ2NjYiPjxiPkFSQUJVTFVDVTwvYj48L3U+PGRpdj48Yj5BcmIuIEF2LkVyaW7DpyBTb3llcjwvYj48L2Rpdj48ZGl2PihBREIgU2ljaWwgTm86IDAwMTQyKTwvZGl2PjwvZGl2PjxkaXYgY2xhc3M9InNpZy1ib3giPjx1IGRhdGEtc2lnLXRpdGxlLWZvcm1hdD0idjY2Ij48Yj5UQVJBRjwvYj48L3U+PGRpdj48Yj5BYmR1bGxhaCBBYmxhazwvYj48L2Rpdj48ZGl2PjxiPjxicj48L2I+PC9kaXY+PGRpdj48Yj48YnI+PC9iPjwvZGl2PjxkaXY+PGI+PHUgZGF0YS1zaWctdGl0bGUtZm9ybWF0PSJ2NjYiPlZFS8SwTMSwPC91PjwvYj48L2Rpdj48ZGl2PjxiPkF2LiBTYXVsIEdvb2RtYW48L2I+PC9kaXY+PGRpdj48Yj48YnI+PC9iPjwvZGl2PjwvZGl2PjwvZGl2PjwvdGQ+PC90cj4KICAgIDx0ciBjbGFzcz0iZW1wdHktcm93Ij48dGQgY2xhc3M9ImxhYmVsLWNlbGwiPjxzcGFuPjxicj48L3NwYW4+PC90ZD48dGQgY2xhc3M9ImNvbG9uLWNlbGwiPjxicj48L3RkPjx0ZCBjbGFzcz0iY29udGVudC1jZWxsIj48YnI+PC90ZD48L3RyPgogIDwvdGJvZHk+CjwvdGFibGU+Cg=='),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return new TextDecoder('utf-8').decode(u);})();
+</script>
     <style id="v90-hf-designer-styles">
         .hf-sticky-container{position:fixed!important;top:50%!important;left:50%!important;width:min(1240px,calc(100vw - 28px))!important;height:min(890px,calc(100vh - 28px))!important;max-width:none!important;margin:0!important;transform:translate(-50%,-50%)!important;z-index:1500!important;pointer-events:none}
         .hf-panel{width:100%!important;height:100%!important;max-height:none!important;margin:0!important;padding:0!important;border:0!important;border-radius:17px!important;overflow:hidden!important;background:#eef2f6!important;box-shadow:0 25px 75px rgba(15,23,42,.34)!important;pointer-events:auto}
@@ -9867,6 +9869,844 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         body.v90-hf-preview-child>*:not(#v23PreviewPanel):not(#v23PreviewMeasure){display:none!important}body.v90-hf-preview-child{display:block!important;padding:0!important;margin:0!important;background:#b8c3cf!important;overflow:hidden!important}body.v90-hf-preview-child #v23PreviewPanel{position:fixed!important;inset:0!important;width:100%!important;transform:none!important;visibility:visible!important;border:0!important;box-shadow:none!important}body.v90-hf-preview-child .v23-preview-head,body.v90-hf-preview-child .v23-preview-tools{display:none!important}body.v90-hf-preview-child #v23PreviewViewport{padding:18px!important}body.v90-hf-preview-child #v23PreviewPages{padding-bottom:30px}
         @media(max-width:1040px){.hf-sticky-container{width:calc(100vw - 18px)!important}.v90-head,.v90-layout{grid-template-columns:480px minmax(0,1fr)}}
     </style>
-    <link rel="stylesheet" href="header-designer.css">
-    <script src="header-designer.js"></script>
+    <style id='v99-header-designer-styles'>
+#hfPanel [hidden]{display:none!important}
+.hf-sticky-container{width:min(1300px,calc(100vw - 24px))!important}
+.v90-head,.v90-layout{grid-template-columns:560px minmax(0,1fr)}
+#hf99Edit{margin-bottom:8px}
+.hf99-stage{display:block;width:100%;height:auto;background:white}
+.hf99-actions{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:8px 0}
+.hf99-placement{padding:5px 6px;border:1px solid #d7e0ea;border-radius:10px;background:#f8fafc;color:#334155}
+.hf99-actions strong{margin-right:auto}
+.hf99-actions button svg{width:17px;height:17px;vertical-align:middle}
+.hf99-tool{width:34px;height:32px;padding:0}
+.hf99-tool:hover{border-color:#2563eb;background:#eff6ff;color:#1d4ed8}
+.hf99-tool#hf99Up{margin-left:5px}
+#hf99Text:empty{display:none}
+#hf99Text{margin:10px -12px 0;padding:12px;border-top:1px solid #c7d2fe;background:#f8faff}
+.hf99-format{display:grid;grid-template-columns:minmax(90px,1fr) repeat(2,31px) 36px repeat(3,29px) 67px;gap:4px;align-items:center}
+.hf99-format select,.hf99-format input,.hf99-format button{width:100%;min-width:0;box-sizing:border-box;height:30px;border:1px solid #cbd5e1;border-radius:6px;background:white}
+.hf99-format button{padding:0;text-align:center}
+.hf99-format button.hf99-font-size{font-size:14px}
+.hf99-font-size sup{font-size:10px;color:#1681c4}
+.hf99-kerning{display:grid;grid-template-columns:24px minmax(0,1fr);gap:3px;align-items:center;text-align:center;color:#334155}
+.hf99-kerning span{font-size:10px;font-weight:800;line-height:1}
+.hf99-format button[aria-pressed=true]{background:#1e3a8a;color:white}
+.hf99-format:has(>input[type=number]){grid-template-columns:minmax(0,1fr) 70px;padding:7px;border:1px solid #dbe3ec;border-radius:8px;background:white}
+.v90-zoom #hf99Close{font-size:22px}
+.v90-zoom #hf99Zoom{min-width:76px;text-align:center}
+#footerRow [value=userFooter],#hf99Choices [value=text]:checked{accent-color:#4f46e5}
+#footerRow .v90-choice:has([value=userFooter]){grid-column:1/-1}
+#hf99Drop:not(.is-ready):not(.is-dragging)::before{content:"Önizleme hazırlanıyor…";position:absolute;inset:0;display:grid;place-items:center;color:#526174;font-size:12px;font-weight:800}
+#hf99Drop:not(.is-ready) iframe{visibility:hidden}
+.hf99-status{font-size:11px;color:#475569}
+.hf99-status[data-error=true]{color:#b42318}
+.logo-container-print>.hf99-live{display:block;width:100%;height:100%}
+.v90-hf-preview-child #v23PreviewViewport{overflow-anchor:none;scroll-behavior:auto}
+.v90-hf-preview-child .header-line-print,.v90-hf-preview-child .footer-line-print{border-top-width:1px}
+@media(max-width:1100px){.v90-head,.v90-layout{grid-template-columns:520px minmax(0,1fr)}}
+@media(max-width:940px){.v90-head,.v90-layout{grid-template-columns:minmax(340px,52%) minmax(0,1fr)}}
+@media(max-width:760px){.hf99-format{grid-template-columns:minmax(90px,1fr) repeat(2,31px) 36px}.hf99-format:has(>input[type=number]){grid-template-columns:minmax(0,1fr) 70px}}
+</style>
+    <script id='v99-header-designer-script'>
+(() => {
+    'use strict';
+    const width = 1244, height = 237;
+    const presets = {arbsys:'ArbsysLogoHeader_FULL.png', consensus:'ConsensusLogoHeader_FULL.png'};
+    const slots = ['arbsys','consensus','imported','text'];
+    const bucket = 'header-assets', table = 'arbsys_header_designs';
+    const child = new URLSearchParams(location.search).get('hfPreview') === '1';
+    const byId = id => document.getElementById(id);
+    const clamp = (n, min, max) => Math.min(max, Math.max(min, n));
+    const canvas = () => Object.assign(document.createElement('canvas'), {width, height});
+    const blobOf = (surface, type = 'image/png', quality) =>
+        new Promise(resolve => surface.toBlob(resolve, type, quality));
+    const imageOf = async source => {
+        const url = source instanceof Blob ? URL.createObjectURL(source) : source;
+        try {
+            const image = new Image();
+            image.src = url;
+            await image.decode();
+            return image;
+        } finally {
+            if (source instanceof Blob) URL.revokeObjectURL(url);
+        }
+    };
+    const legacy = () => ioGuidedData?.headerFooterSettings || {};
+    const activeOwner = () => arbsysSupabaseSession?.user?.id || '';
+    const cache = new Map();
+    let model, loadedOwner, loadRequest, applySequence = 0, saving = false;
+    let draft, editing = false, dirty = new Set(), paintSequence = 0;
+    let migration, openSequence = 0;
+    let previewSource = window.V89_PREVIEW_SAMPLE || '', zoom = .7;
+    const textDefaults = () => ({
+        lines: [
+            {value:'', family:'Times New Roman', size:16, color:'#000000', bold:true, italic:false, underline:false, tracking:0},
+            {value:'', family:'Times New Roman', size:9, color:'#000000', bold:false, italic:false, underline:false, tracking:0}
+        ],
+        gap:8
+    });
+    const placeholders = ['DEMO HUKUK','AVUKATLIK, HUKUKİ DANIŞMANLIK HİZMETLERİ'];
+    function legacyModel() {
+        const old = legacy(), records = {arbsys:{},consensus:{}};
+        const existingText = old.textLogo || (['text','textSaved'].includes(old.headerMode) && old.customHeaderLogo);
+        const existingImport = old.customHeaderOriginal || (old.headerMode === 'custom' && old.customHeaderLogo);
+        const geometry = {scale:clamp(Number(old.headerZoom) || 1,.25,1), offset:clamp(Number(old.headerOffsetY) || 0,-1,1)};
+        if (typeof existingText === 'string' && existingText.startsWith('data:image/')) records.text = {...geometry, legacySource:existingText};
+        if (typeof existingImport === 'string' && existingImport.startsWith('data:image/')) records.imported = {...geometry, legacySource:existingImport};
+        let selected = ({custom:'imported',textSaved:'text'})[old.headerMode] || old.headerMode;
+        if (!records[selected]) selected = 'arbsys';
+        if (presets[selected]) Object.assign(records[selected], geometry);
+        return {selected, records, enabled:!!old.enabled, revision:0};
+    }
+    function checked(result) {
+        if (result.error) throw new Error(result.error.message);
+        return result.data;
+    }
+    async function loadModel() {
+        const owner = activeOwner();
+        if (loadedOwner === owner && model) return model;
+        if (loadRequest?.owner === owner) return loadRequest.promise;
+        const pending = {owner};
+        pending.promise = Promise.resolve().then(async () => {
+            const fallback = legacyModel();
+            if (!owner || !arbsysSupabaseClient) return fallback;
+            const row = checked(await arbsysSupabaseClient.from(table)
+                .select('revision,design').eq('owner_id',owner).maybeSingle());
+            return row ? {...row.design, revision:row.revision} : fallback;
+        }).then(result => {
+            if (owner !== activeOwner()) throw new Error('Oturum değişti.');
+            model = result;
+            loadedOwner = owner;
+            return model;
+        }).finally(() => { if (loadRequest === pending) loadRequest = null; });
+        loadRequest = pending;
+        return pending.promise;
+    }
+    async function download(path) {
+        if (!path.startsWith(activeOwner() + '/')) throw new Error('Logo dosyası bu hesaba ait değil.');
+        if (!cache.has(path)) {
+            const pending = arbsysSupabaseClient.storage.from(bucket).download(path)
+                .then(checked).catch(error => { cache.delete(path); throw error; });
+            cache.set(path, pending);
+        }
+        return cache.get(path);
+    }
+    function textSource(text, demo) {
+        const point = 300 / 72;
+        const probe = canvas().getContext('2d');
+        const values = text.lines.map(line => line.value.trim());
+        if (demo && !values.some(Boolean)) values.splice(0,2,...placeholders);
+        const lines = text.lines.flatMap((line, index) => {
+            if (!values[index]) return [];
+            const size = line.size * point;
+            const font = `${line.italic ? 'italic ' : ''}${line.bold ? 700 : 400} ${size}px "${line.family}"`;
+            probe.font = font;
+            const chars = Array.from(values[index]);
+            const metrics = probe.measureText(values[index]);
+            const tracking = line.tracking * point;
+            const advance = chars.reduce((sum, char) => sum + probe.measureText(char).width, 0)
+                + tracking * (chars.length - 1);
+            return [{...line, chars, font, tracking, advance, size,
+                ascent:metrics.actualBoundingBoxAscent || size,
+                descent:Math.max(metrics.actualBoundingBoxDescent || 0,line.underline ? size*.2 : 0)}];
+        });
+        if (!lines.length) return null;
+        const gap = lines.length === 2 ? text.gap * point : 0;
+        const w = Math.max(...lines.map(line => line.advance + line.size * 2));
+        const h = lines.reduce((sum,line) => sum + line.ascent + line.descent + 4, 4) + gap;
+        const scale = Math.min(1, 2200/w, 600/h);
+        const surface = Object.assign(document.createElement('canvas'),
+            {width:Math.ceil(w * scale), height:Math.ceil(h * scale)});
+        const ctx = surface.getContext('2d');
+        ctx.scale(scale,scale);
+        let y = 4;
+        for (const line of lines) {
+            ctx.font = line.font;
+            ctx.fillStyle = line.color;
+            y += line.ascent;
+            let x = (w - line.advance)/2;
+            const start = x;
+            for (const char of line.chars) {
+                ctx.fillText(char,x,y);
+                x += ctx.measureText(char).width + line.tracking;
+            }
+            if (line.underline) ctx.fillRect(start,y+line.size*.09,line.advance,Math.max(1,line.size*.05));
+            y += line.descent + gap + 4;
+        }
+        const pixels = ctx.getImageData(0,0,surface.width,surface.height).data;
+        let left=surface.width, right=-1, top=surface.height, bottom=-1;
+        for (let y=0;y<surface.height;y++) for (let x=0;x<surface.width;x++) {
+            if (!pixels[(y*surface.width+x)*4+3]) continue;
+            left=Math.min(left,x); right=Math.max(right,x); top=Math.min(top,y); bottom=Math.max(bottom,y);
+        }
+        if (right < 0) return null;
+        const cropped = Object.assign(document.createElement('canvas'),{width:right-left+1,height:bottom-top+1});
+        cropped.getContext('2d').drawImage(surface,left,top,cropped.width,cropped.height,0,0,cropped.width,cropped.height);
+        return cropped;
+    }
+    const sources = new Map();
+    async function sourceOf(key, record, demo) {
+        if (key === 'text' && record.text) return textSource(record.text,demo);
+        const source = record.file || (record.sourcePath ? await download(record.sourcePath)
+            : record.legacySource || presets[key]);
+        if (!source) return null;
+        if (!sources.has(source)) sources.set(source,imageOf(source).catch(error => { sources.delete(source); throw error; }));
+        return sources.get(source);
+    }
+    async function compose(key, record, demo = false) {
+        const result = canvas(), source = await sourceOf(key,record,demo);
+        if (!source) return result;
+        const w = source.naturalWidth || source.width, h = source.naturalHeight || source.height;
+        const limit = Math.min(width/w,height/h);
+        const fit = record.text ? Math.min(limit,record.scale ?? 1) : limit * (record.scale ?? 1);
+        const x = (width-w*fit)/2, y = (height-h*fit)*((record.offset ?? 0)+1)/2;
+        result.getContext('2d').drawImage(source,x,y,w*fit,h*fit);
+        return result;
+    }
+    // Adam7 PNG on browsers with the standard deflate stream.
+    async function interlacedPng(surface) {
+        if (!window.CompressionStream) return blobOf(surface);
+        const rgba = surface.getContext('2d').getImageData(0,0,width,height).data;
+        const rows = [];
+        for (const [sx,sy,dx,dy] of [[0,0,8,8],[4,0,8,8],[0,4,4,8],[2,0,4,4],[0,2,2,4],[1,0,2,2],[0,1,1,2]]) {
+            for (let y=sy;y<height;y+=dy) {
+                const row = new Uint8Array(1+4*Math.ceil((width-sx)/dx));
+                row[0]=1;
+                let i=1;
+                for (let x=sx;x<width;x+=dx) for (let c=0;c<4;c++) {
+                    const p=(y*width+x)*4+c;
+                    row[i++]=rgba[p]-(x===sx?0:rgba[p-dx*4]);
+                }
+                rows.push(row);
+            }
+        }
+        const compressed = new Uint8Array(await new Response(new Blob(rows).stream()
+            .pipeThrough(new CompressionStream('deflate'))).arrayBuffer());
+        function chunk(type, data) {
+            const buffer = new Uint8Array(data.length+12), view = new DataView(buffer.buffer);
+            view.setUint32(0,data.length);
+            buffer.set(new TextEncoder().encode(type),4);
+            buffer.set(data,8);
+            let crc=0xffffffff;
+            for (let i=4;i<buffer.length-4;i++) {
+                crc ^= buffer[i];
+                for(let bit=0;bit<8;bit++) crc=(crc>>>1) ^ ((crc&1) ? 0xedb88320 : 0);
+            }
+            view.setUint32(buffer.length-4,(crc^0xffffffff)>>>0);
+            return buffer;
+        }
+        const metadata = new Uint8Array(13), view = new DataView(metadata.buffer);
+        view.setUint32(0,width); view.setUint32(4,height);
+        metadata.set([8,6,0,0,1],8);
+        return new Blob([new Uint8Array([137,80,78,71,13,10,26,10]),chunk('IHDR',metadata),
+            chunk('IDAT',compressed),chunk('IEND',new Uint8Array())],{type:'image/png'});
+    }
+    async function encode(surface) {
+        const [png, webp] = await Promise.all([interlacedPng(surface),blobOf(surface,'image/webp',1)]);
+        if (!webp || webp.type !== 'image/webp' || webp.size >= png.size) return png;
+        const check = canvas(), ctx = check.getContext('2d');
+        ctx.drawImage(await imageOf(webp),0,0);
+        const a = surface.getContext('2d').getImageData(0,0,width,height).data;
+        const b = ctx.getImageData(0,0,width,height).data;
+        return a.every((value,index) => value === b[index]) ? webp : png;
+    }
+    async function commit(next, changed) {
+        const owner = activeOwner();
+        if (!owner || !arbsysSupabaseClient) throw new Error('Üst bilgiyi kaydetmek için giriş yapın.');
+        const old = model;
+        const storage = arbsysSupabaseClient.storage.from(bucket);
+        const created = [];
+        const records = {};
+        const write = async (key, kind, blob) => {
+            const extension = {'image/jpeg':'jpg','image/webp':'webp','image/png':'png'}[blob.type];
+            if (!extension) throw new Error('PNG, WebP veya JPG dosyası seçin.');
+            const path = `${owner}/${key}/${kind}-${crypto.randomUUID()}.${extension}`;
+            checked(await storage.upload(path,blob,{contentType:blob.type,upsert:false}));
+            created.push(path);
+            cache.set(path,Promise.resolve(blob));
+            return path;
+        };
+        try {
+            for (const key of slots) {
+                const current = next.records[key];
+                if (!current) continue;
+                const {legacySource,file,...record} = current;
+                if (!record.outputPath || changed.has(key)) {
+                    const picture = await compose(key,current);
+                    if (key === 'imported' || (key === 'text' && !record.text)) {
+                        const blob = file || (legacySource && await fetch(legacySource).then(response => response.blob()));
+                        if (blob) record.sourcePath = await write(key,'source',blob);
+                    }
+                    const output = await encode(picture);
+                    record.outputPath = await write(key,'header',output);
+                    record.mime = output.type;
+                    record.width = width;
+                    record.height = height;
+                    record.updatedAt = new Date().toISOString();
+                    const digest = await crypto.subtle.digest('SHA-256',await output.arrayBuffer());
+                    record.hash = Array.from(new Uint8Array(digest), x => x.toString(16).padStart(2,'0')).join('');
+                }
+                records[key] = record;
+            }
+            if (owner !== activeOwner()) throw new Error('Oturum değişti.');
+            const design = {selected:next.selected,enabled:next.enabled,records};
+            const query = arbsysSupabaseClient.from(table);
+            const revision = old.revision + 1;
+            const response = old.revision ?
+                await query.update({design,revision}).eq('owner_id',owner).eq('revision',old.revision).select('revision').maybeSingle() :
+                await query.insert({owner_id:owner,design,revision}).select('revision').single();
+            if (!checked(response)) throw new Error('Tasarım başka bir pencerede değişti. Pencereyi yeniden açın.');
+            if (owner === activeOwner()) model = {...design,revision};
+        } catch (error) {
+            // A network error can arrive after the database commits. Verify before removing an upload.
+            const fresh = await arbsysSupabaseClient.from(table).select('design').eq('owner_id',owner).maybeSingle()
+                .catch(() => ({error:true}));
+            if (!fresh.error && created.length) {
+                const retained = JSON.stringify(fresh.data?.design || {});
+                const unused = created.filter(path => !retained.includes(path));
+                if (unused.length) await storage.remove(unused).catch(console.warn);
+            }
+            loadedOwner = null;
+            throw error;
+        }
+        const used = new Set(Object.values(records).flatMap(record => [record.sourcePath,record.outputPath]));
+        const obsolete = Object.values(old.records).flatMap(record => [record.sourcePath,record.outputPath])
+            .filter(path => path?.startsWith(owner+'/') && !used.has(path));
+        if (obsolete.length) {
+            const result = await storage.remove(obsolete).catch(error => ({error}));
+            if (result.error) return 'Tasarım kaydedildi. Eski dosyalar depodan temizlenemedi.';
+            obsolete.forEach(path => cache.delete(path));
+        }
+        return 'Üst bilgi tasarımı kaydedildi.';
+    }
+    async function savedPicture(current) {
+        const record = current.records[current.selected];
+        if (record?.outputPath) return download(record.outputPath);
+        return blobOf(await compose(current.selected,record || {}));
+    }
+    const applyFooter = v22ApplyFooter;
+    const effectiveFooter = v22EffectiveFooter;
+    v22EffectiveFooter = () => v22HFSettings.footerMode === 'userFooter' ?
+        (v22HFSettings.userFooter || V22_FOOTERS.arbsys) : effectiveFooter();
+    v22ApplyFooter = reset => {
+        applyFooter(reset);
+        if (reset && v22HFSettings.footerMode === 'userFooter') {
+            const values = v22EffectiveFooter();
+            byId('footerText1').value = values[0] || '';
+            byId('footerText2').value = values[1] || '';
+        }
+    };
+    function displayHeader(picture, enabled, live = false) {
+        const box = byId('logoPrintBox');
+        box.replaceChildren();
+        box.style.display = enabled && picture ? '' : 'none';
+        byId('headerLinePrint').style.display = enabled ? '' : 'none';
+        if (enabled && picture) {
+            picture.classList.toggle('hf99-live',live);
+            box.append(picture);
+        }
+    }
+    if (child) {
+        document.body.classList.add('v90-hf-preview-child');
+        let livePixels;
+        function drawCopies() {
+            if (!livePixels) return;
+            document.querySelectorAll('#v23PreviewPages canvas.hf99-live').forEach(surface =>
+                surface.getContext('2d').putImageData(livePixels,0,0));
+        }
+        function childZoom(value) {
+            const select = byId('v23PreviewZoom');
+            select.value = Array.from(select.options).find(option => Number(option.value) === value)?.value || select.value;
+            select.dispatchEvent(new Event('change'));
+        }
+        new MutationObserver(drawCopies).observe(byId('v23PreviewPages'),{childList:true});
+        addEventListener('message',event => {
+            if (event.source !== parent || !event.data?.type?.startsWith('hf99-')) return;
+            const message = event.data;
+            const viewport = byId('v23PreviewViewport');
+            const top = viewport.scrollTop, left = viewport.scrollLeft;
+            if (message.type === 'hf99-document') {
+                const parsed = new DOMParser().parseFromString(message.source || '','text/html');
+                const incoming = parsed.querySelector('table tbody');
+                if (!incoming) return;
+                incoming.querySelectorAll('script,style,iframe,object,embed,link,svg,math').forEach(node => node.remove());
+                incoming.querySelectorAll('*').forEach(node => {
+                    for (const attribute of Array.from(node.attributes)) {
+                        if (/^on|^(src|srcset|href|formaction|action|poster|background)$/i.test(attribute.name)) node.removeAttribute(attribute.name);
+                    }
+                });
+                document.querySelector('#docTable>tbody').innerHTML = incoming.innerHTML;
+                window.v23RefreshPreview();
+            }
+            if (message.type === 'hf99-zoom') childZoom(message.value);
+            if (message.type === 'hf99-design') {
+                livePixels = message.pixels;
+                const surface = canvas();
+                if (livePixels) surface.getContext('2d').putImageData(livePixels,0,0);
+                const hadHeader = byId('logoPrintBox').style.display !== 'none';
+                const hasHeader = !!(message.enabled && livePixels);
+                const footer = byId('footerPrintBox');
+                const footerKey = JSON.stringify(message.enabled ? message.footer : []);
+                const footerChanged = footer.dataset.hf99 !== footerKey;
+                displayHeader(livePixels ? surface : null,message.enabled,true);
+                if (footerChanged) {
+                    footer.dataset.hf99 = footerKey;
+                    footer.replaceChildren();
+                    if (message.enabled) message.footer.filter(Boolean).forEach((line,index) => {
+                        if (index) footer.append(document.createElement('br'));
+                        footer.append(document.createTextNode(line));
+                    });
+                    byId('footerLinePrint').style.display = message.enabled ? '' : 'none';
+                }
+                if (hadHeader !== hasHeader || footerChanged) window.v23RefreshPreview();
+                else drawCopies();
+            }
+            if (message.type !== 'hf99-zoom') {
+                viewport.scrollTop = top;
+                viewport.scrollLeft = left;
+            }
+        });
+        addEventListener('wheel',event => {
+            if (!event.ctrlKey) return;
+            event.preventDefault();
+            parent.postMessage({type:'hf99-wheel',direction:event.deltaY<0?1:-1},'*');
+        },{passive:false,capture:true});
+        displayHeader(null,false);
+        window.v23OpenPreview();
+        parent.postMessage({type:'hf99-ready'},'*');
+        return;
+    }
+    const storeFooter = v22HFStore;
+    v22HFStore = () => {
+        const original = v22HFSettings;
+        v22HFSettings = {...legacy(),footerMode:original.footerMode,customFooter:original.customFooter,
+            userFooter:original.userFooter};
+        try { storeFooter(); } finally { v22HFSettings = original; }
+    };
+    v22ApplyHeader = async () => {
+        const sequence = ++applySequence;
+        let current;
+        try { current = await loadModel(); }
+        catch (error) { console.warn('Üst bilgi ayarları okunamadı.',error); current = legacyModel(); }
+        let data = '', picture = null;
+        if (current.enabled) {
+            try {
+                let blob = await savedPicture(current);
+                if (blob.type !== 'image/png') {
+                    const surface = canvas();
+                    surface.getContext('2d').drawImage(await imageOf(blob),0,0,width,height);
+                    blob = await blobOf(surface);
+                }
+                data = await v22ReadDataUrl(blob);
+                picture = await imageOf(data);
+                picture.alt = 'Üst bilgi';
+            } catch (error) {
+                if (sequence !== applySequence) return false;
+                console.error(error);
+                return false;
+            }
+        }
+        if (sequence !== applySequence) return false;
+        uploadedLogoBase64 = data;
+        v22HFSettings.enabled = current.enabled;
+        byId('headerCheck').checked = current.enabled;
+        byId('footerCheck').checked = current.enabled;
+        byId('hfMasterCheck').checked = current.enabled;
+        displayHeader(picture,current.enabled);
+        v22ApplyFooter(false);
+        updateStatusDot();
+        return true;
+    };
+    const prepareOutput = async callback => {
+        if (!byId('ignoreHFCheck')?.checked && !await v22ApplyHeader()) {
+            return appAlert('Kayıtlı üst bilgi yüklenemedi. Bağlantıyı kontrol edip tekrar deneyin.','Üst Bilgi');
+        }
+        return callback();
+    };
+    const originalPdf = saveAsPdf, originalDocx = exportToDocx, originalUdf = exportToUdfJson;
+    saveAsPdf = () => prepareOutput(originalPdf);
+    exportToDocx = () => prepareOutput(originalDocx);
+    exportToUdfJson = () => prepareOutput(originalUdf);
+    const originalOpen = window.v23OpenPreview;
+    window.v23OpenPreview = () => prepareOutput(originalOpen);
+    const previewToggle = byId('v23PreviewToggle');
+    previewToggle.onclick = () => byId('v23PreviewPanel').classList.contains('open') ?
+        window.v23ClosePreview() : window.v23OpenPreview();
+
+    const panel = byId('hfPanel');
+    const button = (id,label,style='') => `<button type="button" class="v90-btn ${style}" id="${id}">${label}</button>`;
+    const choices = (name, items) => items.map(([key,label]) =>
+        `<label class="v90-choice"><input type="radio" name="${name}" value="${key}"><span>${label}</span></label>`).join('');
+    const magnifier = plus => `<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="8" cy="8" r="5"/><path d="m12 12 5 5M5 8h6${plus?'m-3-3v6':''}"/></svg>`;
+    const arrow = up => `<svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="${up?'M4 13l6-7 6 7z':'M4 7l6 7 6-7z'}"/></svg>`;
+    const fonts = ['Times New Roman','Arial','Calibri','Cambria','Georgia','Garamond','Verdana','Tahoma','Trebuchet MS',
+        'Palatino Linotype','Book Antiqua','Courier New','Century Gothic','Franklin Gothic Medium','Lucida Sans Unicode'];
+    function status(message, error = false) {
+        const label = byId('hf99Status');
+        label.textContent = message;
+        label.dataset.error = error;
+    }
+    const frameMessage = data => byId('hf99Frame')?.contentWindow?.postMessage(data,'*');
+    function setZoom(value) {
+        zoom = clamp(Math.round(value*10)/10,.5,1);
+        byId('hf99Zoom').value = String(zoom);
+        frameMessage({type:'hf99-zoom',value:zoom});
+    }
+    function build() {
+        if (byId('hf99Choices')) return;
+        panel.innerHTML = `<div class="v90-head">
+            <div class="v90-head-left"><h2>Üst ve Alt Bilgi Tasarımı</h2><p>Belgenizdeki üst ve alt bilgiyi düzenleyin.</p></div>
+            <div class="v90-preview-head"><strong>Belge Önizleme</strong><div class="v90-zoom">
+            ${button('hf99ZoomOut','−')}<select id="hf99Zoom" aria-label="Yakınlaştırma">${[.5,.6,.7,.8,.9,1].map(n=>`<option value="${n}">%${n*100}</option>`).join('')}</select>
+            ${button('hf99ZoomIn','+')}${button('hf99Close','×','v90-close')}</div></div></div>
+            <div class="v90-layout"><div class="v90-controls">
+            <label class="v90-master"><input id="hfMasterCheck" type="checkbox">Üst ve alt bilgiyi kullan</label>
+            <input id="headerCheck" type="checkbox" hidden><input id="footerCheck" type="checkbox" hidden>
+            <section class="v90-card" id="headerRow"><h3>Üst Bilgi</h3><div class="v90-modes" id="hf99Choices"></div>
+            <input id="hf99File" type="file" hidden accept="image/png,image/jpeg,image/webp">
+            ${button('hf99Edit','Logo boyutu ve konumunu düzenle')}
+            <div id="hf99Editor" hidden>
+            <div class="v90-logo-area"><canvas id="hf99Canvas" class="hf99-stage" width="1244" height="237"></canvas></div>
+            <div class="hf99-actions hf99-placement"><strong>Logo boyutu ve konumu</strong>
+            ${button('hf99Smaller',magnifier(false),'hf99-tool')}${button('hf99Larger',magnifier(true),'hf99-tool')}
+            ${button('hf99Up',arrow(true),'hf99-tool')}${button('hf99Down',arrow(false),'hf99-tool')}</div>
+            <div class="hf99-actions">${button('hf99Reset','Konumu sıfırla')}${button('hf99Delete','Sil','danger')}</div>
+            <div id="hf99Text"></div></div>
+            <div class="hf99-actions">${button('hf99Save','Üst Bilgi Tasarımını Kaydet','primary')}</div>
+            <p id="hf99Status" class="hf99-status" role="status"></p></section>
+            <section class="v90-card" id="footerRow"><h3>Alt Bilgi</h3><div class="v90-modes">
+            ${choices('v22FooterMode',[['arbsys','Arbsys'],['consensus','Consensus'],['custom','Alt Bilgi Ekle'],['userFooter','Kullanıcı Alt Bilgi']])}</div>
+            <div id="v22FooterInputs" class="v90-footer-inputs"><input id="footerText1" aria-label="Alt bilgi birinci satır"><input id="footerText2" aria-label="Alt bilgi ikinci satır"></div>
+            <div class="hf99-actions">${button('hf99FooterSave','Alt bilgiyi kaydet','primary')}</div></section>
+            </div><div id="hf99Drop" class="v90-preview"></div></div>`;
+        byId('hf99Close').onclick = () => panel.classList.remove('open');
+        byId('hf99Close').setAttribute('aria-label','Kapat');
+        byId('hf99ZoomOut').onclick = () => setZoom(zoom-.1);
+        byId('hf99ZoomIn').onclick = () => setZoom(zoom+.1);
+        byId('hf99Zoom').onchange = event => setZoom(Number(event.target.value));
+        byId('hfMasterCheck').onchange = event => { if (draft) { draft.enabled=event.target.checked; paint(); } };
+        byId('hf99Edit').onclick = () => { editing = !editing; renderControls(); paint(); };
+        byId('hf99File').onchange = importLogo;
+        byId('hf99Save').onclick = save;
+        byId('hf99Reset').onclick = resetLogo;
+        byId('hf99Delete').onclick = deleteLogo;
+        for (const [id,label,action] of [
+            ['hf99Smaller','Logoyu küçült',()=>move(-.05,0)], ['hf99Larger','Logoyu büyüt',()=>move(.05,0)],
+            ['hf99Up','Yukarı taşı',()=>move(0,-.2)], ['hf99Down','Aşağı taşı',()=>move(0,.2)]]) {
+            const control = byId(id);
+            control.title = label;
+            control.setAttribute('aria-label',label);
+            control.onclick = action;
+        }
+        document.querySelectorAll('#footerRow input[type=radio]').forEach(radio => radio.onchange = () => {
+            v22HFSettings.footerMode = radio.value;
+            v22ApplyFooter(true);
+            v22HFStore();
+            paint();
+        });
+        for (const id of ['footerText1','footerText2']) byId(id).oninput = () => {
+            v22HFSettings.footerMode = 'custom';
+            panel.querySelector('[name=v22FooterMode][value=custom]').checked = true;
+            v22HFSettings.customFooter = [byId('footerText1').value,byId('footerText2').value];
+            v22ApplyFooter(false);
+            v22HFStore();
+            paint();
+        };
+        byId('hf99FooterSave').onclick = () => {
+            const values = [byId('footerText1').value.trim(),byId('footerText2').value.trim()];
+            if (!values.some(Boolean)) return appAlert('Kaydedilecek bir alt bilgi yazın.','Metin Girilmedi');
+            v22HFSettings.userFooter = values;
+            const choice = panel.querySelector('[name=v22FooterMode][value=userFooter]');
+            choice.disabled = false;
+            choice.checked = true;
+            choice.dispatchEvent(new Event('change'));
+        };
+        const drop = byId('hf99Drop');
+        drop.ondragover = event => { event.preventDefault(); drop.classList.add('is-dragging'); };
+        drop.ondragleave = () => drop.classList.remove('is-dragging');
+        drop.ondrop = async event => {
+            event.preventDefault();
+            drop.classList.remove('is-dragging');
+            const file = event.dataTransfer.files[0];
+            if (!/\.arbsys$/i.test(file?.name || '')) return appAlert('Bir .arbsys belgesi bırakın.','Belge Önizleme');
+            previewSource = await file.text();
+            frameMessage({type:'hf99-document',source:previewSource});
+        };
+    }
+    function renderControls() {
+        const record = draft.records[draft.selected];
+        const controls = byId('hf99Choices');
+        const hasText = draft.records.text && !draft.records.text.creating;
+        controls.innerHTML = choices('hf99Slot',[['arbsys','Arbsys Logo'],['consensus','Consensus Logo'],
+            ['imported',draft.records.imported?'İçeri Aktarılan Logo':'Logo Yükle'],['text',hasText?'Metin Logo':'Metinden Oluştur']]);
+        controls.querySelectorAll('input').forEach(radio => {
+            radio.checked = radio.value === draft.selected;
+            radio.onchange = () => {
+                const key = radio.value;
+                if (key === 'imported' && !draft.records.imported) {
+                    renderControls();
+                    byId('hf99File').click();
+                    return;
+                }
+                draft.selected = key;
+                if (key === 'text' && !draft.records.text) {
+                    draft.records.text = {text:textDefaults(),creating:true,scale:1,offset:0};
+                }
+                editing = key === 'text' && !!draft.records.text.creating;
+                renderControls();
+                paint();
+            };
+        });
+        byId('hfMasterCheck').checked = draft.enabled;
+        byId('hf99Editor').hidden = !editing;
+        byId('hf99Edit').textContent = editing ? 'Logo düzenleyicisini kapat' : 'Logo boyutu ve konumunu düzenle';
+        byId('hf99Delete').hidden = !['text','imported'].includes(draft.selected);
+        byId('hf99Reset').textContent = record?.creating ? 'Sıfırla' : 'Konumu sıfırla';
+        renderTextFields(editing && record?.creating ? record.text : null);
+    }
+    function renderTextFields(text) {
+        const area = byId('hf99Text');
+        area.replaceChildren();
+        if (!text) return;
+        const heading = document.createElement('h3');
+        heading.textContent = 'Metinden Üst Bilgi Oluştur';
+        area.append(heading);
+        text.lines.forEach((line,i) => {
+            const section = document.createElement('div');
+            section.className = 'v90-text-line';
+            section.innerHTML = `<input type="text" maxlength="200" placeholder="${placeholders[i]}" aria-label="${i+1}. satır">
+                <div class="hf99-format"><select aria-label="Yazı tipi">${fonts.map(font=>`<option>${font}</option>`).join('')}</select>
+                <button type="button" class="v90-btn hf99-font-size" data-size="1" title="Yazıyı büyüt" aria-label="Yazıyı büyüt">A<sup>⌃</sup></button>
+                <button type="button" class="v90-btn hf99-font-size" data-size="-1" title="Yazıyı küçült" aria-label="Yazıyı küçült">A<sup>⌄</sup></button>
+                <input type="color" title="Yazı rengi">
+                ${[['bold','K','Kalın'],['italic','T','İtalik'],['underline','A','Altı çizili']].map(([key,glyph,label])=>
+                    `<button type="button" class="v90-btn" title="${label}" data-format="${key}">${glyph}</button>`).join('')}
+                <label class="hf99-kerning"><span aria-hidden="true">VA<br>↔</span><input type="number" min="-2" max="12" step=".1" title="Harf aralığı" aria-label="Harf aralığı"></label></div>`;
+            area.append(section);
+            const field = section.querySelector('[type=text]'), select = section.querySelector('select');
+            const color = section.querySelector('[type=color]'), tracking = section.querySelector('[type=number]');
+            field.value=line.value; select.value=line.family; color.value=line.color; tracking.value=line.tracking;
+            field.oninput = () => { line.value=field.value; paint(); };
+            select.onchange = () => { line.family=select.value; paint(); };
+            color.oninput = () => { line.color=color.value; paint(); };
+            tracking.oninput = () => { line.tracking=clamp(Number(tracking.value),-2,12); paint(); };
+            section.querySelectorAll('[data-size]').forEach(control => control.onclick = () => {
+                const before = line.size;
+                line.size = clamp(before+Number(control.dataset.size),6,48);
+                if (line.size > before && !textFits(text)) line.size = before;
+                paint();
+            });
+            section.querySelectorAll('[data-format]').forEach(control => {
+                const key=control.dataset.format;
+                control.setAttribute('aria-pressed',line[key]);
+                control.onclick=()=>{ line[key]=!line[key]; control.setAttribute('aria-pressed',line[key]); paint(); };
+            });
+        });
+        const label = document.createElement('label');
+        label.className='hf99-format';
+        label.innerHTML='Satır aralığı <input type="number" min="0" max="40" step="1">';
+        const gap = label.querySelector('input');
+        gap.value=text.gap;
+        gap.onchange=()=>{
+            const before=text.gap;
+            text.gap=clamp(Number(gap.value),0,40);
+            if(text.gap>before && !textFits(text)) text.gap=before;
+            gap.value=text.gap;
+            paint();
+        };
+        area.append(label);
+    }
+    function textFits(text) {
+        const image = textSource(text,true);
+        const scale = draft.records.text.scale ?? 1;
+        return !image || (image.width*scale <= width && image.height*scale <= height);
+    }
+    async function paint() {
+        if (!draft) return;
+        const sequence = ++paintSequence;
+        const {selected,enabled} = draft, record = draft.records[selected];
+        try {
+            let surface;
+            if (!editing && record?.outputPath && !dirty.has(selected)) {
+                surface = canvas();
+                surface.getContext('2d').drawImage(await imageOf(await download(record.outputPath)),0,0);
+            } else {
+                surface = await compose(selected,record || {}, true);
+            }
+            if (sequence !== paintSequence) return;
+            const ctx=byId('hf99Canvas').getContext('2d');
+            ctx.clearRect(0,0,width,height);
+            ctx.drawImage(surface,0,0);
+            frameMessage({type:'hf99-design',enabled,footer:v22EffectiveFooter(),pixels:ctx.getImageData(0,0,width,height)});
+        } catch(error) {
+            if (sequence===paintSequence) status(error.message,true);
+        }
+    }
+    async function move(scale, offset) {
+        const key = draft.selected, record = draft.records[key];
+        if (!record) return;
+        try {
+            if (scale && record.text) {
+                const source = await sourceOf(key,record,true);
+                if (!source) return;
+                const limit = Math.min(width/source.width,height/source.height);
+                record.scale=clamp(Math.min(limit,record.scale??1)+scale,Math.min(.25,limit),limit);
+            } else if (scale) record.scale=clamp((record.scale??1)+scale,.15,1);
+            if (offset) record.offset=clamp((record.offset??0)+offset,-1,1);
+            dirty.add(key);
+            paint();
+        } catch(error) { status(error.message,true); }
+    }
+    function resetLogo() {
+        const key = draft.selected, record = draft.records[key];
+        record.scale=1;
+        record.offset=0;
+        if (record.creating) record.text=textDefaults();
+        dirty.add(key);
+        renderControls();
+        paint();
+    }
+    function deleteLogo() {
+        const key=draft.selected;
+        if (!['imported','text'].includes(key)) return;
+        delete draft.records[key];
+        dirty.delete(key);
+        draft.selected='arbsys';
+        editing=false;
+        renderControls();
+        paint();
+        status('Silme işlemi kaydettiğinizde uygulanacak.');
+    }
+    async function importLogo(event) {
+        const file=event.target.files[0];
+        event.target.value='';
+        if (!file) return;
+        try {
+            if (!['image/png','image/jpeg','image/webp'].includes(file.type) || file.size>10*1024*1024)
+                throw new Error('En fazla 10 MB boyutunda PNG, JPG veya WebP seçin.');
+            await imageOf(file);
+            draft.records.imported={file,scale:1,offset:0};
+            draft.selected='imported';
+            dirty.add('imported');
+            editing=true;
+            renderControls();
+            paint();
+        } catch(error) { status(error.message,true); }
+    }
+    async function save() {
+        if (saving || !draft) return;
+        saving=true;
+        const controls=byId('headerRow');
+        controls.inert=true;
+        byId('hfMasterCheck').disabled=true;
+        try {
+            const next=structuredClone(draft);
+            if (next.records.text?.creating) {
+                if (!next.records.text.text.lines.some(line=>line.value.trim())) {
+                    if (next.selected==='text') throw new Error('Metin Logo için en az bir satır yazın.');
+                    delete next.records.text;
+                } else {
+                    delete next.records.text.creating;
+                    dirty.add('text');
+                }
+            }
+            status('Üst bilgi tasarımı kaydediliyor…');
+            const message=await commit(next,dirty);
+            draft=structuredClone(model);
+            dirty.clear();
+            editing=false;
+            renderControls();
+            paint();
+            const applied=await v22ApplyHeader();
+            status(applied?message:'Tasarım kaydedildi. Ana önizleme güncellenemedi.',!applied);
+        } catch(error) { status(error.message,true); }
+        finally { saving=false; controls.inert=false; byId('hfMasterCheck').disabled=false; }
+    }
+    async function initializeOwner(migrate) {
+        const current=await loadModel();
+        if (migrate && activeOwner() && !current.revision &&
+            Object.values(current.records).some(record=>record.legacySource)) {
+            const owner = activeOwner();
+            if (migration?.owner !== owner) {
+                const pending = {owner};
+                pending.promise = commit(current,new Set()).finally(() => {
+                    if (migration===pending) migration=null;
+                });
+                migration = pending;
+            }
+            try { await migration.promise; }
+            catch (error) {
+                console.warn('Eski logo henüz taşınamadı.',error);
+                return current;
+            }
+        }
+        return model;
+    }
+    v22BuildHFPanel = () => {
+        build();
+        v22HFSettings = {footerMode:'arbsys',customFooter:['',''],...legacy()};
+        const radio=Array.from(panel.querySelectorAll('[name=v22FooterMode]'))
+            .find(choice=>choice.value===v22HFSettings.footerMode);
+        if(radio) radio.checked=true;
+        panel.querySelector('[name=v22FooterMode][value=userFooter]').disabled=!v22HFSettings.userFooter;
+        v22ApplyFooter(true);
+    };
+    toggleHFPanel = async () => {
+        if(saving) return;
+        const sequence = ++openSequence;
+        if (panel.classList.contains('open')) { panel.classList.remove('open'); return; }
+        window.v23ClosePreview();
+        v22BuildHFPanel();
+        panel.classList.add('open');
+        byId('headerRow').inert=true;
+        byId('hf99Choices').replaceChildren();
+        byId('hf99Editor').hidden=true;
+        draft=null;
+        status('Üst bilgi tasarımı yükleniyor…');
+        try {
+            loadedOwner=null;
+            const current=await initializeOwner(true);
+            if(sequence!==openSequence || !panel.classList.contains('open')) return;
+            draft=structuredClone(current);
+            editing=false;
+            dirty.clear();
+            renderControls();
+            byId('headerRow').inert=false;
+            const host=byId('hf99Drop');
+            if (!byId('hf99Frame')) {
+                const frame=document.createElement('iframe');
+                frame.id='hf99Frame';
+                frame.title='Belge Önizleme';
+                const previewUrl = new URL(location.href);
+                previewUrl.searchParams.set('hfPreview','1');
+                previewUrl.hash = '';
+                frame.src = previewUrl.href;
+                host.append(frame);
+            } else paint();
+            status('');
+        } catch(error) {
+            status('Üst bilgi ayarları açılamadı. '+error.message,true);
+        }
+    };
+    addEventListener('message',event=>{
+        if(event.source!==byId('hf99Frame')?.contentWindow)return;
+        if(event.data?.type==='hf99-ready'){
+            byId('hf99Drop').classList.add('is-ready');
+            frameMessage({type:'hf99-document',source:previewSource});
+            setZoom(zoom);
+            paint();
+        }
+        if(event.data?.type==='hf99-wheel') setZoom(zoom+event.data.direction*.1);
+    });
+    const applyRemote=supabaseApplyRemoteDataset;
+    supabaseApplyRemoteDataset = row => {
+        applyRemote(row);
+        loadedOwner=null;
+        v22ApplyHeader();
+    };
+    v22BuildHFPanel();
+    v22ApplyHeader();
+})();
+</script>
 </body></html>

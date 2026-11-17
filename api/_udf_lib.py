@@ -844,7 +844,12 @@ def build_header_xml(cb: ContentBuilder, header_data):
             logo_b64 = logo_b64_raw
         # base64 kirilmadan (tek satir) kullanilir - bkz. wrap_base64 aciklamasi
         logo_b64_flat = wrap_base64(logo_b64)
-        w_pt, h_pt = _logo_dimensions_preserving_aspect(logo_b64, LOGO_WIDTH_PT, LOGO_HEIGHT_PT)
+        if header_data.get("fixedCanvas") is True:
+            logo_width_pt = 10.5325 * CM_TO_PT
+            logo_height_pt = 2.0066 * CM_TO_PT
+        else:
+            logo_width_pt, logo_height_pt = LOGO_WIDTH_PT, LOGO_HEIGHT_PT
+        w_pt, h_pt = _logo_dimensions_preserving_aspect(logo_b64, logo_width_pt, logo_height_pt)
         image_offset = cb.offset
         # image'in hemen ardina, kullanicinin kodundaki gibi 1 karakterlik
         # "yer tutucu" content ekleniyor (offset+1). Content akisina da
