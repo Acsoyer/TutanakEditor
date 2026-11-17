@@ -154,10 +154,10 @@
     target.style.setProperty('--line-height', spacing > 0 ? String(1 + spacing) : 'normal');
     const tabStops = String(attrs.TabSet || '')
       .split(',')
-      .map(item => pt(item.split(':')[0], NaN))
-      .filter(Number.isFinite)
-      .sort((a, b) => a - b);
-    target.dataset.tabStops = tabStops.join(',');
+      .map(item => item.split(':').map(Number))
+      .filter(([position]) => Number.isFinite(position) && position > 0)
+      .sort((a, b) => a[0] - b[0]);
+    target.dataset.tabLayout = JSON.stringify(tabStops);
     if (attrs.family) target.style.setProperty('--font-family', `"${webFontFamily(attrs.family)}"`);
     if (attrs.size) target.style.setProperty('--font-size', `${pt(attrs.size, 12)}pt`);
     if (attrs.bold === 'true') target.style.setProperty('--font-weight', '700');
@@ -223,6 +223,7 @@
     paragraph.className = 'udf-paragraph';
     const attrs = resolvedAttributes(node, context.styleMap);
     applyParagraphStyle(paragraph, attrs);
+    paragraph.dataset.generatedTabs = String(!!context.arbsysGenerated);
     Array.from(node.children).forEach(child => {
       const inline = renderInline(child, context);
       if (inline) paragraph.appendChild(inline);
@@ -467,6 +468,7 @@
       if (block) blocks.push(block);
     });
 
+
     const footerBlocks = [];
     if (footerNode) {
       const footerContext = { ...context, inFooter: true };
@@ -598,15 +600,6 @@
     return body.scrollHeight > body.clientHeight + 1;
   }
 
-  function tabStopsFor(paragraph) {
-    const explicit = String(paragraph.dataset.tabStops || '')
-      .split(',')
-      .map(value => Number.parseFloat(value))
-      .filter(Number.isFinite)
-      .sort((a, b) => a - b);
-    return explicit;
-  }
-
   function nextTabStop(currentPt, explicitStops) {
     const explicit = explicitStops.find(stop => stop > currentPt + .35);
     if (explicit !== undefined) return explicit;
@@ -623,19 +616,50 @@
     return Math.max(1, Math.floor(currentPt / DEFAULT_TAB_STOP_PT) + 1) * DEFAULT_TAB_STOP_PT;
   }
 
+  function followingTabTextWidth(marker, decimal) {
+    const probe = marker.ownerDocument.createElement('span');
+    probe.style.cssText = 'position:absolute;visibility:hidden;white-space:pre;display:inline-block;text-indent:0';
+    for (let node=marker.nextSibling;node && !node.classList?.contains('udf-tab');node=node.nextSibling) {
+      const clone=node.cloneNode(true);
+      if (decimal && clone.textContent.includes('.')) {
+        clone.textContent=clone.textContent.split('.')[0];
+        probe.append(clone);
+        break;
+      }
+      probe.append(clone);
+    }
+    marker.parentElement.append(probe);
+    const width=probe.offsetWidth;
+    probe.remove();
+    return width * 72 / 96;
+  }
+
   function layoutParagraphTabs(paragraph) {
     const markers = paragraph.querySelectorAll(':scope > .udf-tab');
     if (!markers.length || !paragraph.isConnected) return;
-    const explicitStops = tabStopsFor(paragraph);
+    const sourceStops = JSON.parse(paragraph.dataset.tabLayout || '[]');
+    const generated=paragraph.dataset.generatedTabs==='true';
+    const explicitStops = sourceStops.map(([position])=>position);
     const page = paragraph.closest('.udf-page');
     const scale = page ? page.getBoundingClientRect().width / page.offsetWidth : 1;
     const paragraphLeft = paragraph.getBoundingClientRect().left;
+    markers.forEach(marker => { marker.style.width = '0pt'; });
     markers.forEach(marker => {
-      marker.style.width = '0pt';
       for (let pass = 0; pass < 3; pass += 1) {
         const before = marker.getBoundingClientRect();
         const currentPt = ((before.left - paragraphLeft) / Math.max(scale, .01)) * 72 / 96;
-        const targetPt = nextTabStop(Math.max(0, currentPt), explicitStops);
+        const active=sourceStops.find(([position])=>position>currentPt+.01);
+        let targetPt;
+        if(generated) targetPt=nextTabStop(Math.max(0,currentPt),explicitStops);
+        else if((paragraph.style.getPropertyValue('--text-align')||'left')!=='left') targetPt=currentPt+10;
+        else if(!sourceStops.length) targetPt=(Math.floor(Math.max(0,currentPt)/72)+1)*72;
+        else if(!active) targetPt=currentPt+5;
+        else {
+          const [position,alignment]=active;
+          const adjustment=[1,2,4].includes(alignment) ?
+            followingTabTextWidth(marker,alignment===4)/(alignment===2?2:1) : 0;
+          targetPt=position-adjustment;
+        }
         marker.style.width = `${Math.max(1, targetPt - currentPt)}pt`;
         const after = marker.getBoundingClientRect();
         if (Math.abs(after.left - before.left) < .5) break;
