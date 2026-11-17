@@ -6,7 +6,7 @@
   const MAX_XML_BYTES = 20 * 1024 * 1024;
   const DEFAULT_TAB_STOP_PT = 69;
   // UDF does not store a separate clearance for headers taller than the top margin.
-  const LEGACY_TALL_HEADER_CLEARANCE_LINES = 3;
+  const LEGACY_TALL_HEADER_CLEARANCE_LINES = 2.75;
   const MANUAL_ZOOM_LEVELS = [0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.4];
   const A4_WIDTH_PX = 210 * 96 / 25.4;
   const ALIGNMENTS = { '0': 'left', '1': 'center', '2': 'right', '3': 'justify' };
@@ -596,7 +596,17 @@
   }
 
   function bodyOverflows(body) {
-    return body.scrollHeight > body.clientHeight + 1;
+    if (body.scrollHeight > body.clientHeight + 1) return true;
+    const lastBlock = body.lastElementChild;
+    if (!lastBlock) return false;
+    const bottom = body.getBoundingClientRect().bottom;
+    if (bottom - lastBlock.getBoundingClientRect().bottom > 6) return false;
+    // Scroll metrics are rounded. Check the text itself near a page break so
+    // descenders cannot be hidden by the clipping boundary.
+    const range = body.ownerDocument.createRange();
+    range.selectNodeContents(lastBlock);
+    return Array.from(range.getClientRects()).some(rect =>
+      rect.width > 0 && rect.height > 0 && rect.bottom > bottom + .05);
   }
 
   function nextTabStop(currentPt, explicitStops) {
