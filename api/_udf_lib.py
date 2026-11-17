@@ -910,12 +910,19 @@ def build_footer_xml(cb: ContentBuilder, footer_data):
         bozuyordu.
     """
     enabled = footer_data.get("enabled")
+    number_attrs = (
+        ' pageNumber-spec="BSP32_2120" pageNumber-color="-16777216"'
+        ' pageNumber-fontFace="Arial" pageNumber-fontSize="9" pageNumber-foreStr=""'
+        ' pageNumber-pageStartNumStr="" pageNumber-seperator="/"'
+        ' pageNumber-fontBold="false" pageNumber-fontItalic="false" color-boundary="-1"'
+        if footer_data.get("pageNumbers") is True else ""
+    )
     text1 = (footer_data.get("text1") or "").strip()
     text2 = (footer_data.get("text2") or "").strip()
 
     if not enabled:
         nl_tag = hf_run_tag(cb, "  \n")
-        return f'<footer><paragraph name="hvl-default" family="{FONT_FAMILY}" size="{FONT_SIZE}" description="G\u00f6vde">{nl_tag}</paragraph></footer>'
+        return f'<footer{number_attrs}><paragraph name="hvl-default" family="{FONT_FAMILY}" size="{FONT_SIZE}" description="G\u00f6vde">{nl_tag}</paragraph></footer>'
 
     parts = []
 
@@ -957,7 +964,7 @@ def build_footer_xml(cb: ContentBuilder, footer_data):
             f"{nl_tag2}</paragraph>"
         )
 
-    return f"<footer>{''.join(parts)}</footer>"
+    return f"<footer{number_attrs}>{''.join(parts)}</footer>"
 
 
 def wrap_base64(b64: str, width: int = 76) -> str:

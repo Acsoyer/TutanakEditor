@@ -1545,6 +1545,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
     <script>
         let floatActiveRow = null;
         let uploadedLogoBase64 = "";
+        let arbsysPageNumbers = false;
 
         function openSaveModal() {
             var input = document.getElementById('fileNameInput');
@@ -5070,7 +5071,23 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 footerXml += '<w:p><w:pPr><w:pBdr><w:top w:val="single" w:sz="4" w:space="1" w:color="808080"/></w:pBdr><w:jc w:val="center"/><w:spacing w:before="0" w:after="0"/></w:pPr></w:p>';
                 if (ft1) footerXml += '<w:p><w:pPr><w:jc w:val="center"/><w:spacing w:before="0" w:after="0" w:line="240" w:lineRule="atLeast"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Palatino Linotype" w:hAnsi="Palatino Linotype"/><w:sz w:val="18"/></w:rPr><w:t>' + ft1 + '</w:t></w:r></w:p>';
                 if (ft2) footerXml += '<w:p><w:pPr><w:jc w:val="center"/><w:spacing w:before="0" w:after="0" w:line="240" w:lineRule="atLeast"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Palatino Linotype" w:hAnsi="Palatino Linotype"/><w:sz w:val="18"/></w:rPr><w:t>' + ft2 + '</w:t></w:r></w:p>';
-            } else { footerXml += '<w:p/>'; }
+            }
+            if (arbsysPageNumbers) {
+                const numberRun='<w:rPr><w:rFonts w:ascii="Arial" w:hAnsi="Arial"/><w:sz w:val="18"/></w:rPr>';
+                const field=name=>'<w:fldSimple w:instr="'+name+'"><w:r>'+numberRun+'<w:t>1</w:t></w:r></w:fldSimple>';
+                const box='<w:r><w:drawing><wp:anchor xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" distT="0" distB="0" distL="0" distR="0" simplePos="0" relativeHeight="1" behindDoc="0" locked="0" layoutInCell="1" allowOverlap="1">'+
+                    '<wp:simplePos x="0" y="0"/><wp:positionH relativeFrom="margin"><wp:align>right</wp:align></wp:positionH>'+
+                    '<wp:positionV relativeFrom="page"><wp:posOffset>'+((16838-284-300)*635)+'</wp:posOffset></wp:positionV>'+
+                    '<wp:extent cx="635000" cy="190500"/><wp:wrapNone/><wp:docPr id="2" name="Sayfa numarası"/><wp:cNvGraphicFramePr/>'+
+                    '<a:graphic xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"><a:graphicData uri="http://schemas.microsoft.com/office/word/2010/wordprocessingShape">'+
+                    '<wps:wsp xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape"><wps:cNvSpPr txBox="1"/>'+
+                    '<wps:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="635000" cy="190500"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/><a:ln><a:noFill/></a:ln></wps:spPr>'+
+                    '<wps:txbx><w:txbxContent><w:p><w:pPr><w:jc w:val="right"/><w:spacing w:before="0" w:after="0" w:line="220" w:lineRule="exact"/></w:pPr>'+
+                    field('PAGE')+'<w:r>'+numberRun+'<w:t>/</w:t></w:r>'+field('NUMPAGES')+
+                    '</w:p></w:txbxContent></wps:txbx><wps:bodyPr lIns="0" rIns="0" tIns="0" bIns="0" anchor="b"/></wps:wsp></a:graphicData></a:graphic></wp:anchor></w:drawing></w:r>';
+                // Keep the anchor in an existing footer paragraph to avoid adding height.
+                footerXml=footerXml.endsWith('</w:p>') ? footerXml.slice(0,-6)+box+'</w:p>' : footerXml+'<w:p>'+box+'</w:p>';
+            } else if (!footerChecked) footerXml += '<w:p/>';
             footerXml += '</w:ftr>';
 
             var topMargin    = ignoreHF ? 709 : 2268;
@@ -5283,6 +5300,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 },
                 footer: {
                     enabled: footerChecked,
+                    pageNumbers: arbsysPageNumbers,
                     text1: footerChecked ? (document.getElementById('footerText1').value || '').trim() : '',
                     text2: footerChecked ? (document.getElementById('footerText2').value || '').trim() : ''
                 },
@@ -7569,6 +7587,9 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         /* Normal akistaki yaklasik 11 px bosluk 1 px ofsetle 10 px'e indirilir. */
         .v23-preview-page-footer .footer-line-print { border-top:1px solid #808080; margin-bottom:.30cm; position:relative; top:1px; }
         .v23-preview-page-footer .footer-text-print { font-size:9pt; line-height:1.5; }
+        .v23-preview-page-footer .footer-text-print{position:relative}
+        .v109-page-number{position:absolute;right:1.25cm;bottom:.5cm;font:400 9pt/1.5 Arial,sans-serif;color:#000;white-space:nowrap}
+        .footer-text-print>.v109-page-number{right:0;bottom:0}
         /* PDF parcalari kaynak metnin dogal text-align/text-align-last
            davranisini kullanir. Son satir hicbir zaman zorla yayilmaz. */
         .v23-preview-page-body { position:absolute; left:1.75cm; right:1.25cm; top:1.25cm; bottom:1.25cm; overflow:hidden; }
@@ -7876,6 +7897,13 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                     if(sourceRows.length)pageRecords.push(record);
                     pageRecords.forEach(function(item,index){
                         item.shell.dataset.page=String(index+1);
+                        if(arbsysPageNumbers){
+                            const number=document.createElement('span');
+                            number.className='v109-page-number';
+                            number.textContent=(index+1)+'/'+pageRecords.length;
+                            const footerText=item.page.querySelector('.footer-text-print');
+                            (footerText?.textContent.trim()?footerText:item.page).append(number);
+                        }
                         if(atomicLineDocument){
                             const capacity=52;
                             if(item.tbody.children.length>=capacity)item.page.classList.add('v46-atomic-full-page');
@@ -8929,6 +8957,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         .v21-add-center{display:flex;align-items:center;justify-content:center;gap:8px}.v21-add-balance{display:block}
         #docTable .v21-smart-control{display:none!important}
         #docTable b,#docTable strong{font-weight:700!important}
+        .v23-preview-page .v34-title-text-row :is(b,strong){font-weight:700!important}
         .v20-smart-modal{position:fixed;inset:0;z-index:1450;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(15,23,42,.55);backdrop-filter:blur(4px)}
         .v20-smart-modal.open{display:flex}
         .v20-smart-dialog{display:flex;flex-direction:column;width:min(1180px,96vw);height:min(780px,92vh);overflow:hidden;border-radius:16px;background:#f8fafc;box-shadow:0 24px 70px rgba(15,23,42,.35)}
@@ -9409,7 +9438,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         }
         async function v82ApplyWordImport(){
             if(!v82WordModel.rows.length)return;if(!await appConfirm('Mevcut belge içeriği Word belgesinden algılanan yeni içerikle değiştirilecek. Devam edilsin mi?','Word Belgesini Editöre Aktar','Belgeyi Değiştir','Vazgeç'))return;var body=document.querySelector('#docTable>tbody'),fragment=document.createDocumentFragment();
-            fragment.appendChild(v20CreateSmartGap());(v82WordModel.titles||[]).forEach(function(html){var row=document.createElement('tr');row.className='full-row v34-title-text-row v34-title-part';var td=document.createElement('td');td.colSpan=3;var content=document.createElement('div');content.className='fr-content';content.style.textAlign='center';content.style.textAlignLast='center';var bold=document.createElement('b');bold.innerHTML=v82SanitizeInlineHtml(html).replace(/^<b>|<\/b>$/gi,'');content.appendChild(bold);td.appendChild(content);row.appendChild(td);fragment.appendChild(row);});var blank1=v20CreateSmartGap(),blank2=v20CreateSmartGap();blank1.classList.add('v34-title-part');blank2.classList.add('v34-title-part');fragment.append(blank1,blank2);
+            fragment.appendChild(v20CreateSmartGap());(v82WordModel.titles||[]).forEach(html=>fragment.appendChild(v104ImportTitleRow(html)));var blank1=v20CreateSmartGap(),blank2=v20CreateSmartGap();blank1.classList.add('v34-title-part');blank2.classList.add('v34-title-part');fragment.append(blank1,blank2);
             (v82WordModel.rows||[]).forEach(function(row){fragment.appendChild(row.kind==='empty'?v20CreateSmartGap():row.kind==='field'?v82CreateRichField(row):v82CreateRichText(row));});var sigGap=v20CreateSmartGap();sigGap.classList.add('v11-signature-gap');fragment.append(sigGap,v82CreateSignatureRow());body.replaceChildren(fragment);applyEditable();injectLabelDropdowns();v21InstallSmartControls();v18EnsureTitleBold(document.getElementById('docTable'));v82CloseWordImporter();v34ToggleStructureMode(false);document.getElementById('pageContent')?.scrollTo?.(0,0);await appAlert('Word belgesi editöre aktarıldı. Alanları kontrol edip .arbsys olarak kaydedebilirsiniz.','Dönüşüm Tamamlandı');
         }
     </script>
@@ -9436,8 +9465,14 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             if(!table)return table;
             table.querySelectorAll('.v34-title-text-row .fr-content').forEach(function(content){
                 var meaningful=Array.from(content.childNodes).filter(function(node){return node.nodeType!==Node.TEXT_NODE||node.textContent.trim();});
-                if(meaningful.length===1&&meaningful[0].nodeType===Node.ELEMENT_NODE&&/^(B|STRONG)$/.test(meaningful[0].tagName))return;
-                var bold=document.createElement('b');while(content.firstChild)bold.appendChild(content.firstChild);content.appendChild(bold);
+                let bold=meaningful.length===1&&meaningful[0].nodeType===Node.ELEMENT_NODE&&
+                    /^(B|STRONG)$/.test(meaningful[0].tagName) ? meaningful[0] : null;
+                if(!bold){
+                    bold=document.createElement('b');
+                    while(content.firstChild)bold.appendChild(content.firstChild);
+                    content.appendChild(bold);
+                }
+                bold.querySelectorAll('b,strong').forEach(run=>run.replaceWith(...run.childNodes));
             });
             return table;
         }
@@ -9958,7 +9993,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             v82ApplyWordImport=async function(){
                 if(!v82WordModel.rows.length)return;var source=v82WordModel.sourceType==='udf'?'UYAP':'Word';if(!await appConfirm('Mevcut belge içeriği '+source+' belgesinden algılanan yeni içerikle değiştirilecek. Devam edilsin mi?',source+' Belgesini Editöre Aktar','Belgeyi Değiştir','Vazgeç'))return;
                 var body=document.querySelector('#docTable>tbody'),fragment=document.createDocumentFragment();fragment.appendChild(v20CreateSmartGap());
-                (v82WordModel.titles||[]).forEach(function(html){var row=document.createElement('tr');row.className='full-row v34-title-text-row v34-title-part';var td=document.createElement('td');td.colSpan=3;var content=document.createElement('div');content.className='fr-content';content.style.textAlign='center';content.style.textAlignLast='center';var bold=document.createElement('b');bold.innerHTML=v82SanitizeInlineHtml(html).replace(/^<b>|<\/b>$/gi,'');content.appendChild(bold);td.appendChild(content);row.appendChild(td);fragment.appendChild(row);});
+                (v82WordModel.titles||[]).forEach(html=>fragment.appendChild(v104ImportTitleRow(html)));
                 var blank1=v20CreateSmartGap(),blank2=v20CreateSmartGap();blank1.classList.add('v34-title-part');blank2.classList.add('v34-title-part');fragment.append(blank1,blank2);
                 (v82WordModel.rows||[]).forEach(function(row){fragment.appendChild(row.kind==='empty'?v20CreateSmartGap():row.kind==='field'?v82CreateRichField(row):v82CreateRichText(row));});var sigGap=v20CreateSmartGap();sigGap.classList.add('v11-signature-gap');fragment.append(sigGap,v82CreateSignatureRow());body.replaceChildren(fragment);applyEditable();injectLabelDropdowns();v21InstallSmartControls();v18EnsureTitleBold(document.getElementById('docTable'));v82CloseWordImporter();v34ToggleStructureMode(false);document.getElementById('pageContent')?.scrollTo?.(0,0);await appAlert(source+' belgesi editöre aktarıldı. Alanları kontrol edip .arbsys olarak kaydedebilirsiniz.','Dönüşüm Tamamlandı');
             };
@@ -10089,7 +10124,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
 
             v82RenderWordPreview=function(){return v104RenderImportRows();};
             v82CreateRichText=function(row){var tr=document.createElement('tr');tr.className='full-row';var td=document.createElement('td');td.colSpan=3;var div=document.createElement('div');div.className='fr-content';div.style.textAlign='justify';div.style.textAlignLast='left';var line=document.createElement('div');line.className='v26-smart-line';if(row.indent!==false){var tab=v24CreateWordTab();line.appendChild(tab);}var holder=document.createElement('span');holder.innerHTML=v82SanitizeInlineHtml(row.html);while(holder.firstChild)line.appendChild(holder.firstChild);div.appendChild(line);td.appendChild(div);tr.appendChild(td);return tr;};
-            v82ApplyWordImport=async function(){if(!v82WordModel.rows.length&&!v82WordModel.titles?.length)return;var source=v82WordModel.sourceType==='udf'?'UYAP':'Word';if(!await appConfirm('Mevcut belge içeriği '+source+' belgesinden algılanan yeni içerikle değiştirilecek. Devam edilsin mi?',source+' Belgesini Editöre Aktar','Belgeyi Değiştir','Vazgeç'))return;var body=document.querySelector('#docTable>tbody'),fragment=document.createDocumentFragment();fragment.appendChild(v20CreateSmartGap());(v82WordModel.titles||[]).forEach(function(html){var row=document.createElement('tr');row.className='full-row v34-title-text-row v34-title-part';var td=document.createElement('td');td.colSpan=3;var content=document.createElement('div');content.className='fr-content';content.style.textAlign='center';content.style.textAlignLast='center';var bold=document.createElement('b');bold.innerHTML=v82SanitizeInlineHtml(html).replace(/^<b>|<\/b>$/gi,'');content.appendChild(bold);td.appendChild(content);row.appendChild(td);fragment.appendChild(row);});var blank1=v20CreateSmartGap(),blank2=v20CreateSmartGap();blank1.classList.add('v34-title-part');blank2.classList.add('v34-title-part');fragment.append(blank1,blank2);(v82WordModel.rows||[]).forEach(function(row){if(row.kind==='signature'){fragment.appendChild(v82CreateSignatureRow(row.signature));}else if(row.kind==='title'){fragment.appendChild(v104ImportTitleRow(row.html));}else fragment.appendChild(row.kind==='empty'?v20CreateSmartGap():row.kind==='field'?v82CreateRichField(row):v82CreateRichText(row));});body.replaceChildren(fragment);applyEditable();injectLabelDropdowns();v21InstallSmartControls();v18EnsureTitleBold(document.getElementById('docTable'));const headerFile=v104PendingHeader;v82CloseWordImporter();v34ToggleStructureMode(false);document.getElementById('pageContent')?.scrollTo?.(0,0);if(headerFile)await window.v104OpenHeaderFooterFile(headerFile);else await appAlert(source+' belgesi editöre aktarıldı. Alanları kontrol edip .arbsys olarak kaydedebilirsiniz.','Dönüşüm Tamamlandı');};
+            v82ApplyWordImport=async function(){if(!v82WordModel.rows.length&&!v82WordModel.titles?.length)return;var source=v82WordModel.sourceType==='udf'?'UYAP':'Word';if(!await appConfirm('Mevcut belge içeriği '+source+' belgesinden algılanan yeni içerikle değiştirilecek. Devam edilsin mi?',source+' Belgesini Editöre Aktar','Belgeyi Değiştir','Vazgeç'))return;var body=document.querySelector('#docTable>tbody'),fragment=document.createDocumentFragment();fragment.appendChild(v20CreateSmartGap());(v82WordModel.titles||[]).forEach(html=>fragment.appendChild(v104ImportTitleRow(html)));var blank1=v20CreateSmartGap(),blank2=v20CreateSmartGap();blank1.classList.add('v34-title-part');blank2.classList.add('v34-title-part');fragment.append(blank1,blank2);(v82WordModel.rows||[]).forEach(function(row){if(row.kind==='signature'){fragment.appendChild(v82CreateSignatureRow(row.signature));}else if(row.kind==='title'){fragment.appendChild(v104ImportTitleRow(row.html));}else fragment.appendChild(row.kind==='empty'?v20CreateSmartGap():row.kind==='field'?v82CreateRichField(row):v82CreateRichText(row));});body.replaceChildren(fragment);applyEditable();injectLabelDropdowns();v21InstallSmartControls();v18EnsureTitleBold(document.getElementById('docTable'));const headerFile=v104PendingHeader;v82CloseWordImporter();v34ToggleStructureMode(false);document.getElementById('pageContent')?.scrollTo?.(0,0);if(headerFile)await window.v104OpenHeaderFooterFile(headerFile);else await appAlert(source+' belgesi editöre aktarıldı. Alanları kontrol edip .arbsys olarak kaydedebilirsiniz.','Dönüşüm Tamamlandı');};
 
             function v86SmartRow(line){var prefix=(String(line||'').match(/^[\t \u00a0]*/)||[''])[0],text=v20SmartNormalizeText(String(line||'').slice(prefix.length)),match=text.match(/^(\d+)\s*([.)])\s*(.*)$/);if(match)return {kind:'number',start:Number(match[1])||1,suffix:match[2],text:v20SmartNormalizeText(match[3]),indent:prefix.length>0};match=text.match(/^([A-Za-zÇĞİÖŞÜçğıöşü])\s*([.)])\s*(.*)$/u);if(match){var upper=match[1]===match[1].toLocaleUpperCase('tr-TR');return {kind:upper?'upper':'lower',start:match[1],suffix:match[2],text:v20SmartNormalizeText(match[3]),indent:prefix.length>0};}match=text.match(/^[•●▪◦\-*–—]\s*(.*)$/);if(match)return {kind:'bullet',start:'',suffix:'',text:v20SmartNormalizeText(match[1]),indent:prefix.length>0};return {kind:'normal',start:'',suffix:'',text:text,indent:true};}
             v20SmartParse=function(){var raw=document.getElementById('v20SmartRaw')?.value||'',normalized=raw.replace(/\r\n?/g,'\n'),hasBlank=/\n\s*\n/.test(normalized),lines=[];if(hasBlank){normalized.split(/\n\s*\n+/).forEach(function(block){var current='',source='';block.split('\n').filter(function(line){return line.trim();}).forEach(function(line){var trimmed=line.replace(/^[\t \u00a0]*/,'');var starts=/^(?:\d+|[A-Za-zÇĞİÖŞÜçğıöşü])\s*[.)]\s*|^[•●▪◦\-*–—]\s*/u.test(trimmed);if(starts&&current){lines.push(source+current);current=trimmed;source=(line.match(/^[\t \u00a0]*/)||[''])[0];}else{if(!current)source=(line.match(/^[\t \u00a0]*/)||[''])[0];current=current?current+' '+trimmed:trimmed;}});if(current)lines.push(source+current);});}else lines=normalized.split('\n');v20SmartRows=lines.map(v86SmartRow).filter(function(row){return row.text;});v20SmartRender();};
@@ -10578,7 +10613,7 @@ body:has(#hfPanel[data-explicit-close].open) #v26HFBackdrop{cursor:default}
                 records[key] = record;
             }
             if (owner !== activeOwner()) throw new Error('Oturum değişti.');
-            const design = {selected:next.selected,enabled:next.enabled,records};
+            const design = {selected:next.selected,enabled:next.enabled,pageNumbers:!!next.pageNumbers,records};
             const query = arbsysSupabaseClient.from(table);
             const revision = old.revision + 1;
             const response = old.revision ?
@@ -10681,6 +10716,8 @@ body:has(#hfPanel[data-explicit-close].open) #v26HFBackdrop{cursor:default}
                 const footer = byId('footerPrintBox');
                 const footerKey = JSON.stringify(message.enabled ? message.footer : []);
                 const footerChanged = footer.dataset.hf99 !== footerKey;
+                const numberingChanged = arbsysPageNumbers!==!!message.pageNumbers;
+                arbsysPageNumbers=!!message.pageNumbers;
                 displayHeader(livePixels ? surface : null,message.enabled,true);
                 if (footerChanged) {
                     footer.dataset.hf99 = footerKey;
@@ -10691,7 +10728,7 @@ body:has(#hfPanel[data-explicit-close].open) #v26HFBackdrop{cursor:default}
                     });
                     byId('footerLinePrint').style.display = message.enabled ? '' : 'none';
                 }
-                if (hadHeader !== hasHeader || footerChanged) window.v23RefreshPreview();
+                if (hadHeader !== hasHeader || footerChanged || numberingChanged) window.v23RefreshPreview();
                 else drawCopies();
             }
             if (message.type !== 'hf99-zoom') {
@@ -10741,6 +10778,7 @@ body:has(#hfPanel[data-explicit-close].open) #v26HFBackdrop{cursor:default}
         }
         if (sequence !== applySequence) return false;
         uploadedLogoBase64 = data;
+        arbsysPageNumbers=!!current.pageNumbers;
         v22HFSettings.enabled = current.enabled;
         byId('headerCheck').checked = current.enabled;
         byId('footerCheck').checked = current.enabled;
@@ -10821,7 +10859,10 @@ body:has(#hfPanel[data-explicit-close].open) #v26HFBackdrop{cursor:default}
             <div id="v22FooterInputs" class="v90-footer-inputs">
             <input id="footerText1" aria-label="Alt bilgi birinci satır" readonly>
             <input id="footerText2" aria-label="Alt bilgi ikinci satır" readonly></div></section>
+            <section class="v90-card" aria-labelledby="v109NumberHeading"><h3 id="v109NumberHeading">Sayfa numarası</h3>
+            <label class="v90-choice"><input type="checkbox" id="v109PageNumbers">Sayfa numarasını sağ altta göster</label></section>
             </div><div id="hf99Drop" class="v90-preview"></div></div>`;
+        byId('v109PageNumbers').onchange=event=>{if(draft){draft.pageNumbers=event.target.checked;paint();}};
         byId('hf99Close').onclick = cancelModal;
         byId('hf99ZoomOut').onclick = () => setZoom(zoom-.1);
         byId('hf99ZoomIn').onclick = () => setZoom(zoom+.1);
@@ -10931,6 +10972,7 @@ body:has(#hfPanel[data-explicit-close].open) #v26HFBackdrop{cursor:default}
             };
         });
         byId('hfMasterCheck').checked = draft.enabled;
+        byId('v109PageNumbers').checked=!!draft.pageNumbers;
         byId('hf99Editor').hidden = !editing;
         byId('hf99Edit').hidden = !!editing;
         byId('hf100EditCancel').hidden = !editing;
@@ -11164,7 +11206,7 @@ body:has(#hfPanel[data-explicit-close].open) #v26HFBackdrop{cursor:default}
             ctx.drawImage(surface,0,0);
             const pixels = ctx.getImageData(0,0,width,height);
             if (editing) showInkOutline(pixels);
-            frameMessage({type:'hf99-design',enabled,footer:footerLines(footerDraft),pixels});
+            frameMessage({type:'hf99-design',enabled,footer:footerLines(footerDraft),pixels,pageNumbers:draft.pageNumbers});
         } catch(error) {
             if (sequence===paintSequence) status(error.message,true);
         }
@@ -11230,6 +11272,7 @@ body:has(#hfPanel[data-explicit-close].open) #v26HFBackdrop{cursor:default}
         byId('footerRow').inert=true;
         byId('hf99Save').disabled=true;
         byId('hf99Close').disabled=true;
+        byId('v109PageNumbers').disabled=true;
         byId('hfMasterCheck').disabled=true;
         try {
             const next=structuredClone(draft);
@@ -11256,7 +11299,7 @@ body:has(#hfPanel[data-explicit-close].open) #v26HFBackdrop{cursor:default}
             saving=false;
             controls.inert=false;
             byId('footerRow').inert=false;
-            for (const id of ['hf99Save','hf99Close','hfMasterCheck']) byId(id).disabled=false;
+            for (const id of ['hf99Save','hf99Close','hfMasterCheck','v109PageNumbers']) byId(id).disabled=false;
             renderImportAvailability();
         }
     }
@@ -11304,6 +11347,7 @@ body:has(#hfPanel[data-explicit-close].open) #v26HFBackdrop{cursor:default}
         draft=footerDraft=footerEdit=null;
         renderImportAvailability();
         byId('hf99Save').disabled=true;
+        byId('v109PageNumbers').disabled=true;
         for (const id of ['hf99Edit','hf100EditCancel','hf100EditSave']) byId(id).hidden=true;
         status('Üst bilgi tasarımı yükleniyor…');
         try {
@@ -11319,6 +11363,7 @@ body:has(#hfPanel[data-explicit-close].open) #v26HFBackdrop{cursor:default}
             dirty.clear();
             renderControls();
             byId('hf99Save').disabled=false;
+            byId('v109PageNumbers').disabled=false;
             byId('headerRow').inert=false;
             const host=byId('hf99Drop');
             if (!byId('hf99Frame')) {
@@ -11421,7 +11466,8 @@ body:has(#hfPanel[data-explicit-close].open) #v26HFBackdrop{cursor:default}
         content.className='fr-content';
         content.style.textAlign=content.style.textAlignLast='center';
         const bold=document.createElement('b');
-        bold.innerHTML=v82SanitizeInlineHtml(html).replace(/^<b>|<\/b>$/gi,'');
+        bold.innerHTML=v82SanitizeInlineHtml(html);
+        bold.querySelectorAll('b,strong').forEach(run=>run.replaceWith(...run.childNodes));
         content.append(bold);
         cell.append(content);
         row.append(cell);
