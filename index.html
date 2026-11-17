@@ -7419,7 +7419,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         updateStatusDot=function(){document.getElementById('hfPanelBtn')?.classList.toggle('hf-active',!!v22HFSettings?.enabled);};
         var v22ExportToDocxBase=exportToDocx;
         exportToDocx=async function(){var restore=false;if(v22HFSettings?.footerMode==='custom'&&!document.getElementById('footerText1').value.trim()&&!document.getElementById('footerText2').value.trim()){restore=true;document.getElementById('footerText1').value=V22_FOOTERS.arbsys[0];document.getElementById('footerText2').value=V22_FOOTERS.arbsys[1];}try{return await v22ExportToDocxBase();}finally{if(restore){document.getElementById('footerText1').value='';document.getElementById('footerText2').value='';}}};
-        document.addEventListener('pointerdown',function(event){var panel=document.getElementById('hfPanel');if(panel?.classList.contains('open')&&!panel.contains(event.target)&&!event.target.closest('#hfPanelBtn'))panel.classList.remove('open');});
+        document.addEventListener('pointerdown',function(event){var panel=document.getElementById('hfPanel');if(panel?.classList.contains('open')&&!panel.hasAttribute('data-explicit-close')&&!panel.contains(event.target)&&!event.target.closest('#hfPanelBtn'))panel.classList.remove('open');});
         var v22SupabaseApplyRemoteDatasetBase=supabaseApplyRemoteDataset;
         supabaseApplyRemoteDataset=function(row){v22SupabaseApplyRemoteDatasetBase(row);v22EnsureSpecialTemplates();v22BuildBlankDocumentScreen();v22BuildHFPanel();v18RenderResultOptions();};
         function v22Boot(){v22EnsureSpecialTemplates();v22BuildBlankDocumentScreen();v22AddTemplateLibraryButton();v22BuildFolderDeleteModal();v22PrepareResultCard();v22BuildHFPanel();v18UpdateBlankSummary();v18RenderResultOptions();dashboardRenderTemplates();}
@@ -8199,7 +8199,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 v18SelectBlankDocument=function(name){baseSelectBlankDocument(name);var config=V18_BLANK_CATALOG[name];if(config?.column==='secondary')v18BlankTypeChanged();};
             }
 
-            var backdrop=document.createElement('button');backdrop.id='v26HFBackdrop';backdrop.type='button';backdrop.setAttribute('aria-label','Üst ve Alt Bilgi penceresini kapat');backdrop.onclick=function(){document.getElementById('hfPanel')?.classList.remove('open');};document.body.appendChild(backdrop);
+            var backdrop=document.createElement('button');backdrop.id='v26HFBackdrop';backdrop.type='button';backdrop.setAttribute('aria-label','Üst ve Alt Bilgi penceresini kapat');backdrop.onclick=function(){var panel=document.getElementById('hfPanel');if(panel&&!panel.hasAttribute('data-explicit-close'))panel.classList.remove('open');};document.body.appendChild(backdrop);
             function addHFNote(){var head=document.querySelector('#hfPanel .v22-hf-head');if(head&&!head.querySelector('.v26-hf-note')){var note=document.createElement('div');note.className='v26-hf-note';note.innerHTML='Bu alanları sayfanızda görebilmek için <strong>Önizleme</strong> alanına bakın.';head.appendChild(note);}}
             addHFNote();
             if(typeof v22BuildHFPanel==='function'){var baseBuildHF=v22BuildHFPanel;v22BuildHFPanel=function(){baseBuildHF();addHFNote();};}
@@ -9873,7 +9873,21 @@ window.V89_PREVIEW_SAMPLE=(function(){var b=atob('PCEtLSBBUkJTWVMtQ09OVEVOVCB2Mi
 #hfPanel [hidden]{display:none!important}
 .hf-sticky-container{width:min(1300px,calc(100vw - 24px))!important}
 .v90-head,.v90-layout{grid-template-columns:560px minmax(0,1fr)}
-#hf99Edit{margin-bottom:8px}
+.hf100-editor-actions,.hf100-replace,.hf100-modal-actions{display:flex;align-items:center;justify-content:flex-end;gap:8px}
+.hf100-editor-actions{margin:8px 0}
+.hf100-editor-actions button,#hf99Close,#hf99Save{min-height:35px;padding:0 14px;font-size:11px}
+#hf99Edit{min-width:94px}
+.v90-zoom #hf99Close,.v90-zoom #hf99Save{width:auto}
+.v90-btn.hf100-cancel{background:#edf1f5;border-color:#cbd5e1;color:#334155}
+.v90-btn.hf100-confirm,.v90-zoom #hf99Save{background:#15803d;border-color:#15803d;color:white}
+.v90-zoom #hf99Save:hover,.v90-btn.hf100-confirm:hover{background:#166534}
+#hf99Save svg{width:15px;height:15px;vertical-align:middle;margin-right:4px}
+.hf100-replace button{margin-bottom:5px}
+.hf99-placement strong{font-size:10px}
+body:has(#hfPanel[data-explicit-close].open) #v26HFBackdrop{cursor:default}
+.hf100-stage{position:relative}
+.hf100-ink-outline{position:absolute;pointer-events:none;box-sizing:border-box;border:1px solid #94a3b8}
+.v90-zoom{flex-wrap:wrap;justify-content:flex-end}
 .hf99-stage{display:block;width:100%;height:auto;background:white}
 .hf99-actions{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:8px 0}
 .hf99-placement{padding:5px 6px;border:1px solid #d7e0ea;border-radius:10px;background:#f8fafc;color:#334155}
@@ -9893,7 +9907,7 @@ window.V89_PREVIEW_SAMPLE=(function(){var b=atob('PCEtLSBBUkJTWVMtQ09OVEVOVCB2Mi
 .hf99-kerning span{font-size:10px;font-weight:800;line-height:1}
 .hf99-format button[aria-pressed=true]{background:#1e3a8a;color:white}
 .hf99-format:has(>input[type=number]){grid-template-columns:minmax(0,1fr) 70px;padding:7px;border:1px solid #dbe3ec;border-radius:8px;background:white}
-.v90-zoom #hf99Close{font-size:22px}
+.v90-zoom #hf99Close{font-weight:800}
 .v90-zoom #hf99Zoom{min-width:76px;text-align:center}
 #footerRow [value=userFooter],#hf99Choices [value=text]:checked{accent-color:#4f46e5}
 #footerRow .v90-choice:has([value=userFooter]){grid-column:1/-1}
@@ -9936,7 +9950,7 @@ window.V89_PREVIEW_SAMPLE=(function(){var b=atob('PCEtLSBBUkJTWVMtQ09OVEVOVCB2Mi
     const activeOwner = () => arbsysSupabaseSession?.user?.id || '';
     const cache = new Map();
     let model, loadedOwner, loadRequest, applySequence = 0, saving = false;
-    let draft, editing = false, dirty = new Set(), paintSequence = 0;
+    let draft, footerDraft, editing = null, dirty = new Set(), paintSequence = 0;
     let migration, openSequence = 0;
     let previewSource = window.V89_PREVIEW_SAMPLE || '', zoom = .7;
     const textDefaults = () => ({
@@ -9996,7 +10010,8 @@ window.V89_PREVIEW_SAMPLE=(function(){var b=atob('PCEtLSBBUkJTWVMtQ09OVEVOVCB2Mi
         const point = 300 / 72;
         const probe = canvas().getContext('2d');
         const values = text.lines.map(line => line.value.trim());
-        if (demo && !values.some(Boolean)) values.splice(0,2,...placeholders);
+        const showPlaceholder = demo && !values.some(Boolean);
+        if (showPlaceholder) values.splice(0,2,...placeholders);
         const lines = text.lines.flatMap((line, index) => {
             if (!values[index]) return [];
             const size = line.size * point;
@@ -10007,7 +10022,7 @@ window.V89_PREVIEW_SAMPLE=(function(){var b=atob('PCEtLSBBUkJTWVMtQ09OVEVOVCB2Mi
             const tracking = line.tracking * point;
             const advance = chars.reduce((sum, char) => sum + probe.measureText(char).width, 0)
                 + tracking * (chars.length - 1);
-            return [{...line, chars, font, tracking, advance, size,
+            return [{...line, color:showPlaceholder?'#a8b3c2':line.color, chars, font, tracking, advance, size,
                 ascent:metrics.actualBoundingBoxAscent || size,
                 descent:Math.max(metrics.actualBoundingBoxDescent || 0,line.underline ? size*.2 : 0)}];
         });
@@ -10340,6 +10355,7 @@ window.V89_PREVIEW_SAMPLE=(function(){var b=atob('PCEtLSBBUkJTWVMtQ09OVEVOVCB2Mi
         `<label class="v90-choice"><input type="radio" name="${name}" value="${key}"><span>${label}</span></label>`).join('');
     const magnifier = plus => `<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="8" cy="8" r="5"/><path d="m12 12 5 5M5 8h6${plus?'m-3-3v6':''}"/></svg>`;
     const arrow = up => `<svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="${up?'M4 13l6-7 6 7z':'M4 7l6 7 6-7z'}"/></svg>`;
+    const disk = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M4 3h14l3 3v14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Zm2 2v5h11V5H6Zm1 9v5h10v-5H7Z"/></svg>';
     const fonts = ['Times New Roman','Arial','Calibri','Cambria','Georgia','Garamond','Verdana','Tahoma','Trebuchet MS',
         'Palatino Linotype','Book Antiqua','Courier New','Century Gothic','Franklin Gothic Medium','Lucida Sans Unicode'];
     function status(message, error = false) {
@@ -10355,42 +10371,53 @@ window.V89_PREVIEW_SAMPLE=(function(){var b=atob('PCEtLSBBUkJTWVMtQ09OVEVOVCB2Mi
     }
     function build() {
         if (byId('hf99Choices')) return;
+        panel.setAttribute('data-explicit-close','');
         panel.innerHTML = `<div class="v90-head">
             <div class="v90-head-left"><h2>Üst ve Alt Bilgi Tasarımı</h2><p>Belgenizdeki üst ve alt bilgiyi düzenleyin.</p></div>
             <div class="v90-preview-head"><strong>Belge Önizleme</strong><div class="v90-zoom">
             ${button('hf99ZoomOut','−')}<select id="hf99Zoom" aria-label="Yakınlaştırma">${[.5,.6,.7,.8,.9,1].map(n=>`<option value="${n}">%${n*100}</option>`).join('')}</select>
-            ${button('hf99ZoomIn','+')}${button('hf99Close','×','v90-close')}</div></div></div>
+            ${button('hf99ZoomIn','+')}<div class="hf100-modal-actions">
+            ${button('hf99Close','İptal','hf100-cancel')}${button('hf99Save',disk+'Seçimi uygula','hf100-confirm')}</div></div></div></div>
             <div class="v90-layout"><div class="v90-controls">
             <label class="v90-master"><input id="hfMasterCheck" type="checkbox">Üst ve alt bilgiyi kullan</label>
             <input id="headerCheck" type="checkbox" hidden><input id="footerCheck" type="checkbox" hidden>
             <section class="v90-card" id="headerRow"><h3>Üst Bilgi</h3><div class="v90-modes" id="hf99Choices"></div>
             <input id="hf99File" type="file" hidden accept="image/png,image/jpeg,image/webp">
-            ${button('hf99Edit','Logo boyutu ve konumunu düzenle')}
+            <div class="hf100-editor-actions">${button('hf99Edit','Düzenle')}
+            ${button('hf100EditCancel','İptal','hf100-cancel')}${button('hf100EditSave','Kaydet','hf100-confirm')}</div>
             <div id="hf99Editor" hidden>
-            <div class="v90-logo-area"><canvas id="hf99Canvas" class="hf99-stage" width="1244" height="237"></canvas></div>
+            <div class="v90-logo-area hf100-stage"><canvas id="hf99Canvas" class="hf99-stage" width="1244" height="237"></canvas>
+            <span id="hf100InkOutline" class="hf100-ink-outline" hidden aria-hidden="true"></span></div>
             <div class="hf99-actions hf99-placement"><strong>Logo boyutu ve konumu</strong>
+            ${button('hf99Reset','Konumu sıfırla')}
             ${button('hf99Smaller',magnifier(false),'hf99-tool')}${button('hf99Larger',magnifier(true),'hf99-tool')}
             ${button('hf99Up',arrow(true),'hf99-tool')}${button('hf99Down',arrow(false),'hf99-tool')}</div>
-            <div class="hf99-actions">${button('hf99Reset','Konumu sıfırla')}${button('hf99Delete','Sil','danger')}</div>
+            <div class="hf100-replace">${button('hf100Replace','Yeni Metin Logo')}</div>
             <div id="hf99Text"></div></div>
-            <div class="hf99-actions">${button('hf99Save','Üst Bilgi Tasarımını Kaydet','primary')}</div>
             <p id="hf99Status" class="hf99-status" role="status"></p></section>
             <section class="v90-card" id="footerRow"><h3>Alt Bilgi</h3><div class="v90-modes">
             ${choices('v22FooterMode',[['arbsys','Arbsys'],['consensus','Consensus'],['custom','Alt Bilgi Ekle'],['userFooter','Kullanıcı Alt Bilgi']])}</div>
             <div id="v22FooterInputs" class="v90-footer-inputs"><input id="footerText1" aria-label="Alt bilgi birinci satır"><input id="footerText2" aria-label="Alt bilgi ikinci satır"></div>
             <div class="hf99-actions">${button('hf99FooterSave','Alt bilgiyi kaydet','primary')}</div></section>
             </div><div id="hf99Drop" class="v90-preview"></div></div>`;
-        byId('hf99Close').onclick = () => panel.classList.remove('open');
-        byId('hf99Close').setAttribute('aria-label','Kapat');
+        byId('hf99Close').onclick = cancelModal;
         byId('hf99ZoomOut').onclick = () => setZoom(zoom-.1);
         byId('hf99ZoomIn').onclick = () => setZoom(zoom+.1);
         byId('hf99Zoom').onchange = event => setZoom(Number(event.target.value));
         byId('hfMasterCheck').onchange = event => { if (draft) { draft.enabled=event.target.checked; paint(); } };
-        byId('hf99Edit').onclick = () => { editing = !editing; renderControls(); paint(); };
+        byId('hf99Edit').onclick = () => beginEdit(draft.selected);
+        byId('hf100EditCancel').onclick = cancelEdit;
+        byId('hf100EditSave').onclick = () => finishEdit();
         byId('hf99File').onchange = importLogo;
         byId('hf99Save').onclick = save;
         byId('hf99Reset').onclick = resetLogo;
-        byId('hf99Delete').onclick = deleteLogo;
+        byId('hf100Replace').onclick = () => {
+            if (editing?.key === 'imported') return byId('hf99File').click();
+            if (editing?.key !== 'text') return;
+            draft.records.text = newTextRecord();
+            renderControls();
+            paint();
+        };
         for (const [id,label,action] of [
             ['hf99Smaller','Logoyu küçült',()=>move(-.05,0)], ['hf99Larger','Logoyu büyüt',()=>move(.05,0)],
             ['hf99Up','Yukarı taşı',()=>move(0,-.2)], ['hf99Down','Aşağı taşı',()=>move(0,.2)]]) {
@@ -10400,27 +10427,26 @@ window.V89_PREVIEW_SAMPLE=(function(){var b=atob('PCEtLSBBUkJTWVMtQ09OVEVOVCB2Mi
             control.onclick = action;
         }
         document.querySelectorAll('#footerRow input[type=radio]').forEach(radio => radio.onchange = () => {
-            v22HFSettings.footerMode = radio.value;
-            v22ApplyFooter(true);
-            v22HFStore();
+            if (!footerDraft) return;
+            footerDraft.footerMode = radio.value;
+            showFooterDraft();
             paint();
         });
         for (const id of ['footerText1','footerText2']) byId(id).oninput = () => {
-            v22HFSettings.footerMode = 'custom';
+            if (!footerDraft) return;
+            footerDraft.footerMode = 'custom';
             panel.querySelector('[name=v22FooterMode][value=custom]').checked = true;
-            v22HFSettings.customFooter = [byId('footerText1').value,byId('footerText2').value];
-            v22ApplyFooter(false);
-            v22HFStore();
+            footerDraft.customFooter = [byId('footerText1').value,byId('footerText2').value];
             paint();
         };
         byId('hf99FooterSave').onclick = () => {
             const values = [byId('footerText1').value.trim(),byId('footerText2').value.trim()];
             if (!values.some(Boolean)) return appAlert('Kaydedilecek bir alt bilgi yazın.','Metin Girilmedi');
-            v22HFSettings.userFooter = values;
-            const choice = panel.querySelector('[name=v22FooterMode][value=userFooter]');
-            choice.disabled = false;
-            choice.checked = true;
-            choice.dispatchEvent(new Event('change'));
+            if (!footerDraft) return;
+            footerDraft.userFooter = values;
+            footerDraft.footerMode = 'userFooter';
+            showFooterDraft();
+            paint();
         };
         const drop = byId('hf99Drop');
         drop.ondragover = event => { event.preventDefault(); drop.classList.add('is-dragging'); };
@@ -10442,6 +10468,7 @@ window.V89_PREVIEW_SAMPLE=(function(){var b=atob('PCEtLSBBUkJTWVMtQ09OVEVOVCB2Mi
             ['imported',draft.records.imported?'İçeri Aktarılan Logo':'Logo Yükle'],['text',hasText?'Metin Logo':'Metinden Oluştur']]);
         controls.querySelectorAll('input').forEach(radio => {
             radio.checked = radio.value === draft.selected;
+            radio.disabled = !!editing;
             radio.onchange = () => {
                 const key = radio.value;
                 if (key === 'imported' && !draft.records.imported) {
@@ -10449,21 +10476,85 @@ window.V89_PREVIEW_SAMPLE=(function(){var b=atob('PCEtLSBBUkJTWVMtQ09OVEVOVCB2Mi
                     byId('hf99File').click();
                     return;
                 }
-                draft.selected = key;
                 if (key === 'text' && !draft.records.text) {
-                    draft.records.text = {text:textDefaults(),creating:true,scale:1,offset:0};
+                    beginEdit(key);
+                    return;
                 }
-                editing = key === 'text' && !!draft.records.text.creating;
+                draft.selected = key;
                 renderControls();
                 paint();
             };
         });
         byId('hfMasterCheck').checked = draft.enabled;
         byId('hf99Editor').hidden = !editing;
-        byId('hf99Edit').textContent = editing ? 'Logo düzenleyicisini kapat' : 'Logo boyutu ve konumunu düzenle';
-        byId('hf99Delete').hidden = !['text','imported'].includes(draft.selected);
-        byId('hf99Reset').textContent = record?.creating ? 'Sıfırla' : 'Konumu sıfırla';
+        byId('hf99Edit').hidden = !!editing;
+        byId('hf100EditCancel').hidden = !editing;
+        byId('hf100EditSave').hidden = !editing;
+        const replace = byId('hf100Replace');
+        replace.hidden = !['text','imported'].includes(draft.selected);
+        replace.textContent = draft.selected === 'text' ? 'Yeni Metin Logo' : 'Yeni Logo Yükle';
         renderTextFields(editing && record?.creating ? record.text : null);
+    }
+    const newTextRecord = () => ({text:textDefaults(),creating:true,scale:1,offset:0});
+    function beginEdit(key) {
+        if (!draft || editing || saving) return;
+        editing = {key, original:structuredClone(draft.records[key]), previousSelection:draft.selected};
+        draft.selected = key;
+        if (key === 'text' && !draft.records.text) draft.records.text = newTextRecord();
+        renderControls();
+        paint();
+    }
+    function finishEdit() {
+        if (!editing) return true;
+        const {key,original} = editing, record = draft.records[key];
+        if (record?.creating) {
+            if (!record.text.lines.some(line=>line.value.trim())) {
+                status('Metin Logo için en az bir satır yazın.',true);
+                byId('hf99Text').querySelector('input[type=text]')?.focus();
+                return false;
+            }
+            delete record.creating;
+        }
+        if (record?.file || JSON.stringify(record)!==JSON.stringify(original)) dirty.add(key);
+        editing = null;
+        status('');
+        renderControls();
+        paint();
+        return true;
+    }
+    function cancelEdit() {
+        if (!editing) return;
+        const {key,original,previousSelection} = editing;
+        if (original) draft.records[key] = original;
+        else delete draft.records[key];
+        draft.selected = previousSelection;
+        editing = null;
+        status('');
+        renderControls();
+        paint();
+    }
+    function cancelModal() {
+        if (saving) return;
+        ++openSequence;
+        ++paintSequence;
+        panel.classList.remove('open');
+        draft = footerDraft = editing = null;
+        v22ApplyFooter(true);
+    }
+    function footerLines(state) {
+        if (state.footerMode === 'custom') return state.customFooter?.some(line=>line.trim()) ?
+            state.customFooter : V22_FOOTERS.arbsys;
+        if (state.footerMode === 'userFooter') return state.userFooter || V22_FOOTERS.arbsys;
+        return V22_FOOTERS[state.footerMode] || V22_FOOTERS.arbsys;
+    }
+    function showFooterDraft() {
+        const values = footerDraft.footerMode === 'custom' ? footerDraft.customFooter : footerLines(footerDraft);
+        byId('footerText1').value = values?.[0] || '';
+        byId('footerText2').value = values?.[1] || '';
+        panel.querySelectorAll('[name=v22FooterMode]').forEach(radio=>{
+            radio.disabled = radio.value==='userFooter' && !footerDraft.userFooter;
+            radio.checked = radio.value===footerDraft.footerMode;
+        });
     }
     function renderTextFields(text) {
         const area = byId('hf99Text');
@@ -10538,23 +10629,37 @@ window.V89_PREVIEW_SAMPLE=(function(){var b=atob('PCEtLSBBUkJTWVMtQ09OVEVOVCB2Mi
             const ctx=byId('hf99Canvas').getContext('2d');
             ctx.clearRect(0,0,width,height);
             ctx.drawImage(surface,0,0);
-            frameMessage({type:'hf99-design',enabled,footer:v22EffectiveFooter(),pixels:ctx.getImageData(0,0,width,height)});
+            const pixels = ctx.getImageData(0,0,width,height);
+            if (editing) showInkOutline(pixels);
+            frameMessage({type:'hf99-design',enabled,footer:footerLines(footerDraft),pixels});
         } catch(error) {
             if (sequence===paintSequence) status(error.message,true);
         }
     }
+    function showInkOutline(pixels) {
+        const outline = byId('hf100InkOutline');
+        let left = width, right = -1, top = height, bottom = -1;
+        for (let i=3;i<pixels.data.length;i+=4) {
+            if (!pixels.data[i]) continue;
+            const pixel = (i-3)/4, x = pixel%width, y = Math.floor(pixel/width);
+            left=Math.min(left,x); right=Math.max(right,x); top=Math.min(top,y); bottom=Math.max(bottom,y);
+        }
+        outline.hidden = right < 0;
+        if (outline.hidden) return;
+        Object.assign(outline.style,{left:`${100*left/width}%`,top:`${100*top/height}%`,
+            width:`${100*(right-left+1)/width}%`,height:`${100*(bottom-top+1)/height}%`});
+    }
     async function move(scale, offset) {
-        const key = draft.selected, record = draft.records[key];
+        const session = editing, key = session?.key, record = draft?.records[key];
         if (!record) return;
         try {
             if (scale && record.text) {
                 const source = await sourceOf(key,record,true);
-                if (!source) return;
+                if (!source || session!==editing || draft.records[key]!==record) return;
                 const limit = Math.min(width/source.width,height/source.height);
                 record.scale=clamp(Math.min(limit,record.scale??1)+scale,Math.min(.25,limit),limit);
             } else if (scale) record.scale=clamp((record.scale??1)+scale,.15,1);
             if (offset) record.offset=clamp((record.offset??0)+offset,-1,1);
-            dirty.add(key);
             paint();
         } catch(error) { status(error.message,true); }
     }
@@ -10562,66 +10667,63 @@ window.V89_PREVIEW_SAMPLE=(function(){var b=atob('PCEtLSBBUkJTWVMtQ09OVEVOVCB2Mi
         const key = draft.selected, record = draft.records[key];
         record.scale=1;
         record.offset=0;
-        if (record.creating) record.text=textDefaults();
-        dirty.add(key);
-        renderControls();
+        if (record.creating) {
+            record.text=textDefaults();
+            renderControls();
+        }
         paint();
-    }
-    function deleteLogo() {
-        const key=draft.selected;
-        if (!['imported','text'].includes(key)) return;
-        delete draft.records[key];
-        dirty.delete(key);
-        draft.selected='arbsys';
-        editing=false;
-        renderControls();
-        paint();
-        status('Silme işlemi kaydettiğinizde uygulanacak.');
     }
     async function importLogo(event) {
         const file=event.target.files[0];
         event.target.value='';
-        if (!file) return;
+        if (!file || !draft) return;
+        const currentDraft = draft, currentEdit = editing;
         try {
             if (!['image/png','image/jpeg','image/webp'].includes(file.type) || file.size>10*1024*1024)
                 throw new Error('En fazla 10 MB boyutunda PNG, JPG veya WebP seçin.');
             await imageOf(file);
+            if (currentDraft!==draft || currentEdit!==editing || saving) return;
+            if (!editing) beginEdit('imported');
             draft.records.imported={file,scale:1,offset:0};
-            draft.selected='imported';
-            dirty.add('imported');
-            editing=true;
             renderControls();
             paint();
         } catch(error) { status(error.message,true); }
     }
     async function save() {
-        if (saving || !draft) return;
+        if (saving || !draft || !finishEdit()) return;
         saving=true;
         const controls=byId('headerRow');
         controls.inert=true;
+        byId('footerRow').inert=true;
+        byId('hf99Save').disabled=true;
+        byId('hf99Close').disabled=true;
         byId('hfMasterCheck').disabled=true;
         try {
             const next=structuredClone(draft);
-            if (next.records.text?.creating) {
-                if (!next.records.text.text.lines.some(line=>line.value.trim())) {
-                    if (next.selected==='text') throw new Error('Metin Logo için en az bir satır yazın.');
-                    delete next.records.text;
-                } else {
-                    delete next.records.text.creating;
-                    dirty.add('text');
-                }
-            }
             status('Üst bilgi tasarımı kaydediliyor…');
             const message=await commit(next,dirty);
+            Object.assign(v22HFSettings,footerDraft);
+            v22ApplyFooter(true);
+            v22HFStore();
             draft=structuredClone(model);
             dirty.clear();
-            editing=false;
             renderControls();
-            paint();
             const applied=await v22ApplyHeader();
-            status(applied?message:'Tasarım kaydedildi. Ana önizleme güncellenemedi.',!applied);
+            if (!applied) {
+                status('Tasarım kaydedildi. Ana önizleme güncellenemedi.',true);
+                return;
+            }
+            panel.classList.remove('open');
+            draft=footerDraft=null;
+            ++paintSequence;
+            if (!message.endsWith('tasarımı kaydedildi.')) await appAlert(message,'Üst Bilgi');
         } catch(error) { status(error.message,true); }
-        finally { saving=false; controls.inert=false; byId('hfMasterCheck').disabled=false; }
+        finally {
+            saving=false;
+            controls.inert=false;
+            byId('footerRow').inert=false;
+            for (const id of ['hf99Save','hf99Close','hfMasterCheck']) byId(id).disabled=false;
+        }
     }
     async function initializeOwner(migrate) {
         const current=await loadModel();
@@ -10655,23 +10757,29 @@ window.V89_PREVIEW_SAMPLE=(function(){var b=atob('PCEtLSBBUkJTWVMtQ09OVEVOVCB2Mi
     toggleHFPanel = async () => {
         if(saving) return;
         const sequence = ++openSequence;
-        if (panel.classList.contains('open')) { panel.classList.remove('open'); return; }
+        if (panel.classList.contains('open')) return;
         window.v23ClosePreview();
         v22BuildHFPanel();
         panel.classList.add('open');
         byId('headerRow').inert=true;
         byId('hf99Choices').replaceChildren();
         byId('hf99Editor').hidden=true;
-        draft=null;
+        draft=footerDraft=null;
+        byId('hf99Save').disabled=true;
+        for (const id of ['hf99Edit','hf100EditCancel','hf100EditSave']) byId(id).hidden=true;
         status('Üst bilgi tasarımı yükleniyor…');
         try {
             loadedOwner=null;
             const current=await initializeOwner(true);
             if(sequence!==openSequence || !panel.classList.contains('open')) return;
             draft=structuredClone(current);
-            editing=false;
+            editing=null;
+            footerDraft=structuredClone({footerMode:v22HFSettings.footerMode,
+                customFooter:v22HFSettings.customFooter,userFooter:v22HFSettings.userFooter});
+            showFooterDraft();
             dirty.clear();
             renderControls();
+            byId('hf99Save').disabled=false;
             byId('headerRow').inert=false;
             const host=byId('hf99Drop');
             if (!byId('hf99Frame')) {
