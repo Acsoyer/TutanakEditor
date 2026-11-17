@@ -10118,6 +10118,11 @@ window.V89_PREVIEW_SAMPLE=(function(){var b=atob('PCEtLSBBUkJTWVMtQ09OVEVOVCB2Mi
     <style id='v99-header-designer-styles'>
 #hfPanel [hidden]{display:none!important}
 .hf-sticky-container{width:min(1300px,calc(100vw - 24px))!important}
+body:has(#hfPanel.open) > .hf-sticky-container{
+    position:fixed!important;inset:50% auto auto 50%!important;
+    width:min(1300px,calc(100% - 24px))!important;height:min(890px,calc(100dvh - 28px))!important;
+    margin:0!important;transform:translate(-50%,-50%)!important;transform-origin:center!important;
+}
 .v90-head,.v90-layout{grid-template-columns:560px minmax(0,1fr)}
 .hf100-editor-actions,.hf100-replace,.hf100-modal-actions{display:flex;align-items:center;justify-content:flex-end;gap:8px}
 .hf100-editor-actions{margin:8px 0}
@@ -11242,6 +11247,7 @@ body:has(#hfPanel[data-explicit-close].open) #v26HFBackdrop{cursor:default}
                 return;
             }
             panel.classList.remove('open');
+            if (byId('v23PreviewPanel')?.classList.contains('open')) window.v23RefreshPreview();
             draft=footerDraft=footerEdit=null;
             ++paintSequence;
             if (!message.endsWith('tasarımı kaydedildi.')) await appAlert(message,'Üst Bilgi');
@@ -11290,7 +11296,6 @@ body:has(#hfPanel[data-explicit-close].open) #v26HFBackdrop{cursor:default}
         if(saving) return;
         const sequence = ++openSequence;
         if (panel.classList.contains('open')) return;
-        window.v23ClosePreview();
         v22BuildHFPanel();
         panel.classList.add('open');
         byId('headerRow').inert=true;
