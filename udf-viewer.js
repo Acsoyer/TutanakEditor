@@ -5,6 +5,8 @@
   const MAX_ARCHIVE_BYTES = 30 * 1024 * 1024;
   const MAX_XML_BYTES = 20 * 1024 * 1024;
   const DEFAULT_TAB_STOP_PT = 69;
+  // UDF does not store a separate clearance for headers taller than the top margin.
+  const LEGACY_TALL_HEADER_CLEARANCE_LINES = 3;
   const MANUAL_ZOOM_LEVELS = [0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.4];
   const A4_WIDTH_PX = 210 * 96 / 25.4;
   const ALIGNMENTS = { '0': 'left', '1': 'center', '2': 'right', '3': 'justify' };
@@ -851,8 +853,21 @@
       if (documentModel.arbsysGenerated) return;
       const header = shell.page.querySelector('.udf-header');
       if (!header) return;
-      // Use the stored body margin, extending it only if the header actually reaches into it.
-      const bodyTop = Math.max(shell.body.offsetTop, header.offsetTop + header.offsetHeight);
+      // Reserve the measured header plus separation when it extends into the body margin.
+      const headerBottom = header.offsetTop + header.offsetHeight;
+      if (headerBottom <= shell.body.offsetTop) return;
+      const paragraphs = header.querySelectorAll('.udf-paragraph');
+      const lastParagraph = paragraphs[paragraphs.length - 1];
+      let lineHeight = 0;
+      if (lastParagraph) {
+        const probe = lastParagraph.cloneNode(false);
+        probe.style.margin = '0';
+        probe.textContent = '\u00a0';
+        header.append(probe);
+        lineHeight = probe.offsetHeight;
+        probe.remove();
+      }
+      const bodyTop = headerBottom + LEGACY_TALL_HEADER_CLEARANCE_LINES * lineHeight;
       shell.page.style.setProperty('--body-top', `${bodyTop}px`);
     }
     layoutPage(measurement);
