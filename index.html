@@ -4790,6 +4790,74 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             }
         }
         
+        // A signature column contains lines. Each line must remain a child of its column.
+        function normalizeSignatureLines(box) {
+            let line = null;
+            for (const node of Array.from(box.childNodes)) {
+                if (node.nodeType === Node.ELEMENT_NODE && node.matches('div,p')) {
+                    line = null;
+                    continue;
+                }
+                if (node.nodeType === Node.ELEMENT_NODE && node.matches('.sig-title,u[data-sig-title-format]')) {
+                    const title = document.createElement('div');
+                    node.before(title);
+                    title.append(node);
+                    line = null;
+                    continue;
+                }
+                if (!line) {
+                    line = document.createElement('div');
+                    node.before(line);
+                }
+                line.append(node);
+                if (node.nodeName === 'BR') line = null;
+            }
+            return box;
+        }
+        const signatureExportBox = box => normalizeSignatureLines(box.cloneNode(true));
+        function signatureEnter(event) {
+            if (event.isComposing || event.defaultPrevented) return;
+            if (event.type === 'keydown' ?
+                event.key !== 'Enter' || event.ctrlKey || event.metaKey || event.altKey :
+                !['insertParagraph','insertLineBreak'].includes(event.inputType)) return;
+            const selection = window.getSelection();
+            if (!selection?.rangeCount) return;
+            const range = selection.getRangeAt(0);
+            const scope = range.startContainer.nodeType === Node.ELEMENT_NODE ?
+                range.startContainer : range.startContainer.parentElement;
+            const box = scope.closest('#docTable .sig-grid > .sig-box');
+            if (!box || !box.isContentEditable || !box.contains(range.endContainer)) return;
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            window.v27CommitHistory?.();
+            range.deleteContents();
+            const {startContainer, startOffset} = range;
+            normalizeSignatureLines(box);
+            const paragraph = document.createElement('div');
+            if (startContainer === box) {
+                box.insertBefore(paragraph,box.childNodes[startOffset] || null);
+            } else {
+                let line = startContainer.nodeType === Node.ELEMENT_NODE ? startContainer : startContainer.parentNode;
+                while (line && line.parentNode !== box) line = line.parentNode;
+                if (!line) return;
+                const tail = document.createRange();
+                tail.selectNodeContents(line);
+                tail.setStart(startContainer,startOffset);
+                paragraph.append(tail.extractContents());
+                if (!line.textContent && !line.querySelector('br')) line.append(document.createElement('br'));
+                line.after(paragraph);
+            }
+            if (!paragraph.textContent && !paragraph.querySelector('br')) paragraph.append(document.createElement('br'));
+            const caret = document.createRange();
+            caret.setStart(paragraph,0);
+            caret.collapse(true);
+            selection.removeAllRanges();
+            selection.addRange(caret);
+            box.dispatchEvent(new InputEvent('input',{bubbles:true,inputType:'insertParagraph'}));
+        }
+        document.addEventListener('keydown',signatureEnter,true);
+        document.addEventListener('beforeinput',signatureEnter,true);
+
         function saveAsPdf() {
             var ignoreHF = document.getElementById('ignoreHFCheck').checked;
             if (ignoreHF) document.body.classList.add('no-print-hf');
@@ -4919,7 +4987,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 // tablosunu sayfa sonunda satır satır bölebildiği için DOCX ve
                 // PDF de aynı beklenebilir davranışı kullanır.
                 tbl += '</w:tblGrid><w:tr>';
-                sigBoxes.forEach(function (box) { tbl += '<w:tc><w:tcPr><w:tcW w:w="' + sigColW + '" w:type="dxa"/><w:tcBorders><w:top w:val="none"/><w:bottom w:val="none"/><w:left w:val="none"/><w:right w:val="none"/></w:tcBorders></w:tcPr>' + cellToOoxml(box, 'center') + '</w:tc>'; });
+                sigBoxes.forEach(function (box) { tbl += '<w:tc><w:tcPr><w:tcW w:w="' + sigColW + '" w:type="dxa"/><w:tcBorders><w:top w:val="none"/><w:bottom w:val="none"/><w:left w:val="none"/><w:right w:val="none"/></w:tcBorders></w:tcPr>' + cellToOoxml(signatureExportBox(box), 'center') + '</w:tc>'; });
                 tbl += '</w:tr></w:tbl>';
                 return tbl;
             }
@@ -5177,7 +5245,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                         var sigGrid = firstTd.querySelector('.sig-grid');
                         if (sigGrid) {
                             var sigBoxes = Array.prototype.slice.call(sigGrid.querySelectorAll('.sig-box')).map(function(box) {
-                                return nodeToParagraphs(box, 'center');
+                                return nodeToParagraphs(signatureExportBox(box), 'center');
                             });
                             rows.push({ type: 'siggrid', boxes: sigBoxes });
                             return;
@@ -7417,8 +7485,6 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         clearHFData=function(type){if(type==='header')v22ClearHeader();else v22ClearFooter();};
         updateFooterText=function(){if(v22HFSettings)v22ApplyFooter(false);};
         updateStatusDot=function(){document.getElementById('hfPanelBtn')?.classList.toggle('hf-active',!!v22HFSettings?.enabled);};
-        var v22ExportToDocxBase=exportToDocx;
-        exportToDocx=async function(){var restore=false;if(v22HFSettings?.footerMode==='custom'&&!document.getElementById('footerText1').value.trim()&&!document.getElementById('footerText2').value.trim()){restore=true;document.getElementById('footerText1').value=V22_FOOTERS.arbsys[0];document.getElementById('footerText2').value=V22_FOOTERS.arbsys[1];}try{return await v22ExportToDocxBase();}finally{if(restore){document.getElementById('footerText1').value='';document.getElementById('footerText2').value='';}}};
         document.addEventListener('pointerdown',function(event){var panel=document.getElementById('hfPanel');if(panel?.classList.contains('open')&&!panel.hasAttribute('data-explicit-close')&&!panel.contains(event.target)&&!event.target.closest('#hfPanelBtn'))panel.classList.remove('open');});
         var v22SupabaseApplyRemoteDatasetBase=supabaseApplyRemoteDataset;
         supabaseApplyRemoteDataset=function(row){v22SupabaseApplyRemoteDatasetBase(row);v22EnsureSpecialTemplates();v22BuildBlankDocumentScreen();v22BuildHFPanel();v18RenderResultOptions();};
@@ -9230,7 +9296,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         function v82RenderSignaturePreview(){var host=document.getElementById('v82SignaturePreview'),sig=v82WordModel.signature;if(!host||!sig)return;host.innerHTML='';sig.layout=Math.max(1,Math.min(3,Number(sig.layout)||sig.entries?.length||3));v84EnsureSignatureEntries(sig,sig.layout);var control=document.createElement('div');control.className='v82-sig-box';var label=document.createElement('strong');label.textContent='İmza yerleşimi';var select=document.createElement('select');select.style.cssText='width:100%;height:34px;border:1px solid #cbd5e1;border-radius:7px;padding:5px;background:#fff';[['1','Tekli imza — sağ sütunda'],['2','İkili imza'],['3','Üçlü imza']].forEach(function(option){var el=document.createElement('option');el.value=option[0];el.textContent=option[1];el.selected=Number(option[0])===sig.layout;select.appendChild(el);});select.onchange=function(){sig.layout=Number(this.value);v84EnsureSignatureEntries(sig,sig.layout);v82RenderSignaturePreview();};control.append(label,select);host.appendChild(control);sig.entries.slice(0,sig.layout).forEach(function(entry,index){var box=document.createElement('div');box.className='v82-sig-box';var heading=document.createElement('strong');heading.textContent=sig.layout===1?'Sağ sütundaki imza':'İmza '+(index+1);var rich=document.createElement('div');rich.className='v82-word-rich';rich.contentEditable='true';rich.innerHTML=v84SignatureEntryHtml(entry);rich.oninput=function(){entry.customHtml=v82SanitizeInlineHtml(this.innerHTML);};box.append(heading,rich);host.appendChild(box);});}
         function v82CreateRichField(row){var tr=document.createElement('tr');tr.className='single-row';var label=document.createElement('td');label.className='label-cell';var span=document.createElement('span');span.textContent=row.label||'';label.appendChild(span);var colon=document.createElement('td');colon.className='colon-cell';if(row.colon!==false)colon.textContent=':';else colon.appendChild(document.createElement('br'));var content=document.createElement('td');content.className='content-cell';content.innerHTML=v82SanitizeInlineHtml(row.html)||'<br>';tr.append(label,colon,content);return tr;}
         function v82CreateRichText(row){var tr=document.createElement('tr');tr.className='full-row';var td=document.createElement('td');td.colSpan=3;var div=document.createElement('div');div.className='fr-content';div.style.textAlign='justify';div.style.textAlignLast='left';var line=document.createElement('div');line.className='v26-smart-line';var tab=document.createElement('span');tab.className='word-tab';tab.style.display='inline-block';tab.style.width='1.25cm';tab.contentEditable='false';tab.innerHTML='&nbsp;';line.appendChild(tab);var holder=document.createElement('span');holder.innerHTML=v82SanitizeInlineHtml(row.html);while(holder.firstChild)line.appendChild(holder.firstChild);div.appendChild(line);td.appendChild(div);tr.appendChild(td);return tr;}
-        function v82CreateSignatureRow(){var sig=v82WordModel.signature,tr=document.createElement('tr');tr.className='single-row';tr.dataset.wordSignatureLayout=String(sig.layout||3);var td=document.createElement('td');td.colSpan=3;var grid=document.createElement('div');grid.className='sig-grid',entries=(sig.entries||[]).slice(0,sig.layout||3);if((sig.layout||3)===1){var empty=document.createElement('div');empty.className='sig-box';empty.appendChild(document.createElement('br'));grid.appendChild(empty);}entries.forEach(function(entry){var box=document.createElement('div');box.className='sig-box';box.innerHTML=v82SanitizeInlineHtml(v84SignatureEntryHtml(entry));box.querySelectorAll('u').forEach(function(underline){underline.setAttribute('data-sig-title-format','v66');});grid.appendChild(box);});td.appendChild(grid);tr.appendChild(td);return tr;}
+        function v82CreateSignatureRow(){var sig=v82WordModel.signature,tr=document.createElement('tr');tr.className='single-row';tr.dataset.wordSignatureLayout=String(sig.layout||3);var td=document.createElement('td');td.colSpan=3;var grid=document.createElement('div');grid.className='sig-grid',entries=(sig.entries||[]).slice(0,sig.layout||3);if((sig.layout||3)===1){var empty=document.createElement('div');empty.className='sig-box';empty.appendChild(document.createElement('br'));grid.appendChild(empty);}entries.forEach(function(entry){var box=document.createElement('div');box.className='sig-box';box.innerHTML=v82SanitizeInlineHtml(v84SignatureEntryHtml(entry));box.querySelectorAll('u').forEach(function(underline){underline.setAttribute('data-sig-title-format','v66');});if(v82WordModel.sourceType==='udf'){normalizeSignatureLines(box);if(box.lastElementChild?.textContent.trim()){var blank=document.createElement('div');blank.appendChild(document.createElement('br'));box.appendChild(blank);}}grid.appendChild(box);});td.appendChild(grid);tr.appendChild(td);return tr;}
         async function v82ApplyWordImport(){
             if(!v82WordModel.rows.length)return;if(!await appConfirm('Mevcut belge içeriği Word belgesinden algılanan yeni içerikle değiştirilecek. Devam edilsin mi?','Word Belgesini Editöre Aktar','Belgeyi Değiştir','Vazgeç'))return;var body=document.querySelector('#docTable>tbody'),fragment=document.createDocumentFragment();
             fragment.appendChild(v20CreateSmartGap());(v82WordModel.titles||[]).forEach(function(html){var row=document.createElement('tr');row.className='full-row v34-title-text-row v34-title-part';var td=document.createElement('td');td.colSpan=3;var content=document.createElement('div');content.className='fr-content';content.style.textAlign='center';content.style.textAlignLast='center';var bold=document.createElement('b');bold.innerHTML=v82SanitizeInlineHtml(html).replace(/^<b>|<\/b>$/gi,'');content.appendChild(bold);td.appendChild(content);row.appendChild(td);fragment.appendChild(row);});var blank1=v20CreateSmartGap(),blank2=v20CreateSmartGap();blank1.classList.add('v34-title-part');blank2.classList.add('v34-title-part');fragment.append(blank1,blank2);
@@ -9806,7 +9872,24 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             function v86Cell(cell,ctx){var paras=v86CellParas(cell,ctx);return {plain:paras.map(function(p){return p.plain;}).join('\n'),html:paras.map(function(p){return p.html;}).join('<br>'),paras:paras};}
             function v87Compact(value){return String(value||'').replace(/[\t\u00a0 ]+/g,' ').trim();}
             function v87ManualSignatureAlignment(value){var prefix=(String(value||'').match(/^[\t \u00a0]*/)||[''])[0],tabs=(prefix.match(/\t/g)||[]).length,spaces=(prefix.match(/[ \u00a0]/g)||[]).length;return tabs>=3||spaces>=4||(tabs>=2&&spaces>=3);}
-            function v87StripLeadingLayoutHtml(value){return String(value||'').replace(/^(?:(?:&nbsp;)|\s|<br\s*\/?>)+/gi,'');}
+            function v87StripLeadingLayoutHtml(value){
+                const container=document.createElement('template');
+                container.innerHTML=v82SanitizeInlineHtml(value);
+                function trimStart(parent){
+                    for(const node of Array.from(parent.childNodes)){
+                        if(node.nodeType===Node.TEXT_NODE){
+                            node.data=node.data.replace(/^[\s\u00a0]+/u,'');
+                            if(node.data) return true;
+                        }else if(node.nodeName!=='BR'&&trimStart(node)){
+                            return true;
+                        }
+                        node.remove();
+                    }
+                    return false;
+                }
+                trimStart(container.content);
+                return container.innerHTML;
+            }
             function v86SignatureTitle(value){return /^(?:DAVACI VEKİLİ|DAVALI VEKİLİ|TARAF|ARABULUCU|VEKİL|VEKİLİ|YETKİLİ|YETKİLİSİ|ŞİRKET TEMSİLCİSİ|ŞİRKET YETKİLİSİ|ŞİRKET ÇALIŞANI)$/iu.test(v87Compact(value));}
             function v86SignatureHtml(title,name,extra){return '<u><b>'+v82Esc(String(title||'').trim().toLocaleUpperCase('tr-TR'))+'</b></u><b>'+v82Esc(String(name||'').trim())+'</b>'+(extra?'<br>'+v82Esc(extra):'');}
             function v86TableSignature(table,ctx){var tableRows=v86Children(table,'row'),firstCells=v86Children(tableRows[0],'cell'),firstTitles=firstCells.map(function(cell){return (v86CellParas(cell,ctx).find(function(p){return p.plain.trim();})?.plain||'').trim();});if(!firstCells.length||firstCells.length>3||!firstTitles.some(v86SignatureTitle))return null;var entries=[];for(var c=0;c<firstCells.length;c++){var lines=[];tableRows.forEach(function(row){var cell=v86Children(row,'cell')[c];if(cell)lines=lines.concat(v86CellParas(cell,ctx));});var nonempty=lines.filter(function(line){return line.plain.trim();});if(!nonempty.length)continue;var title=nonempty[0].plain.trim(),name=nonempty.slice(1).map(function(line){return line.plain.trim();}).filter(Boolean).join('<br>'),custom='<u><b>'+v82Esc(title.toLocaleUpperCase('tr-TR'))+'</b></u><b>'+v82Esc(name).replace(/&lt;br&gt;/g,'<br>')+'</b>';entries.push({kind:'custom',customHtml:custom});}return entries.length?{layout:Math.min(3,entries.length),entries:entries.slice(0,3)}:null;}
@@ -9817,7 +9900,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 if(!window.JSZip)throw new Error('UYAP belge okuma bileşeni yüklenemedi.');var zip=await JSZip.loadAsync(file,{checkCRC32:true}),entry=zip.file('content.xml');if(!entry)throw new Error('UDF içinde content.xml bulunamadı.');var source=await entry.async('string');if(/<!DOCTYPE|<!ENTITY/i.test(source))throw new Error('Güvenli olmayan XML bildirimi nedeniyle belge açılamadı.');var xml=new DOMParser().parseFromString(source,'application/xml');if(xml.querySelector('parsererror'))throw new Error('UDF belge yapısı okunamadı.');
                 var root=xml.documentElement,content=v86Children(root,'content')[0],elements=v86Children(root,'elements')[0];if(!content||!elements)throw new Error('UDF metin veya belge elemanları eksik.');var ctx={pool:Array.from(content.textContent||''),styles:v86StyleMap(root)},nodes=v86Children(elements).filter(function(node){return !/^(?:header|footer|page-break)$/i.test(node.tagName);}),rows=[],titles=[],signature=null,titlePhase=true,section='',afterConclusion=false,lastParty=null;
                 function pushEmpty(){v82PushEmpty(rows);lastParty=null;}
-                function pushText(p){var numbered=v86NumberedRow(p.plain,p.html);if(numbered){rows.push(numbered);return;}rows.push({kind:'text',label:'',html:v82SanitizeInlineHtml(p.html),colon:false,indent:v86SourceIndent(p.plain)||(!section||section==='AÇIKLAMALAR'||section==='SONUÇ ve TALEP')});}
+                function pushText(p){var numbered=v86NumberedRow(p.plain,p.html);if(numbered){rows.push(numbered);return;}rows.push({kind:'text',label:'',html:v87StripLeadingLayoutHtml(p.html),colon:false,indent:v86SourceIndent(p.plain)||(!section||section==='AÇIKLAMALAR'||section==='SONUÇ ve TALEP')});}
                 for(var index=0;index<nodes.length;index++){
                     var node=nodes[index];
                     if(node.tagName==='paragraph'){
@@ -9877,6 +9960,9 @@ window.V89_PREVIEW_SAMPLE=(function(){var b=atob('PCEtLSBBUkJTWVMtQ09OVEVOVCB2Mi
 .hf100-editor-actions{margin:8px 0}
 .hf100-editor-actions button,#hf99Close,#hf99Save{min-height:35px;padding:0 14px;font-size:11px}
 #hf99Edit{min-width:94px}
+#hf101FooterEdit{min-width:94px}
+#v22FooterInputs input::placeholder{color:#8491a3;opacity:1}
+#v22FooterInputs input[readonly]{background:#f8fafc}
 .v90-zoom #hf99Close,.v90-zoom #hf99Save{width:auto}
 .v90-btn.hf100-cancel{background:#edf1f5;border-color:#cbd5e1;color:#334155}
 .v90-btn.hf100-confirm,.v90-zoom #hf99Save{background:#15803d;border-color:#15803d;color:white}
@@ -9950,7 +10036,7 @@ body:has(#hfPanel[data-explicit-close].open) #v26HFBackdrop{cursor:default}
     const activeOwner = () => arbsysSupabaseSession?.user?.id || '';
     const cache = new Map();
     let model, loadedOwner, loadRequest, applySequence = 0, saving = false;
-    let draft, footerDraft, editing = null, dirty = new Set(), paintSequence = 0;
+    let draft, footerDraft, footerEdit, editing = null, dirty = new Set(), paintSequence = 0;
     let migration, openSequence = 0;
     let previewSource = window.V89_PREVIEW_SAMPLE || '', zoom = .7;
     const textDefaults = () => ({
@@ -10200,17 +10286,21 @@ body:has(#hfPanel[data-explicit-close].open) #v26HFBackdrop{cursor:default}
         if (record?.outputPath) return download(record.outputPath);
         return blobOf(await compose(current.selected,record || {}));
     }
-    const applyFooter = v22ApplyFooter;
-    const effectiveFooter = v22EffectiveFooter;
-    v22EffectiveFooter = () => v22HFSettings.footerMode === 'userFooter' ?
-        (v22HFSettings.userFooter || V22_FOOTERS.arbsys) : effectiveFooter();
+    v22EffectiveFooter = () => footerLines(v22HFSettings);
     v22ApplyFooter = reset => {
-        applyFooter(reset);
-        if (reset && v22HFSettings.footerMode === 'userFooter') {
-            const values = v22EffectiveFooter();
+        const values = v22EffectiveFooter();
+        if (reset) {
             byId('footerText1').value = values[0] || '';
             byId('footerText2').value = values[1] || '';
         }
+        const target=byId('footerPrintBox');
+        target.replaceChildren();
+        const enabled=!!v22HFSettings.enabled;
+        if (enabled) values.filter(line=>line.trim()).forEach((line,index)=>{
+            if(index) target.append(document.createElement('br'));
+            target.append(document.createTextNode(line));
+        });
+        byId('footerLinePrint').style.display=enabled?'':'none';
     };
     function displayHeader(picture, enabled, live = false) {
         const box = byId('logoPrintBox');
@@ -10396,9 +10486,12 @@ body:has(#hfPanel[data-explicit-close].open) #v26HFBackdrop{cursor:default}
             <div id="hf99Text"></div></div>
             <p id="hf99Status" class="hf99-status" role="status"></p></section>
             <section class="v90-card" id="footerRow"><h3>Alt Bilgi</h3><div class="v90-modes">
-            ${choices('v22FooterMode',[['arbsys','Arbsys'],['consensus','Consensus'],['custom','Alt Bilgi Ekle'],['userFooter','Kullanıcı Alt Bilgi']])}</div>
-            <div id="v22FooterInputs" class="v90-footer-inputs"><input id="footerText1" aria-label="Alt bilgi birinci satır"><input id="footerText2" aria-label="Alt bilgi ikinci satır"></div>
-            <div class="hf99-actions">${button('hf99FooterSave','Alt bilgiyi kaydet','primary')}</div></section>
+            ${choices('v22FooterMode',[['arbsys','Arbsys'],['consensus','Consensus'],['custom','Alt Bilgi Ekle']])}</div>
+            <div class="hf100-editor-actions">${button('hf101FooterEdit','Düzenle')}
+            ${button('hf101FooterCancel','İptal','hf100-cancel')}${button('hf101FooterAccept','Kaydet','hf100-confirm')}</div>
+            <div id="v22FooterInputs" class="v90-footer-inputs">
+            <input id="footerText1" aria-label="Alt bilgi birinci satır" readonly>
+            <input id="footerText2" aria-label="Alt bilgi ikinci satır" readonly></div></section>
             </div><div id="hf99Drop" class="v90-preview"></div></div>`;
         byId('hf99Close').onclick = cancelModal;
         byId('hf99ZoomOut').onclick = () => setZoom(zoom-.1);
@@ -10427,24 +10520,31 @@ body:has(#hfPanel[data-explicit-close].open) #v26HFBackdrop{cursor:default}
             control.onclick = action;
         }
         document.querySelectorAll('#footerRow input[type=radio]').forEach(radio => radio.onchange = () => {
-            if (!footerDraft) return;
+            if (!footerDraft || footerEdit) return;
             footerDraft.footerMode = radio.value;
             showFooterDraft();
             paint();
         });
         for (const id of ['footerText1','footerText2']) byId(id).oninput = () => {
-            if (!footerDraft) return;
-            footerDraft.footerMode = 'custom';
-            panel.querySelector('[name=v22FooterMode][value=custom]').checked = true;
+            if (!footerDraft || !footerEdit) return;
             footerDraft.customFooter = [byId('footerText1').value,byId('footerText2').value];
             paint();
         };
-        byId('hf99FooterSave').onclick = () => {
-            const values = [byId('footerText1').value.trim(),byId('footerText2').value.trim()];
-            if (!values.some(Boolean)) return appAlert('Kaydedilecek bir alt bilgi yazın.','Metin Girilmedi');
-            if (!footerDraft) return;
-            footerDraft.userFooter = values;
-            footerDraft.footerMode = 'userFooter';
+        byId('hf101FooterEdit').onclick = () => {
+            if (!footerDraft || footerDraft.footerMode!=='custom' || footerEdit) return;
+            footerEdit = [...(footerDraft.customFooter || ['',''])];
+            showFooterDraft();
+            byId('footerText1').focus();
+        };
+        byId('hf101FooterCancel').onclick = () => {
+            if (!footerEdit) return;
+            footerDraft.customFooter = footerEdit;
+            footerEdit = null;
+            showFooterDraft();
+            paint();
+        };
+        byId('hf101FooterAccept').onclick = () => {
+            footerEdit = null;
             showFooterDraft();
             paint();
         };
@@ -10538,21 +10638,28 @@ body:has(#hfPanel[data-explicit-close].open) #v26HFBackdrop{cursor:default}
         ++openSequence;
         ++paintSequence;
         panel.classList.remove('open');
-        draft = footerDraft = editing = null;
+        draft = footerDraft = footerEdit = editing = null;
         v22ApplyFooter(true);
     }
     function footerLines(state) {
-        if (state.footerMode === 'custom') return state.customFooter?.some(line=>line.trim()) ?
-            state.customFooter : V22_FOOTERS.arbsys;
-        if (state.footerMode === 'userFooter') return state.userFooter || V22_FOOTERS.arbsys;
-        return V22_FOOTERS[state.footerMode] || V22_FOOTERS.arbsys;
+        if (state.footerMode === 'userFooter') return state.userFooter || ['',''];
+        return V22_FOOTERS[state.footerMode] || state.customFooter || ['',''];
     }
     function showFooterDraft() {
         const values = footerDraft.footerMode === 'custom' ? footerDraft.customFooter : footerLines(footerDraft);
-        byId('footerText1').value = values?.[0] || '';
-        byId('footerText2').value = values?.[1] || '';
+        const custom = footerDraft.footerMode==='custom';
+        ['Mahalle Mh. Sokak Sk. Apt 88 / 8A  İlçe - Şehir',
+            'Telefon 0(123) 456 78 90 - eposta: info@eposta.com'].forEach((placeholder,index)=>{
+            const input=byId('footerText'+(index+1));
+            input.value=values?.[index] || '';
+            input.placeholder=custom?placeholder:'';
+            input.readOnly=!footerEdit;
+        });
+        byId('hf101FooterEdit').hidden=!custom || !!footerEdit;
+        byId('hf101FooterCancel').hidden=!footerEdit;
+        byId('hf101FooterAccept').hidden=!footerEdit;
         panel.querySelectorAll('[name=v22FooterMode]').forEach(radio=>{
-            radio.disabled = radio.value==='userFooter' && !footerDraft.userFooter;
+            radio.disabled = !!footerEdit;
             radio.checked = radio.value===footerDraft.footerMode;
         });
     }
@@ -10714,7 +10821,7 @@ body:has(#hfPanel[data-explicit-close].open) #v26HFBackdrop{cursor:default}
                 return;
             }
             panel.classList.remove('open');
-            draft=footerDraft=null;
+            draft=footerDraft=footerEdit=null;
             ++paintSequence;
             if (!message.endsWith('tasarımı kaydedildi.')) await appAlert(message,'Üst Bilgi');
         } catch(error) { status(error.message,true); }
@@ -10747,11 +10854,14 @@ body:has(#hfPanel[data-explicit-close].open) #v26HFBackdrop{cursor:default}
     }
     v22BuildHFPanel = () => {
         build();
-        v22HFSettings = {footerMode:'arbsys',customFooter:['',''],...legacy()};
+        v22HFSettings = {footerMode:'custom',customFooter:['',''],...legacy()};
+        if (v22HFSettings.footerMode==='userFooter') {
+            v22HFSettings.customFooter=v22HFSettings.userFooter || v22HFSettings.customFooter;
+            v22HFSettings.footerMode='custom';
+        }
         const radio=Array.from(panel.querySelectorAll('[name=v22FooterMode]'))
             .find(choice=>choice.value===v22HFSettings.footerMode);
         if(radio) radio.checked=true;
-        panel.querySelector('[name=v22FooterMode][value=userFooter]').disabled=!v22HFSettings.userFooter;
         v22ApplyFooter(true);
     };
     toggleHFPanel = async () => {
@@ -10764,7 +10874,7 @@ body:has(#hfPanel[data-explicit-close].open) #v26HFBackdrop{cursor:default}
         byId('headerRow').inert=true;
         byId('hf99Choices').replaceChildren();
         byId('hf99Editor').hidden=true;
-        draft=footerDraft=null;
+        draft=footerDraft=footerEdit=null;
         byId('hf99Save').disabled=true;
         for (const id of ['hf99Edit','hf100EditCancel','hf100EditSave']) byId(id).hidden=true;
         status('Üst bilgi tasarımı yükleniyor…');
