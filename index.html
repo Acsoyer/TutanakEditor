@@ -9263,20 +9263,71 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         }
         function v82MakeField(label,html,colon){return {kind:'field',label:String(label||'').trim(),html:v82SanitizeInlineHtml(html),colon:colon!==false};}
         function v82PushEmpty(rows){if(rows.length&&rows[rows.length-1].kind!=='empty')rows.push({kind:'empty',label:'',html:'',colon:false});}
+        function v103SignatureRole(value){
+            return /^(?:TARAF|BAŞVURUCU|DİĞER TARAF|ARABULUCU|DAVACI VEKİLİ|DAVALI VEKİLİ|VEKİL|VEKİLİ|YETKİLİ|YETKİLİSİ|VEKİLİ?\s*\/\s*YETKİLİSİ?)$/iu.test(String(value||'').replace(/\s+/g,' ').trim());
+        }
+        function v103SignatureHeadings(labels){
+            return labels.length>=1 && labels.length<=3 && labels.some(v103SignatureRole) &&
+                labels.every(label=>!label || v103SignatureRole(label));
+        }
+        function v103SignatureBlock(signature){
+            return {kind:'signature',label:'İMZA',html:'',colon:false,signature};
+        }
+        function v103FallbackSignature(){
+            return {layout:1,entries:[{kind:'custom',customHtml:'<u><b>İMZA</b></u><b>İsim Soyisim</b>'}]};
+        }
         function v82SignatureCellHtml(cell){var paras=v82CellParagraphs(cell),out='',seenAny=false,previousTitle=false,lastBlank=false;paras.forEach(function(p){var plain=p.plain.trim();if(!plain){if(previousTitle)return;if(seenAny)out+=lastBlank?'<br>':'<br><br>';lastBlank=true;return;}var isTitle=!seenAny||v82IsRepresentativeTitle(plain),html=isTitle?'<u><b>'+v82Esc(plain)+'</b></u>':v82SanitizeInlineHtml(p.html);if(seenAny&&!previousTitle&&!lastBlank)out+='<br>';out+=html;seenAny=true;previousTitle=isTitle;lastBlank=false;});return out.replace(/(?:<br>)+$/,'');}
         async function v82ReadWordFile(file){
             if(!window.JSZip)throw new Error('Word okuma bileşeni yüklenemedi.');var zip=await JSZip.loadAsync(file),entry=zip.file('word/document.xml');if(!entry)throw new Error('Bu dosyada Word belge içeriği bulunamadı.');var xml=new DOMParser().parseFromString(await entry.async('string'),'application/xml');if(xml.getElementsByTagName('parsererror').length)throw new Error('Word belgesi okunamadı.');var numberingEntry=zip.file('word/numbering.xml'),numberingXml=numberingEntry?new DOMParser().parseFromString(await numberingEntry.async('string'),'application/xml'):null,numbering=v82ParseNumbering(numberingXml),numberCounters={};
-            var body=xml.getElementsByTagNameNS('*','body')[0],rows=[],titles=[],afterTable=[],parties=[],seenTable=false,titlePhase=true,sourceSignature=null;
+            var body=xml.getElementsByTagNameNS('*','body')[0],rows=[],titles=[],parties=[],titlePhase=true;
+            var addParagraph=function(p){rows.push({kind:'text',label:'',html:v82PrepareBodyParagraph(p,numbering,numberCounters),colon:false});};
             v82XmlChildren(body).forEach(function(node){
-                if(node.localName==='p'){var p=v82ParagraphData(node),plain=p.plain.trim();if(!seenTable){if(!plain){if(titles.length)titlePhase=false;return;}if(titlePhase&&(p.center||v82IsBoldParagraph(node))){titles.push(p.html);return;}titlePhase=false;rows.push({kind:'text',label:'',html:v82PrepareBodyParagraph(p,numbering,numberCounters),colon:false});v82PushEmpty(rows);}else if(plain)afterTable.push(p);return;}
-                if(node.localName!=='tbl')return;seenTable=true;v82XmlChildren(node,'tr').forEach(function(tr){var cells=v82XmlChildren(tr,'tc');if(!cells.length)return;var plains=cells.map(v82CellPlain),first=(plains[0]||'').trim(),second=(plains[1]||'').trim();
-                    var signatureTitles=plains.map(function(value){return String(value||'').split('\n')[0].trim();}),isSignatureRow=cells.length<=3&&signatureTitles.length&&signatureTitles.every(function(value){return /^(?:TARAF|ARABULUCU|VEKİL|VEKİLİ|YETKİLİ|YETKİLİSİ)$/iu.test(value);});if(isSignatureRow){sourceSignature={layout:cells.length,entries:cells.map(function(cell){return {kind:'custom',customHtml:v82SignatureCellHtml(cell)};})};return;}
-                    if(cells.length>=3&&second===':'){var content=cells[2],label=first;if(/^TARAFLAR$/iu.test(label)){v82PushEmpty(rows);rows.push(v82MakeField('TARAFLAR','',false));parties=v82ParseParties(content);parties.forEach(function(group,index){rows.push(v82MakeField(index===0?'BAŞVURUCU':'DİĞER TARAF',v82IdentityHtml(group),true));v82PushEmpty(rows);if(group.role){rows.push(v82MakeField(group.role,v82RepresentativeHtml(group),true));v82PushEmpty(rows);}});return;}rows.push(v82MakeField(label,v82CellHtml(content),true));var ps=v82CellParagraphs(content);if(ps.length>1&&!ps[ps.length-1].plain.trim())v82PushEmpty(rows);return;}
-                    if(cells.length===1){v82CellParagraphs(cells[0]).forEach(function(p){if(p.plain.trim())rows.push({kind:'text',label:'',html:v82PrepareBodyParagraph(p,numbering,numberCounters),colon:false});else v82PushEmpty(rows);});}
+                if(node.localName==='p'){
+                    var p=v82ParagraphData(node),plain=p.plain.trim();
+                    if(!plain){if(titles.length)titlePhase=false;v82PushEmpty(rows);return;}
+                    if(titlePhase&&(p.center||v82IsBoldParagraph(node))){titles.push(p.html);return;}
+                    titlePhase=false;
+                    addParagraph(p);
+                    return;
+                }
+                if(node.localName!=='tbl')return;
+                titlePhase=false;
+                v82XmlChildren(node,'tr').forEach(function(tr){
+                    var cells=v82XmlChildren(tr,'tc');if(!cells.length)return;
+                    var plains=cells.map(v82CellPlain),first=(plains[0]||'').trim(),second=(plains[1]||'').trim();
+                    var headings=cells.map(cell=>v82CellParagraphs(cell).find(p=>p.plain.trim())?.plain.trim()||'');
+                    if(v103SignatureHeadings(headings)){
+                        let entries=cells.map(cell=>({kind:'custom',customHtml:v82SignatureCellHtml(cell)}));
+                        if(entries.length===2&&!headings[0])entries=entries.slice(1);
+                        rows.push(v103SignatureBlock({layout:entries.length,entries}));
+                        return;
+                    }
+                    if(cells.length>=3&&(second===':'||(!second&&first&&plains[2]?.trim()))){
+                        var content=cells[2],label=first;
+                        if(/^TARAFLAR$/iu.test(label)){
+                            v82PushEmpty(rows);rows.push(v82MakeField('TARAFLAR','',false));
+                            parties=v82ParseParties(content);
+                            parties.forEach(function(group,index){
+                                rows.push(v82MakeField(index===0?'BAŞVURUCU':'DİĞER TARAF',v82IdentityHtml(group),true));
+                                v82PushEmpty(rows);
+                                if(group.role){rows.push(v82MakeField(group.role,v82RepresentativeHtml(group),true));v82PushEmpty(rows);}
+                            });
+                            return;
+                        }
+                        rows.push(v82MakeField(label,v82CellHtml(content),second===':'));
+                        var ps=v82CellParagraphs(content);
+                        if(ps.length>1&&!ps[ps.length-1].plain.trim())v82PushEmpty(rows);
+                        return;
+                    }
+                    cells.forEach(cell=>v82CellParagraphs(cell).forEach(p=>p.plain.trim()?addParagraph(p):v82PushEmpty(rows)));
                 });
             });
             while(rows[0]?.kind==='empty')rows.shift();while(rows[rows.length-1]?.kind==='empty')rows.pop();
-            var mediator=afterTable.map(function(p){return p.plain.trim();}).filter(Boolean),medTitle=mediator[0]||'ARABULUCU',medName=mediator[1]||'Arb. Av. ……………………',medRegistry=mediator.slice(2).join(' '),people=parties.map(v82SignaturePerson),mediatorEntry={kind:'mediator',title:medTitle,name:medName,registry:medRegistry},entries=[];if(people[0])entries.push(Object.assign({kind:'person'},people[0]));if(mediator.length)entries.push(mediatorEntry);if(people[1])entries.push(Object.assign({kind:'person'},people[1]));if(!entries.length)entries.push({kind:'mediator',title:'ARABULUCU',name:'Arb. Av. ……………………',registry:'(ADB Sicil No: ……)'});var generatedSignature={layout:Math.min(3,entries.length),entries:entries.slice(0,3)};if(sourceSignature&&mediator.length&&sourceSignature.layout<3&&!sourceSignature.entries.some(function(entry){return /ARABULUCU/iu.test(v82PlainFromHtml(entry.customHtml||''));})){sourceSignature.entries.splice(Math.min(1,sourceSignature.entries.length),0,mediatorEntry);sourceSignature.layout=Math.min(3,sourceSignature.entries.length);}v82WordModel={fileName:file.name,rows:rows,signature:sourceSignature||generatedSignature,titles:titles.length?titles:['<b>BELGE BAŞLIĞI</b>']};v82RenderWordPreview();
+            const people=parties.slice(0,2).map(group=>({kind:'person',...v82SignaturePerson(group)}));
+            const fallback=people.length?{layout:people.length,entries:people}:v103FallbackSignature();
+            if(rows.length&&!rows.some(row=>row.kind==='signature'))rows.push(v103SignatureBlock(fallback));
+            v82WordModel={fileName:file.name,sourceType:'docx',rows,signature:fallback,titles:titles.length?titles:['<b>BELGE BAŞLIĞI</b>']};
+            v82RenderWordPreview();
         }
         async function v82HandleWordFile(file){if(!file)return;if(!/\.docx$/i.test(file.name||'')){await appAlert('Lütfen .docx uzantılı bir Word belgesi seçin.','Geçersiz Dosya');return;}document.getElementById('v82WordFile').textContent=file.name;document.getElementById('v82WordStatus').textContent='Word belgesi okunuyor…';try{await v82ReadWordFile(file);}catch(error){document.getElementById('v82WordStatus').textContent='Belge okunamadı.';await appAlert(error.message||String(error),'Word Belgesi Okunamadı');}}
         function v82ResetWordImporter(){v82WordModel={fileName:'',rows:[],signature:null,titles:[]};var input=document.getElementById('v82WordInput');if(input)input.value='';var file=document.getElementById('v82WordFile');if(file)file.textContent='Henüz Word belgesi seçilmedi.';var status=document.getElementById('v82WordStatus');if(status)status.textContent='Dosya seçildiğinde alanlar burada gösterilir.';var rows=document.getElementById('v82WordRows');if(rows)rows.innerHTML='<div class="v82-word-empty v82-drop-empty" onclick="document.getElementById(\'v82WordInput\').click()"><span class="material-icons">upload_file</span><strong>Word belgesini buraya sürükleyip bırakın</strong><span>Dosyayı bilgisayarınızdan bulmak için bu alana veya yukarıdaki “Word Dosyası Seç” düğmesine tıklayabilirsiniz.</span></div>';var sig=document.getElementById('v82SignaturePreview');if(sig)sig.innerHTML='<div class="v82-word-empty">İmza bilgileri Word belgesi okunduktan sonra gösterilir.</div>';var apply=document.getElementById('v82WordApply');if(apply)apply.disabled=true;}
@@ -9293,10 +9344,65 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
         function v82SignatureColumnHtml(person){var html='<u><b>TARAF</b></u><b>'+v82Esc(person.name||'')+'</b>';var blanks=person.legal?1:3;if(person.role&&person.representative){html+='<br>'.repeat(blanks+1)+'<u><b>'+v82Esc(v82TitleCase(person.role))+'</b></u><b>'+v82Esc(person.representative)+'</b>';}return html;}
         function v84SignatureEntryHtml(entry){if(entry.customHtml)return entry.customHtml;if(entry.kind==='mediator')return '<u><b>'+v82Esc(entry.title||'ARABULUCU')+'</b></u><b>'+v82Esc(entry.name||'')+'</b>'+(entry.registry?'<br>'+v82Esc(entry.registry):'');return v82SignatureColumnHtml(entry);}
         function v84EnsureSignatureEntries(sig,count){sig.entries=sig.entries||[];while(sig.entries.length<count)sig.entries.push({kind:'custom',customHtml:'<u><b>TARAF</b></u><b>İsim Soyisim</b>'});sig.entries=sig.entries.slice(0,Math.max(count,sig.entries.length));}
-        function v82RenderSignaturePreview(){var host=document.getElementById('v82SignaturePreview'),sig=v82WordModel.signature;if(!host||!sig)return;host.innerHTML='';sig.layout=Math.max(1,Math.min(3,Number(sig.layout)||sig.entries?.length||3));v84EnsureSignatureEntries(sig,sig.layout);var control=document.createElement('div');control.className='v82-sig-box';var label=document.createElement('strong');label.textContent='İmza yerleşimi';var select=document.createElement('select');select.style.cssText='width:100%;height:34px;border:1px solid #cbd5e1;border-radius:7px;padding:5px;background:#fff';[['1','Tekli imza — sağ sütunda'],['2','İkili imza'],['3','Üçlü imza']].forEach(function(option){var el=document.createElement('option');el.value=option[0];el.textContent=option[1];el.selected=Number(option[0])===sig.layout;select.appendChild(el);});select.onchange=function(){sig.layout=Number(this.value);v84EnsureSignatureEntries(sig,sig.layout);v82RenderSignaturePreview();};control.append(label,select);host.appendChild(control);sig.entries.slice(0,sig.layout).forEach(function(entry,index){var box=document.createElement('div');box.className='v82-sig-box';var heading=document.createElement('strong');heading.textContent=sig.layout===1?'Sağ sütundaki imza':'İmza '+(index+1);var rich=document.createElement('div');rich.className='v82-word-rich';rich.contentEditable='true';rich.innerHTML=v84SignatureEntryHtml(entry);rich.oninput=function(){entry.customHtml=v82SanitizeInlineHtml(this.innerHTML);};box.append(heading,rich);host.appendChild(box);});}
+        function v82RenderSignaturePreview(){
+            const host=document.getElementById('v82SignaturePreview');
+            if(!host)return;
+            host.replaceChildren();
+            const blocks=v82WordModel.rows.filter(row=>row.kind==='signature');
+            blocks.forEach((row,blockIndex)=>{
+                const sig=row.signature ||= structuredClone(v82WordModel.signature || v103FallbackSignature());
+                sig.layout=Math.max(1,Math.min(3,Number(sig.layout)||sig.entries?.length||1));
+                v84EnsureSignatureEntries(sig,sig.layout);
+                const control=document.createElement('div');
+                control.className='v82-sig-box';
+                const label=document.createElement('strong');
+                label.textContent=blocks.length>1?'İmza bloğu '+(blockIndex+1):'İmza yerleşimi';
+                const select=document.createElement('select');
+                select.style.cssText='width:100%;height:34px;border:1px solid #cbd5e1;border-radius:7px;padding:5px;background:#fff';
+                ['Tekli imza — sağ sütunda','İkili imza','Üçlü imza'].forEach((caption,index)=>{
+                    select.add(new Option(caption,String(index+1),false,index+1===sig.layout));
+                });
+                select.onchange=()=>{sig.layout=Number(select.value);v82RenderSignaturePreview();};
+                control.append(label,select);
+                sig.entries.slice(0,sig.layout).forEach((entry,index)=>{
+                    const heading=document.createElement('strong'),rich=document.createElement('div');
+                    heading.textContent=sig.layout===1?'Sağ sütundaki imza':'İmza '+(index+1);
+                    rich.className='v82-word-rich';
+                    rich.contentEditable='true';
+                    rich.innerHTML=v82SanitizeInlineHtml(v84SignatureEntryHtml(entry));
+                    rich.oninput=()=>{entry.customHtml=v82SanitizeInlineHtml(rich.innerHTML);};
+                    control.append(heading,rich);
+                });
+                host.append(control);
+            });
+        }
         function v82CreateRichField(row){var tr=document.createElement('tr');tr.className='single-row';var label=document.createElement('td');label.className='label-cell';var span=document.createElement('span');span.textContent=row.label||'';label.appendChild(span);var colon=document.createElement('td');colon.className='colon-cell';if(row.colon!==false)colon.textContent=':';else colon.appendChild(document.createElement('br'));var content=document.createElement('td');content.className='content-cell';content.innerHTML=v82SanitizeInlineHtml(row.html)||'<br>';tr.append(label,colon,content);return tr;}
         function v82CreateRichText(row){var tr=document.createElement('tr');tr.className='full-row';var td=document.createElement('td');td.colSpan=3;var div=document.createElement('div');div.className='fr-content';div.style.textAlign='justify';div.style.textAlignLast='left';var line=document.createElement('div');line.className='v26-smart-line';var tab=document.createElement('span');tab.className='word-tab';tab.style.display='inline-block';tab.style.width='1.25cm';tab.contentEditable='false';tab.innerHTML='&nbsp;';line.appendChild(tab);var holder=document.createElement('span');holder.innerHTML=v82SanitizeInlineHtml(row.html);while(holder.firstChild)line.appendChild(holder.firstChild);div.appendChild(line);td.appendChild(div);tr.appendChild(td);return tr;}
-        function v82CreateSignatureRow(){var sig=v82WordModel.signature,tr=document.createElement('tr');tr.className='single-row';tr.dataset.wordSignatureLayout=String(sig.layout||3);var td=document.createElement('td');td.colSpan=3;var grid=document.createElement('div');grid.className='sig-grid',entries=(sig.entries||[]).slice(0,sig.layout||3);if((sig.layout||3)===1){var empty=document.createElement('div');empty.className='sig-box';empty.appendChild(document.createElement('br'));grid.appendChild(empty);}entries.forEach(function(entry){var box=document.createElement('div');box.className='sig-box';box.innerHTML=v82SanitizeInlineHtml(v84SignatureEntryHtml(entry));box.querySelectorAll('u').forEach(function(underline){underline.setAttribute('data-sig-title-format','v66');});if(v82WordModel.sourceType==='udf'){normalizeSignatureLines(box);if(box.lastElementChild?.textContent.trim()){var blank=document.createElement('div');blank.appendChild(document.createElement('br'));box.appendChild(blank);}}grid.appendChild(box);});td.appendChild(grid);tr.appendChild(td);return tr;}
+        function v82CreateSignatureRow(sig=v82WordModel.signature || v103FallbackSignature()){
+            const tr=document.createElement('tr'),td=document.createElement('td'),grid=document.createElement('div');
+            tr.className='single-row';
+            tr.dataset.wordSignatureLayout=String(sig.layout);
+            td.colSpan=3;
+            grid.className='sig-grid';
+            const addBox=html=>{
+                const box=document.createElement('div');
+                box.className='sig-box';
+                box.innerHTML=v82SanitizeInlineHtml(html)||'<br>';
+                box.querySelectorAll('u').forEach(node=>node.setAttribute('data-sig-title-format','v66'));
+                normalizeSignatureLines(box);
+                if(v82WordModel.sourceType==='udf' && box.lastElementChild?.textContent.trim()) {
+                    const blank=document.createElement('div');
+                    blank.append(document.createElement('br'));
+                    box.append(blank);
+                }
+                grid.append(box);
+            };
+            if(sig.layout===1)addBox('');
+            sig.entries.slice(0,sig.layout).forEach(entry=>addBox(v84SignatureEntryHtml(entry)));
+            td.append(grid);
+            tr.append(td);
+            return tr;
+        }
         async function v82ApplyWordImport(){
             if(!v82WordModel.rows.length)return;if(!await appConfirm('Mevcut belge içeriği Word belgesinden algılanan yeni içerikle değiştirilecek. Devam edilsin mi?','Word Belgesini Editöre Aktar','Belgeyi Değiştir','Vazgeç'))return;var body=document.querySelector('#docTable>tbody'),fragment=document.createDocumentFragment();
             fragment.appendChild(v20CreateSmartGap());(v82WordModel.titles||[]).forEach(function(html){var row=document.createElement('tr');row.className='full-row v34-title-text-row v34-title-part';var td=document.createElement('td');td.colSpan=3;var content=document.createElement('div');content.className='fr-content';content.style.textAlign='center';content.style.textAlignLast='center';var bold=document.createElement('b');bold.innerHTML=v82SanitizeInlineHtml(html).replace(/^<b>|<\/b>$/gi,'');content.appendChild(bold);td.appendChild(content);row.appendChild(td);fragment.appendChild(row);});var blank1=v20CreateSmartGap(),blank2=v20CreateSmartGap();blank1.classList.add('v34-title-part');blank2.classList.add('v34-title-part');fragment.append(blank1,blank2);
@@ -9892,13 +9998,33 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
             }
             function v86SignatureTitle(value){return /^(?:DAVACI VEKİLİ|DAVALI VEKİLİ|TARAF|ARABULUCU|VEKİL|VEKİLİ|YETKİLİ|YETKİLİSİ|ŞİRKET TEMSİLCİSİ|ŞİRKET YETKİLİSİ|ŞİRKET ÇALIŞANI)$/iu.test(v87Compact(value));}
             function v86SignatureHtml(title,name,extra){return '<u><b>'+v82Esc(String(title||'').trim().toLocaleUpperCase('tr-TR'))+'</b></u><b>'+v82Esc(String(name||'').trim())+'</b>'+(extra?'<br>'+v82Esc(extra):'');}
-            function v86TableSignature(table,ctx){var tableRows=v86Children(table,'row'),firstCells=v86Children(tableRows[0],'cell'),firstTitles=firstCells.map(function(cell){return (v86CellParas(cell,ctx).find(function(p){return p.plain.trim();})?.plain||'').trim();});if(!firstCells.length||firstCells.length>3||!firstTitles.some(v86SignatureTitle))return null;var entries=[];for(var c=0;c<firstCells.length;c++){var lines=[];tableRows.forEach(function(row){var cell=v86Children(row,'cell')[c];if(cell)lines=lines.concat(v86CellParas(cell,ctx));});var nonempty=lines.filter(function(line){return line.plain.trim();});if(!nonempty.length)continue;var title=nonempty[0].plain.trim(),name=nonempty.slice(1).map(function(line){return line.plain.trim();}).filter(Boolean).join('<br>'),custom='<u><b>'+v82Esc(title.toLocaleUpperCase('tr-TR'))+'</b></u><b>'+v82Esc(name).replace(/&lt;br&gt;/g,'<br>')+'</b>';entries.push({kind:'custom',customHtml:custom});}return entries.length?{layout:Math.min(3,entries.length),entries:entries.slice(0,3)}:null;}
+            function v103UdfSignature(tableRows,ctx){
+                const columns=v86Children(tableRows[0],'cell').length;
+                let entries=Array.from({length:columns},(_,index)=>{
+                    const lines=tableRows.flatMap(row=>v86CellParas(v86Children(row,'cell')[index],ctx));
+                    const start=lines.findIndex(line=>line.plain.trim());
+                    if(start<0)return {kind:'custom',customHtml:''};
+                    let end=lines.length;
+                    while(end>start+1 && !lines[end-1].plain.trim())end--;
+                    const title='<u><b>'+v82Esc(lines[start].plain.trim().toLocaleUpperCase('tr-TR'))+'</b></u>';
+                    const body=lines.slice(start+1,end).map(line=>v87StripLeadingLayoutHtml(line.html)).join('<br>');
+                    return {kind:'custom',customHtml:title+body};
+                });
+                if(entries.length===2&&!entries[0].customHtml)entries=entries.slice(1);
+                return v103SignatureBlock({layout:entries.length,entries});
+            }
+            function v103UdfSignatureHeader(row,ctx,insideSignature=false){
+                const labels=v86Children(row,'cell').map(cell=>
+                    v86CellParas(cell,ctx).find(paragraph=>paragraph.plain.trim())?.plain.trim() || '');
+                return v103SignatureHeadings(labels) && (!insideSignature || labels.some(label=>
+                    /^(?:TARAF|BAŞVURUCU|DİĞER TARAF|ARABULUCU|DAVACI VEKİLİ|DAVALI VEKİLİ)$/iu.test(label)));
+            }
             function v86SourceIndent(raw){return /^[\t \u00a0]/.test(String(raw||''));}
             function v86NumberedRow(raw,html){var match=String(raw||'').match(/^([\t \u00a0]*)(\d+|[A-Za-zÇĞİÖŞÜçğıöşü])\s*([.)])\s*(.*)$/u);if(!match)return null;return {kind:'text',label:'',html:'<b>'+v82Esc(match[2]+match[3])+'</b> '+v82Esc(match[4]),colon:false,indent:match[1].length>0,numbered:true};}
             function v86LegalField(raw){var match=String(raw||'').replace(/\u00a0/g,' ').match(v86LegalPattern);if(!match)return null;return {label:v86CanonicalLabel(match[1]),content:match[2]||''};}
             async function v86ReadUdf(file){
                 if(!window.JSZip)throw new Error('UYAP belge okuma bileşeni yüklenemedi.');var zip=await JSZip.loadAsync(file,{checkCRC32:true}),entry=zip.file('content.xml');if(!entry)throw new Error('UDF içinde content.xml bulunamadı.');var source=await entry.async('string');if(/<!DOCTYPE|<!ENTITY/i.test(source))throw new Error('Güvenli olmayan XML bildirimi nedeniyle belge açılamadı.');var xml=new DOMParser().parseFromString(source,'application/xml');if(xml.querySelector('parsererror'))throw new Error('UDF belge yapısı okunamadı.');
-                var root=xml.documentElement,content=v86Children(root,'content')[0],elements=v86Children(root,'elements')[0];if(!content||!elements)throw new Error('UDF metin veya belge elemanları eksik.');var ctx={pool:Array.from(content.textContent||''),styles:v86StyleMap(root)},nodes=v86Children(elements).filter(function(node){return !/^(?:header|footer|page-break)$/i.test(node.tagName);}),rows=[],titles=[],signature=null,titlePhase=true,section='',afterConclusion=false,lastParty=null;
+                var root=xml.documentElement,content=v86Children(root,'content')[0],elements=v86Children(root,'elements')[0];if(!content||!elements)throw new Error('UDF metin veya belge elemanları eksik.');var ctx={pool:Array.from(content.textContent||''),styles:v86StyleMap(root)},nodes=v86Children(elements).filter(function(node){return !/^(?:header|footer|page-break)$/i.test(node.tagName);}),rows=[],titles=[],titlePhase=true,section='',afterConclusion=false,lastParty=null;
                 function pushEmpty(){v82PushEmpty(rows);lastParty=null;}
                 function pushText(p){var numbered=v86NumberedRow(p.plain,p.html);if(numbered){rows.push(numbered);return;}rows.push({kind:'text',label:'',html:v87StripLeadingLayoutHtml(p.html),colon:false,indent:v86SourceIndent(p.plain)||(!section||section==='AÇIKLAMALAR'||section==='SONUÇ ve TALEP')});}
                 for(var index=0;index<nodes.length;index++){
@@ -9910,15 +10036,50 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                         var nextIndex=index+1,next=null;while(nextIndex<nodes.length&&nodes[nextIndex].tagName==='paragraph'){var candidate=v86Paragraph(nodes[nextIndex],ctx);if(candidate.plain.trim()){next=candidate;break;}nextIndex++;}
                         var compactTitle=v87Compact(plain),manualSignature=next&&v87ManualSignatureAlignment(raw)&&v87ManualSignatureAlignment(next.plain)&&compactTitle.length<=50;
                         if(afterConclusion&&(v86SignatureTitle(compactTitle)||manualSignature)&&next&&next.plain.trim()&&!v86LegalField(next.plain)){
-                            var title=compactTitle.toLocaleUpperCase('tr-TR'),name=v87Compact(next.plain);signature={layout:1,entries:[{kind:'custom',customHtml:v86SignatureHtml(title,name,'')}]};rows.push({kind:'signature',label:title,html:name,colon:false});index=nextIndex;lastParty=null;continue;
+                            var title=compactTitle.toLocaleUpperCase('tr-TR'),name=v87Compact(next.plain);
+                            rows.push(v103SignatureBlock({layout:1,entries:[{kind:'custom',customHtml:v86SignatureHtml(title,name,'')}]}));
+                            index=nextIndex;lastParty=null;continue;
                         }
                         if(lastParty&&v86SourceIndent(raw)){lastParty.html+=(lastParty.html?'<br>':'')+v87StripLeadingLayoutHtml(v82SanitizeInlineHtml(p.html));continue;}
                         if(titlePhase&&(p.center||p.bold)){titles.push(p.html);continue;}titlePhase=false;pushText(p);lastParty=null;continue;
                     }
-                    if(node.tagName!=='table')continue;titlePhase=false;var tableSig=v86TableSignature(node,ctx);if(tableSig){signature=tableSig;rows.push({kind:'signature',label:'İMZA',html:'',colon:false});continue;}
-                    v86Children(node,'row').forEach(function(tableRow){var cells=v86Children(tableRow,'cell'),data=cells.map(function(cell){return v86Cell(cell,ctx);});if(!data.length)return;var label=data[0].plain.trim(),colon=(data[1]?.plain||'').trim();if(cells.length>=3&&(colon===':'||label)){var field=v82MakeField(label,v87StripLeadingLayoutHtml(data[2].html),colon===':');rows.push(field);lastParty=/^(?:DAVACI|DAVALI|VEKİLİ|VEKİL)$/iu.test(label)?field:null;}else{var combined=data.map(function(item){return item.html;}).filter(Boolean).join('<br>');if(combined)rows.push({kind:'text',label:'',html:combined,colon:false,indent:false});}});pushEmpty();
+                    if(node.tagName!=='table')continue;
+                    titlePhase=false;
+                    const tableRows=v86Children(node,'row');
+                    for(let i=0;i<tableRows.length;i++){
+                        const tableRow=tableRows[i],cells=v86Children(tableRow,'cell');
+                        if(v103UdfSignatureHeader(tableRow,ctx)){
+                            let end=i+1;
+                            while(end<tableRows.length){
+                                const next=tableRows[end], following=v86Children(next,'cell');
+                                if(following.length!==cells.length || v103UdfSignatureHeader(next,ctx,true) ||
+                                    (following.length>=3 && v86Cell(following[1],ctx).plain.trim()===':'))break;
+                                end++;
+                            }
+                            rows.push(v103UdfSignature(tableRows.slice(i,end),ctx));
+                            lastParty=null;
+                            i=end-1;
+                            continue;
+                        }
+                        const data=cells.map(cell=>v86Cell(cell,ctx));
+                        if(!data.length)continue;
+                        const label=data[0].plain.trim(),colon=(data[1]?.plain||'').trim();
+                        if(cells.length>=3&&(colon===':'||label)){
+                            const field=v82MakeField(label,v87StripLeadingLayoutHtml(data[2].html),colon===':');
+                            rows.push(field);
+                            lastParty=/^(?:DAVACI|DAVALI|VEKİLİ|VEKİL)$/iu.test(label)?field:null;
+                        }else{
+                            const combined=data.map(item=>item.html).filter(Boolean).join('<br>');
+                            if(combined)rows.push({kind:'text',label:'',html:combined,colon:false,indent:false});
+                        }
+                    }
+                    pushEmpty();
                 }
-                while(rows.length&&rows[rows.length-1].kind==='empty')rows.pop();if(!signature)signature={layout:1,entries:[{kind:'custom',customHtml:'<u><b>İMZA</b></u><b>İsim Soyisim</b>'}]};v82WordModel={fileName:file.name,sourceType:'udf',rows:rows,signature:signature,titles:titles.length?titles:['<b>BELGE BAŞLIĞI</b>']};v82RenderWordPreview();
+                while(rows.length&&rows[rows.length-1].kind==='empty')rows.pop();
+                const fallback=v103FallbackSignature();
+                if(rows.length&&!rows.some(row=>row.kind==='signature'))rows.push(v103SignatureBlock(fallback));
+                v82WordModel={fileName:file.name,sourceType:'udf',rows,signature:fallback,titles:titles.length?titles:['<b>BELGE BAŞLIĞI</b>']};
+                v82RenderWordPreview();
             }
             v82HandleWordFile=async function(file){if(!file)return;var isUdf=/\.udf$/i.test(file.name||''),isDocx=/\.docx$/i.test(file.name||'');if(!isUdf&&!isDocx){await appAlert('Lütfen .docx uzantılı Word veya .udf uzantılı UYAP belgesi seçin.','Geçersiz Dosya');return;}var fileLabel=document.getElementById('v82WordFile'),status=document.getElementById('v82WordStatus');if(fileLabel)fileLabel.textContent=file.name;if(status)status.textContent=(isUdf?'UYAP':'Word')+' belgesi okunuyor…';try{if(isUdf)await v86ReadUdf(file);else{await v86DocxReader(file);v82WordModel.sourceType='docx';}}catch(error){if(status)status.textContent='Belge okunamadı.';await appAlert(error.message||String(error),(isUdf?'UYAP':'Word')+' Belgesi Okunamadı');}};
 
@@ -9926,7 +10087,7 @@ hususları.</div></td></tr><tr class="empty-row"><td class="label-cell"><span><b
                 all.forEach(function(row,index){var titleCount=v82WordModel.titles?.length||0,isTitle=index<titleCount,realIndex=index-titleCount,item=document.createElement('div');item.className='v82-word-row is-'+row.kind;var select=document.createElement('select');[['title','Belge başlığı'],['field','Başlık + alan'],['text','Normal metin'],['empty','Boş satır'],['signature','İmza bloğu']].forEach(function(option){var el=document.createElement('option');el.value=option[0];el.textContent=option[1];el.selected=row.kind===option[0];select.appendChild(el);});select.onchange=function(){if(isTitle){if(this.value!=='title'){v82WordModel.titles.splice(index,1);v82WordModel.rows.unshift({kind:this.value,label:'',html:row.html,colon:this.value==='field'});}}else row.kind=this.value;v82RenderWordPreview();};var label=document.createElement('input');label.value=row.label||'';label.placeholder='Alan başlığı';label.disabled=row.kind!=='field';label.oninput=function(){row.label=this.value;};var rich=document.createElement('div');rich.className='v82-word-rich';rich.contentEditable=row.kind!=='signature';rich.innerHTML=row.kind==='signature'?'İmza bloğu burada, kaynak belgedeki sırasıyla aktarılacak.':v82SanitizeInlineHtml(row.html);rich.oninput=function(){row.html=v82SanitizeInlineHtml(this.innerHTML);};var remove=document.createElement('button');remove.type='button';remove.className='v82-word-remove';remove.textContent='×';remove.onclick=function(){if(isTitle)v82WordModel.titles.splice(index,1);else v82WordModel.rows.splice(realIndex,1);v82RenderWordPreview();};item.append(select,label,rich,remove);host.appendChild(item);});v82RenderSignaturePreview();document.getElementById('v82WordApply').disabled=!v82WordModel.rows.length;
             };
             v82CreateRichText=function(row){var tr=document.createElement('tr');tr.className='full-row';var td=document.createElement('td');td.colSpan=3;var div=document.createElement('div');div.className='fr-content';div.style.textAlign='justify';div.style.textAlignLast='left';var line=document.createElement('div');line.className='v26-smart-line';if(row.indent!==false){var tab=v24CreateWordTab();line.appendChild(tab);}var holder=document.createElement('span');holder.innerHTML=v82SanitizeInlineHtml(row.html);while(holder.firstChild)line.appendChild(holder.firstChild);div.appendChild(line);td.appendChild(div);tr.appendChild(td);return tr;};
-            v82ApplyWordImport=async function(){if(!v82WordModel.rows.length)return;var source=v82WordModel.sourceType==='udf'?'UYAP':'Word';if(!await appConfirm('Mevcut belge içeriği '+source+' belgesinden algılanan yeni içerikle değiştirilecek. Devam edilsin mi?',source+' Belgesini Editöre Aktar','Belgeyi Değiştir','Vazgeç'))return;var body=document.querySelector('#docTable>tbody'),fragment=document.createDocumentFragment();fragment.appendChild(v20CreateSmartGap());(v82WordModel.titles||[]).forEach(function(html){var row=document.createElement('tr');row.className='full-row v34-title-text-row v34-title-part';var td=document.createElement('td');td.colSpan=3;var content=document.createElement('div');content.className='fr-content';content.style.textAlign='center';content.style.textAlignLast='center';var bold=document.createElement('b');bold.innerHTML=v82SanitizeInlineHtml(html).replace(/^<b>|<\/b>$/gi,'');content.appendChild(bold);td.appendChild(content);row.appendChild(td);fragment.appendChild(row);});var blank1=v20CreateSmartGap(),blank2=v20CreateSmartGap();blank1.classList.add('v34-title-part');blank2.classList.add('v34-title-part');fragment.append(blank1,blank2);var signaturePlaced=false;(v82WordModel.rows||[]).forEach(function(row){if(row.kind==='signature'){fragment.appendChild(v82CreateSignatureRow());signaturePlaced=true;}else fragment.appendChild(row.kind==='empty'?v20CreateSmartGap():row.kind==='field'?v82CreateRichField(row):v82CreateRichText(row));});if(!signaturePlaced)fragment.append(v20CreateSmartGap(),v82CreateSignatureRow());body.replaceChildren(fragment);applyEditable();injectLabelDropdowns();v21InstallSmartControls();v18EnsureTitleBold(document.getElementById('docTable'));v82CloseWordImporter();v34ToggleStructureMode(false);document.getElementById('pageContent')?.scrollTo?.(0,0);await appAlert(source+' belgesi editöre aktarıldı. Alanları kontrol edip .arbsys olarak kaydedebilirsiniz.','Dönüşüm Tamamlandı');};
+            v82ApplyWordImport=async function(){if(!v82WordModel.rows.length)return;var source=v82WordModel.sourceType==='udf'?'UYAP':'Word';if(!await appConfirm('Mevcut belge içeriği '+source+' belgesinden algılanan yeni içerikle değiştirilecek. Devam edilsin mi?',source+' Belgesini Editöre Aktar','Belgeyi Değiştir','Vazgeç'))return;var body=document.querySelector('#docTable>tbody'),fragment=document.createDocumentFragment();fragment.appendChild(v20CreateSmartGap());(v82WordModel.titles||[]).forEach(function(html){var row=document.createElement('tr');row.className='full-row v34-title-text-row v34-title-part';var td=document.createElement('td');td.colSpan=3;var content=document.createElement('div');content.className='fr-content';content.style.textAlign='center';content.style.textAlignLast='center';var bold=document.createElement('b');bold.innerHTML=v82SanitizeInlineHtml(html).replace(/^<b>|<\/b>$/gi,'');content.appendChild(bold);td.appendChild(content);row.appendChild(td);fragment.appendChild(row);});var blank1=v20CreateSmartGap(),blank2=v20CreateSmartGap();blank1.classList.add('v34-title-part');blank2.classList.add('v34-title-part');fragment.append(blank1,blank2);(v82WordModel.rows||[]).forEach(function(row){if(row.kind==='signature'){fragment.appendChild(v82CreateSignatureRow(row.signature));}else fragment.appendChild(row.kind==='empty'?v20CreateSmartGap():row.kind==='field'?v82CreateRichField(row):v82CreateRichText(row));});body.replaceChildren(fragment);applyEditable();injectLabelDropdowns();v21InstallSmartControls();v18EnsureTitleBold(document.getElementById('docTable'));v82CloseWordImporter();v34ToggleStructureMode(false);document.getElementById('pageContent')?.scrollTo?.(0,0);await appAlert(source+' belgesi editöre aktarıldı. Alanları kontrol edip .arbsys olarak kaydedebilirsiniz.','Dönüşüm Tamamlandı');};
 
             function v86SmartRow(line){var prefix=(String(line||'').match(/^[\t \u00a0]*/)||[''])[0],text=v20SmartNormalizeText(String(line||'').slice(prefix.length)),match=text.match(/^(\d+)\s*([.)])\s*(.*)$/);if(match)return {kind:'number',start:Number(match[1])||1,suffix:match[2],text:v20SmartNormalizeText(match[3]),indent:prefix.length>0};match=text.match(/^([A-Za-zÇĞİÖŞÜçğıöşü])\s*([.)])\s*(.*)$/u);if(match){var upper=match[1]===match[1].toLocaleUpperCase('tr-TR');return {kind:upper?'upper':'lower',start:match[1],suffix:match[2],text:v20SmartNormalizeText(match[3]),indent:prefix.length>0};}match=text.match(/^[•●▪◦\-*–—]\s*(.*)$/);if(match)return {kind:'bullet',start:'',suffix:'',text:v20SmartNormalizeText(match[1]),indent:prefix.length>0};return {kind:'normal',start:'',suffix:'',text:text,indent:true};}
             v20SmartParse=function(){var raw=document.getElementById('v20SmartRaw')?.value||'',normalized=raw.replace(/\r\n?/g,'\n'),hasBlank=/\n\s*\n/.test(normalized),lines=[];if(hasBlank){normalized.split(/\n\s*\n+/).forEach(function(block){var current='',source='';block.split('\n').filter(function(line){return line.trim();}).forEach(function(line){var trimmed=line.replace(/^[\t \u00a0]*/,'');var starts=/^(?:\d+|[A-Za-zÇĞİÖŞÜçğıöşü])\s*[.)]\s*|^[•●▪◦\-*–—]\s*/u.test(trimmed);if(starts&&current){lines.push(source+current);current=trimmed;source=(line.match(/^[\t \u00a0]*/)||[''])[0];}else{if(!current)source=(line.match(/^[\t \u00a0]*/)||[''])[0];current=current?current+' '+trimmed:trimmed;}});if(current)lines.push(source+current);});}else lines=normalized.split('\n');v20SmartRows=lines.map(v86SmartRow).filter(function(row){return row.text;});v20SmartRender();};
